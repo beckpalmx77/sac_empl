@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:dependabot" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:dependabot" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:npm_and_yarn" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c736e89e-b5aa-4747-8c60-d8cac131021b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sac_empl.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/connect_db.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/db_value.inc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE.md" beforeDir="false" afterPath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/merge.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.nvmrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.stylelintrc.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CODE_OF_CONDUCT.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browserslist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ci/getVersion.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ci/verifyVersion.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/500.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/charts/chartJS/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/charts/easyPieChart/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/charts/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/charts/sparkline/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/chat/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/constants/colors.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/datatable/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/datepicker/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/email/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/fullcalendar/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/googleMaps/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/masonry/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/popover/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/scrollbar/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/search/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/sidebar/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/skycons/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/utils/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/vectorMaps/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scripts/vectorMaps/jquery-jvectormap-world-mill.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/fonts/icons/fontawesome/FontAwesome.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/fonts/icons/fontawesome/fontawesome-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/fonts/icons/fontawesome/fontawesome-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/fonts/icons/fontawesome/fontawesome-webfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/fonts/icons/fontawesome/fontawesome-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/fonts/icons/fontawesome/fontawesome-webfont.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/fonts/icons/themify/themify.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/fonts/icons/themify/themify.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/fonts/icons/themify/themify.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/fonts/icons/themify/themify.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/images/404.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/images/500.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/images/bg.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/images/datatables/sort_asc.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/images/datatables/sort_asc_disabled.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/images/datatables/sort_both.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/images/datatables/sort_desc.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/images/datatables/sort_desc_disabled.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/images/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/static/images/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/components/easyPieChart.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/components/footer.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/components/forms.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/components/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/components/loader.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/components/masonry.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/components/pageContainer.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/components/progressBar.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/components/sidebar.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/components/topbar.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/generic/base.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/generic/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/screens/chat.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/screens/email.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/screens/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/settings/baseColors.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/settings/borders.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/settings/breakpoints.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/settings/fonts.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/settings/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/settings/materialColors.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/tools/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/tools/mixins/clearfix.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/tools/mixins/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/tools/mixins/mediaQueriesRanges.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/tools/mixins/placeholder.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/colors.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/border.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/flex.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/layout.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/lists.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/margin.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/objects.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/padding.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/positions.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/pseudo.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/sizes.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/helpers/typography.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/mixins/generateResponsive.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/mixins/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/mixins/mediaQueryCondition.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/utils/center.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/utils/gap.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/utils/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/utils/layers.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/spec/utils/layout/utils/peers.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/vendor/datepicker.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/vendor/font-awesome.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/vendor/fullcalendar.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/vendor/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/vendor/jquery.datatables.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/vendor/perfectScrollbar.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/vendor/sparkline.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/styles/vendor/themify-icons.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/basic-table.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/blank.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/buttons.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/calendar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/charts.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chat.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/compose.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datatable.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/email.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/forms.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/google-maps.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/signin.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/signup.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vector-maps.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/devServer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/manifest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/plugins/caseSensitivePlugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/plugins/copyPlugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/plugins/dashboardPlugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/plugins/extractPlugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/plugins/htmlPlugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/plugins/imageminPlugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/plugins/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/plugins/internal.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/rules/css.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/rules/fonts.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/rules/images.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/rules/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/rules/js.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/rules/sass.js" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PhpServers">
+    <servers>
+      <server host="localhost" id="6540d50e-7f0a-4d51-b620-e7500bd7eea4" name="localhost" use_path_mappings="true" />
+    </servers>
+  </component>
+  <component name="ProjectId" id="2GtO8YDhVBOWKOKuOMb1ecY4JSk" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.stylelint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.stylelint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.stylelint" value="D:\website\sac_xleave\node_modules\stylelint" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Localhost" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" browser="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" server_name="localhost" start_url="/sac_xleave">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c736e89e-b5aa-4747-8c60-d8cac131021b" name="Default Changelist" comment="" />
+      <created>1667204254944</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667204254944</updated>
+      <workItem from="1667204256373" duration="293000" />
+      <workItem from="1667204742664" duration="1996000" />
+      <workItem from="1667209503555" duration="1831000" />
+      <workItem from="1667361909084" duration="331000" />
+      <workItem from="1667376816550" duration="2355000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="540" y="171" key="#Servers" timestamp="1667361947816">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="540" y="171" key="#Servers/0.0.1920.1032@0.0.1920.1032" timestamp="1667361947816" />
+    <state x="414" y="171" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1667362010310">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="414" y="171" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1032@0.0.1920.1032" timestamp="1667362010310" />
+    <state width="1877" height="260" key="GridCell.Tab.0.bottom" timestamp="1667209408383">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1877" height="260" key="GridCell.Tab.0.bottom/0.0.1920.1032@0.0.1920.1032" timestamp="1667209408383" />
+    <state width="1877" height="260" key="GridCell.Tab.0.center" timestamp="1667209408382">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1877" height="260" key="GridCell.Tab.0.center/0.0.1920.1032@0.0.1920.1032" timestamp="1667209408382" />
+    <state width="1877" height="260" key="GridCell.Tab.0.left" timestamp="1667209408382">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1877" height="260" key="GridCell.Tab.0.left/0.0.1920.1032@0.0.1920.1032" timestamp="1667209408382" />
+    <state width="1877" height="260" key="GridCell.Tab.0.right" timestamp="1667209408383">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1877" height="260" key="GridCell.Tab.0.right/0.0.1920.1032@0.0.1920.1032" timestamp="1667209408383" />
+  </component>
+</project>
