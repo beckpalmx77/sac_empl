@@ -9,6 +9,10 @@ if ($_SESSION['alogin'] != '') {
     $_SESSION['alogin'] = '';
 }
 
+//$my_file = fopen("Login.txt", "w") or die("Unable to open file!");
+//fwrite($my_file, "Login " . " = " . $_POST['username']);
+//fclose($my_file);
+
 
 $username = $_POST['username'];
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -34,6 +38,11 @@ if ($query->rowCount() == 1) {
             $_SESSION['user_picture'] = $result->picture;
             $_SESSION['lang'] = $result->lang;
             $_SESSION['dashboard_page'] = $result->dashboard_page;
+
+            //$my_file = fopen("D-Login-To.txt", "w") or die("Unable to open file!");
+            //fwrite($my_file, "Data " . " = " . $result->user_id . " | " . $result->first_name . " | "
+            //. $result->user_password . " | " . $result->account_type . " | " . $result->email_address . " | " . $result->lang);
+            //fclose($my_file);
 
             if ($remember == "on") { // ถ้าติ๊กถูก Login ตลอดไป ให้ทำการสร้าง cookie
                 setcookie("username", $_POST["username"], time() + (86400 * 30), "/");

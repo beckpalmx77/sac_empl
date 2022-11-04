@@ -15,24 +15,56 @@
         <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:dependabot" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:dependabot" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:npm_and_yarn" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
     </expand>
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c736e89e-b5aa-4747-8c60-d8cac131021b" name="Default Changelist" comment="" />
+    <list default="true" id="c736e89e-b5aa-4747-8c60-d8cac131021b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/img/b_calendar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/boy-cp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/boy-cp.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/boy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/btn/343-3435471_mobile-navigation-bar-menu-responsive-ui-comments-facebook.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/btn/BTN_MENU.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/btn/BTN_Template.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/btn/BTN_Template2.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/btn/Phone.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/error.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/girl.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/icon/admin-001 - Copy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/icon/admin-001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/icon/product-001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/icon/user-001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/icon/user-002.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/icon/vip-001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/innovation.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/jaiPrompt_Logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/Logo-01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/bak-logo text-01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/cockpit_logo.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/company_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/heart_jai.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/heart_jai.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/jaiPrompt_Logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/jaiPrompt_Logo.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/jaiPrompt_Logo_main.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/logo text-01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/logo-use.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/logo.ai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/logo.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/logo/logo2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/man.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/screenshot/ss2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/think.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/undraw_posting_photo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/login-bak.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bak/page-login.html" beforeDir="false" afterPath="$PROJECT_DIR$/bak/page-login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/db_value.inc" beforeDir="false" afterPath="$PROJECT_DIR$/config/db_value.inc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/Header.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/Header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_process.php" beforeDir="false" afterPath="$PROJECT_DIR$/login_process.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -73,6 +105,11 @@
     <property name="node.js.selected.package.stylelint" value="D:\website\sac_xleave\node_modules\stylelint" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\website\sac_empl" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Localhost" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" browser="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" server_name="localhost" start_url="/sac_empl">
       <method v="2" />
@@ -93,7 +130,9 @@
       <workItem from="1667209503555" duration="1831000" />
       <workItem from="1667361909084" duration="331000" />
       <workItem from="1667376816550" duration="2355000" />
-      <workItem from="1667379794394" duration="112000" />
+      <workItem from="1667379794394" duration="1827000" />
+      <workItem from="1667381653393" duration="4448000" />
+      <workItem from="1667543703035" duration="20000" />
     </task>
     <servers />
   </component>
@@ -140,5 +179,9 @@
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
     <state width="1877" height="260" key="GridCell.Tab.0.right/0.0.1920.1032@0.0.1920.1032" timestamp="1667209408383" />
+    <state x="794" y="439" key="NewPhpFileDialog" timestamp="1667380890551">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="794" y="439" key="NewPhpFileDialog/0.0.1920.1032@0.0.1920.1032" timestamp="1667380890551" />
   </component>
 </project>
