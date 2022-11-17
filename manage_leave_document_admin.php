@@ -44,10 +44,10 @@ if (strlen($_SESSION['alogin']) == "") {
                                         <div class="col-md-12 col-md-offset-2">
                                             <label for="name_t"
                                                    class="control-label"><b>เพิ่ม <?php echo urldecode($_GET['s']) ?></b></label>
-                                            <button type='button' name='btnAdd' id='btnAdd'
+                                            <!--button type='button' name='btnAdd' id='btnAdd'
                                                     class='btn btn-primary btn-xs'>Add
                                                 <i class="fa fa-plus"></i>
-                                            </button>
+                                            </button-->
                                         </div>
 
                                         <div class="col-md-12 col-md-offset-2">
@@ -61,7 +61,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>วันที่ลาสิ้นสุด</th>
                                                     <th>สถานะ</th>
                                                     <th>Action</th>
-                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tfoot>
@@ -72,7 +71,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>วันที่ลาเริ่มต้น</th>
                                                     <th>วันที่ลาสิ้นสุด</th>
                                                     <th>สถานะ</th>
-                                                    <th>Action</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </tfoot>
@@ -135,7 +133,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <input type="hidden" class="form-control"
                                                                            id="leave_type_id"
                                                                            name="leave_type_id">
-                                                                    <div class="col-sm-10">
+                                                                    <div class="col-sm-12">
                                                                         <label for="leave_type_detail"
                                                                                class="control-label">ประเภทการลา</label>
                                                                         <input type="text" class="form-control"
@@ -144,17 +142,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                required="required"
                                                                                readonly="true"
                                                                                placeholder="ประเภทการลา">
-                                                                    </div>
-
-                                                                    <div class="col-sm-2">
-                                                                        <label for="leave_type_id"
-                                                                               class="control-label">เลือก</label>
-                                                                        <a data-toggle="modal"
-                                                                           href="#SearchLeaveTypeModal"
-                                                                           class="btn btn-primary">
-                                                                            Click <i class="fa fa-search"
-                                                                                     aria-hidden="true"></i>
-                                                                        </a>
                                                                     </div>
                                                                 </div>
 
@@ -179,6 +166,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                            name="time_leave_start"
                                                                            value="<?php echo $_SESSION['work_time_start'] ?>"
                                                                            required="required"
+                                                                           readonly="true"
                                                                            placeholder="เวลาเริ่มต้น">
                                                                     </div>
                                                                     <div class="col-sm-3">
@@ -200,6 +188,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                id="time_leave_to"
                                                                                name="time_leave_to"
                                                                                required="required"
+                                                                               readonly="true"
                                                                                value="<?php echo $_SESSION['work_time_stop'] ?>"
                                                                                placeholder="เวลาสิ้นสุด">
                                                                     </div>
@@ -211,11 +200,12 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <textarea class="form-control"
                                                                               id="remark"
                                                                               name="remark"
+                                                                              readonly="true"
                                                                               rows="3"></textarea>
                                                                 </div>
 
-                                                                <?php if ($_SESSION['department_id'] === 'HR') { ?>
-                                                                    <div class="form-group">
+
+                                                                <div class="form-group">
                                                                         <label for="status"
                                                                                class="control-label">Status</label>
                                                                         N = รอพิจารณา , A = อนุมัติ , R = ไม่อนุมัติ
@@ -228,25 +218,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                             <option>R</option>
                                                                         </select>
                                                                     </div>
-                                                                <?php } else { ?>
-                                                                    <div class="form-group">
-                                                                        <label for="status"
-                                                                               class="control-label">Status</label>
-                                                                        N = รอพิจารณา , A = อนุมัติ , R = ไม่อนุมัติ
-                                                                        <select id="status" name="status"
-                                                                                class="form-control"
-                                                                                data-live-search="true"
-                                                                                readonly="true"
-                                                                                title="Please select">
-                                                                            <option>N</option>
-                                                                            <option>A</option>
-                                                                            <option>R</option>
-                                                                        </select>
-                                                                    </div>
-
-                                                                <?php } ?>
-
                                                             </div>
+
                                                         </div>
 
                                                         <div class="modal-footer">
@@ -415,7 +388,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'dt_leave_start'},
                     {data: 'dt_leave_to'},
                     {data: 'status'},
-                    {data: 'update'},
                     {data: 'approve'},
                 ]
             });
@@ -561,39 +533,6 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </script>
 
-
-    <script>
-        $(document).ready(function () {
-            $('#doc_date').datepicker({
-                format: "dd-mm-yyyy",
-                todayHighlight: true,
-                language: "th",
-                autoclose: true
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('#date_leave_start').datepicker({
-                format: "dd-mm-yyyy",
-                todayHighlight: true,
-                language: "th",
-                autoclose: true
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('#date_leave_to').datepicker({
-                format: "dd-mm-yyyy",
-                todayHighlight: true,
-                language: "th",
-                autoclose: true
-            });
-        });
-    </script>
 
     </body>
     </html>

@@ -198,12 +198,12 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
 
             for (let i = 1; i <= 4; i++) {
-                GET_DATA("djob_request", i);
+                GET_DATA("dleave_event", i);
             }
 
             setInterval(function () {
                 for (let i = 1; i <= 4; i++) {
-                    GET_DATA("djob_request", i);
+                    GET_DATA("dleave_event", i);
                 }
             }, 3000);
         });
@@ -215,18 +215,19 @@ if (strlen($_SESSION['alogin']) == "") {
         function GET_DATA(table_name, idx) {
             let input_text = document.getElementById("Text" + idx);
             let action = "GET_COUNT_RECORDS_COND";
+            let cond = "";
             switch (idx) {
                 case 1:
                     cond = "";
                     break;
                 case 2:
-                    cond = " Where status = 'N' ";
+                    cond = " Where leave_type_id = 'L1' ";
                     break;
                 case 3:
-                    cond = " Where (status = 'W' or status = 'P') ";
+                    cond = " Where leave_type_id = 'L3' ";
                     break;
                 case 4:
-                    cond = " Where status = 'Y' ";
+                    cond = " Where leave_type_id = 'L2' ";
                     break;
             }
             //alert(cond);

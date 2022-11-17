@@ -52,20 +52,24 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <table id='TableRecordList' class='display dataTable'>
                                                 <thead>
                                                 <tr>
-                                                    <th>รหัสประเภทการลา</th>
+                                                    <th>รหัสเวลาทำงาน</th>
                                                     <th>รายละเอียด</th>
-                                                    <th>จำนวนวันสูงสุด</th>
-                                                    <th>Status</th>
+                                                    <th>เวลาเริ่มงาน</th>
+                                                    <th>เวลาพักเริ่มต้น</th>
+                                                    <th>เวลาพักสิ้นสุด</th>
+                                                    <th>เวลาเลิกงาน</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
-                                                    <th>รหัสประเภทการลา</th>
+                                                    <th>รหัสเวลาทำงาน</th>
                                                     <th>รายละเอียด</th>
-                                                    <th>จำนวนวันสูงสุด</th>
-                                                    <th>Status</th>
+                                                    <th>เวลาเริ่มงาน</th>
+                                                    <th>เวลาพักเริ่มต้น</th>
+                                                    <th>เวลาพักสิ้นสุด</th>
+                                                    <th>เวลาเลิกงาน</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -90,50 +94,62 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             <div class="modal-body">
 
                                                                 <div class="form-group">
-                                                                    <label for="leave_type_id" class="control-label">รหัสประเภทการลา</label>
-                                                                    <input type="leave_type_id" class="form-control"
-                                                                           id="leave_type_id" name="leave_type_id"
-                                                                           placeholder="รหัสประเภทการลา">
+                                                                    <label for="work_time_id" class="control-label">รหัสเวลาทำงาน</label>
+                                                                    <input type="work_time_id" class="form-control"
+                                                                           id="work_time_id" name="work_time_id"
+                                                                           readonly="true"
+                                                                           placeholder="สร้างอัตโนมัติ">
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="leave_type_detail"
-                                                                           class="control-label">ประเภท</label>
+                                                                    <label for="work_time_detail"
+                                                                           class="control-label">รายละเอียด</label>
                                                                     <input type="text" class="form-control"
-                                                                           id="leave_type_detail"
-                                                                           name="leave_type_detail"
+                                                                           id="work_time_detail"
+                                                                           name="work_time_detail"
                                                                            required="required"
-                                                                           placeholder="ประเภท">
+                                                                           placeholder="รายละเอียด">
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="day_max"
-                                                                           class="control-label">จำนวนวันสูงสุด</label>
+                                                                    <label for="work_time_start"
+                                                                           class="control-label">เวลาเริ่มงาน</label>
                                                                     <input type="text" class="form-control"
-                                                                           id="day_max"
-                                                                           name="day_max"
+                                                                           id="work_time_start"
+                                                                           name="work_time_start"
                                                                            required="required"
-                                                                           placeholder="จำนวนวันสูงสุด">
+                                                                           placeholder="เวลาเริ่มงาน">
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="remark"
-                                                                           class="control-label">หมายเหตุ</label>
+                                                                    <label for="break_time_start"
+                                                                           class="control-label">เวลาพักเริ่มต้น</label>
                                                                     <input type="text" class="form-control"
-                                                                           id="remark"
-                                                                           name="remark"
-                                                                           placeholder="หมายเหตุ">
+                                                                           id="break_time_start"
+                                                                           name="break_time_start"
+                                                                           required="required"
+                                                                           placeholder="เวลาพักเริ่มต้น">
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="status" class="control-label">Status</label>
-                                                                    <select id="status" name="status"
-                                                                            class="form-control" data-live-search="true"
-                                                                            title="Please select">
-                                                                        <option>Y</option>
-                                                                        <option>N</option>
-                                                                    </select>
+                                                                    <label for="break_time_stop"
+                                                                           class="control-label">เวลาพักสิ้นสุด</label>
+                                                                    <input type="text" class="form-control"
+                                                                           id="break_time_stop"
+                                                                           name="break_time_stop"
+                                                                           required="required"
+                                                                           placeholder="เวลาพักสิ้นสุด">
                                                                 </div>
+                                                                <div class="form-group">
+                                                                    <label for="work_time_stop"
+                                                                           class="control-label">เวลาเลิกงาน</label>
+                                                                    <input type="text" class="form-control"
+                                                                           id="work_time_stop"
+                                                                           name="work_time_stop"
+                                                                           required="required"
+                                                                           placeholder="เวลาเลิกงาน">
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
@@ -224,14 +240,14 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
 
-        $("#leave_type_detail").blur(function () {
+        $("#work_time_detail").blur(function () {
             let method = $('#action').val();
             if (method === "ADD") {
-                let leave_type_id = $('#leave_type_id').val();
-                let leave_type_detail = $('#leave_type_detail').val();
-                let formData = {action: "SEARCH", leave_type_id: leave_type_id, leave_type_detail: leave_type_detail};
+                let work_time_id = $('#work_time_id').val();
+                let work_time_detail = $('#work_time_detail').val();
+                let formData = {action: "SEARCH", work_time_id: work_time_id, work_time_detail: work_time_detail};
                 $.ajax({
-                    url: 'model/manage_leave_type_process.php',
+                    url: 'model/manage_work_time_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -247,9 +263,9 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GET_LEAVE_TYPE", sub_action: "GET_MASTER"};
+            let formData = {action: "GET_WORKTIME", sub_action: "GET_MASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
-                'lengthMenu': [[10, 20, 50, 100], [10, 20, 50, 100]],
+                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
                 'language': {
                     search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
                     info: 'หน้าที่ _PAGE_ จาก _PAGES_',
@@ -266,14 +282,16 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/manage_leave_type_process.php',
+                    'url': 'model/manage_work_time_process.php',
                     'data': formData
                 },
                 'columns': [
-                    {data: 'leave_type_id'},
-                    {data: 'leave_type_detail'},
-                    {data: 'day_max'},
-                    {data: 'status'},
+                    {data: 'work_time_id'},
+                    {data: 'work_time_detail'},
+                    {data: 'work_time_start'},
+                    {data: 'break_time_start'},
+                    {data: 'break_time_stop'},
+                    {data: 'work_time_stop'},
                     {data: 'update'},
                     {data: 'delete'}
                 ]
@@ -286,7 +304,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 let formData = $(this).serialize();
                 //alert(formData);
                 $.ajax({
-                    url: 'model/manage_leave_type_process.php',
+                    url: 'model/manage_work_time_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -307,10 +325,11 @@ if (strlen($_SESSION['alogin']) == "") {
             $("#btnAdd").click(function () {
                 $('#recordModal').modal('show');
                 $('#id').val("");
-                $('#leave_type_id').val("");
-                $('#leave_type_detail').val("");
-                $('#day_max').val("");
-                $('#remark').val("");
+                $('#work_time_id').val("");
+                $('#work_time_detail').val("");
+                $('#work_time_start').val("");
+                $('#break_time_start').val("");
+                $('#break_time_stop').val("");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                 $('#action').val('ADD');
                 $('#save').val('Save');
@@ -326,26 +345,28 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GET_DATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_leave_type_process.php',
+                url: 'model/manage_work_time_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let leave_type_id = response[i].leave_type_id;
-                        let leave_type_detail = response[i].leave_type_detail;
-                        let status = response[i].status;
-                        let day_max = response[i].day_max;
-                        let remark = response[i].remark;
+                        let work_time_id = response[i].work_time_id;
+                        let work_time_detail = response[i].work_time_detail;
+                        let work_time_start = response[i].work_time_start;
+                        let break_time_start = response[i].break_time_start;
+                        let break_time_stop = response[i].break_time_stop;
+                        let work_time_stop = response[i].work_time_stop;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#leave_type_id').val(leave_type_id);
-                        $('#leave_type_detail').val(leave_type_detail);
-                        $('#day_max').val(day_max);
-                        $('#remark').val(remark);
-                        $('#status').val(status);
+                        $('#work_time_id').val(work_time_id);
+                        $('#work_time_detail').val(work_time_detail);
+                        $('#work_time_start').val(work_time_start);
+                        $('#break_time_start').val(break_time_start);
+                        $('#break_time_stop').val(break_time_stop);
+                        $('#work_time_stop').val(work_time_stop);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
                         $('#save').val('Save');
@@ -366,26 +387,28 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GET_DATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_leave_type_process.php',
+                url: 'model/manage_work_time_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let leave_type_id = response[i].leave_type_id;
-                        let leave_type_detail = response[i].leave_type_detail;
-                        let day_max = response[i].day_max;
-                        let remark = response[i].remark;
-                        let status = response[i].status;
+                        let work_time_id = response[i].work_time_id;
+                        let work_time_detail = response[i].work_time_detail;
+                        let work_time_start = response[i].work_time_start;
+                        let break_time_start = response[i].break_time_start;
+                        let break_time_stop = response[i].break_time_stop;
+                        let work_time_stop = response[i].work_time_stop;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#leave_type_id').val(leave_type_id);
-                        $('#leave_type_detail').val(leave_type_detail);
-                        $('#day_max').val(day_max);
-                        $('#remark').val(remark);
-                        $('#status').val(status);
+                        $('#work_time_id').val(work_time_id);
+                        $('#work_time_detail').val(work_time_detail);
+                        $('#work_time_start').val(work_time_start);
+                        $('#break_time_start').val(break_time_start);
+                        $('#break_time_stop').val(break_time_stop);
+                        $('#work_time_stop').val(work_time_stop);
                         $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
                         $('#action').val('DELETE');
                         $('#save').val('Confirm Delete');
