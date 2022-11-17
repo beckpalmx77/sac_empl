@@ -12,8 +12,9 @@ if ($_POST["action"] === 'GET_DATA') {
 
     $return_arr = array();
 
-    $sql_get = "SELECT * FROM dleave_event "
-        . " WHERE dleave_event.id = " . $id;
+    $sql_get = "SELECT dl.*,lt.leave_type_detail FROM dleave_event dl
+            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id 
+            WHERE dl.id = " . $id;
 
     $statement = $conn->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -23,6 +24,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "doc_id" => $result['doc_id'],
             "doc_date" => $result['doc_date'],
             "leave_type_id" => $result['leave_type_id'],
+            "leave_type_detail" => $result['leave_type_detail'],
             "emp_id" => $result['emp_id'],
             "date_leave_start" => $result['date_leave_start'],
             "date_leave_to" => $result['date_leave_to'],            
@@ -179,12 +181,10 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $searchArray = array();
 
 ## Search
-    if ($_SESSION['account_type']!=='admin') {
+    $searchQuery = " ";
+    if ($_POST["page_manage"]!=="ADMIN") {
         $searchQuery = " AND emp_id = '" . $_SESSION['emp_id'] . "'";
-    } else {
-        $searchQuery = " ";
     }
-
 
     if ($searchValue != '') {
         $searchQuery = " AND (leave_type_id LIKE :leave_type_id or
@@ -208,15 +208,16 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-    $stmt = $conn->prepare("SELECT * FROM dleave_event WHERE 1 " . $searchQuery
+    $stmt = $conn->prepare("SELECT dl.*,lt.leave_type_detail FROM dleave_event dl
+            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id WHERE 1 " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
-/*
-        $txt = $searchQuery . " | " . $columnName . " | " . $columnSortOrder ;
-        $my_file = fopen("job_a.txt", "w") or die("Unable to open file!");
+
+        $txt = $_POST["page_manage"] . " | " . $searchQuery . " | " . $columnName . " | " . $columnSortOrder ;
+        $my_file = fopen("leave_a.txt", "w") or die("Unable to open file!");
         fwrite($my_file, $txt);
         fclose($my_file);
-*/
+
 
 
 // Bind values
@@ -253,10 +254,13 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "doc_date" => $row['doc_date'],
                 "emp_id" => $row['emp_id'],
                 "leave_type_id" => $row['leave_type_id'],
+                "leave_type_detail" => $row['leave_type_detail'],
                 "date_leave_start" => $row['date_leave_start'],
                 "date_leave_to" => $row['date_leave_to'],
                 "time_leave_start" => $row['time_leave_start'],
                 "time_leave_to" => $row['time_leave_to'],
+                "dt_leave_start" => $row['date_leave_start'] . " " .  $row['time_leave_start'],
+                "dt_leave_to" => $row['date_leave_to'] . " " .  $row['time_leave_to'],
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
                 "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' class='btn btn-success btn-xs solve' data-toggle='tooltip' title='Solve'>Approve</button>",
                 "status" => $row['status'] === 'Y' ? "<div class='text-success'>" . $status . "</div>" : "<div class='text-muted'> " . $status . "</div>"

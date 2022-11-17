@@ -1,0 +1,1 @@
+USER |  AND emp_id = '65001' | doc_id | desc

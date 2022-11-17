@@ -110,17 +110,11 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                        value="<?php echo $_SESSION['department_id'] ?>"
                                                                        placeholder="department">
 
-                                                                <input type="text" class="form-control"
-                                                                       id="work_time_start" name="work_time_start"
+                                                                <input type="hidden" class="form-control"
+                                                                       id="emp_id" name="emp_id"
                                                                        readonly="true"
-                                                                       value="<?php echo $_SESSION['work_time_start'] ?>"
-                                                                       placeholder="department">
-
-                                                                <input type="text" class="form-control"
-                                                                       id="work_time_stop" name="work_time_stop"
-                                                                       readonly="true"
-                                                                       value="<?php echo $_SESSION['work_time_stop'] ?>"
-                                                                       placeholder="department">
+                                                                       value="<?php echo $_SESSION['emp_id'] ?>"
+                                                                       placeholder="emp_id">
 
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-3">
@@ -183,6 +177,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <input type="text" class="form-control"
                                                                            id="time_leave_start"
                                                                            name="time_leave_start"
+                                                                           value="<?php echo $_SESSION['work_time_start'] ?>"
                                                                            required="required"
                                                                            placeholder="เวลาเริ่มต้น">
                                                                     </div>
@@ -205,6 +200,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                id="time_leave_to"
                                                                                name="time_leave_to"
                                                                                required="required"
+                                                                               value="<?php echo $_SESSION['work_time_stop'] ?>"
                                                                                placeholder="เวลาสิ้นสุด">
                                                                     </div>
                                                                 </div>
@@ -424,7 +420,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GET_LEAVE_DOCUMENT", sub_action: "GET_MASTER"};
+            let formData = {action: "GET_LEAVE_DOCUMENT", sub_action: "GET_MASTER" ,page_manage: "USER",};
             let dataRecords = $('#TableRecordList').DataTable({
                 'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
                 'language': {
@@ -449,9 +445,9 @@ if (strlen($_SESSION['alogin']) == "") {
                 'columns': [
                     {data: 'doc_id'},
                     {data: 'doc_date'},
-                    {data: 'leave_type_id'},
-                    {data: 'date_leave_start'},
-                    {data: 'date_leave_to'},
+                    {data: 'leave_type_detail'},
+                    {data: 'dt_leave_start'},
+                    {data: 'dt_leave_to'},
                     {data: 'status'},
                     {data: 'update'},
                     {data: 'approve'},
@@ -484,13 +480,14 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
 
             $("#btnAdd").click(function () {
-                alert(<?php echo $_SESSION['work_time_start']?>);
+                //alert(<?php echo $_SESSION['work_time_start']?>);
                 $('#recordModal').modal('show');
                 $('#id').val("");
                 $('#doc_id').val("");
                 $('#doc_date').val("");
-                $('#time_leave_start').val(<?php echo $_SESSION['work_time_start']?>);
-                $('#time_leave_to').val(<?php echo $_SESSION['work_time_stop']?>);
+                //alert("work_time_start");
+                //$('#time_leave_start').val(<?php echo $_SESSION['work_time_start']?>);
+                //$('#time_leave_to').val(<?php echo $_SESSION['work_time_stop']?>);
                 $('#status').val("N");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                 $('#action').val('ADD');
@@ -517,10 +514,11 @@ if (strlen($_SESSION['alogin']) == "") {
                         let doc_id = response[i].doc_id;
                         let doc_date = response[i].doc_date;
                         let leave_type_id = response[i].leave_type_id;
-                        let device_desc = response[i].device_desc;
-                        let machine_no = response[i].machine_no;
-                        let job_problem_detail = response[i].job_problem_detail;
-                        let job_solve_detail = response[i].job_solve_detail;
+                        let leave_type_detail = response[i].leave_type_detail;
+                        let date_leave_start = response[i].date_leave_start;
+                        let date_leave_to = response[i].date_leave_to;
+                        let time_leave_start = response[i].time_leave_start;
+                        let time_leave_to = response[i].time_leave_to;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
@@ -528,10 +526,11 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#doc_id').val(doc_id);
                         $('#doc_date').val(doc_date);
                         $('#leave_type_id').val(leave_type_id);
-                        $('#device_desc').val(device_desc);
-                        $('#machine_no').val(machine_no);
-                        $('#job_problem_detail').val(job_problem_detail);
-                        $('#job_solve_detail').val(job_solve_detail);
+                        $('#leave_type_detail').val(leave_type_detail);
+                        $('#date_leave_start').val(date_leave_start);
+                        $('#date_leave_to').val(date_leave_to);
+                        $('#time_leave_start').val(time_leave_start);
+                        $('#time_leave_to').val(time_leave_to);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
