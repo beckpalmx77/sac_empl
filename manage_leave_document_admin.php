@@ -482,6 +482,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let date_leave_to = response[i].date_leave_to;
                         let time_leave_start = response[i].time_leave_start;
                         let time_leave_to = response[i].time_leave_to;
+                        let remark = response[i].remark;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
@@ -494,6 +495,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#date_leave_to').val(date_leave_to);
                         $('#time_leave_start').val(time_leave_start);
                         $('#time_leave_to').val(time_leave_to);
+                        $('#remark').val(remark);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
@@ -507,6 +509,58 @@ if (strlen($_SESSION['alogin']) == "") {
         });
 
     </script>
+
+    <script>
+
+        $("#TableRecordList").on('click', '.approve', function () {
+            let id = $(this).attr("id");
+            //alert(id);
+            let formData = {action: "GET_DATA", id: id};
+            $.ajax({
+                type: "POST",
+                url: 'model/manage_leave_document_process.php',
+                dataType: "json",
+                data: formData,
+                success: function (response) {
+                    let len = response.length;
+                    for (let i = 0; i < len; i++) {
+                        let id = response[i].id;
+                        let doc_id = response[i].doc_id;
+                        let doc_date = response[i].doc_date;
+                        let leave_type_id = response[i].leave_type_id;
+                        let leave_type_detail = response[i].leave_type_detail;
+                        let date_leave_start = response[i].date_leave_start;
+                        let date_leave_to = response[i].date_leave_to;
+                        let time_leave_start = response[i].time_leave_start;
+                        let time_leave_to = response[i].time_leave_to;
+                        let remark = response[i].remark;
+                        let status = response[i].status;
+
+                        $('#recordModal').modal('show');
+                        $('#id').val(id);
+                        $('#doc_id').val(doc_id);
+                        $('#doc_date').val(doc_date);
+                        $('#leave_type_id').val(leave_type_id);
+                        $('#leave_type_detail').val(leave_type_detail);
+                        $('#date_leave_start').val(date_leave_start);
+                        $('#date_leave_to').val(date_leave_to);
+                        $('#time_leave_start').val(time_leave_start);
+                        $('#time_leave_to').val(time_leave_to);
+                        $('#remark').val(remark);
+                        $('#status').val(status);
+                        $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
+                        $('#action').val('UPDATE');
+                        $('#save').val('Save');
+                    }
+                },
+                error: function (response) {
+                    alertify.error("error : " + response);
+                }
+            });
+        });
+
+    </script>
+
 
     <script>
         $(document).ready(function () {

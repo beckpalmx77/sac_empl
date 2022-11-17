@@ -12,8 +12,9 @@ if ($_POST["action"] === 'GET_DATA') {
 
     $return_arr = array();
 
-    $sql_get = "SELECT dl.*,lt.leave_type_detail FROM dleave_event dl
-            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id 
+    $sql_get = "SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc FROM dleave_event dl
+            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id
+            left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = dl.status  
             WHERE dl.id = " . $id;
 
     $statement = $conn->query($sql_get);
@@ -208,15 +209,18 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-    $stmt = $conn->prepare("SELECT dl.*,lt.leave_type_detail FROM dleave_event dl
-            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id WHERE 1 " . $searchQuery
+    $stmt = $conn->prepare("SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc FROM dleave_event dl
+            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id
+            left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = dl.status   
+            WHERE 1 " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
-
+/*
         $txt = $_POST["page_manage"] . " | " . $searchQuery . " | " . $columnName . " | " . $columnSortOrder ;
         $my_file = fopen("leave_a.txt", "w") or die("Unable to open file!");
         fwrite($my_file, $txt);
         fclose($my_file);
+*/
 
 
 
@@ -234,7 +238,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     foreach ($empRecords as $row) {
 
         if ($_POST['sub_action'] === "GET_MASTER") {
-
+/*
             switch ($row['status']) {
                 case "N":
                     $status = "รอพิจารณา";
@@ -246,7 +250,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                     $status = "ไม่อนุมัติ";
                     break;
             }
-
+*/
 
             $data[] = array(
                 "id" => $row['id'],
@@ -262,8 +266,8 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "dt_leave_start" => $row['date_leave_start'] . " " .  $row['time_leave_start'],
                 "dt_leave_to" => $row['date_leave_to'] . " " .  $row['time_leave_to'],
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
-                "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' class='btn btn-success btn-xs solve' data-toggle='tooltip' title='Solve'>Approve</button>",
-                "status" => $row['status'] === 'Y' ? "<div class='text-success'>" . $status . "</div>" : "<div class='text-muted'> " . $status . "</div>"
+                "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' class='btn btn-success btn-xs approve' data-toggle='tooltip' title='Approve'>Approve</button>",
+                "status" => $row['status'] === 'A' ? "<div class='text-success'>" . $row['status_doc_desc'] . "</div>" : "<div class='text-muted'> " . $row['status_doc_desc'] . "</div>",
             );
         } else {
             $data[] = array(

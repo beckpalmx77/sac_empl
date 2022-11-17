@@ -61,7 +61,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>วันที่ลาสิ้นสุด</th>
                                                     <th>สถานะ</th>
                                                     <th>Action</th>
-                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tfoot>
@@ -72,7 +71,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>วันที่ลาเริ่มต้น</th>
                                                     <th>วันที่ลาสิ้นสุด</th>
                                                     <th>สถานะ</th>
-                                                    <th>Action</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </tfoot>
@@ -450,7 +448,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'dt_leave_to'},
                     {data: 'status'},
                     {data: 'update'},
-                    {data: 'approve'},
                 ]
             });
 
@@ -488,6 +485,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 //alert("work_time_start");
                 //$('#time_leave_start').val(<?php echo $_SESSION['work_time_start']?>);
                 //$('#time_leave_to').val(<?php echo $_SESSION['work_time_stop']?>);
+                $('#remark').val("");
                 $('#status').val("N");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                 $('#action').val('ADD');
@@ -519,6 +517,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let date_leave_to = response[i].date_leave_to;
                         let time_leave_start = response[i].time_leave_start;
                         let time_leave_to = response[i].time_leave_to;
+                        let remark = response[i].remark;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
@@ -531,6 +530,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#date_leave_to').val(date_leave_to);
                         $('#time_leave_start').val(time_leave_start);
                         $('#time_leave_to').val(time_leave_to);
+                        $('#remark').val(remark);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
