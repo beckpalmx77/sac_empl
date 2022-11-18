@@ -139,8 +139,12 @@ if ($_POST["action"] === 'GET_LEAVE_TYPE') {
 
     $searchArray = array();
 
-## Search
     $searchQuery = " ";
+
+    if ($_POST["action_for"] === "LEAVE") {
+        $searchQuery = " AND (day_flag ='L') ";
+    }
+
     if ($searchValue != '') {
         $searchQuery = " AND (leave_type_id LIKE :leave_type_id or
         leave_type_detail LIKE :leave_type_detail ) ";
@@ -151,7 +155,10 @@ if ($_POST["action"] === 'GET_LEAVE_TYPE') {
     }
 
 ## Total number of records without filtering
-    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM mleave_type ");
+
+    $sql_cond = "SELECT COUNT(*) AS allcount FROM mleave_type WHERE day_flag = 'L' ";
+
+    $stmt = $conn->prepare($sql_cond);
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
@@ -166,12 +173,13 @@ if ($_POST["action"] === 'GET_LEAVE_TYPE') {
     $stmt = $conn->prepare("SELECT * FROM mleave_type WHERE 1 " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
-    /*
-        $txt = $searchQuery . " | " . $columnName . " | " . $columnSortOrder ;
-        $my_file = fopen("device_a.txt", "w") or die("Unable to open file!");
+/*
+        $txt = $_POST["action"] . " | "  . $_POST["sub_action"] . " | " . $_POST["action_for"] . " | " . $columnName . " | " . $columnSortOrder ;
+        $my_file = fopen("leave_a.txt", "w") or die("Unable to open file!");
         fwrite($my_file, $txt);
         fclose($my_file);
-    */
+*/
+
 
 // Bind values
     foreach ($searchArray as $key => $search) {
@@ -198,6 +206,7 @@ if ($_POST["action"] === 'GET_LEAVE_TYPE') {
                 "status" => $row['status'] === 'Y' ? "<div class='text-success'>" . $row['status'] . "</div>" : "<div class='text-muted'> " . $row['status'] . "</div>"
             );
         } else {
+
             $data[] = array(
                 "id" => $row['id'],
                 "leave_type_id" => $row['leave_type_id'],
@@ -205,6 +214,13 @@ if ($_POST["action"] === 'GET_LEAVE_TYPE') {
                 "select" => "<button type='button' name='select' id='" . $row['leave_type_id'] . "@" . $row['leave_type_detail'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
 </button>",
             );
+/*
+            $txt = $txt. ' ' . $row['leave_type_id'] . " | " .$row['leave_type_detail'] ;
+            $my_file = fopen("leave_select.txt", "w") or die("Unable to open file!");
+            fwrite($my_file, $txt);
+            fclose($my_file);
+*/
+
         }
 
     }

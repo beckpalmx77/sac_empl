@@ -1,4 +1,6 @@
 <?php
+session_start();
+error_reporting(0);
 include('includes/Header.php');
 if (strlen($_SESSION['alogin']) == "") {
     header("Location: index.php");
@@ -42,7 +44,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                         <div class="col-md-12 col-md-offset-2">
                                             <label for="name_t"
                                                    class="control-label"><b>เพิ่ม <?php echo urldecode($_GET['s']) ?></b></label>
-
                                             <button type='button' name='btnAdd' id='btnAdd'
                                                     class='btn btn-primary btn-xs'>Add
                                                 <i class="fa fa-plus"></i>
@@ -53,20 +54,20 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <table id='TableRecordList' class='display dataTable'>
                                                 <thead>
                                                 <tr>
-                                                    <th>เลขที่เอกสาร</th>
-                                                    <th>วันที่เอกสาร</th>
-                                                    <th>ประเภท</th>
-                                                    <th>รายละเอียดการแจ้ง</th>
+                                                    <th>รหัสพนักงาน</th>
+                                                    <th>ชื่อ-นามสกุล</th>
+                                                    <th>หน่วยงาน/ฝ่าย/แผนก</th>
+                                                    <th>ตารางเวลาการทำงาน</th>
                                                     <th>สถานะ</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
-                                                    <th>เลขที่เอกสาร</th>
-                                                    <th>วันที่เอกสาร</th>
-                                                    <th>ประเภท</th>
-                                                    <th>รายละเอียดการแจ้ง</th>
+                                                    <th>รหัสพนักงาน</th>
+                                                    <th>ชื่อ-นามสกุล</th>
+                                                    <th>หน่วยงาน/ฝ่าย/แผนก</th>
+                                                    <th>ตารางเวลาการทำงาน</th>
                                                     <th>สถานะ</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -92,54 +93,80 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                                 <div class="form-group">
                                                                     <label for="text"
-                                                                           class="control-label">เลขที่เอกสาร</label>
-                                                                    <input type="job_id" class="form-control"
-                                                                           id="job_id" name="job_id"
-                                                                           readonly="true"
-                                                                           placeholder="สร้างอัตโนมัติ">
+                                                                           class="control-label">รหัสพนักงาน</label>
+                                                                    <input type="emp_id" class="form-control"
+                                                                           id="emp_id" name="emp_id"
+                                                                           placeholder="รหัสพนักงาน">
                                                                 </div>
 
-                                                                <input type="hidden" class="form-control"
-                                                                       id="department" name="department"
-                                                                       readonly="true"
-                                                                       value="<?php echo $_SESSION['department_id'] ?>"
-                                                                       placeholder="department">
-
                                                                 <div class="form-group row">
-                                                                    <div class="col-sm-3">
-                                                                        <label for="job_date"
-                                                                               class="control-label">วันที่เอกสาร</label>
-                                                                        <i class="fa fa-calendar"
-                                                                           aria-hidden="true"></i>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="f_name"
+                                                                               class="control-label">ชื่อ</label>
                                                                         <input type="text" class="form-control"
-                                                                               id="job_date"
-                                                                               name="job_date"
+                                                                               id="f_name"
+                                                                               name="f_name"
                                                                                required="required"
-                                                                               readonly="true"
-                                                                               placeholder="วันที่เอกสาร">
+                                                                               placeholder="ชื่อ">
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="l_name"
+                                                                               class="control-label">นามสกุล</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="l_name"
+                                                                               name="l_name"
+                                                                               required="required"
+                                                                               placeholder="นามสกุล">
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group row">
                                                                     <input type="hidden" class="form-control"
-                                                                           id="device_group_id"
-                                                                           name="device_group_id">
+                                                                           id="department_id"
+                                                                           name="department_id">
                                                                     <div class="col-sm-10">
-                                                                        <label for="device_group_id"
-                                                                               class="control-label">ประเภท</label>
+                                                                        <label for="department_desc"
+                                                                               class="control-label">หน่วยงาน/ฝ่าย/แผนก</label>
                                                                         <input type="text" class="form-control"
-                                                                               id="device_desc"
-                                                                               name="device_desc"
+                                                                               id="department_desc"
+                                                                               name="department_desc"
                                                                                required="required"
                                                                                readonly="true"
-                                                                               placeholder="ประเภท">
+                                                                               placeholder="หน่วยงาน/ฝ่าย/แผนก">
                                                                     </div>
 
                                                                     <div class="col-sm-2">
-                                                                        <label for="quantity"
+                                                                        <label for="department_id"
                                                                                class="control-label">เลือก</label>
                                                                         <a data-toggle="modal"
-                                                                           href="#SearchDeviceModal"
+                                                                           href="#SearchDepartmentModal"
+                                                                           class="btn btn-primary">
+                                                                            Click <i class="fa fa-search"
+                                                                                     aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <input type="hidden" class="form-control"
+                                                                           id="work_time_id"
+                                                                           name="work_time_id">
+                                                                    <div class="col-sm-10">
+                                                                        <label for="work_time_detail"
+                                                                               class="control-label">ตารางเวลาทำงาน</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="work_time_detail"
+                                                                               name="work_time_detail"
+                                                                               required="required"
+                                                                               readonly="true"
+                                                                               placeholder="ตารางเวลาทำงาน">
+                                                                    </div>
+
+                                                                    <div class="col-sm-2">
+                                                                        <label for="department_id"
+                                                                               class="control-label">เลือก</label>
+                                                                        <a data-toggle="modal"
+                                                                           href="#SearchWorkTimeModal"
                                                                            class="btn btn-primary">
                                                                             Click <i class="fa fa-search"
                                                                                      aria-hidden="true"></i>
@@ -148,75 +175,15 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="text" class="control-label">หมายเลขเครื่อง
-                                                                        / IP Address</label>
-                                                                    <input type="text" class="form-control"
-                                                                           id="machine_no" name="machine_no"
-                                                                           placeholder="หมายเลขเครื่อง / IP Address">
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label for="job_problem_detail"
-                                                                           class="control-label">รายละเอียดปัญหา</label>
+                                                                    <label for="remark"
+                                                                           class="control-label">หมายเหตุ</label>
                                                                     <textarea class="form-control"
-                                                                              id="job_problem_detail"
-                                                                              name="job_problem_detail"
+                                                                              id="remark"
+                                                                              name="remark"
                                                                               rows="3"></textarea>
                                                                 </div>
 
-                                                                <?php if ($_SESSION['account_type'] === 'admin') { ?>
-                                                                    <div class="form-group">
-                                                                        <label for="job_solve_detail"
-                                                                               class="control-label">การแก้ไข</label>
-                                                                        <textarea class="form-control"
-                                                                                  id="job_solve_detail"
-                                                                                  name="job_solve_detail"
-                                                                                  rows="3"></textarea>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label for="status"
-                                                                               class="control-label">Status</label>
-                                                                        N= เปิดใบแจ้ง W = กำลังดำเนินการ , P = รออะไหล่
-                                                                        , Y ดำเนินการเสร็จสิ้น
-                                                                        <select id="status" name="status"
-                                                                                class="form-control"
-                                                                                data-live-search="true"
-                                                                                title="Please select">
-                                                                            <option>N</option>
-                                                                            <option>W</option>
-                                                                            <option>P</option>
-                                                                            <option>Y</option>
-                                                                        </select>
-                                                                    </div>
-                                                                <?php } else { ?>
 
-                                                                    <div class="form-group">
-                                                                        <label for="job_solve_detail"
-                                                                               class="control-label">การแก้ไข</label>
-                                                                        <textarea class="form-control"
-                                                                                  id="job_solve_detail"
-                                                                                  name="job_solve_detail"
-                                                                                  readonly="true"
-                                                                                  rows="3"></textarea>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label for="status"
-                                                                               class="control-label">Status</label>
-                                                                        N= เปิดใบแจ้ง W = กำลังดำเนินการ , P = รออะไหล่
-                                                                        , Y ดำเนินการเสร็จสิ้น
-                                                                        <select id="status" name="status"
-                                                                                class="form-control"
-                                                                                data-live-search="true"
-                                                                                readonly="true"
-                                                                                title="Please select">
-                                                                            <option>N</option>
-                                                                            <option>W</option>
-                                                                            <option>P</option>
-                                                                            <option>Y</option>
-                                                                        </select>
-                                                                    </div>
-
-                                                                <?php } ?>
 
                                                             </div>
                                                         </div>
@@ -241,7 +208,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                         </div>
 
 
-                                        <div class="modal fade" id="SearchDeviceModal">
+                                        <div class="modal fade" id="SearchDepartmentModal">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -258,18 +225,18 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                             <table cellpadding="0" cellspacing="0" border="0"
                                                                    class="display"
-                                                                   id="TableDeviceList"
+                                                                   id="TableDepartmentList"
                                                                    width="100%">
                                                                 <thead>
                                                                 <tr>
-                                                                    <th>รหัสประเภท</th>
+                                                                    <th>รหัสหน่วยงาน/ฝ่าย/แผนก</th>
                                                                     <th>รายละเอียด</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tfoot>
                                                                 <tr>
-                                                                    <th>รหัสประเภท</th>
+                                                                    <th>รหัสหน่วยงาน/ฝ่าย/แผนก</th>
                                                                     <th>รายละเอียด</th>
                                                                     <th>Action</th>
                                                                 </tr>
@@ -280,6 +247,47 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="modal fade" id="SearchWorkTimeModal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="container"></div>
+                                                    <div class="modal-body">
+
+                                                        <div class="modal-body">
+
+                                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                                   class="display"
+                                                                   id="TableWorkTimeList"
+                                                                   width="100%">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>รหัสหน่วยงาน/ฝ่าย/แผนก</th>
+                                                                    <th>รายละเอียด</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <th>รหัสหน่วยงาน/ฝ่าย/แผนก</th>
+                                                                    <th>รายละเอียด</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                 </div>
                             </div>
                         </div>
@@ -307,7 +315,8 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/myadmin.min.js"></script>
 
-    <script src="js/modal/show_device_modal.js"></script>
+    <script src="js/modal/show_department_modal.js"></script>
+    <script src="js/modal/show_worktime_modal.js"></script>
 
     <!-- Page level plugins -->
 
@@ -357,33 +366,10 @@ if (strlen($_SESSION['alogin']) == "") {
     </script>
 
     <script>
-
-        $("#device_desc").blur(function () {
-            let method = $('#action').val();
-            if (method === "ADD") {
-                let job_date = $('#job_date').val();
-                let device_desc = $('#device_desc').val();
-                let formData = {action: "SEARCH", job_date: job_date, device_desc: device_desc};
-                $.ajax({
-                    url: 'model/manage_job_process.php',
-                    method: "POST",
-                    data: formData,
-                    success: function (data) {
-                        if (data == 2) {
-                            alert("Duplicate มีข้อมูลนี้แล้วในระบบ กรุณาตรวจสอบ");
-                        }
-                    }
-                })
-            }
-        });
-
-    </script>
-
-    <script>
         $(document).ready(function () {
-            let formData = {action: "GET_JOB", sub_action: "GET_MASTER"};
+            let formData = {action: "GET_EMPLOYEE", sub_action: "GET_MASTER" ,page_manage: "ADMIN",};
             let dataRecords = $('#TableRecordList').DataTable({
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+                'lengthMenu': [[10, 20, 50, 100], [10, 20, 50, 100]],
                 'language': {
                     search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
                     info: 'หน้าที่ _PAGE_ จาก _PAGES_',
@@ -400,16 +386,16 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/manage_job_process.php',
+                    'url': 'model/manage_employee_process.php',
                     'data': formData
                 },
                 'columns': [
-                    {data: 'job_id'},
-                    {data: 'job_date'},
-                    {data: 'device_desc'},
-                    {data: 'job_problem_detail'},
+                    {data: 'emp_id'},
+                    {data: 'full_name'},
+                    {data: 'department_desc'},
+                    {data: 'work_time_detail'},
                     {data: 'status'},
-                    {data: 'update'}
+                    {data: 'update'},
                 ]
             });
 
@@ -419,7 +405,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#save').attr('disabled', 'disabled');
                 let formData = $(this).serialize();
                 $.ajax({
-                    url: 'model/manage_job_process.php',
+                    url: 'model/manage_employee_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -437,15 +423,18 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
+
             $("#btnAdd").click(function () {
                 $('#recordModal').modal('show');
                 $('#id').val("");
-                $('#job_id').val("");
-                $('#job_date').val("");
-                $('#job_problem_detail').val("");
-                $('#device_desc').val("");
-                $('#job_solve_detail').val("");
-                $('#status').val("N");
+                $('#emp_id').val("");
+                $('#f_name').val("");
+                $('#l_name').val("");
+                $('#department_id').val("");
+                $('#department_desc').val("");
+                $('#work_time_id').val("");
+                $('#work_time_desc').val("");
+                $('#remark').val("");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                 $('#action').val('ADD');
                 $('#save').val('Save');
@@ -461,32 +450,32 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GET_DATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_job_process.php',
+                url: 'model/manage_employee_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let job_id = response[i].job_id;
-                        let job_date = response[i].job_date;
-                        let device_group_id = response[i].device_group_id;
-                        let device_desc = response[i].device_desc;
-                        let machine_no = response[i].machine_no;
-                        let job_problem_detail = response[i].job_problem_detail;
-                        let job_solve_detail = response[i].job_solve_detail;
-                        let status = response[i].status;
+                        let emp_id = response[i].emp_id;
+                        let f_name = response[i].f_name;
+                        let l_name = response[i].l_name;
+                        let department_id = response[i].department_id;
+                        let department_desc = response[i].department_desc;
+                        let work_time_id = response[i].work_time_id;
+                        let work_time_detail = response[i].work_time_detail;
+                        let remark = response[i].remark;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#job_id').val(job_id);
-                        $('#job_date').val(job_date);
-                        $('#device_group_id').val(device_group_id);
-                        $('#device_desc').val(device_desc);
-                        $('#machine_no').val(machine_no);
-                        $('#job_problem_detail').val(job_problem_detail);
-                        $('#job_solve_detail').val(job_solve_detail);
-                        $('#status').val(status);
+                        $('#emp_id').val(emp_id);
+                        $('#f_name').val(f_name);
+                        $('#l_name').val(l_name);
+                        $('#department_id').val(department_id);
+                        $('#department_desc').val(department_desc);
+                        $('#work_time_id').val(work_time_id);
+                        $('#work_time_detail').val(work_time_detail);
+                        $('#remark').val(remark);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
                         $('#save').val('Save');
@@ -500,16 +489,6 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </script>
 
-    <script>
-        $(document).ready(function () {
-            $('#job_date').datepicker({
-                format: "dd-mm-yyyy",
-                todayHighlight: true,
-                language: "th",
-                autoclose: true
-            });
-        });
-    </script>
 
 
     </body>

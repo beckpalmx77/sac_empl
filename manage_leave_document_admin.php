@@ -103,6 +103,12 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 </div>
 
                                                                 <input type="hidden" class="form-control"
+                                                                       id="page_manage" name="page_manage"
+                                                                       readonly="true"
+                                                                       value="ADMIN"
+                                                                       placeholder="page_manage">
+
+                                                                <input type="hidden" class="form-control"
                                                                        id="department" name="department"
                                                                        readonly="true"
                                                                        value="<?php echo $_SESSION['department_id'] ?>"

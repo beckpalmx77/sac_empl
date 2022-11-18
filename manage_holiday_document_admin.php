@@ -2,7 +2,6 @@
 session_start();
 error_reporting(0);
 $curr_date = date("d-m-Y");
-
 include('includes/Header.php');
 if (strlen($_SESSION['alogin']) == "") {
     header("Location: index.php");
@@ -56,24 +55,20 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <table id='TableRecordList' class='display dataTable'>
                                                 <thead>
                                                 <tr>
-                                                    <th>ปี</th>
                                                     <th>เลขที่เอกสาร</th>
-                                                    <th>ชื่อ-นามสกุล</th>
-                                                    <th>ประเภทการลา</th>
-                                                    <th>วันที่ลาเริ่มต้น</th>
-                                                    <th>วันที่ลาสิ้นสุด</th>
+                                                    <th>วันที่เอกสาร</th>
+                                                    <th>ประเภทวันหยุด</th>
+                                                    <th>วันที่หยุด</th>
                                                     <th>สถานะ</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
-                                                    <th>ปี</th>
                                                     <th>เลขที่เอกสาร</th>
-                                                    <th>ชื่อ-นามสกุล</th>
-                                                    <th>ประเภทการลา</th>
-                                                    <th>วันที่ลาเริ่มต้น</th>
-                                                    <th>วันที่ลาสิ้นสุด</th>
+                                                    <th>วันที่เอกสาร</th>
+                                                    <th>ประเภทวันหยุด</th>
+                                                    <th>วันที่หยุด</th>
                                                     <th>สถานะ</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -107,38 +102,16 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 </div>
 
                                                                 <input type="hidden" class="form-control"
-                                                                       id="page_manage" name="page_manage"
-                                                                       readonly="true"
-                                                                       value="USER"
-                                                                       placeholder="page_manage">
-
-                                                                <input type="hidden" class="form-control"
                                                                        id="department" name="department"
                                                                        readonly="true"
                                                                        value="<?php echo $_SESSION['department_id'] ?>"
                                                                        placeholder="department">
 
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4">
-                                                                        <label for="text"
-                                                                               class="control-label">รหัสพนักงาน</label>
-                                                                <input type="text" class="form-control"
+                                                                <input type="hidden" class="form-control"
                                                                        id="emp_id" name="emp_id"
                                                                        readonly="true"
-                                                                       value="<?php echo $_SESSION['emp_id']?> "
-                                                                       placeholder="">
-                                                                </div>
-                                                                    <div class="col-sm-8">
-                                                                        <label for="text"
-                                                                               class="control-label">ชื่อ - นามสกุล</label>
-                                                                        <input type="text" class="form-control"
-                                                                               id="full_name" name="full_name"
-                                                                               readonly="true"
-                                                                               value="<?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?> "
-                                                                               placeholder="full_name">
-                                                                    </div>
-
-                                                                </div>
+                                                                       value="<?php echo $_SESSION['emp_id'] ?>"
+                                                                       placeholder="emp_id">
 
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-3">
@@ -150,7 +123,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                id="doc_date"
                                                                                name="doc_date"
                                                                                required="required"
-                                                                               value="<?php echo $curr_date ?>"
                                                                                readonly="true"
                                                                                placeholder="วันที่เอกสาร">
                                                                     </div>
@@ -159,72 +131,59 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <div class="form-group row">
                                                                     <input type="hidden" class="form-control"
                                                                            id="leave_type_id"
-                                                                           required="required"
                                                                            name="leave_type_id">
                                                                     <div class="col-sm-10">
                                                                         <label for="leave_type_detail"
-                                                                               class="control-label">ประเภทการลา</label>
+                                                                               class="control-label">ประเภทวันหยุด</label>
                                                                         <input type="text" class="form-control"
                                                                                id="leave_type_detail"
                                                                                name="leave_type_detail"
                                                                                required="required"
                                                                                readonly="true"
-                                                                               placeholder="">
+                                                                               placeholder="ประเภทวันหยุด">
                                                                     </div>
 
-                                                                    <div class="col-sm-2">
-                                                                        <label for="leave_type_id"
-                                                                               class="control-label">เลือก</label>
-                                                                        <a data-toggle="modal"
-                                                                           href="#SearchLeaveTypeModal"
-                                                                           class="btn btn-primary">
-                                                                            Click <i class="fa fa-search"
-                                                                                     aria-hidden="true"></i>
-                                                                        </a>
-                                                                    </div>
                                                                 </div>
 
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-3">
                                                                         <label for="date_leave_start"
-                                                                               class="control-label">วันที่ลาเริ่มต้น</label>
+                                                                               class="control-label">วันที่หยุด</label>
                                                                         <i class="fa fa-calendar"
                                                                            aria-hidden="true"></i>
                                                                         <input type="text" class="form-control"
                                                                                id="date_leave_start"
                                                                                name="date_leave_start"
-                                                                               value="<?php echo $curr_date ?>"
                                                                                required="required"
                                                                                readonly="true"
-                                                                               placeholder="วันที่ลาเริ่มต้น">
+                                                                               placeholder="วันที่หยุด">
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                     <label for="date_leave_start"
-                                                                           class="control-label">เวลาเริ่มต้น</label>
-                                                                    <input type="text" class="form-control"
+                                                                           class="control-label"></label>
+                                                                    <input type="hidden" class="form-control"
                                                                            id="time_leave_start"
                                                                            name="time_leave_start"
                                                                            value="<?php echo $_SESSION['work_time_start'] ?>"
-                                                                           required="required"
-                                                                           placeholder="เวลาเริ่มต้น">
+                                                                           readonly="true"
+                                                                           placeholder="">
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <label for="date_leave_start"
-                                                                               class="control-label">วันที่ลาสิ้นสุด</label>
-                                                                        <i class="fa fa-calendar"
-                                                                           aria-hidden="true"></i>
-                                                                        <input type="text" class="form-control"
+                                                                               class="control-label"></label>
+                                                                        <!--i class="fa fa-calendar"
+                                                                           aria-hidden="true"></i-->
+                                                                        <input type="hidden" class="form-control"
                                                                                id="date_leave_to"
                                                                                name="date_leave_to"
-                                                                               value="<?php echo $curr_date ?>"
                                                                                required="required"
                                                                                readonly="true"
-                                                                               placeholder="วันที่ลาสิ้นสุด">
+                                                                               placeholder="">
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <label for="time_leave_to"
-                                                                               class="control-label">เวลาสิ้นสุด</label>
-                                                                        <input type="text" class="form-control"
+                                                                               class="control-label"></label>
+                                                                        <input type="hidden" class="form-control"
                                                                                id="time_leave_to"
                                                                                name="time_leave_to"
                                                                                required="required"
@@ -365,6 +324,12 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script src="js/modal/show_leave_type_modal.js"></script>
 
+    <!-- Page level plugins -->
+
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/-->
 
     <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
@@ -427,16 +392,14 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/manage_leave_document_process.php',
+                    'url': 'model/manage_holiday_process.php',
                     'data': formData
                 },
                 'columns': [
-                    {data: 'doc_year'},
                     {data: 'doc_id'},
-                    {data: 'full_name'},
+                    {data: 'doc_date'},
                     {data: 'leave_type_detail'},
                     {data: 'dt_leave_start'},
-                    {data: 'dt_leave_to'},
                     {data: 'status'},
                     {data: 'update'},
                 ]
@@ -448,7 +411,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#save').attr('disabled', 'disabled');
                 let formData = $(this).serialize();
                 $.ajax({
-                    url: 'model/manage_leave_document_process.php',
+                    url: 'model/manage_holiday_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -472,6 +435,10 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#recordModal').modal('show');
                 $('#id').val("");
                 $('#doc_id').val("");
+                $('#doc_date').val("");
+                //alert("work_time_start");
+                //$('#time_leave_start').val(<?php echo $_SESSION['work_time_start']?>);
+                //$('#time_leave_to').val(<?php echo $_SESSION['work_time_stop']?>);
                 $('#remark').val("");
                 $('#status').val("N");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
@@ -489,7 +456,7 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GET_DATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_leave_document_process.php',
+                url: 'model/manage_holiday_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
@@ -498,8 +465,6 @@ if (strlen($_SESSION['alogin']) == "") {
                         let id = response[i].id;
                         let doc_id = response[i].doc_id;
                         let doc_date = response[i].doc_date;
-                        let emp_id = response[i].emp_id;
-                        let full_name = response[i].full_name;
                         let leave_type_id = response[i].leave_type_id;
                         let leave_type_detail = response[i].leave_type_detail;
                         let date_leave_start = response[i].date_leave_start;
@@ -513,8 +478,6 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#id').val(id);
                         $('#doc_id').val(doc_id);
                         $('#doc_date').val(doc_date);
-                        $('#emp_id').val(emp_id);
-                        $('#full_name').val(full_name);
                         $('#leave_type_id').val(leave_type_id);
                         $('#leave_type_detail').val(leave_type_detail);
                         $('#date_leave_start').val(date_leave_start);
