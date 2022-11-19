@@ -95,13 +95,14 @@ if (strlen($_SESSION['alogin']) == "") {
                 </div>
 
                 <div id="recordModal" class="modal fade">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-lg">
                         <form method="post" id="recordForm">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h4 class="modal-title"><i class="fa fa-plus"></i> Edit Record</h4>
                                 </div>
+
                                 <div class="modal-body">
                                     <div class="form-group"
                                     <label for="user_id" class="control-label">User ID</label>
@@ -111,8 +112,15 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                 <div class="modal-body">
                                     <div class="form-group"
-                                    <label for="user_id" class="control-label">Email</label>
-                                    <input type="text" class="form-control" id="email" name="email" placeholder="Email"
+                                    <label for="email" class="control-label">Email</label>
+                                    <input type="text" class="form-control" id="email" name="email" placeholder="email"
+                                           required>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="form-group"
+                                    <label for="emp_id" class="control-label">EMP ID</label>
+                                    <input type="text" class="form-control" id="emp_id" name="emp_id" placeholder="EMP ID"
                                            required>
                                 </div>
 
@@ -371,6 +379,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
                         let user_id = response[i].user_id;
+                        let emp_id = response[i].emp_id;
                         let email = response[i].email;
                         let first_name = response[i].first_name;
                         let last_name = response[i].last_name;
@@ -382,6 +391,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#recordModal').modal('show');
                         $('#id').val(id);
                         $('#user_id').val(user_id);
+                        $('#emp_id').val(emp_id);
                         $('#email').val(email);
                         $('#first_name').val(first_name);
                         $('#last_name').val(last_name);

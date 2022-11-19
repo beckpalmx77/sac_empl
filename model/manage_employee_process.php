@@ -5,6 +5,7 @@ error_reporting(0);
 include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
+include('../util/reorder_record.php');
 
 if ($_POST["action"] === 'GET_DATA') {
 
@@ -66,8 +67,8 @@ if ($_POST["action"] === 'ADD') {
         if ($nRows > 0) {
             echo $dup;
         } else {
-            $sql = "INSERT INTO memployee (emp_id,f_name,l_name,work_time_id,department_id,remark) 
-                    VALUES (:emp_id,:f_name,:l_name,:work_time_id,:department_id,:remark)";
+            $sql = "INSERT INTO memployee (emp_id,f_name,l_name,work_time_id,department_id,remark,email_address) 
+                    VALUES (:emp_id,:f_name,:l_name,:work_time_id,:department_id,:remark,:email_address)";
 
             $query = $conn->prepare($sql);
             $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
@@ -76,12 +77,29 @@ if ($_POST["action"] === 'ADD') {
             $query->bindParam(':work_time_id', $work_time_id, PDO::PARAM_STR);
             $query->bindParam(':department_id', $department_id, PDO::PARAM_STR);
             $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+            $query->bindParam(':email_address', $email, PDO::PARAM_STR);
             $query->execute();
             $lastInsertId = $conn->lastInsertId();
-
-
             if ($lastInsertId) {
-                echo $save_success;
+                $sql_user = "INSERT INTO ims_user (emp_id,user_id,first_name,last_name,password,department_id,account_type,picture,company,email) 
+                    VALUES (:emp_id,:user_id,:first_name,:last_name,:password,:department_id,:account_type,:user_picture,:company,:email)";
+                $query_user = $conn->prepare($sql_user);
+                $query_user->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
+                $query_user->bindParam(':user_id', $emp_id, PDO::PARAM_STR);
+                $query_user->bindParam(':first_name', $f_name, PDO::PARAM_STR);
+                $query_user->bindParam(':last_name', $l_name, PDO::PARAM_STR);
+                $query_user->bindParam(':password', $user_password, PDO::PARAM_STR);
+                $query_user->bindParam(':department_id', $department_id, PDO::PARAM_STR);
+                $query_user->bindParam(':account_type', $account_type_default, PDO::PARAM_STR);
+                $query_user->bindParam(':user_picture', $user_picture, PDO::PARAM_STR);
+                $query_user->bindParam(':company', $company, PDO::PARAM_STR);
+                $query_user->bindParam(':email', $email, PDO::PARAM_STR);
+                $query_user->execute();
+                $lastInsertUser = $conn->lastInsertId();
+                if ($lastInsertUser) {
+                    Reorder_Record($conn, "ims_user");
+                    echo $save_success;
+                }
             } else {
                 echo $error;
             }
@@ -98,7 +116,7 @@ if ($_POST["action"] === 'UPDATE') {
         $emp_id = $_POST["emp_id"];
         $f_name = $_POST["f_name"];
         $l_name = $_POST["l_name"];
-        $department_id = $_POST["department_id"];
+        $dept_id = $_POST["department_id"];
         $work_time_id = $_POST["work_time_id"];
         $remark = $_POST["remark"];
 

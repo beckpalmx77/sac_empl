@@ -26,6 +26,7 @@ if ($_POST["action"] === 'GET_DATA') {
     foreach ($results as $result) {
         $return_arr[] = array("id" => $result['id'],
             "email" => $result['email'],
+            "emp_id" => $result['emp_id'],
             "user_id" => $result['user_id'],
             "first_name" => $result['first_name'],
             "last_name" => $result['last_name'],
