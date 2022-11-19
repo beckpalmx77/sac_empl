@@ -5,6 +5,7 @@ error_reporting(0);
 include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
+include('../util/GetData.php');
 
 if ($_POST["action"] === 'GET_DATA') {
 
@@ -66,7 +67,7 @@ if ($_POST["action"] === 'ADD') {
     if ($_POST["doc_date"] !== '' && $_POST["emp_id"] !== '') {
         $dept_id = $_POST["department"];
         $doc_date = $_POST["doc_date"];
-        $doc_year = substr($_POST["date_leave_start"],6);
+        $doc_year = substr($_POST["date_leave_start"], 6);
         $doc_id = "L-" . $dept_id . "-" . substr($doc_date, 6) . "-" . sprintf('%04s', LAST_ID($conn, "dleave_event", 'id'));
         $leave_type_id = $_POST["leave_type_id"];
         $emp_id = $_POST["emp_id"];
@@ -76,34 +77,46 @@ if ($_POST["action"] === 'ADD') {
         $time_leave_to = $_POST["time_leave_to"];
         $remark = $_POST["remark"];
 
-        $sql_find = "SELECT * FROM dleave_event dl WHERE dl.date_leave_start = '" . $date_leave_start . "' and dl.emp_id = '" . $emp_id . "' " ;
+        $day_max = GET_VALUE($conn, "select day_max as data from mleave_type where leave_type_id ='" . $leave_type_id . "'");
 
-        $nRows = $conn->query($sql_find)->fetchColumn();
-        if ($nRows > 0) {
-            echo $dup;
+        $cnt_day = "";
+        $sql_cnt = "SELECT COUNT(*) as days FROM dholiday_event WHERE doc_year = '" . $doc_year . "' AND emp_id = '" . $emp_id . "'";
+        foreach ($conn->query($sql_cnt) as $row) {
+            $cnt_day = $row['days'];
+        }
+        if ($cnt_day >= $day_max) {
+            echo $Error_Over;
         } else {
-            $sql = "INSERT INTO dleave_event (doc_id,doc_year,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark) 
+
+            $sql_find = "SELECT * FROM dleave_event dl WHERE dl.date_leave_start = '" . $date_leave_start . "' and dl.emp_id = '" . $emp_id . "' ";
+
+            $nRows = $conn->query($sql_find)->fetchColumn();
+            if ($nRows > 0) {
+                echo $dup;
+            } else {
+                $sql = "INSERT INTO dleave_event (doc_id,doc_year,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark) 
                     VALUES (:doc_id,:doc_year,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:remark)";
 
-            $query = $conn->prepare($sql);
-            $query->bindParam(':doc_id', $doc_id, PDO::PARAM_STR);
-            $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
-            $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
-            $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
-            $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
-            $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
-            $query->bindParam(':time_leave_start', $time_leave_start, PDO::PARAM_STR);
-            $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
-            $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
-            $query->bindParam(':remark', $remark, PDO::PARAM_STR);
-            $query->execute();
-            $lastInsertId = $conn->lastInsertId();
+                $query = $conn->prepare($sql);
+                $query->bindParam(':doc_id', $doc_id, PDO::PARAM_STR);
+                $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
+                $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
+                $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
+                $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_start', $time_leave_start, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+                $query->execute();
+                $lastInsertId = $conn->lastInsertId();
 
 
-            if ($lastInsertId) {
-                echo $save_success;
-            } else {
-                echo $error;
+                if ($lastInsertId) {
+                    echo $save_success;
+                } else {
+                    echo $error;
+                }
             }
         }
     }
