@@ -1,4 +1,6 @@
 <?php
+session_start();
+error_reporting(0);
 include('includes/Header.php');
 if (strlen($_SESSION['alogin']) == "") {
     header("Location: index.php");
@@ -7,7 +9,6 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <!DOCTYPE html>
     <html lang="th">
-
     <body id="page-top">
     <div id="wrapper">
         <?php
@@ -19,7 +20,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 <?php
                 include('includes/Top-Bar.php');
                 ?>
-
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -39,18 +39,21 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 </div>
                                 <div class="card-body">
-
                                     <section class="container-fluid">
 
                                         <div class="col-md-12 col-md-offset-2">
-                                            <table id='TableRecordList' class='display dataTable'>
+                                            <label for="name_t"
+                                                   class="control-label"><b>เพิ่ม <?php echo urldecode($_GET['s']) ?></b></label>
+                                        </div>
 
+                                        <div class="col-md-12 col-md-offset-2">
+                                            <table id='TableRecordList' class='display dataTable'>
                                                 <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>USER ID</th>
-                                                    <th>First Name</th>
-                                                    <th>Last Name</th>
+                                                    <th>รหัสผู้ใช้</th>
+                                                    <th>ชื่อ</th>
+                                                    <th>นามสกุล</th>
                                                     <th>Type</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
@@ -60,9 +63,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <tfoot>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>USER ID</th>
-                                                    <th>First Name</th>
-                                                    <th>Last Name</th>
+                                                    <th>รหัสผู้ใช้</th>
+                                                    <th>ชื่อ</th>
+                                                    <th>นามสกุล</th>
                                                     <th>Type</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
@@ -75,194 +78,238 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                         </div>
 
-                                        <!--/div-->
-                                        <!-- /.row -->
+                                        <div class="modal fade" id="recordModal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                    </div>
+                                                    <form method="post" id="recordForm">
+                                                        <div class="modal-body">
+                                                            <div class="modal-body">
 
-                                    </section>
+                                                                <div class="form-group">
+                                                                    <label for="text"
+                                                                           class="control-label">รหัสผู้ใช้งาน</label>
+                                                                    <input type="user_id" class="form-control"
+                                                                           id="user_id" name="user_id"
+                                                                           placeholder="รหัสผู้ใช้งาน">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="text"
+                                                                           class="control-label">รหัสพนักงาน</label>
+                                                                    <input type="emp_id" class="form-control"
+                                                                           id="emp_id" name="emp_id"
+                                                                           placeholder="รหัสพนักงาน">
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-6">
+                                                                        <label for="first_name"
+                                                                               class="control-label">ชื่อ</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="first_name"
+                                                                               name="first_name"
+                                                                               required="required"
+                                                                               placeholder="ชื่อ">
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="last_name"
+                                                                               class="control-label">นามสกุล</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="last_name"
+                                                                               name="last_name"
+                                                                               required="required"
+                                                                               placeholder="นามสกุล">
+                                                                    </div>
+                                                                </div>
 
+                                                                <div class="form-group row">
+                                                                    <input type="hidden" class="form-control"
+                                                                           id="department_id"
+                                                                           name="department_id">
+                                                                    <div class="col-sm-10">
+                                                                        <label for="department_desc"
+                                                                               class="control-label">หน่วยงาน/ฝ่าย/แผนก</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="department_desc"
+                                                                               name="department_desc"
+                                                                               required="required"
+                                                                               readonly="true"
+                                                                               placeholder="หน่วยงาน/ฝ่าย/แผนก">
+                                                                    </div>
+
+                                                                    <div class="col-sm-2">
+                                                                        <label for="department_id"
+                                                                               class="control-label">เลือก</label>
+                                                                        <a data-toggle="modal"
+                                                                           href="#SearchDepartmentModal"
+                                                                           class="btn btn-primary">
+                                                                            Click <i class="fa fa-search"
+                                                                                     aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <input type="hidden" class="form-control"
+                                                                           id="permission_id"
+                                                                           name="permission_id">
+                                                                    <div class="col-sm-10">
+                                                                        <label for="permission_detail"
+                                                                               class="control-label">สิทธิ์การใช้งาน</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="permission_detail"
+                                                                               name="permission_detail"
+                                                                               required="required"
+                                                                               readonly="true"
+                                                                               placeholder="สิทธิ์การใช้งาน">
+                                                                    </div>
+
+                                                                    <div class="col-sm-2">
+                                                                        <label for="permission_id"
+                                                                               class="control-label">เลือก</label>
+                                                                        <a data-toggle="modal"
+                                                                           href="#SearchPermissionModal"
+                                                                           class="btn btn-primary">
+                                                                            Click <i class="fa fa-search"
+                                                                                     aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class=”form-group”>
+                                                                    <label for="status" class="control-label">Status</label>
+                                                                    <select id="status" name="status"
+                                                                            class="form-control" data-live-search="true"
+                                                                            title="Please select">
+                                                                        <option>Active</option>
+                                                                        <option>Inactive</option>
+                                                                    </select>
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" id="id"/>
+                                                            <input type="hidden" name="action" id="action" value=""/>
+                                                            <span class="icon-input-btn">
+                                                                <i class="fa fa-check"></i>
+                                                            <input type="submit" name="save" id="save"
+                                                                   class="btn btn-primary" value="Save"/>
+                                                            </span>
+                                                            <button type="button" class="btn btn-danger"
+                                                                    data-dismiss="modal">Close <i
+                                                                        class="fa fa-window-close"></i>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="modal fade" id="SearchDepartmentModal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="container"></div>
+                                                    <div class="modal-body">
+
+                                                        <div class="modal-body">
+
+                                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                                   class="display"
+                                                                   id="TableDepartmentList"
+                                                                   width="100%">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>รหัสหน่วยงาน/ฝ่าย/แผนก</th>
+                                                                    <th>รายละเอียด</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <th>รหัสหน่วยงาน/ฝ่าย/แผนก</th>
+                                                                    <th>รายละเอียด</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade" id="SearchPermissionModal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Permission</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="container"></div>
+                                                    <div class="modal-body">
+
+                                                        <div class="modal-body">
+
+                                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                                   class="display"
+                                                                   id="TablePermissionList"
+                                                                   width="100%">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>รหัสสิทธิ์การใช้งาน</th>
+                                                                    <th>รายละเอียดสิทธิ์การใช้งาน</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <th>รหัสสิทธิ์การใช้งาน</th>
+                                                                    <th>รายละเอียดสิทธิ์การใช้งาน</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-                    <!--Row-->
-
-                    <!-- Row -->
 
                 </div>
-
-                <div id="recordModal" class="modal fade">
-                    <div class="modal-dialog modal-lg">
-                        <form method="post" id="recordForm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title"><i class="fa fa-plus"></i> Edit Record</h4>
-                                </div>
-
-                                <div class="modal-body">
-                                    <div class="form-group"
-                                    <label for="user_id" class="control-label">User ID</label>
-                                    <input type="text" class="form-control" id="user_id" name="user_id" placeholder="User ID"
-                                           required>
-                                </div>
-
-                                <div class="modal-body">
-                                    <div class="form-group"
-                                    <label for="email" class="control-label">Email</label>
-                                    <input type="text" class="form-control" id="email" name="email" placeholder="email"
-                                           required>
-                                </div>
-
-                                <div class="modal-body">
-                                    <div class="form-group"
-                                    <label for="emp_id" class="control-label">EMP ID</label>
-                                    <input type="text" class="form-control" id="emp_id" name="emp_id" placeholder="EMP ID"
-                                           required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="first_name" class="control-label">ชื่อ</label>
-                                    <input type="text" class="form-control" id="first_name" name="first_name"
-                                           placeholder="First Name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="last_name" class="control-label">นามสกุล</label>
-                                    <input type="text" class="form-control" id="last_name" name="last_name"
-                                           placeholder="Last Name" required>
-                                </div>
-
-                                <div class="form-group row">
-                                    <input type="hidden" class="form-control"
-                                           id="department_id"
-                                           name="department_id">
-                                    <div class="col-sm-10">
-                                        <label for="department_id"
-                                               class="control-label">แผนก</label>
-                                        <input type="text" class="form-control"
-                                               id="department_desc"
-                                               name="department_desc"
-                                               required="required"
-                                               readonly="true"
-                                               placeholder="แผนก">
-                                    </div>
-
-                                    <div class="col-sm-2">
-                                        <label for="quantity"
-                                               class="control-label">เลือก</label>
-                                        <a data-toggle="modal"
-                                           href="#SearchDepartmentModal"
-                                           class="btn btn-primary">
-                                            Click <i class="fa fa-search"
-                                                     aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class=”form-group”>
-                                    <label for="account_type" class="control-label">ประเภทผู้ใช้
-                                        (Administrator=จัดการระบบ)</label>
-                                    <select id="account_type" name="account_type"
-                                            class="form-control" data-live-search="true"
-                                            title="Please select">
-                                        <option
-                                                value="<?php echo htmlentities($result->permission_id); ?>"
-                                                selected><?php echo htmlentities($result->permission_detail); ?></option>
-                                        <?php $sql1 = "SELECT * from ims_permission";
-                                        $query1 = $conn->prepare($sql1);
-                                        $query1->execute();
-                                        $results1 = $query1->fetchAll(PDO::FETCH_OBJ);
-                                        if ($query1->rowCount() > 0) {
-                                            foreach ($results1 as $result1) { ?>
-                                                <option
-                                                        value="<?php echo htmlentities($result1->permission_id); ?>"><?php echo htmlentities($result1->permission_detail); ?></option>
-                                            <?php }
-                                        } ?>
-                                    </select>
-                                </div>
-                                <div class=”form-group”>
-                                    <label for="status" class="control-label">Status</label>
-                                    <select id="status" name="status"
-                                            class="form-control" data-live-search="true"
-                                            title="Please select">
-                                        <option>Active</option>
-                                        <option>Inactive</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="hidden" name="id" id="id"/>
-                                <input type="hidden" name="action" id="action" value=""/>
-                                <span class="icon-input-btn">
-                                    <i class="fa fa-check"></i>
-                                    <input type="submit" name="save" id="save" class="btn btn-primary" value="Save"/>
-                                </span>
-                                <button type="button" class="btn btn-danger"
-                                        data-dismiss="modal">Close <i
-                                            class="fa fa-window-close"></i>
-                                </button>
-                            </div>
-                    </div>
-                    </form>
-                </div>
-
-                <div class="modal fade" id="SearchDepartmentModal">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Modal title</h4>
-                                <button type="button" class="close" data-dismiss="modal"
-                                        aria-hidden="true">×
-                                </button>
-                            </div>
-
-                            <div class="container"></div>
-                            <div class="modal-body">
-
-                                <div class="modal-body">
-
-                                    <table cellpadding="0" cellspacing="0" border="0"
-                                           class="display"
-                                           id="TableDepartmentList"
-                                           width="100%">
-                                        <thead>
-                                        <tr>
-                                            <th>รหัสแผนก</th>
-                                            <th>รายละเอียด</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th>รหัสแผนก</th>
-                                            <th>รายละเอียด</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-
-
-            <!---Container Fluid-->
-
         </div>
-
-        <?php
-        include('includes/Modal-Logout.php');
-        include('includes/Footer.php');
-        ?>
-
     </div>
-    </div>
+
+    <?php
+    include('includes/Modal-Logout.php');
+    include('includes/Footer.php');
+    ?>
+
 
     <!-- Scroll to top -->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -276,7 +323,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="js/myadmin.min.js"></script>
 
     <script src="js/modal/show_department_modal.js"></script>
-
+    <script src="js/modal/show_permision_modal.js"></script>
 
     <!-- Page level plugins -->
 
@@ -284,6 +331,13 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/-->
+
+    <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="vendor/date-picker-1.9/js/bootstrap-datepicker.js"></script>
+    <script src="vendor/date-picker-1.9/locales/bootstrap-datepicker.th.min.js"></script>
+    <!--link href="vendor/date-picker-1.9/css/date_picker_style.css" rel="stylesheet"/-->
+    <link href="vendor/date-picker-1.9/css/bootstrap-datepicker.css" rel="stylesheet"/>
 
     <script src="vendor/datatables/v11/bootbox.min.js"></script>
     <script src="vendor/datatables/v11/jquery.dataTables.min.js"></script>
@@ -383,7 +437,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         let email = response[i].email;
                         let first_name = response[i].first_name;
                         let last_name = response[i].last_name;
-                        let account_type = response[i].account_type;
+                        let permission_id = response[i].permission_id;
+                        let permission_detail = response[i].permission_detail;
                         let department_id = response[i].department_id;
                         let department_desc = response[i].department_desc;
                         let status = response[i].status;
@@ -395,7 +450,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#email').val(email);
                         $('#first_name').val(first_name);
                         $('#last_name').val(last_name);
-                        $('#account_type').val(account_type);
+                        $('#permission_id').val(permission_id);
+                        $('#permission_detail').val(permission_detail);
                         $('#department_id').val(department_id);
                         $('#department_desc').val(department_desc);
                         $('#status').val(status);
@@ -428,17 +484,27 @@ if (strlen($_SESSION['alogin']) == "") {
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
                         let user_id = response[i].user_id;
+                        let emp_id = response[i].emp_id;
+                        let email = response[i].email;
                         let first_name = response[i].first_name;
                         let last_name = response[i].last_name;
-                        let account_type = response[i].account_type;
+                        let permission_id = response[i].permission_id;
+                        let permission_detail = response[i].permission_detail;
+                        let department_id = response[i].department_id;
+                        let department_desc = response[i].department_desc;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
                         $('#user_id').val(user_id);
+                        $('#emp_id').val(emp_id);
+                        $('#email').val(email);
                         $('#first_name').val(first_name);
                         $('#last_name').val(last_name);
-                        $('#account_type').val(account_type);
+                        $('#permission_id').val(permission_id);
+                        $('#permission_detail').val(permission_detail);
+                        $('#department_id').val(department_id);
+                        $('#department_desc').val(department_desc);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
                         $('#action').val('DELETE');
@@ -471,8 +537,8 @@ if (strlen($_SESSION['alogin']) == "") {
     </script>
 
 
-    </body>
 
+    </body>
     </html>
 
 <?php } ?>

@@ -26,6 +26,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "emp_id" => $result['emp_id'],
             "f_name" => $result['f_name'],
             "l_name" => $result['l_name'],
+            "sex" => $result['sex'],
             "department_id" => $result['department_id'],
             "department_desc" => $result['department_desc'],
             "work_time_id" => $result['work_time_id'],
@@ -60,6 +61,7 @@ if ($_POST["action"] === 'ADD') {
         $department_id = $_POST["department_id"];
         $work_time_id = $_POST["work_time_id"];
         $remark = $_POST["remark"];
+        $sex = $_POST["sex"];
 
         $sql_find = "SELECT * FROM memployee WHERE emp_id = '" . $emp_id . "'";
 
@@ -67,8 +69,8 @@ if ($_POST["action"] === 'ADD') {
         if ($nRows > 0) {
             echo $dup;
         } else {
-            $sql = "INSERT INTO memployee (emp_id,f_name,l_name,work_time_id,department_id,remark,email_address) 
-                    VALUES (:emp_id,:f_name,:l_name,:work_time_id,:department_id,:remark,:email_address)";
+            $sql = "INSERT INTO memployee (emp_id,f_name,l_name,work_time_id,department_id,remark,email_address,sex) 
+                    VALUES (:emp_id,:f_name,:l_name,:work_time_id,:department_id,:remark,:email_address,:sex)";
 
             $query = $conn->prepare($sql);
             $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
@@ -78,6 +80,7 @@ if ($_POST["action"] === 'ADD') {
             $query->bindParam(':department_id', $department_id, PDO::PARAM_STR);
             $query->bindParam(':remark', $remark, PDO::PARAM_STR);
             $query->bindParam(':email_address', $email, PDO::PARAM_STR);
+            $query->bindParam(':sex', $sex, PDO::PARAM_STR);
             $query->execute();
             $lastInsertId = $conn->lastInsertId();
             if ($lastInsertId) {
@@ -116,26 +119,38 @@ if ($_POST["action"] === 'UPDATE') {
         $emp_id = $_POST["emp_id"];
         $f_name = $_POST["f_name"];
         $l_name = $_POST["l_name"];
-        $dept_id = $_POST["department_id"];
+        $department_id = $_POST["department_id"];
         $work_time_id = $_POST["work_time_id"];
         $remark = $_POST["remark"];
+        $sex = $_POST["sex"];
 
         $sql_find = "SELECT * FROM memployee WHERE emp_id = '" . $emp_id . "'";
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
-            $sql_update = "UPDATE memployee SET f_name=:f_name,l_name=:l_name,work_time_id=:work_time_id
+            $sql_update = "UPDATE memployee SET f_name=:f_name,l_name=:l_name,work_time_id=:work_time_id,sex=:sex
             ,department_id=:department_id,remark=:remark        
             WHERE id = :id";
-                $query = $conn->prepare($sql_update);
-                $query->bindParam(':f_name', $f_name, PDO::PARAM_STR);
-                $query->bindParam(':l_name', $l_name, PDO::PARAM_STR);
-                $query->bindParam(':work_time_id', $work_time_id, PDO::PARAM_STR);
-                $query->bindParam(':department_id', $department_id, PDO::PARAM_STR);
-                $query->bindParam(':remark', $remark, PDO::PARAM_STR);
-                $query->bindParam(':id', $id, PDO::PARAM_STR);
-                $query->execute();
-                echo $save_success;
+            $query = $conn->prepare($sql_update);
+            $query->bindParam(':f_name', $f_name, PDO::PARAM_STR);
+            $query->bindParam(':l_name', $l_name, PDO::PARAM_STR);
+            $query->bindParam(':work_time_id', $work_time_id, PDO::PARAM_STR);
+            $query->bindParam(':department_id', $department_id, PDO::PARAM_STR);
+            $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+            $query->bindParam(':sex', $sex, PDO::PARAM_STR);
+            $query->bindParam(':id', $id, PDO::PARAM_STR);
+            $query->execute();
+
+            $sql_user = "UPDATE ims_user SET first_name=:f_name,last_name=:l_name,department_id=:department_id       
+            WHERE emp_id = :emp_id";
+            $query_user = $conn->prepare($sql_user);
+            $query_user->bindParam(':f_name', $f_name, PDO::PARAM_STR);
+            $query_user->bindParam(':l_name', $l_name, PDO::PARAM_STR);
+            $query_user->bindParam(':department_id', $department_id, PDO::PARAM_STR);
+            $query_user->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
+            $query_user->execute();
+
+            echo $save_success;
 
         }
 
@@ -177,7 +192,7 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
 ## Search
     $searchQuery = " ";
     //if ($_POST["page_manage"]!=="ADMIN") {
-        //$searchQuery = " AND emp_id = '" . $_SESSION['emp_id'] . "'";
+    //$searchQuery = " AND emp_id = '" . $_SESSION['emp_id'] . "'";
     //}
 
     if ($searchValue != '') {
@@ -208,13 +223,12 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
             WHERE 1 " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
-/*
-        $txt = $_POST["page_manage"] . " | " . $searchQuery . " | " . $columnName . " | " . $columnSortOrder ;
-        $my_file = fopen("leave_a.txt", "w") or die("Unable to open file!");
-        fwrite($my_file, $txt);
-        fclose($my_file);
-*/
-
+    /*
+            $txt = $_POST["page_manage"] . " | " . $searchQuery . " | " . $columnName . " | " . $columnSortOrder ;
+            $my_file = fopen("leave_a.txt", "w") or die("Unable to open file!");
+            fwrite($my_file, $txt);
+            fclose($my_file);
+    */
 
 
 // Bind values
@@ -231,26 +245,14 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
     foreach ($empRecords as $row) {
 
         if ($_POST['sub_action'] === "GET_MASTER") {
-/*
-            switch ($row['status']) {
-                case "N":
-                    $status = "รอพิจารณา";
-                    break;
-                case "A":
-                    $status = "อนุมัติ";
-                    break;
-                case "R":
-                    $status = "ไม่อนุมัติ";
-                    break;
-            }
-*/
 
             $data[] = array(
                 "id" => $row['id'],
                 "emp_id" => $row['emp_id'],
                 "f_name" => $row['f_name'],
                 "l_name" => $row['l_name'],
-                "full_name" => $row['f_name']. " " . $row['l_name'],
+                "sex" => $row['sex'],
+                "full_name" => $row['f_name'] . " " . $row['l_name'],
                 "department_id" => $row['department_id'],
                 "department_desc" => $row['department_desc'],
                 "work_time_id" => $row['work_time_id'],

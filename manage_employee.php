@@ -120,6 +120,17 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     </div>
                                                                 </div>
 
+                                                                <div class="form-group">
+                                                                    <label for="sex" class="control-label">เพศ</label>
+                                                                    <select id="sex" name="sex"
+                                                                            class="form-control" data-live-search="true"
+                                                                            title="Please select">
+                                                                        <option value="-">ไม่ระบุ</option>
+                                                                        <option value="M">ผู้ชาย</option>
+                                                                        <option value="F">ผู้หญิง</option>
+                                                                    </select>
+                                                                </div>
+
                                                                 <div class="form-group row">
                                                                     <input type="hidden" class="form-control"
                                                                            id="department_id"
@@ -460,6 +471,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let emp_id = response[i].emp_id;
                         let f_name = response[i].f_name;
                         let l_name = response[i].l_name;
+                        let sex = response[i].sex;
                         let department_id = response[i].department_id;
                         let department_desc = response[i].department_desc;
                         let work_time_id = response[i].work_time_id;
@@ -471,6 +483,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#emp_id').val(emp_id);
                         $('#f_name').val(f_name);
                         $('#l_name').val(l_name);
+                        $('#sex').val(sex);
                         $('#department_id').val(department_id);
                         $('#department_desc').val(department_desc);
                         $('#work_time_id').val(work_time_id);

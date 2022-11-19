@@ -13,8 +13,9 @@ if ($_POST["action"] === 'GET_DATA') {
 
     $return_arr = array();
 
-    $sql_get = "SELECT im.*,dm.department_desc FROM ims_user im
-    left join mdepartment dm on dm.department_id = im.department_id 
+    $sql_get = "SELECT im.*,dm.department_desc,lp.permission_detail FROM ims_user im
+    left join mdepartment dm on dm.department_id = im.department_id
+    left join ims_permission lp on lp.permission_id = im.account_type  
     WHERE im.id = " . $id ;
 
     //$myfile = fopen("macc-param.txt", "w") or die("Unable to open file!");
@@ -32,7 +33,8 @@ if ($_POST["action"] === 'GET_DATA') {
             "last_name" => $result['last_name'],
             "department_id" => $result['department_id'],
             "department_desc" => $result['department_desc'],
-            "account_type" => $result['account_type'],
+            "permission_id" => $result['permission_id'],
+            "permission_detail" => $result['permission_detail'],
             "status" => $result['status']);
     }
 
@@ -100,7 +102,7 @@ if ($_POST["action"] === 'UPDATE') {
         $first_name = $_POST["first_name"];
         $last_name = $_POST["last_name"];
         $status = $_POST["status"];
-        $account_type = $_POST["account_type"];
+        $account_type = $_POST["permission_id"];
         $department_id = $_POST["department_id"];
         $picture = $account_type === 'admin' ? "img/icon/admin-001.png" : "img/icon/user-001.png";
         $sql_find = "SELECT * FROM ims_user WHERE id = '" . $id . "'";
@@ -153,10 +155,11 @@ if ($_POST["action"] === 'CHG') {
     try {
         $password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
         $username = $_POST["username"];
-
+/*
         $myfile = fopen("pw-param.txt", "w") or die("Unable to open file!");
         fwrite($myfile,  $_POST['new_password'] . " | " . $password . " | " . $username);
         fclose($myfile);
+*/
 
         $sql_update = "UPDATE ims_user SET password=:password WHERE user_id = :username";
         $query = $conn->prepare($sql_update);
