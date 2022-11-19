@@ -5,6 +5,7 @@ error_reporting(0);
 include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
+include('../util/GetData.php');
 
 if ($_POST["action"] === 'GET_DATA') {
 
@@ -29,7 +30,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "leave_type_detail" => $result['leave_type_detail'],
             "emp_id" => $result['emp_id'],
             "date_leave_start" => $result['date_leave_start'],
-            "date_leave_to" => $result['date_leave_to'],            
+            "date_leave_to" => $result['date_leave_to'],
             "time_leave_start" => $result['time_leave_start'],
             "time_leave_to" => $result['time_leave_to'],
             "approve_1_id" => $result['approve_1_id'],
@@ -61,7 +62,7 @@ if ($_POST["action"] === 'ADD') {
     if ($_POST["date_leave_start"] !== '' && $_POST["emp_id"] !== '') {
         $dept_id = $_POST["department"];
         $doc_date = $_POST["doc_date"];
-        $doc_year = substr($_POST["date_leave_start"],6);
+        $doc_year = substr($_POST["date_leave_start"], 6);
         $doc_id = "H-" . $dept_id . "-" . substr($doc_date, 6) . "-" . sprintf('%04s', LAST_ID($conn, "dholiday_event", 'id'));
         $leave_type_id = $_POST["leave_type_id"];
         $emp_id = $_POST["emp_id"];
@@ -71,33 +72,43 @@ if ($_POST["action"] === 'ADD') {
         $time_leave_to = $_POST["time_leave_to"];
         $remark = $_POST["remark"];
 
-        $sql_find = "SELECT * FROM dholiday_event WHERE date_leave_start = '" . $_POST["date_leave_start"] . "' AND emp_id = '" . $emp_id . "'";
-        $nRows = $conn->query($sql_find)->fetchColumn();
-        if ($nRows > 0) {
-            echo $dup;
+        $day_max = GET_VALUE($conn, "select day_max as data from mleave_type where leave_type_id ='H2' ");
+
+        $cnt_day = "";
+        $sql_cnt = "SELECT COUNT(*) as days FROM dholiday_event WHERE doc_year = '" . $doc_year . "' AND emp_id = '" . $emp_id . "'";
+        foreach ($conn->query($sql_cnt) as $row) {
+            $cnt_day = $row['days'];
+        }
+
+        if ($cnt_day >= $day_max) {
+            echo $Error_Over;
         } else {
-            $sql = "INSERT INTO dholiday_event (doc_id,doc_year,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark) 
-                    VALUES (:doc_id,:doc_year,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:remark)";
 
-            $query = $conn->prepare($sql);
-            $query->bindParam(':doc_id', $doc_id, PDO::PARAM_STR);
-            $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
-            $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
-            $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
-            $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
-            $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
-            $query->bindParam(':time_leave_start', $time_leave_start, PDO::PARAM_STR);
-            $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
-            $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
-            $query->bindParam(':remark', $remark, PDO::PARAM_STR);
-            $query->execute();
-            $lastInsertId = $conn->lastInsertId();
-
-
-            if ($lastInsertId) {
-                echo $save_success;
+            $sql_find = "SELECT * FROM dholiday_event WHERE date_leave_start = '" . $_POST["date_leave_start"] . "' AND emp_id = '" . $emp_id . "'";
+            $nRows = $conn->query($sql_find)->fetchColumn();
+            if ($nRows > 0) {
+                echo $dup;
             } else {
-                echo $error;
+                $sql = "INSERT INTO dholiday_event (doc_id,doc_year,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark) 
+                    VALUES (:doc_id,:doc_year,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:remark)";
+                $query = $conn->prepare($sql);
+                $query->bindParam(':doc_id', $doc_id, PDO::PARAM_STR);
+                $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
+                $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
+                $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
+                $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_start', $time_leave_start, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+                $query->execute();
+                $lastInsertId = $conn->lastInsertId();
+                if ($lastInsertId) {
+                    echo $save_success;
+                } else {
+                    echo $error;
+                }
             }
         }
     }
@@ -125,7 +136,7 @@ if ($_POST["action"] === 'UPDATE') {
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
-            if ($_POST["page_manage"]==="ADMIN") {
+            if ($_POST["page_manage"] === "ADMIN") {
                 $sql_update = "UPDATE dholiday_event SET status=:status
                                WHERE id = :id";
                 $query = $conn->prepare($sql_update);
@@ -188,7 +199,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
 ## Search
     $searchQuery = " ";
-    if ($_POST["page_manage"]!=="ADMIN") {
+    if ($_POST["page_manage"] !== "ADMIN") {
         $searchQuery = " AND emp_id = '" . $_SESSION['emp_id'] . "'";
     }
 
@@ -214,12 +225,12 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-        $orderbyext = "";
+    $orderbyext = "";
 
     if ($columnSortOrder != '') {
-        $orderbyext =  ",date_leave_start desc" ;
+        $orderbyext = ",date_leave_start desc";
     } else {
-        $orderbyext =  " Order by date_leave_start desc" ;
+        $orderbyext = " Order by date_leave_start desc";
     }
 
     $sql_load = "SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc FROM dholiday_event dl
@@ -230,13 +241,12 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
     $stmt = $conn->prepare($sql_load);
 
-/*
-        $txt = $sql_load ;
-        $my_file = fopen("leave_a.txt", "w") or die("Unable to open file!");
-        fwrite($my_file, $txt);
-        fclose($my_file);
-*/
-
+    /*
+            $txt = $sql_load ;
+            $my_file = fopen("leave_a.txt", "w") or die("Unable to open file!");
+            fwrite($my_file, $txt);
+            fclose($my_file);
+    */
 
 
 // Bind values
@@ -266,7 +276,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "date_leave_to" => $row['date_leave_to'],
                 "time_leave_start" => $row['time_leave_start'],
                 "time_leave_to" => $row['time_leave_to'],
-                "dt_leave_start" => $row['date_leave_start'] . "  [" .  $row['time_leave_start'] . "-" .  $row['time_leave_to'] . "] ",
+                "dt_leave_start" => $row['date_leave_start'] . "  [" . $row['time_leave_start'] . "-" . $row['time_leave_to'] . "] ",
                 "remark" => $row['remark'],
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
                 "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' class='btn btn-success btn-xs approve' data-toggle='tooltip' title='Approve'>Approve</button>",
