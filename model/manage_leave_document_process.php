@@ -111,7 +111,6 @@ if ($_POST["action"] === 'ADD') {
                 $query->execute();
                 $lastInsertId = $conn->lastInsertId();
 
-
                 if ($lastInsertId) {
                     echo $save_success;
                 } else {

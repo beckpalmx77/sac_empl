@@ -151,16 +151,16 @@ if ($_POST["action"] === 'DELETE') {
 if ($_POST["action"] === 'CHG') {
     try {
         $password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
-        $email = $_POST["email"];
+        $username = $_POST["username"];
 
-        //$myfile = fopen("pw-param.txt", "w") or die("Unable to open file!");
-        //fwrite($myfile,  $_POST['new_password'] . " | " . $password . " | " . $id);
-        //fclose($myfile);
+        $myfile = fopen("pw-param.txt", "w") or die("Unable to open file!");
+        fwrite($myfile,  $_POST['new_password'] . " | " . $password . " | " . $username);
+        fclose($myfile);
 
-        $sql_update = "UPDATE ims_user SET password=:password WHERE email = :email";
+        $sql_update = "UPDATE ims_user SET password=:password WHERE user_id = :username";
         $query = $conn->prepare($sql_update);
         $query->bindParam(':password', $password, PDO::PARAM_STR);
-        $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->bindParam(':username', $username, PDO::PARAM_STR);
         $query->execute();
         echo 1;
     } catch (Exception $e) {

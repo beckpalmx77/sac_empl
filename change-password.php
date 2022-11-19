@@ -47,14 +47,12 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         <form id="from_data">
 
                                                             <div class="form-group has-success">
-                                                                <label for="success" class="control-label">ชื่อผู้ใช้
-                                                                    User
-                                                                    Name (Email Address)</label>
+                                                                <label for="success" class="control-label">ชื่อผู้ใช้</label>
 
                                                                 <div class="">
-                                                                    <input type="email" name="email"
+                                                                    <input type="text" name="username"
                                                                            class="form-control"
-                                                                           required="required" id="email">
+                                                                           required="required" id="username">
                                                                 </div>
                                                             </div>
 
@@ -185,9 +183,9 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
 
         $(document).ready(function () {
-            let email = '<?php echo $_SESSION['alogin']; ?>';
+            let username = '<?php echo $_SESSION['alogin']; ?>';
             let login_id = '<?php echo $_SESSION['login_id']; ?>';
-            $('#email').val(email);
+            $('#username').val(username);
             $('#login_id').val(login_id);
 
         });
