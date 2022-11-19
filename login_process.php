@@ -15,7 +15,7 @@ $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 $remember = $_POST['remember'];
 
 $sql = "SELECT iu.*,pm.dashboard_page as dashboard_page,em.work_time_id,wt.work_time_detail,wt.work_time_start,wt.work_time_stop
-        ,wt.break_time_start,wt.break_time_stop 
+        ,wt.break_time_start,wt.break_time_stop,em.sex 
         FROM ims_user iu
         left join ims_permission pm on pm.permission_id = iu.account_type        
         left join memployee em on em.emp_id = iu.emp_id
@@ -36,6 +36,7 @@ if ($query->rowCount() == 1) {
             $_SESSION['emp_id'] = $result->emp_id;
             $_SESSION['first_name'] = $result->first_name;
             $_SESSION['last_name'] = $result->last_name;
+            $_SESSION['sex'] = $result->sex;
             $_SESSION['email'] = $result->email;
             $_SESSION['account_type'] = $result->account_type;
             $_SESSION['user_picture'] = $result->picture;
