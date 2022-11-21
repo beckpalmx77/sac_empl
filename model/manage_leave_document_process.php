@@ -64,7 +64,7 @@ if ($_POST["action"] === 'SEARCH') {
 }
 
 if ($_POST["action"] === 'ADD') {
-    if ($_POST["doc_date"] !== '' && $_POST["emp_id"] !== '') {
+    if ($_POST["doc_date"] !== '' && $_POST["emp_id"] !== '' && $_POST["leave_type_id"]!== '') {
         $dept_id = $_POST["department"];
         $doc_date = $_POST["doc_date"];
         $doc_year = substr($_POST["date_leave_start"], 6);
@@ -118,6 +118,8 @@ if ($_POST["action"] === 'ADD') {
                 }
             }
         }
+    } else {
+        echo $error;
     }
 }
 
@@ -173,6 +175,7 @@ if ($_POST["action"] === 'UPDATE') {
     } else {
         echo $Approve_Success;
     }
+
 }
 
 if ($_POST["action"] === 'DELETE') {

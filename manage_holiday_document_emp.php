@@ -178,6 +178,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                id="time_leave_start"
                                                                                name="time_leave_start"
                                                                                value="<?php echo $_SESSION['work_time_start'] ?>"
+                                                                               required="required"
                                                                                readonly="true"
                                                                                placeholder="">
                                                                     </div>

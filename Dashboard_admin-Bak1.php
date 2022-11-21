@@ -18,6 +18,12 @@ if (strlen($_SESSION['alogin']) == "") {
                 <?php
                 include('includes/Top-Bar.php');
                 ?>
+                <div class="card-header">
+                    สถิติการลาประจำวันที่
+                    <?php echo date("d/m/Y"); ?>
+                </div>
+
+
                 <div class="container-fluid" id="container-wrapper">
                     <div class="row mb-3">
                         <div class="col-xl-3 col-md-6 mb-4">
@@ -25,9 +31,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบแจ้งฯ เปิดทั้งหมด
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบลา ทั้งหมด
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-primary"
                                                                                                    id="Text1"></p></div>
                                             <!--div class="mt-2 mb-0 text-muted text-xs">
                                                 <span class="text-success mr-2"><i
@@ -36,7 +42,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                             </div-->
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa fa-list fa-2x text-danger"></i>
+                                            <i class="fas fa-file fa-2x text-primary"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -48,7 +54,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบแจ้งฯ รอดำเนินการ
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบลากิจ
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
                                                                                                    id="Text2"></p></div>
@@ -59,7 +65,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                             </div-->
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-spinner fa-2x text-primary"></i>
+                                            <i class="fas fa-file fa-2x text-success"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -71,9 +77,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบแจ้งฯ กำลังดำเนินการ/รออะไหล่
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบลาพักผ่อน
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-info"
                                                                                                    id="Text3"></p></div>
                                             <!--div class="mt-2 mb-0 text-muted text-xs">
                                                 <span class="text-success mr-2"><i
@@ -82,7 +88,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                             </div-->
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-wrench fa-2x text-info"></i>
+                                            <i class="fas fa-file fa-2x text-info"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -94,9 +100,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบแจ้งฯ ดำเนินการเสร็จสิ้น
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบลาป่วย
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-warning"
                                                                                                    id="Text4"></p></div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
                                                 <!--span class="text-danger mr-2"><i
@@ -105,7 +111,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-check-square fa-2x text-success"></i>
+                                            <i class="fas fa-file fa-2x text-warning"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -129,6 +135,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="EventModal" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -191,12 +198,12 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
 
             for (let i = 1; i <= 4; i++) {
-                GET_DATA("djob_request", i);
+                GET_DATA("dleave_event", i);
             }
 
             setInterval(function () {
                 for (let i = 1; i <= 4; i++) {
-                    GET_DATA("djob_request", i);
+                    GET_DATA("dleave_event", i);
                 }
             }, 3000);
         });
@@ -208,18 +215,19 @@ if (strlen($_SESSION['alogin']) == "") {
         function GET_DATA(table_name, idx) {
             let input_text = document.getElementById("Text" + idx);
             let action = "GET_COUNT_RECORDS_COND";
+            let cond = "";
             switch (idx) {
                 case 1:
                     cond = "";
                     break;
                 case 2:
-                    cond = " Where status = 'N' ";
+                    cond = " Where leave_type_id = 'L1' ";
                     break;
                 case 3:
-                    cond = " Where (status = 'W' or status = 'P') ";
+                    cond = " Where leave_type_id = 'L3' ";
                     break;
                 case 4:
-                    cond = " Where status = 'Y' ";
+                    cond = " Where leave_type_id = 'L2' ";
                     break;
             }
             //alert(cond);
