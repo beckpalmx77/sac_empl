@@ -496,7 +496,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     }
 
                 } else {
-                    alertify.error("พบข้อผิดพลาดกรุณาตรวจสอบ");
+                    alertify.error("พบข้อผิดพลาดกรุณาตรวจสอบ !!!");
                 }
 
             });
