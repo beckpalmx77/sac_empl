@@ -1,0 +1,1 @@
+SELECT * FROM mleave_type  WHERE mleave_type.leave_type_id = 'L1'

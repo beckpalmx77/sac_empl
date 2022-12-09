@@ -3,6 +3,8 @@ session_start();
 error_reporting(0);
 $curr_date = date("d-m-Y");
 
+$start_work_date = $_SESSION['start_work_date'];
+
 include('includes/Header.php');
 if (strlen($_SESSION['alogin']) == "") {
     header("Location: index.php");
@@ -106,11 +108,24 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                            placeholder="สร้างอัตโนมัติ">
                                                                 </div>
 
+
                                                                 <input type="hidden" class="form-control"
                                                                        id="page_manage" name="page_manage"
                                                                        readonly="true"
                                                                        value="USER"
                                                                        placeholder="page_manage">
+
+                                                                <input type="hidden" class="form-control"
+                                                                       id="work_time_start" name="work_time_start"
+                                                                       readonly="true"
+                                                                       value="<?php echo $start_work_date ?>"
+                                                                       placeholder="">
+
+                                                                <input type="text" class="form-control"
+                                                                       id="leave_before" name="leave_before"
+                                                                       readonly="true"
+                                                                       value=""
+                                                                       placeholder="">
 
                                                                 <input type="hidden" class="form-control"
                                                                        id="department" name="department"
@@ -122,15 +137,16 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <div class="col-sm-4">
                                                                         <label for="text"
                                                                                class="control-label">รหัสพนักงาน</label>
-                                                                <input type="text" class="form-control"
-                                                                       id="emp_id" name="emp_id"
-                                                                       readonly="true"
-                                                                       value="<?php echo $_SESSION['emp_id']?> "
-                                                                       placeholder="">
-                                                                </div>
+                                                                        <input type="text" class="form-control"
+                                                                               id="emp_id" name="emp_id"
+                                                                               readonly="true"
+                                                                               value="<?php echo $_SESSION['emp_id'] ?> "
+                                                                               placeholder="">
+                                                                    </div>
                                                                     <div class="col-sm-8">
                                                                         <label for="text"
-                                                                               class="control-label">ชื่อ - นามสกุล</label>
+                                                                               class="control-label">ชื่อ -
+                                                                            นามสกุล</label>
                                                                         <input type="text" class="form-control"
                                                                                id="full_name" name="full_name"
                                                                                readonly="true"
@@ -193,20 +209,20 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <input type="text" class="form-control"
                                                                                id="date_leave_start"
                                                                                name="date_leave_start"
-                                                                               value="<?php echo $curr_date ?>"
+                                                                               value="<?php //echo $curr_date ?>"
                                                                                required="required"
                                                                                readonly="true"
                                                                                placeholder="วันที่ลาเริ่มต้น">
                                                                     </div>
                                                                     <div class="col-sm-3">
-                                                                    <label for="date_leave_start"
-                                                                           class="control-label">เวลาเริ่มต้น</label>
-                                                                    <input type="text" class="form-control"
-                                                                           id="time_leave_start"
-                                                                           name="time_leave_start"
-                                                                           value="<?php echo $_SESSION['work_time_start'] ?>"
-                                                                           required="required"
-                                                                           placeholder="เวลาเริ่มต้น">
+                                                                        <label for="date_leave_start"
+                                                                               class="control-label">เวลาเริ่มต้น</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="time_leave_start"
+                                                                               name="time_leave_start"
+                                                                               value="<?php echo $_SESSION['work_time_start'] ?>"
+                                                                               required="required"
+                                                                               placeholder="เวลาเริ่มต้น">
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <label for="date_leave_start"
@@ -216,7 +232,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <input type="text" class="form-control"
                                                                                id="date_leave_to"
                                                                                name="date_leave_to"
-                                                                               value="<?php echo $curr_date ?>"
+                                                                               value="<?php //echo $curr_date ?>"
                                                                                required="required"
                                                                                readonly="true"
                                                                                placeholder="วันที่ลาสิ้นสุด">
@@ -364,7 +380,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="js/myadmin.min.js"></script>
 
     <script src="js/modal/show_leave_type_modal.js"></script>
-
+    <script src="js/util/calculate_datetime.js"></script>
 
     <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
@@ -408,7 +424,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GET_LEAVE_DOCUMENT", sub_action: "GET_MASTER" ,page_manage: "USER",};
+            let formData = {action: "GET_LEAVE_DOCUMENT", sub_action: "GET_MASTER", page_manage: "USER",};
             let dataRecords = $('#TableRecordList').DataTable({
                 'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
                 'language': {
@@ -445,23 +461,49 @@ if (strlen($_SESSION['alogin']) == "") {
             <!-- *** FOR SUBMIT FORM *** -->
             $("#recordModal").on('submit', '#recordForm', function (event) {
                 event.preventDefault();
-                $('#save').attr('disabled', 'disabled');
-                let formData = $(this).serialize();
-                $.ajax({
-                    url: 'model/manage_leave_document_process.php',
-                    method: "POST",
-                    data: formData,
-                    success: function (data) {
-                        alertify.success(data);
-                        $('#recordForm')[0].reset();
-                        $('#recordModal').modal('hide');
-                        $('#save').attr('disabled', false);
-                        dataRecords.ajax.reload();
+                //$('#save').attr('disabled', 'disabled');
+
+                if ($('#date_leave_start').val() !== '') {
+
+                    let date_leave_1 = $('#doc_date').val().substr(3, 2) + "/" + $('#doc_date').val().substr(0, 2) + "/" + $('#doc_date').val().substr(6, 10);
+                    let date_leave_2 = $('#date_leave_start').val().substr(3, 2) + "/" + $('#date_leave_start').val().substr(0, 2) + "/" + $('#date_leave_start').val().substr(6, 10);
+
+                    let check_day = CalDay(date_leave_1, date_leave_2); // Check Date
+                    let lbefore = $('#leave_before').val();
+
+                    if (check_day >= lbefore) {
+                        alert("OK");
+
+                        let formData = $(this).serialize();
+                        /*
+                                            $.ajax({
+                                                url: 'model/manage_leave_document_process.php',
+                                                method: "POST",
+                                                data: formData,
+                                                success: function (data) {
+                                                    alertify.success(data);
+                                                    $('#recordForm')[0].reset();
+                                                    $('#recordModal').modal('hide');
+                                                    $('#save').attr('disabled', false);
+                                                    dataRecords.ajax.reload();
+                                                }
+                                            })
+
+                         */
+
+                    } else {
+                        alertify.error("ไม่สามารถบันทึกได้ การลาต้องลาล่วงหน้า : " + lbefore + " วัน");
                     }
-                })
+
+                } else {
+                    alertify.error("พบข้อผิดพลาดกรุณาตรวจสอบ");
+                }
+
             });
+
             <!-- *** FOR SUBMIT FORM *** -->
         });
+
     </script>
 
     <script>
@@ -472,6 +514,10 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#recordModal').modal('show');
                 $('#id').val("");
                 $('#doc_id').val("");
+                $('#leave_type_id').val("");
+                $('#leave_type_detail').val("");
+                $('#date_leave_start').val("");
+                $('#date_leave_to').val("");
                 $('#remark').val("");
                 $('#status').val("N");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
@@ -506,6 +552,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let date_leave_to = response[i].date_leave_to;
                         let time_leave_start = response[i].time_leave_start;
                         let time_leave_to = response[i].time_leave_to;
+                        let leave_before = response[i].leave_before;
                         let remark = response[i].remark;
                         let status = response[i].status;
 
@@ -521,6 +568,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#date_leave_to').val(date_leave_to);
                         $('#time_leave_start').val(time_leave_start);
                         $('#time_leave_to').val(time_leave_to);
+                        $('#leave_before').val(leave_before);
                         $('#remark').val(remark);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
@@ -536,7 +584,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </script>
 
-    <script>
+    <!--script>
         $(document).ready(function () {
             $('#doc_date').datepicker({
                 format: "dd-mm-yyyy",
@@ -545,7 +593,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 autoclose: true
             });
         });
-    </script>
+    </script-->
 
     <script>
         $(document).ready(function () {
@@ -556,6 +604,42 @@ if (strlen($_SESSION['alogin']) == "") {
                 autoclose: true
             });
         });
+    </script>
+
+    <script>
+        $('#date_leave_start').change(function () {
+            if ($('#leave_type_id').val() !== '') {
+                check_before_leave();
+            } else {
+                $('#date_leave_start').val('');
+                alertify.error("กรุณาเลือกประเภทการลา");
+            }
+        });
+
+    </script>
+
+    <script>
+        function check_before_leave() {
+
+            let formData = {action: "SEARCH_DATA", leave_type_id: $('#leave_type_id').val()};
+            $.ajax({
+                type: "POST",
+                url: 'model/manage_leave_type_process.php',
+                dataType: "json",
+                data: formData,
+                success: function (response) {
+                    let len = response.length;
+                    for (let i = 0; i < len; i++) {
+                        let leave_before = response[i].leave_before;
+                        $('#leave_before').val(leave_before);
+                    }
+                },
+                error: function (response) {
+                    alertify.error("error : " + response);
+                }
+            });
+
+        }
     </script>
 
     <script>

@@ -13,7 +13,7 @@ if ($_POST["action"] === 'GET_DATA') {
 
     $return_arr = array();
 
-    $sql_get = "SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc,em.f_name,em.l_name 
+    $sql_get = "SELECT dl.*,lt.leave_type_detail,lt.leave_before,ms.status_doc_desc,em.f_name,em.l_name 
             FROM dleave_event dl
             left join mleave_type lt on lt.leave_type_id = dl.leave_type_id
             left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = dl.status
@@ -42,6 +42,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "approve_1_status" => $result['approve_1_status'],
             "approve_2_id" => $result['approve_2_id'],
             "approve_2_status" => $result['approve_2_status'],
+            "leave_before" => $result['leave_before'],
             "remark" => $result['remark'],
             "status" => $result['status']);
     }

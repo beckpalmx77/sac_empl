@@ -2,6 +2,8 @@
 session_start();
 error_reporting(0);
 include('includes/Header.php');
+$curr_date = date("d-m-Y");
+
 if (strlen($_SESSION['alogin']) == "") {
     header("Location: index.php");
 } else {
@@ -130,6 +132,32 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <option value="F">ผู้หญิง</option>
                                                                     </select>
                                                                 </div>
+
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-3">
+                                                                        <label for="start_work_date"
+                                                                               class="control-label">วันทีเริ่มงาน</label>
+                                                                        <i class="fa fa-calendar"
+                                                                           aria-hidden="true"></i>
+                                                                        <input type="text" class="form-control"
+                                                                               id="start_work_date"
+                                                                               name="start_work_date"
+                                                                               required="required"
+                                                                               value="<?php echo $curr_date ?>"
+                                                                               readonly="true"
+                                                                               placeholder="วันทีเริ่มงาน">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="text"
+                                                                               class="control-label">อายุงาน</label>
+                                                                        <input type="work_age" class="form-control"
+                                                                               id="work_age" name="work_age"
+                                                                               readonly="true"
+                                                                               placeholder="อายุงาน">
+                                                                    </div>
+
+                                                                </div>
+
 
                                                                 <div class="form-group row">
                                                                     <input type="hidden" class="form-control"
@@ -326,6 +354,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/myadmin.min.js"></script>
 
+    <script src="js/util/calculate_datetime.js"></script>
     <script src="js/modal/show_department_modal.js"></script>
     <script src="js/modal/show_worktime_modal.js"></script>
 
@@ -347,6 +376,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/datatables/v11/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="vendor/datatables/v11/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="vendor/datatables/v11/buttons.dataTables.min.css"/>
+
 
     <style>
 
@@ -445,6 +475,8 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#department_desc').val("");
                 $('#work_time_id').val("");
                 $('#work_time_desc').val("");
+                $('#start_work_date').val("");
+                $('#work_age').val("");
                 $('#remark').val("");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                 $('#action').val('ADD');
@@ -472,11 +504,19 @@ if (strlen($_SESSION['alogin']) == "") {
                         let f_name = response[i].f_name;
                         let l_name = response[i].l_name;
                         let sex = response[i].sex;
+                        let start_work_date = response[i].start_work_date;
                         let department_id = response[i].department_id;
                         let department_desc = response[i].department_desc;
                         let work_time_id = response[i].work_time_id;
                         let work_time_detail = response[i].work_time_detail;
                         let remark = response[i].remark;
+                        let work_age = 0 ;
+
+
+                        let start_w_date = start_work_date.substr(3,2) + "/" + start_work_date.substr(0,2) + "/" + start_work_date.substr(6,10);
+
+                        work_age = getAge(start_w_date);
+
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
@@ -484,14 +524,17 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#f_name').val(f_name);
                         $('#l_name').val(l_name);
                         $('#sex').val(sex);
+                        $('#start_work_date').val(start_work_date);
                         $('#department_id').val(department_id);
                         $('#department_desc').val(department_desc);
                         $('#work_time_id').val(work_time_id);
                         $('#work_time_detail').val(work_time_detail);
+                        $('#work_age').val(work_age);
                         $('#remark').val(remark);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
                         $('#save').val('Save');
+
                     }
                 },
                 error: function (response) {
@@ -501,6 +544,19 @@ if (strlen($_SESSION['alogin']) == "") {
         });
 
     </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#start_work_date').datepicker({
+                format: "dd-mm-yyyy",
+                todayHighlight: true,
+                language: "th",
+                autoclose: true
+            });
+        });
+    </script>
+
 
 
 

@@ -27,7 +27,40 @@ if ($_POST["action"] === 'GET_DATA') {
         $return_arr[] = array("id" => $result['id'],
             "leave_type_id" => $result['leave_type_id'],
             "leave_type_detail" => $result['leave_type_detail'],
+            "leave_before" => $result['leave_before'],
             "day_max" => $result['day_max'],
+            "day_flag" => $result['day_flag'],
+            "remark" => $result['remark'],
+            "status" => $result['status']);
+    }
+
+    echo json_encode($return_arr);
+
+}
+
+if ($_POST["action"] === 'SEARCH_DATA') {
+
+    $leave_type_id = $_POST["leave_type_id"];
+
+    $return_arr = array();
+
+    $sql_get = "SELECT * FROM mleave_type "
+        . " WHERE mleave_type.leave_type_id = '" . $leave_type_id . "'";
+
+    $myfile = fopen("myqeury_2.txt", "w") or die("Unable to open file!");
+    fwrite($myfile, $sql_get);
+    fclose($myfile);
+
+    $statement = $conn->query($sql_get);
+    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($results as $result) {
+        $return_arr[] = array("id" => $result['id'],
+            "leave_type_id" => $result['leave_type_id'],
+            "leave_type_detail" => $result['leave_type_detail'],
+            "leave_before" => $result['leave_before'],
+            "day_max" => $result['day_max'],
+            "day_flag" => $result['day_flag'],
             "remark" => $result['remark'],
             "status" => $result['status']);
     }

@@ -27,6 +27,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "f_name" => $result['f_name'],
             "l_name" => $result['l_name'],
             "sex" => $result['sex'],
+            "start_work_date" => $result['start_work_date'],
             "department_id" => $result['department_id'],
             "department_desc" => $result['department_desc'],
             "work_time_id" => $result['work_time_id'],
