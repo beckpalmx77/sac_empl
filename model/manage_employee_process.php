@@ -32,7 +32,10 @@ if ($_POST["action"] === 'GET_DATA') {
             "department_desc" => $result['department_desc'],
             "work_time_id" => $result['work_time_id'],
             "work_time_detail" => $result['work_time_detail'],
+            "prefix" => $result['prefix'],
+            "nick_name" => $result['nick_name'],
             "remark" => $result['remark'],
+            "position" => $result['position'],
             "status" => $result['status']);
     }
     echo json_encode($return_arr);
@@ -63,6 +66,10 @@ if ($_POST["action"] === 'ADD') {
         $work_time_id = $_POST["work_time_id"];
         $remark = $_POST["remark"];
         $sex = $_POST["sex"];
+        $prefix = $_POST["prefix"];
+        $nick_name = $_POST["nick_name"];
+        $position = $_POST["position"];
+        $start_work_date = $_POST["start_work_date"];
 
         $sql_find = "SELECT * FROM memployee WHERE emp_id = '" . $emp_id . "'";
 
@@ -70,8 +77,8 @@ if ($_POST["action"] === 'ADD') {
         if ($nRows > 0) {
             echo $dup;
         } else {
-            $sql = "INSERT INTO memployee (emp_id,f_name,l_name,work_time_id,department_id,remark,email_address,sex) 
-                    VALUES (:emp_id,:f_name,:l_name,:work_time_id,:department_id,:remark,:email_address,:sex)";
+            $sql = "INSERT INTO memployee (emp_id,f_name,l_name,work_time_id,department_id,remark,email_address,sex,prefix,nick_name,position,start_work_date) 
+                    VALUES (:emp_id,:f_name,:l_name,:work_time_id,:department_id,:remark,:email_address,:sex,:prefix,:nick_name,:position,:start_work_date)";
 
             $query = $conn->prepare($sql);
             $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
@@ -82,6 +89,10 @@ if ($_POST["action"] === 'ADD') {
             $query->bindParam(':remark', $remark, PDO::PARAM_STR);
             $query->bindParam(':email_address', $email, PDO::PARAM_STR);
             $query->bindParam(':sex', $sex, PDO::PARAM_STR);
+            $query->bindParam(':prefix', $prefix, PDO::PARAM_STR);
+            $query->bindParam(':nick_name', $nick_name, PDO::PARAM_STR);
+            $query->bindParam(':position', $position, PDO::PARAM_STR);
+            $query->bindParam(':start_work_date', $start_work_date, PDO::PARAM_STR);
             $query->execute();
             $lastInsertId = $conn->lastInsertId();
             if ($lastInsertId) {
@@ -124,21 +135,28 @@ if ($_POST["action"] === 'UPDATE') {
         $work_time_id = $_POST["work_time_id"];
         $remark = $_POST["remark"];
         $sex = $_POST["sex"];
+        $prefix = $_POST["prefix"];
+        $nick_name = $_POST["nick_name"];
+        $position = $_POST["position"];
+        $start_work_date = $_POST["start_work_date"];
 
         $sql_find = "SELECT * FROM memployee WHERE emp_id = '" . $emp_id . "'";
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
-            $sql_update = "UPDATE memployee SET f_name=:f_name,l_name=:l_name,work_time_id=:work_time_id,sex=:sex
-            ,department_id=:department_id,remark=:remark        
+            $sql_update = "UPDATE memployee SET f_name=:f_name,l_name=:l_name,sex=:sex,work_time_id=:work_time_id
+            ,department_id=:department_id,remark=:remark,nick_name=:nick_name,position=:position,start_work_date=:start_work_date              
             WHERE id = :id";
             $query = $conn->prepare($sql_update);
             $query->bindParam(':f_name', $f_name, PDO::PARAM_STR);
             $query->bindParam(':l_name', $l_name, PDO::PARAM_STR);
+            $query->bindParam(':sex', $sex, PDO::PARAM_STR);
             $query->bindParam(':work_time_id', $work_time_id, PDO::PARAM_STR);
             $query->bindParam(':department_id', $department_id, PDO::PARAM_STR);
             $query->bindParam(':remark', $remark, PDO::PARAM_STR);
-            $query->bindParam(':sex', $sex, PDO::PARAM_STR);
+            $query->bindParam(':nick_name', $nick_name, PDO::PARAM_STR);
+            $query->bindParam(':position', $position, PDO::PARAM_STR);
+            $query->bindParam(':start_work_date', $start_work_date, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_STR);
             $query->execute();
 
@@ -197,11 +215,13 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
     //}
 
     if ($searchValue != '') {
-        $searchQuery = " AND (l_name LIKE :l_name or
-        f_name LIKE :f_name ) ";
+        $searchQuery = " AND (emp_id LIKE :emp_id or l_name LIKE :l_name or
+        f_name LIKE :f_name or nick_name LIKE :nick_name) ";
         $searchArray = array(
+            'emp_id' => "%$searchValue%",
             'l_name' => "%$searchValue%",
             'f_name' => "%$searchValue%",
+            'nick_name' => "%$searchValue%"
         );
     }
 
@@ -218,17 +238,19 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-    $stmt = $conn->prepare("SELECT em.*,md.department_desc,mt.work_time_detail FROM memployee em
+    $sql_getdata = "SELECT em.*,md.department_desc,mt.work_time_detail FROM memployee em
             left join mdepartment md on md.department_id = em.department_id
             left join mwork_time mt on mt.work_time_id = em.work_time_id 
             WHERE 1 " . $searchQuery
-        . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
+        . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset";
+
+    $stmt = $conn->prepare($sql_getdata);
 
     /*
-            $txt = $_POST["page_manage"] . " | " . $searchQuery . " | " . $columnName . " | " . $columnSortOrder ;
-            $my_file = fopen("leave_a.txt", "w") or die("Unable to open file!");
-            fwrite($my_file, $txt);
-            fclose($my_file);
+                $txt = $sql_getdata ;
+                $my_file = fopen("emp.txt", "w") or die("Unable to open file!");
+                fwrite($my_file, $txt);
+                fclose($my_file);
     */
 
 
@@ -252,12 +274,15 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
                 "emp_id" => $row['emp_id'],
                 "f_name" => $row['f_name'],
                 "l_name" => $row['l_name'],
+                "nick_name" => $row['nick_name'],
+                "prefix" => $row['prefix'],
                 "sex" => $row['sex'],
                 "full_name" => $row['f_name'] . " " . $row['l_name'],
                 "department_id" => $row['department_id'],
                 "department_desc" => $row['department_desc'],
                 "work_time_id" => $row['work_time_id'],
                 "work_time_detail" => $row['work_time_detail'],
+                "start_work_date" => $row['start_work_date'],
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
                 "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' class='btn btn-success btn-xs approve' data-toggle='tooltip' title='Approve'>Approve</button>",
                 "status" => $row['status'] === 'A' ? "<div class='text-success'>" . $row['status'] . "</div>" : "<div class='text-muted'> " . $row['status'] . "</div>",

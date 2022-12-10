@@ -95,7 +95,7 @@ function getAge(dateString) {
         ageString = age.years + yearString + " " + age.days + dayString ;
     else if ( (age.years == 0) && (age.months > 0) && (age.days == 0) )
         ageString = age.months + monthString ;
-    else ageString = "Oops! Could not calculate !";
+    else ageString = "ไม่สามารถคำนวนได้ ในขณะนี้";
 
     return ageString;
 

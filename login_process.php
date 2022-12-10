@@ -30,7 +30,7 @@ $results = $query->fetchAll(PDO::FETCH_OBJ);
 if ($query->rowCount() == 1) {
     foreach ($results as $result) {
         if (password_verify($_POST['password'], $result->password)) {
-            $_SESSION['alogin'] = $result->email;
+            $_SESSION['alogin'] = $result->user_id;
             $_SESSION['login_id'] = $result->id;
             $_SESSION['username'] = $result->email;
             $_SESSION['emp_id'] = $result->emp_id;

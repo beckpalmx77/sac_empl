@@ -58,9 +58,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <tr>
                                                     <th>รหัสพนักงาน</th>
                                                     <th>ชื่อ-นามสกุล</th>
-                                                    <th>หน่วยงาน/ฝ่าย/แผนก</th>
-                                                    <th>ตารางเวลาการทำงาน</th>
-                                                    <th>สถานะ</th>
+                                                    <th>หน่วยงาน</th>
+                                                    <th>ชื่อเล่น</th>
+                                                    <th>วันเริ่มงาน</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
@@ -68,9 +68,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <tr>
                                                     <th>รหัสพนักงาน</th>
                                                     <th>ชื่อ-นามสกุล</th>
-                                                    <th>หน่วยงาน/ฝ่าย/แผนก</th>
-                                                    <th>ตารางเวลาการทำงาน</th>
-                                                    <th>สถานะ</th>
+                                                    <th>หน่วยงาน</th>
+                                                    <th>ชื่อเล่น</th>
+                                                    <th>วันเริ่มงาน</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </tfoot>
@@ -101,25 +101,15 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                            placeholder="รหัสพนักงาน">
                                                                 </div>
 
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-6">
-                                                                        <label for="f_name"
-                                                                               class="control-label">ชื่อ</label>
-                                                                        <input type="text" class="form-control"
-                                                                               id="f_name"
-                                                                               name="f_name"
-                                                                               required="required"
-                                                                               placeholder="ชื่อ">
-                                                                    </div>
-                                                                    <div class="col-sm-6">
-                                                                        <label for="l_name"
-                                                                               class="control-label">นามสกุล</label>
-                                                                        <input type="text" class="form-control"
-                                                                               id="l_name"
-                                                                               name="l_name"
-                                                                               required="required"
-                                                                               placeholder="นามสกุล">
-                                                                    </div>
+                                                                <div class="form-group">
+                                                                    <label for="prefix" class="control-label">คำนำหน้าชื่อ</label>
+                                                                    <select id="prefix" name="prefix"
+                                                                            class="form-control" data-live-search="true"
+                                                                            title="Please select">
+                                                                        <option value="นาย">นาย</option>
+                                                                        <option value="นาง">นาง</option>
+                                                                        <option value="นางสาว">นางสาว</option>
+                                                                    </select>
                                                                 </div>
 
                                                                 <div class="form-group">
@@ -128,13 +118,43 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                             class="form-control" data-live-search="true"
                                                                             title="Please select">
                                                                         <option value="-">ไม่ระบุ</option>
-                                                                        <option value="M">ผู้ชาย</option>
-                                                                        <option value="F">ผู้หญิง</option>
+                                                                        <option value="M">ชาย</option>
+                                                                        <option value="F">หญิง</option>
                                                                     </select>
                                                                 </div>
 
                                                                 <div class="form-group row">
-                                                                    <div class="col-sm-3">
+                                                                    <div class="col-sm-4">
+                                                                        <label for="f_name"
+                                                                               class="control-label">ชื่อ</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="f_name"
+                                                                               name="f_name"
+                                                                               required="required"
+                                                                               placeholder="ชื่อ">
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <label for="l_name"
+                                                                               class="control-label">นามสกุล</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="l_name"
+                                                                               name="l_name"
+                                                                               required="required"
+                                                                               placeholder="นามสกุล">
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <label for="nick_name"
+                                                                               class="control-label">ชื่อเล่น</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="nick_name"
+                                                                               name="nick_name"
+                                                                               required="required"
+                                                                               placeholder="ชื่อเล่น">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4">
                                                                         <label for="start_work_date"
                                                                                class="control-label">วันทีเริ่มงาน</label>
                                                                         <i class="fa fa-calendar"
@@ -147,15 +167,23 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                readonly="true"
                                                                                placeholder="วันทีเริ่มงาน">
                                                                     </div>
-                                                                    <div class="form-group">
-                                                                        <label for="text"
+                                                                    <div class="col-sm-4">
+                                                                        <label for="work_age"
                                                                                class="control-label">อายุงาน</label>
-                                                                        <input type="work_age" class="form-control"
-                                                                               id="work_age" name="work_age"
+                                                                        <input type="text" class="form-control"
+                                                                               id="work_age"
+                                                                               name="work_age"
                                                                                readonly="true"
                                                                                placeholder="อายุงาน">
                                                                     </div>
-
+                                                                    <div class="col-sm-4">
+                                                                        <label for="position"
+                                                                               class="control-label">ตำแหน่ง</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="position"
+                                                                               name="position"
+                                                                               placeholder="ตำแหน่ง">
+                                                                    </div>
                                                                 </div>
 
 
@@ -165,13 +193,13 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                            name="department_id">
                                                                     <div class="col-sm-10">
                                                                         <label for="department_desc"
-                                                                               class="control-label">หน่วยงาน/ฝ่าย/แผนก</label>
+                                                                               class="control-label">หน่วยงาน</label>
                                                                         <input type="text" class="form-control"
                                                                                id="department_desc"
                                                                                name="department_desc"
                                                                                required="required"
                                                                                readonly="true"
-                                                                               placeholder="หน่วยงาน/ฝ่าย/แผนก">
+                                                                               placeholder="หน่วยงาน">
                                                                     </div>
 
                                                                     <div class="col-sm-2">
@@ -219,7 +247,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <textarea class="form-control"
                                                                               id="remark"
                                                                               name="remark"
-                                                                              rows="3"></textarea>
+                                                                              rows="1"></textarea>
                                                                 </div>
 
 
@@ -268,14 +296,14 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                    width="100%">
                                                                 <thead>
                                                                 <tr>
-                                                                    <th>รหัสหน่วยงาน/ฝ่าย/แผนก</th>
+                                                                    <th>รหัสหน่วยงาน</th>
                                                                     <th>รายละเอียด</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tfoot>
                                                                 <tr>
-                                                                    <th>รหัสหน่วยงาน/ฝ่าย/แผนก</th>
+                                                                    <th>รหัสหน่วยงาน</th>
                                                                     <th>รายละเอียด</th>
                                                                     <th>Action</th>
                                                                 </tr>
@@ -308,14 +336,14 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                    width="100%">
                                                                 <thead>
                                                                 <tr>
-                                                                    <th>รหัสหน่วยงาน/ฝ่าย/แผนก</th>
+                                                                    <th>รหัสหน่วยงาน</th>
                                                                     <th>รายละเอียด</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tfoot>
                                                                 <tr>
-                                                                    <th>รหัสหน่วยงาน/ฝ่าย/แผนก</th>
+                                                                    <th>รหัสหน่วยงาน</th>
                                                                     <th>รายละเอียด</th>
                                                                     <th>Action</th>
                                                                 </tr>
@@ -434,8 +462,8 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'emp_id'},
                     {data: 'full_name'},
                     {data: 'department_desc'},
-                    {data: 'work_time_detail'},
-                    {data: 'status'},
+                    {data: 'nick_name'},
+                    {data: 'start_work_date'},
                     {data: 'update'},
                 ]
             });
@@ -477,6 +505,9 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#work_time_desc').val("");
                 $('#start_work_date').val("");
                 $('#work_age').val("");
+                $('#ืnick_name').val("");
+                $('#prefix').val("");
+                $('#position').val("");
                 $('#remark').val("");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                 $('#action').val('ADD');
@@ -503,12 +534,15 @@ if (strlen($_SESSION['alogin']) == "") {
                         let emp_id = response[i].emp_id;
                         let f_name = response[i].f_name;
                         let l_name = response[i].l_name;
+                        let prefix = response[i].prefix;
                         let sex = response[i].sex;
+                        let nick_name = response[i].nick_name;
                         let start_work_date = response[i].start_work_date;
                         let department_id = response[i].department_id;
                         let department_desc = response[i].department_desc;
                         let work_time_id = response[i].work_time_id;
                         let work_time_detail = response[i].work_time_detail;
+                        let position = response[i].position;
                         let remark = response[i].remark;
                         let work_age = 0 ;
 
@@ -523,13 +557,16 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#emp_id').val(emp_id);
                         $('#f_name').val(f_name);
                         $('#l_name').val(l_name);
+                        $('#prefix').val(prefix);
                         $('#sex').val(sex);
+                        $('#nick_name').val(nick_name);
                         $('#start_work_date').val(start_work_date);
                         $('#department_id').val(department_id);
                         $('#department_desc').val(department_desc);
                         $('#work_time_id').val(work_time_id);
                         $('#work_time_detail').val(work_time_detail);
                         $('#work_age').val(work_age);
+                        $('#position').val(position);
                         $('#remark').val(remark);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');

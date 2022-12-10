@@ -117,6 +117,16 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 </div>
 
                                                                 <div class="form-group">
+                                                                    <label for="leave_before"
+                                                                           class="control-label">จำนวนวันที่ต้องลาล่วงหน้า</label>
+                                                                    <input type="text" class="form-control"
+                                                                           id="leave_before"
+                                                                           name="leave_before"
+                                                                           required="required"
+                                                                           placeholder="จำนวนวันที่ต้องลาล่วงหน้า">
+                                                                </div>
+
+                                                                <div class="form-group">
                                                                     <label for="remark"
                                                                            class="control-label">หมายเหตุ</label>
                                                                     <input type="text" class="form-control"
@@ -337,6 +347,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let leave_type_detail = response[i].leave_type_detail;
                         let status = response[i].status;
                         let day_max = response[i].day_max;
+                        let leave_before = response[i].leave_before;
                         let remark = response[i].remark;
 
                         $('#recordModal').modal('show');
@@ -344,6 +355,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#leave_type_id').val(leave_type_id);
                         $('#leave_type_detail').val(leave_type_detail);
                         $('#day_max').val(day_max);
+                        $('#leave_before').val(leave_before);
                         $('#remark').val(remark);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
@@ -376,6 +388,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let leave_type_id = response[i].leave_type_id;
                         let leave_type_detail = response[i].leave_type_detail;
                         let day_max = response[i].day_max;
+                        let leave_before = response[i].leave_before;
                         let remark = response[i].remark;
                         let status = response[i].status;
 
@@ -384,6 +397,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#leave_type_id').val(leave_type_id);
                         $('#leave_type_detail').val(leave_type_detail);
                         $('#day_max').val(day_max);
+                        $('#leave_before').val(leave_before);
                         $('#remark').val(remark);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
