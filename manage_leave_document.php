@@ -258,7 +258,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                               rows="3"></textarea>
                                                                 </div>
 
-                                                                <?php if ($_SESSION['department_id'] === 'HR') { ?>
+                                                                <?php if ($_SESSION['approve_permission'] === 'Y') { ?>
                                                                     <div class="form-group">
                                                                         <label for="status"
                                                                                class="control-label">Status</label>

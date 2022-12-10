@@ -50,6 +50,7 @@ if ($query->rowCount() == 1) {
             $_SESSION['work_time_stop'] = $result->work_time_stop;
             $_SESSION['break_time_start'] = $result->break_time_start;
             $_SESSION['break_time_stop'] = $result->break_time_stop;
+            $_SESSION['approve_permission'] = $result->approve_permission;
 
 /*
             $txt =  $_SESSION['work_time_start'] . " | " . $_SESSION['work_time_stop'] ;

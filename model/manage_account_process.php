@@ -35,6 +35,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "department_desc" => $result['department_desc'],
             "permission_id" => $result['permission_id'],
             "permission_detail" => $result['permission_detail'],
+            "approve_permission" => $result['approve_permission'],
             "status" => $result['status']);
     }
 
@@ -57,7 +58,7 @@ if ($_POST["action"] === 'ADD') {
         $account_type = $_POST["account_type"];
         $department_id = $_POST["department_id"];
         $picture = $account_type == 'admin' ? "img/icon/admin-001.png" : "img/icon/user-001.png";
-
+        $approve_permission = $_POST["approve_permission"];
         $status = "Active";
 
         $sql_find = "SELECT * FROM ims_user WHERE user_id = '" . $user_id . "'";
@@ -66,8 +67,8 @@ if ($_POST["action"] === 'ADD') {
         if ($nRows > 0) {
             echo 2;
         } else {
-            $sql = "INSERT INTO ims_user(user_id,email,password,first_name,last_name,account_type,picture,department_id,status)
-            VALUES (:user_id,:email,:password,:first_name,:last_name,:account_type,:picture,:department_id,:status)";
+            $sql = "INSERT INTO ims_user(user_id,email,password,first_name,last_name,account_type,picture,department_idม,approve_permission,status)
+            VALUES (:user_id,:email,:password,:first_name,:last_name,:account_type,:picture,:department_id,:approve_permission,:status)";
             $query = $conn->prepare($sql);
             $query->bindParam(':user_id', $user_id, PDO::PARAM_STR);
             $query->bindParam(':email', $email, PDO::PARAM_STR);
@@ -77,6 +78,7 @@ if ($_POST["action"] === 'ADD') {
             $query->bindParam(':account_type', $account_type, PDO::PARAM_STR);
             $query->bindParam(':picture', $picture, PDO::PARAM_STR);
             $query->bindParam(':department_id', $department_id, PDO::PARAM_STR);
+            $query->bindParam(':approve_permission', $approve_permission, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->execute();
 
@@ -105,12 +107,13 @@ if ($_POST["action"] === 'UPDATE') {
         $account_type = $_POST["permission_id"];
         $department_id = $_POST["department_id"];
         $picture = $account_type === 'admin' ? "img/icon/admin-001.png" : "img/icon/user-001.png";
+        $approve_permission = $_POST["approve_permission"];
         $sql_find = "SELECT * FROM ims_user WHERE id = '" . $id . "'";
 
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             $sql_update = "UPDATE ims_user SET first_name=:first_name,last_name=:last_name,status=:status,account_type=:account_type
-            ,picture=:picture,department_id=:department_id,email=:email
+            ,picture=:picture,department_id=:department_id,email=:email,approve_permission=:approve_permission
             WHERE id = :id";
 
             $query = $conn->prepare($sql_update);
@@ -121,6 +124,7 @@ if ($_POST["action"] === 'UPDATE') {
             $query->bindParam(':picture', $picture, PDO::PARAM_STR);
             $query->bindParam(':department_id', $department_id, PDO::PARAM_STR);
             $query->bindParam(':email', $email, PDO::PARAM_STR);
+            $query->bindParam(':approve_permission', $approve_permission, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_STR);
             $query->execute();
             echo $save_success;

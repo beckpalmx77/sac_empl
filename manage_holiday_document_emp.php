@@ -128,8 +128,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-3">
                                                                         <label for="doc_date"
-                                                                               class="control-label"></label>
-                                                                        <input type="hidden" class="form-control"
+                                                                               class="control-label">วันที่เอกสาร</label>
+                                                                        <input type="text" class="form-control"
                                                                                id="doc_date"
                                                                                name="doc_date"
                                                                                required="required"
@@ -160,7 +160,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-3">
                                                                         <label for="date_leave_start"
-                                                                               class="control-label">วันที่หยุด</label>
+                                                                               class="control-label">วันที่ต้องการหยุด</label>
                                                                         <i class="fa fa-calendar"
                                                                            aria-hidden="true"></i>
                                                                         <input type="text" class="form-control"
@@ -214,6 +214,39 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                               name="remark"
                                                                               rows="3"></textarea>
                                                                 </div>
+
+                                                                <?php if ($_SESSION['approve_permission'] === 'Y') { ?>
+                                                                    <div class="form-group">
+                                                                        <label for="status"
+                                                                               class="control-label">Status</label>
+                                                                        N = รอพิจารณา , A = อนุมัติ , R = ไม่อนุมัติ
+                                                                        <select id="status" name="status"
+                                                                                class="form-control"
+                                                                                data-live-search="true"
+                                                                                title="Please select">
+                                                                            <option>N</option>
+                                                                            <option>A</option>
+                                                                            <option>R</option>
+                                                                        </select>
+                                                                    </div>
+                                                                <?php } else { ?>
+                                                                    <div class="form-group">
+                                                                        <label for="status"
+                                                                               class="control-label">Status</label>
+                                                                        N = รอพิจารณา , A = อนุมัติ , R = ไม่อนุมัติ
+                                                                        <select id="status" name="status"
+                                                                                class="form-control"
+                                                                                data-live-search="true"
+                                                                                readonly="true"
+                                                                                title="Please select">
+                                                                            <option>N</option>
+                                                                            <option>A</option>
+                                                                            <option>R</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                <?php } ?>
+
                                                             </div>
                                                         </div>
 

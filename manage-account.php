@@ -91,6 +91,12 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         <div class="modal-body">
                                                             <div class="modal-body">
 
+                                                                <input type="text" class="form-control"
+                                                                       id="email"
+                                                                       name="email"
+                                                                       required="required"
+                                                                       placeholder="email">
+
                                                                 <div class="form-group">
                                                                     <label for="text"
                                                                            class="control-label">รหัสผู้ใช้งาน</label>
@@ -178,6 +184,16 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                      aria-hidden="true"></i>
                                                                         </a>
                                                                     </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="approve_permission" class="control-label">สิทธิ์อนุมัติเอกสาร</label>
+                                                                    <select id="approve_permission" name="approve_permission"
+                                                                            class="form-control" data-live-search="true"
+                                                                            title="Please select">
+                                                                        <option value="N">ไม่มีสิทธิ์</option>
+                                                                        <option value="Y">มีสิทธิ์</option>
+                                                                    </select>
                                                                 </div>
 
                                                                 <div class=”form-group”>
@@ -441,6 +457,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let permission_detail = response[i].permission_detail;
                         let department_id = response[i].department_id;
                         let department_desc = response[i].department_desc;
+                        let approve_permission = response[i].approve_permission;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
@@ -454,6 +471,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#permission_detail').val(permission_detail);
                         $('#department_id').val(department_id);
                         $('#department_desc').val(department_desc);
+                        $('#approve_permission').val(approve_permission);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
@@ -492,6 +510,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let permission_detail = response[i].permission_detail;
                         let department_id = response[i].department_id;
                         let department_desc = response[i].department_desc;
+                        let approve_permission = response[i].approve_permission;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
@@ -505,6 +524,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#permission_detail').val(permission_detail);
                         $('#department_id').val(department_id);
                         $('#department_desc').val(department_desc);
+                        $('#approve_permission').val(approve_permission);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
                         $('#action').val('DELETE');
