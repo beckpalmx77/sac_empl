@@ -203,6 +203,11 @@ if ($_POST["action"] === 'GET_HOLIDAY_DOCUMENT') {
     $empRecords = $stmt->fetchAll();
     $data = array();
 
+    $txt = $empRecords ;
+    $my_file = fopen("holiday_b.txt", "w") or die("Unable to open file!");
+    fwrite($my_file, $txt);
+    fclose($my_file);
+
     foreach ($empRecords as $row) {
 
         if ($_POST['sub_action'] === "GET_MASTER") {
