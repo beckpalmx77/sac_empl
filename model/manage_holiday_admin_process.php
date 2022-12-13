@@ -176,7 +176,9 @@ if ($_POST["action"] === 'GET_HOLIDAY_DOCUMENT') {
         $orderbyext = " Order by date_leave_start desc";
     }
 
-    $sql_load = "SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc FROM dholiday_event dl
+    $sql_load = "SELECT 
+SUBSTRING(date_leave_start, 4, 2) as month,SUBSTRING(date_leave_start, 1, 2) as day,SUBSTRING(date_leave_start, 7, 4) as year ,
+dl.*,lt.leave_type_detail,ms.status_doc_desc FROM dholiday_event dl
             left join mleave_type lt on lt.leave_type_id = dl.leave_type_id
             left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = dl.status   
             WHERE 1 " . $searchQuery
