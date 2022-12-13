@@ -56,6 +56,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <tr>
                                                     <th>เลขที่เอกสาร</th>
                                                     <th>วันที่เอกสาร</th>
+                                                    <th>ชื่อ-นามสกุล</th>
                                                     <th>ประเภทการลา</th>
                                                     <th>วันที่ลาเริ่มต้น</th>
                                                     <th>วันที่ลาสิ้นสุด</th>
@@ -67,6 +68,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <tr>
                                                     <th>เลขที่เอกสาร</th>
                                                     <th>วันที่เอกสาร</th>
+                                                    <th>ชื่อ-นามสกุล</th>
                                                     <th>ประเภทการลา</th>
                                                     <th>วันที่ลาเริ่มต้น</th>
                                                     <th>วันที่ลาสิ้นสุด</th>
@@ -117,7 +119,12 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <input type="hidden" class="form-control"
                                                                        id="emp_id" name="emp_id"
                                                                        readonly="true"
-                                                                       value="<?php echo $_SESSION['emp_id'] ?>"
+                                                                       value=""
+                                                                       placeholder="emp_id">
+                                                                <input type="text" class="form-control"
+                                                                       id="full_name" name="full_name"
+                                                                       readonly="true"
+                                                                       value=""
                                                                        placeholder="emp_id">
 
                                                                 <div class="form-group row">
@@ -390,6 +397,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 'columns': [
                     {data: 'doc_id'},
                     {data: 'doc_date'},
+                    {data: 'full_name'},
                     {data: 'leave_type_detail'},
                     {data: 'dt_leave_start'},
                     {data: 'dt_leave_to'},
@@ -505,6 +513,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let id = response[i].id;
                         let doc_id = response[i].doc_id;
                         let doc_date = response[i].doc_date;
+                        let full_name = response[i].full_name;
                         let leave_type_id = response[i].leave_type_id;
                         let leave_type_detail = response[i].leave_type_detail;
                         let date_leave_start = response[i].date_leave_start;
@@ -518,6 +527,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#id').val(id);
                         $('#doc_id').val(doc_id);
                         $('#doc_date').val(doc_date);
+                        $('#full_name').val(full_name);
                         $('#leave_type_id').val(leave_type_id);
                         $('#leave_type_detail').val(leave_type_detail);
                         $('#date_leave_start').val(date_leave_start);
