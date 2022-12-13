@@ -121,7 +121,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                        value="<?php echo $start_work_date ?>"
                                                                        placeholder="">
 
-                                                                <input type="text" class="form-control"
+                                                                <input type="hidden" class="form-control"
                                                                        id="leave_before" name="leave_before"
                                                                        readonly="true"
                                                                        value=""
