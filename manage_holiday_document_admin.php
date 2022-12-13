@@ -1,8 +1,9 @@
 <?php
 session_start();
 error_reporting(0);
-$curr_date = date("d-m-Y");
 include('includes/Header.php');
+$curr_date = date("d-m-Y");
+
 if (strlen($_SESSION['alogin']) == "") {
     header("Location: index.php");
 } else {
@@ -22,6 +23,10 @@ if (strlen($_SESSION['alogin']) == "") {
                 include('includes/Top-Bar.php');
                 ?>
                 <!-- Container Fluid-->
+
+                <input type="hidden" id="main_menu" value="<?php echo urldecode($_GET['m']) ?>">
+                <input type="hidden" id="sub_menu" value="<?php echo urldecode($_GET['s']) ?>">
+
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800"><?php echo urldecode($_GET['s']) ?></h1>
@@ -43,33 +48,24 @@ if (strlen($_SESSION['alogin']) == "") {
                                     <section class="container-fluid">
 
                                         <div class="col-md-12 col-md-offset-2">
-                                            <label for="name_t"
-                                                   class="control-label"><b>เพิ่ม <?php echo urldecode($_GET['s']) ?></b></label>
-                                            <button type='button' name='btnAdd' id='btnAdd'
-                                                    class='btn btn-primary btn-xs'>Add
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-
-                                        <div class="col-md-12 col-md-offset-2">
                                             <table id='TableRecordList' class='display dataTable'>
                                                 <thead>
                                                 <tr>
-                                                    <th>เลขที่เอกสาร</th>
-                                                    <th>วันที่เอกสาร</th>
-                                                    <th>ประเภทวันหยุด</th>
-                                                    <th>วันที่หยุด</th>
-                                                    <th>สถานะ</th>
+                                                    <th>รหัสพนักงาน</th>
+                                                    <th>ชื่อ-นามสกุล</th>
+                                                    <th>หน่วยงาน</th>
+                                                    <th>ชื่อเล่น</th>
+                                                    <th>วันเริ่มงาน</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
-                                                    <th>เลขที่เอกสาร</th>
-                                                    <th>วันที่เอกสาร</th>
-                                                    <th>ประเภทวันหยุด</th>
-                                                    <th>วันที่หยุด</th>
-                                                    <th>สถานะ</th>
+                                                    <th>รหัสพนักงาน</th>
+                                                    <th>ชื่อ-นามสกุล</th>
+                                                    <th>หน่วยงาน</th>
+                                                    <th>ชื่อเล่น</th>
+                                                    <th>วันเริ่มงาน</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </tfoot>
@@ -88,221 +84,55 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 aria-hidden="true">×
                                                         </button>
                                                     </div>
-                                                    <form method="post" id="recordForm">
-                                                        <div class="modal-body">
-                                                            <div class="modal-body">
-
-                                                                <div class="form-group">
-                                                                    <label for="text"
-                                                                           class="control-label">เลขที่เอกสาร</label>
-                                                                    <input type="doc_id" class="form-control"
-                                                                           id="doc_id" name="doc_id"
-                                                                           readonly="true"
-                                                                           placeholder="สร้างอัตโนมัติ">
-                                                                </div>
-
-                                                                <input type="hidden" class="form-control"
-                                                                       id="department" name="department"
-                                                                       readonly="true"
-                                                                       value="<?php echo $_SESSION['department_id'] ?>"
-                                                                       placeholder="department">
-
-                                                                <input type="hidden" class="form-control"
-                                                                       id="emp_id" name="emp_id"
-                                                                       readonly="true"
-                                                                       value="<?php echo $_SESSION['emp_id'] ?>"
-                                                                       placeholder="emp_id">
-
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-3">
-                                                                        <label for="doc_date"
-                                                                               class="control-label">วันที่เอกสาร</label>
-                                                                        <i class="fa fa-calendar"
-                                                                           aria-hidden="true"></i>
-                                                                        <input type="text" class="form-control"
-                                                                               id="doc_date"
-                                                                               name="doc_date"
-                                                                               required="required"
-                                                                               readonly="true"
-                                                                               placeholder="วันที่เอกสาร">
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group row">
-                                                                    <input type="hidden" class="form-control"
-                                                                           id="leave_type_id"
-                                                                           name="leave_type_id">
-                                                                    <div class="col-sm-10">
-                                                                        <label for="leave_type_detail"
-                                                                               class="control-label">ประเภทวันหยุด</label>
-                                                                        <input type="text" class="form-control"
-                                                                               id="leave_type_detail"
-                                                                               name="leave_type_detail"
-                                                                               required="required"
-                                                                               readonly="true"
-                                                                               placeholder="ประเภทวันหยุด">
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-3">
-                                                                        <label for="date_leave_start"
-                                                                               class="control-label">วันที่หยุด</label>
-                                                                        <i class="fa fa-calendar"
-                                                                           aria-hidden="true"></i>
-                                                                        <input type="text" class="form-control"
-                                                                               id="date_leave_start"
-                                                                               name="date_leave_start"
-                                                                               required="required"
-                                                                               readonly="true"
-                                                                               placeholder="วันที่หยุด">
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                    <label for="date_leave_start"
-                                                                           class="control-label"></label>
-                                                                    <input type="hidden" class="form-control"
-                                                                           id="time_leave_start"
-                                                                           name="time_leave_start"
-                                                                           value="<?php echo $_SESSION['work_time_start'] ?>"
-                                                                           readonly="true"
-                                                                           placeholder="">
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <label for="date_leave_start"
-                                                                               class="control-label"></label>
-                                                                        <!--i class="fa fa-calendar"
-                                                                           aria-hidden="true"></i-->
-                                                                        <input type="hidden" class="form-control"
-                                                                               id="date_leave_to"
-                                                                               name="date_leave_to"
-                                                                               required="required"
-                                                                               readonly="true"
-                                                                               placeholder="">
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <label for="time_leave_to"
-                                                                               class="control-label"></label>
-                                                                        <input type="hidden" class="form-control"
-                                                                               id="time_leave_to"
-                                                                               name="time_leave_to"
-                                                                               required="required"
-                                                                               value="<?php echo $_SESSION['work_time_stop'] ?>"
-                                                                               placeholder="เวลาสิ้นสุด">
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label for="remark"
-                                                                           class="control-label">หมายเหตุ</label>
-                                                                    <textarea class="form-control"
-                                                                              id="remark"
-                                                                              name="remark"
-                                                                              rows="3"></textarea>
-                                                                </div>
-
-                                                                <?php if ($_SESSION['department_id'] === 'HR') { ?>
-                                                                    <div class="form-group">
-                                                                        <label for="status"
-                                                                               class="control-label">Status</label>
-                                                                        N = รอพิจารณา , A = อนุมัติ , R = ไม่อนุมัติ
-                                                                        <select id="status" name="status"
-                                                                                class="form-control"
-                                                                                data-live-search="true"
-                                                                                title="Please select">
-                                                                            <option>N</option>
-                                                                            <option>A</option>
-                                                                            <option>R</option>
-                                                                        </select>
-                                                                    </div>
-                                                                <?php } else { ?>
-                                                                    <div class="form-group">
-                                                                        <label for="status"
-                                                                               class="control-label">Status</label>
-                                                                        N = รอพิจารณา , A = อนุมัติ , R = ไม่อนุมัติ
-                                                                        <select id="status" name="status"
-                                                                                class="form-control"
-                                                                                data-live-search="true"
-                                                                                readonly="true"
-                                                                                title="Please select">
-                                                                            <option>N</option>
-                                                                            <option>A</option>
-                                                                            <option>R</option>
-                                                                        </select>
-                                                                    </div>
-
-                                                                <?php } ?>
-
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="modal-footer">
-                                                            <input type="hidden" name="id" id="id"/>
-                                                            <input type="hidden" name="action" id="action" value=""/>
-                                                            <span class="icon-input-btn">
-                                                                <i class="fa fa-check"></i>
-                                                            <input type="submit" name="save" id="save"
-                                                                   class="btn btn-primary" value="Save"/>
-                                                            </span>
-                                                            <button type="button" class="btn btn-danger"
-                                                                    data-dismiss="modal">Close <i
-                                                                        class="fa fa-window-close"></i>
-                                                            </button>
-                                                        </div>
-                                                    </form>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="modal fade" id="SearchLeaveTypeModal">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Modal title</h4>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-hidden="true">×
-                                                        </button>
-                                                    </div>
 
                                                     <div class="container"></div>
                                                     <div class="modal-body">
 
                                                         <div class="modal-body">
 
-                                                            <table cellpadding="0" cellspacing="0" border="0"
-                                                                   class="display"
-                                                                   id="TableLeaveTypeList"
-                                                                   width="100%">
+                                                            <table id='TableHRecordList' class='display dataTable'>
                                                                 <thead>
                                                                 <tr>
-                                                                    <th>รหัสประเภทการลา</th>
-                                                                    <th>รายละเอียด</th>
+                                                                    <th>ปี</th>
+                                                                    <th>วันที่หยุด</th>
+                                                                    <th>เวลา</th>
+                                                                    <th>ประเภทวันหยุด</th>
+                                                                    <th>วันที่บันทึก</th>
+                                                                    <th>หมายเหตุ</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tfoot>
                                                                 <tr>
-                                                                    <th>รหัสประเภทการลา</th>
-                                                                    <th>รายละเอียด</th>
+                                                                    <th>ปี</th>
+                                                                    <th>วันที่หยุด</th>
+                                                                    <th>เวลา</th>
+                                                                    <th>ประเภทวันหยุด</th>
+                                                                    <th>วันที่บันทึก</th>
+                                                                    <th>หมายเหตุ</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </tfoot>
                                                             </table>
                                                         </div>
                                                     </div>
+
                                                 </div>
+
+
                                             </div>
                                         </div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
-
                 </div>
+
             </div>
         </div>
+    </div>
     </div>
 
     <?php
@@ -322,7 +152,11 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/myadmin.min.js"></script>
 
-    <script src="js/modal/show_leave_type_modal.js"></script>
+    <script src="js/popup.js"></script>
+
+    <script src="js/util/calculate_datetime.js"></script>
+    <script src="js/modal/show_department_modal.js"></script>
+    <script src="js/modal/show_worktime_modal.js"></script>
 
     <!-- Page level plugins -->
 
@@ -342,6 +176,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/datatables/v11/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="vendor/datatables/v11/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="vendor/datatables/v11/buttons.dataTables.min.css"/>
+
 
     <style>
 
@@ -373,9 +208,9 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GET_LEAVE_DOCUMENT", sub_action: "GET_MASTER" ,page_manage: "USER",};
+            let formData = {action: "GET_EMPLOYEE", sub_action: "GET_MASTER" ,page_manage: "ADMIN",};
             let dataRecords = $('#TableRecordList').DataTable({
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+                'lengthMenu': [[10, 20, 50, 100], [10, 20, 50, 100]],
                 'language': {
                     search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
                     info: 'หน้าที่ _PAGE_ จาก _PAGES_',
@@ -392,103 +227,47 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/manage_holiday_process.php',
+                    'url': 'model/manage_employee_process.php',
                     'data': formData
                 },
                 'columns': [
-                    {data: 'doc_id'},
-                    {data: 'doc_date'},
-                    {data: 'leave_type_detail'},
-                    {data: 'dt_leave_start'},
-                    {data: 'status'},
-                    {data: 'update'},
+                    {data: 'emp_id'},
+                    {data: 'full_name'},
+                    {data: 'department_desc'},
+                    {data: 'nick_name'},
+                    {data: 'start_work_date'},
+                    {data: 'detail'},
                 ]
             });
-
-            <!-- *** FOR SUBMIT FORM *** -->
-            $("#recordModal").on('submit', '#recordForm', function (event) {
-                event.preventDefault();
-                $('#save').attr('disabled', 'disabled');
-                let formData = $(this).serialize();
-                $.ajax({
-                    url: 'model/manage_holiday_process.php',
-                    method: "POST",
-                    data: formData,
-                    success: function (data) {
-                        alertify.success(data);
-                        $('#recordForm')[0].reset();
-                        $('#recordModal').modal('hide');
-                        $('#save').attr('disabled', false);
-                        dataRecords.ajax.reload();
-                    }
-                })
-            });
-            <!-- *** FOR SUBMIT FORM *** -->
         });
     </script>
 
-    <script>
-        $(document).ready(function () {
-
-            $("#btnAdd").click(function () {
-                //alert(<?php echo $_SESSION['work_time_start']?>);
-                $('#recordModal').modal('show');
-                $('#id').val("");
-                $('#doc_id').val("");
-                $('#doc_date').val("");
-                //alert("work_time_start");
-                //$('#time_leave_start').val(<?php echo $_SESSION['work_time_start']?>);
-                //$('#time_leave_to').val(<?php echo $_SESSION['work_time_stop']?>);
-                $('#remark').val("");
-                $('#status').val("N");
-                $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
-                $('#action').val('ADD');
-                $('#save').val('Save');
-            });
-        });
-    </script>
 
     <script>
+        $("#TableRecordList").on('click', '.detail', function () {
 
-        $("#TableRecordList").on('click', '.update', function () {
-            let id = $(this).attr("id");
-            //alert(id);
-            let formData = {action: "GET_DATA", id: id};
+            let emp_id = $(this).attr("emp_id");
+            let main_menu = document.getElementById("main_menu").value;
+            let sub_menu = document.getElementById("sub_menu").value;
+            let formData = {action: "GET_DATA", emp_id: emp_id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_holiday_process.php',
+                url: 'model/manage_holiday_admin_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
-                        let id = response[i].id;
-                        let doc_id = response[i].doc_id;
-                        let doc_date = response[i].doc_date;
-                        let leave_type_id = response[i].leave_type_id;
-                        let leave_type_detail = response[i].leave_type_detail;
-                        let date_leave_start = response[i].date_leave_start;
-                        let date_leave_to = response[i].date_leave_to;
-                        let time_leave_start = response[i].time_leave_start;
-                        let time_leave_to = response[i].time_leave_to;
-                        let remark = response[i].remark;
-                        let status = response[i].status;
-
-                        $('#recordModal').modal('show');
-                        $('#id').val(id);
-                        $('#doc_id').val(doc_id);
-                        $('#doc_date').val(doc_date);
-                        $('#leave_type_id').val(leave_type_id);
-                        $('#leave_type_detail').val(leave_type_detail);
-                        $('#date_leave_start').val(date_leave_start);
-                        $('#date_leave_to').val(date_leave_to);
-                        $('#time_leave_start').val(time_leave_start);
-                        $('#time_leave_to').val(time_leave_to);
-                        $('#remark').val(remark);
-                        $('#status').val(status);
-                        $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
-                        $('#action').val('UPDATE');
-                        $('#save').val('Save');
+                        let emp_id = response[i].emp_id;
+                        let f_name = response[i].f_name;
+                        let l_name = response[i].l_name;
+                        let url = "manage_holiday_admin_detail?title=รายการวันหยุดพนักงาน"
+                            + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
+                            + '&emp_id=' + emp_id
+                            + '&f_name=' + f_name
+                            + '&l_name=' + l_name
+                            + '&action=UPDATE';
+                        OpenPopupCenter(url, "", "");
                     }
                 },
                 error: function (response) {
@@ -496,12 +275,11 @@ if (strlen($_SESSION['alogin']) == "") {
                 }
             });
         });
-
     </script>
 
     <script>
         $(document).ready(function () {
-            $('#doc_date').datepicker({
+            $('#start_work_date').datepicker({
                 format: "dd-mm-yyyy",
                 todayHighlight: true,
                 language: "th",
@@ -510,27 +288,6 @@ if (strlen($_SESSION['alogin']) == "") {
         });
     </script>
 
-    <script>
-        $(document).ready(function () {
-            $('#date_leave_start').datepicker({
-                format: "dd-mm-yyyy",
-                todayHighlight: true,
-                language: "th",
-                autoclose: true
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('#date_leave_to').datepicker({
-                format: "dd-mm-yyyy",
-                todayHighlight: true,
-                language: "th",
-                autoclose: true
-            });
-        });
-    </script>
 
     </body>
     </html>
