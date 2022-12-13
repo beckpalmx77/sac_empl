@@ -143,7 +143,7 @@ if ($_POST["action"] === 'GET_HOLIDAY_DOCUMENT') {
 ## Search
     $searchQuery = " ";
     if ($_POST["page_manage"] === "ADMIN") {
-        $searchQuery = " AND emp_id = '" . $_SESSION['emp_id'] . "'";
+        $searchQuery = " AND emp_id = '" . $_POST['emp_id'] . "'";
     }
 
     if ($searchValue != '') {
@@ -180,16 +180,16 @@ if ($_POST["action"] === 'GET_HOLIDAY_DOCUMENT') {
             left join mleave_type lt on lt.leave_type_id = dl.leave_type_id
             left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = dl.status   
             WHERE 1 " . $searchQuery
-        . " ORDER BY " . $columnName . " " . $columnSortOrder . $orderbyext . " LIMIT :limit,:offset";
+        //. " ORDER BY " . $columnName . " " . $columnSortOrder . $orderbyext . " LIMIT :limit,:offset";
+        . " ORDER BY " . $columnName . " " . $columnSortOrder . $orderbyext;
 
     $stmt = $conn->prepare($sql_load);
 
 
-            $txt = $sql_load ;
-            $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
-            fwrite($my_file, $txt);
-            fclose($my_file);
-
+    $txt = $sql_load;
+    $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
+    fwrite($my_file, $txt);
+    fclose($my_file);
 
 
 // Bind values
@@ -203,10 +203,6 @@ if ($_POST["action"] === 'GET_HOLIDAY_DOCUMENT') {
     $empRecords = $stmt->fetchAll();
     $data = array();
 
-    $txt = $empRecords ;
-    $my_file = fopen("holiday_b.txt", "w") or die("Unable to open file!");
-    fwrite($my_file, $txt);
-    fclose($my_file);
 
     foreach ($empRecords as $row) {
 

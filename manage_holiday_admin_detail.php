@@ -33,8 +33,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card mb-12">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                </div>
+
                                 <div class="card-body">
                                     <section class="container-fluid">
 
@@ -58,6 +57,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             <input type="text" class="form-control"
                                                                    id="f_name"
                                                                    name="f_name"
+                                                                   readonly="true"
                                                                    required="required"
                                                                    placeholder="ชื่อ">
                                                         </div>
@@ -67,6 +67,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             <input type="text" class="form-control"
                                                                    id="l_name"
                                                                    name="l_name"
+                                                                   readonly="true"
                                                                    required="required"
                                                                    placeholder="นามสกุล">
                                                         </div>
@@ -87,17 +88,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
-                                                <tfoot>
-                                                <tr>
-                                                    <th>ปี</th>
-                                                    <th>วันที่หยุด</th>
-                                                    <th>เวลา</th>
-                                                    <th>ประเภทวันหยุด</th>
-                                                    <th>วันที่บันทึก</th>
-                                                    <th>หมายเหตุ</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                                </tfoot>
+
                                             </table>
 
                                         <div id="result"></div>
@@ -311,206 +302,6 @@ if (strlen($_SESSION['alogin']) == "") {
     </script>
 
 
-    <script>
-
-        $("#TableOrderDetailList").on('click', '.update', function () {
-
-            let rec_id = $(this).attr("id");
-
-            if ($('#KeyAddData').val() !== '') {
-                doc_no = $('#KeyAddData').val();
-                table_name = "v_order_detail_temp";
-            } else {
-                doc_no = $('#doc_no').val();
-                table_name = "v_order_detail";
-            }
-
-            let formData = {action: "GET_DATA", id: rec_id, doc_no: doc_no, table_name: table_name};
-            $.ajax({
-                type: "POST",
-                url: 'model/manage_order_detail_process.php',
-                dataType: "json",
-                data: formData,
-                success: function (response) {
-                    let len = response.length;
-                    for (let i = 0; i < len; i++) {
-                        let product_id = response[i].product_id;
-                        let id = response[i].id;
-                        let name_t = response[i].name_t;
-                        let doc_date = response[i].doc_date;
-                        let quantity = response[i].quantity;
-                        let price = response[i].price;
-                        let total_price = response[i].total_price;
-                        let unit_id = response[i].unit_id;
-                        let unit_name = response[i].unit_name;
-
-                        $('#recordModal').modal('show');
-                        $('#id').val(id);
-                        $('#detail_id').val(rec_id);
-                        $('#doc_no_detail').val(doc_no);
-                        $('#doc_date_detail').val(doc_date);
-                        $('#product_id').val(product_id);
-                        $('#name_t').val(name_t);
-                        $('#quantity').val(quantity);
-                        $('#price').val(price);
-                        $('#total_price').val(total_price);
-                        $('#unit_id').val(unit_id);
-                        $('#unit_name').val(unit_name);
-                        $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
-                        $('#action_detail').val('UPDATE');
-                        $('#save').val('Save');
-                    }
-                },
-                error: function (response) {
-                    alertify.error("error : " + response);
-                }
-            });
-        });
-
-    </script>
-
-    <script>
-
-        $("#TableOrderDetailList").on('click', '.delete', function () {
-
-            let rec_id = $(this).attr("id");
-
-            if ($('#KeyAddData').val() !== '') {
-                doc_no = $('#KeyAddData').val();
-                table_name = "v_order_detail_temp";
-            } else {
-                doc_no = $('#doc_no').val();
-                table_name = "v_order_detail";
-            }
-
-            let formData = {action: "GET_DATA", id: rec_id, doc_no: doc_no, table_name: table_name};
-            $.ajax({
-                type: "POST",
-                url: 'model/manage_order_detail_process.php',
-                dataType: "json",
-                data: formData,
-                success: function (response) {
-                    let len = response.length;
-                    for (let i = 0; i < len; i++) {
-                        let product_id = response[i].product_id;
-                        let id = response[i].id;
-                        let name_t = response[i].name_t;
-                        let quantity = response[i].quantity;
-                        let price = response[i].price;
-                        let total_price = response[i].total_price;
-                        let unit_id = response[i].unit_id;
-                        let unit_name = response[i].unit_name;
-
-                        $('#recordModal').modal('show');
-                        $('#id').val(id);
-                        $('#detail_id').val(rec_id);
-                        $('#doc_no_detail').val(doc_no);
-                        $('#product_id').val(product_id);
-                        $('#name_t').val(name_t);
-                        $('#quantity').val(quantity);
-                        $('#price').val(price);
-                        $('#total_price').val(total_price);
-                        $('#unit_id').val(unit_id);
-                        $('#unit_name').val(unit_name);
-                        $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
-                        $('#action_detail').val('DELETE');
-                        $('#save').val('Confirm Delete');
-                    }
-                },
-                error: function (response) {
-                    alertify.error("error : " + response);
-                }
-            });
-        });
-
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $("#btnSave").click(function () {
-                if ($('#doc_date').val() == '' || $('#f_name').val() == '') {
-                    alertify.error("กรุณาป้อนวันที่ / ชื่อลูกค้า ");
-                } else {
-                    let formData = $('#MainrecordForm').serialize();
-                    $.ajax({
-                        url: 'model/manage_order_process.php',
-                        method: "POST",
-                        data: formData,
-                        success: function (data) {
-
-                            if ($('#KeyAddData').val() !== '') {
-                                let KeyAddData = $('#KeyAddData').val();
-                                Save_Detail(KeyAddData);
-                            }
-                            alertify.success(data);
-                            window.opener.location.reload();
-                            $('#save_status').val("save");
-                        }
-                    })
-
-                }
-
-            });
-        });
-    </script>
-
-    <script>
-        function Save_Detail(KeyAddData) {
-
-            let formData = {action: "SAVE_DETAIL", KeyAddData: KeyAddData};
-            $.ajax({
-                url: 'model/manage_order_detail_process.php',
-                method: "POST",
-                data: formData,
-                success: function (data) {
-                    //alertify.success(data);
-                }
-            })
-
-        }
-    </script>
-
-    <script>
-
-        $("#recordModal").on('submit', '#recordForm', function (event) {
-            event.preventDefault();
-            let KeyAddData = $('#KeyAddData').val();
-            if (KeyAddData !== '') {
-                $('#KeyAddDetail').val(KeyAddData);
-            }
-            let doc_no_detail = $('#doc_no_detail').val();
-            let formData = $(this).serialize();
-            $.ajax({
-                url: 'model/manage_order_detail_process.php',
-                method: "POST",
-                data: formData,
-                success: function (data) {
-                    //alertify.success(data);
-                    $('#recordForm')[0].reset();
-                    $('#recordModal').modal('hide');
-
-                    $('#TableOrderDetailList').DataTable().clear().destroy();
-
-                    if (KeyAddData !== '') {
-                        Load_Data_Detail(KeyAddData, "v_order_detail_temp");
-                    } else {
-                        Load_Data_Detail(doc_no_detail, "v_order_detail");
-                    }
-                }
-            })
-
-        });
-
-    </script>
-
-    <script>
-
-        $('#quantity,#price,#total_price').blur(function () {
-            let total_price = new Calculate($('#quantity').val(), $('#price').val());
-            $('#total_price').val(total_price.Multiple().toFixed(2));
-        });
-
-    </script>
 
     </body>
 
