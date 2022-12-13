@@ -366,7 +366,7 @@ if (strlen($_SESSION['alogin']) == "") {
         }
     </style>
 
-    <script>
+    <!--script>
         $(document).ready(function () {
             $('#doc_date').datepicker({
                 format: "dd-mm-yyyy",
@@ -375,7 +375,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 autoclose: true
             });
         });
-    </script>
+    </script-->
 
     <script>
         $(document).ready(function () {
@@ -480,15 +480,35 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'leave_type_detail'},
                     {data: 'doc_date'},
                     {data: 'remark'},
-                    {data: 'update'},
+                    {data: 'approve'},
                 ]
             });
+
+            <!-- *** FOR SUBMIT FORM *** -->
+            $("#recordModal").on('submit', '#recordForm', function (event) {
+                event.preventDefault();
+                $('#save').attr('disabled', 'disabled');
+                let formData = $(this).serialize();
+                $.ajax({
+                    url: 'model/manage_holiday_admin_process.php',
+                    method: "POST",
+                    data: formData,
+                    success: function (data) {
+                        alertify.success(data);
+                        $('#recordForm')[0].reset();
+                        $('#recordModal').modal('hide');
+                        $('#save').attr('disabled', false);
+                        dataRecords.ajax.reload();
+                    }
+                })
+            });
+            <!-- *** FOR SUBMIT FORM *** -->
         }
     </script>
 
     <script>
 
-        $("#TableRecordList").on('click', '.update', function () {
+        $("#TableRecordList").on('click', '.approve', function () {
             let id = $(this).attr("id");
             //alert(id);
             let formData = {action: "GET_DATA", id: id};

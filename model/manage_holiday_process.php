@@ -228,14 +228,12 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $orderbyext = "";
 
     if ($columnSortOrder != '') {
-        $orderbyext = ",date_leave_start desc";
+        $orderbyext = ",year desc , month desc , day desc ";
     } else {
-        $orderbyext = " Order by date_leave_start desc";
+        $orderbyext = " order by year desc , month desc , day desc   ";
     }
 
-    $sql_load = "SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc FROM dholiday_event dl
-            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id
-            left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = dl.status   
+    $sql_load = "SELECT * FROM vdholiday_event
             WHERE 1 " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . $orderbyext . " LIMIT :limit,:offset";
 

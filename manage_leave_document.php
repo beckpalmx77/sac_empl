@@ -471,6 +471,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     let check_day = CalDay(date_leave_1, date_leave_2); // Check Date
                     let l_before = $('#leave_before').val();
 
+
                     if (check_day >= l_before) {
                         //alert("OK");
                         let formData = $(this).serialize();
@@ -616,7 +617,9 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         function check_before_leave() {
 
-            let formData = {action: "SEARCH_DATA", leave_type_id: $('#leave_type_id').val()};
+            let leave_type_id = $('#leave_type_id').val();
+
+            let formData = {action: "SEARCH_DATA", leave_type_id: leave_type_id};
             $.ajax({
                 type: "POST",
                 url: 'model/manage_leave_type_process.php',
