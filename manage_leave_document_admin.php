@@ -54,8 +54,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <table id='TableRecordList' class='display dataTable'>
                                                 <thead>
                                                 <tr>
+                                                    <th>ปี</th>
                                                     <th>เลขที่เอกสาร</th>
-                                                    <th>วันที่เอกสาร</th>
                                                     <th>ชื่อ-นามสกุล</th>
                                                     <th>ประเภทการลา</th>
                                                     <th>วันที่ลาเริ่มต้น</th>
@@ -66,8 +66,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
+                                                    <th>ปี</th>
                                                     <th>เลขที่เอกสาร</th>
-                                                    <th>วันที่เอกสาร</th>
                                                     <th>ชื่อ-นามสกุล</th>
                                                     <th>ประเภทการลา</th>
                                                     <th>วันที่ลาเริ่มต้น</th>
@@ -395,8 +395,8 @@ if (strlen($_SESSION['alogin']) == "") {
                     'data': formData
                 },
                 'columns': [
+                    {data: 'doc_year'},
                     {data: 'doc_id'},
-                    {data: 'doc_date'},
                     {data: 'full_name'},
                     {data: 'leave_type_detail'},
                     {data: 'dt_leave_start'},
