@@ -1,4 +1,4 @@
 SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc FROM dholiday_event dl
-            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id             
+            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id
             left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = dl.status   
-            WHERE 1  AND emp_id = '65001' ORDER BY  date_leave_start   desc  LIMIT :limit,:offset
+            WHERE 1  AND emp_id = '65001' ORDER BY  doc_year  desc,date_leave_start desc LIMIT :limit,:offset

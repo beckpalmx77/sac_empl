@@ -269,6 +269,7 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {
                 action: "GET_HOLIDAY_DOCUMENT",
                 sub_action: "GET_MASTER",
+                page_manage: "ADMIN",
                 emp_id: emp_id
             };
             let dataRecords = $('#TableRecordList').DataTable({

@@ -138,8 +138,13 @@ if ($_POST["action"] === 'GET_HOLIDAY_DOCUMENT') {
 
     $searchArray = array();
 
+    $columnName = " doc_year ";
 
-    $searchQuery = " AND emp_id = '" . $_SESSION['emp_id'] . "'";
+## Search
+    $searchQuery = " ";
+    if ($_POST["page_manage"] === "ADMIN") {
+        $searchQuery = " AND emp_id = '" . $_SESSION['emp_id'] . "'";
+    }
 
     if ($searchValue != '') {
         $searchQuery = " AND (doc_year LIKE :doc_year or
@@ -163,18 +168,28 @@ if ($_POST["action"] === 'GET_HOLIDAY_DOCUMENT') {
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
+    $orderbyext = "";
 
-    $columnName = " date_leave_start ";
-
-    $orderbyext = " desc ";
+    if ($columnSortOrder != '') {
+        $orderbyext = ",date_leave_start desc";
+    } else {
+        $orderbyext = " Order by date_leave_start desc";
+    }
 
     $sql_load = "SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc FROM dholiday_event dl
-            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id             
+            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id
             left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = dl.status   
             WHERE 1 " . $searchQuery
-        . " ORDER BY " . $columnName . " " . $orderbyext . " LIMIT :limit,:offset";
+        . " ORDER BY " . $columnName . " " . $columnSortOrder . $orderbyext . " LIMIT :limit,:offset";
 
     $stmt = $conn->prepare($sql_load);
+
+
+            $txt = $sql_load ;
+            $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
+            fwrite($my_file, $txt);
+            fclose($my_file);
+
 
 
 // Bind values
@@ -188,20 +203,9 @@ if ($_POST["action"] === 'GET_HOLIDAY_DOCUMENT') {
     $empRecords = $stmt->fetchAll();
     $data = array();
 
-    $txt = $sql_load . " / " . $data;
-
-    $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
-    fwrite($my_file, $txt);
-    fclose($my_file);
-
     foreach ($empRecords as $row) {
 
         if ($_POST['sub_action'] === "GET_MASTER") {
-
-            $txt = $_POST['sub_action'];
-            $my_file = fopen("holiday_b.txt", "w") or die("Unable to open file!");
-            fwrite($my_file, $txt);
-            fclose($my_file);
 
             $data[] = array(
                 "id" => $row['id'],
