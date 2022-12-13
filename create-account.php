@@ -25,7 +25,8 @@ if (strlen($_SESSION['alogin']) == "") {
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800"><?php echo urldecode($_GET['s']) ?></h1>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?php echo $_SESSION['dashboard_page']?>">Home</a></li>
+                            <li class="breadcrumb-item"><a href="<?php echo $_SESSION['dashboard_page'] ?>">Home</a>
+                            </li>
                             <li class="breadcrumb-item"><?php echo urldecode($_GET['m']) ?></li>
                             <li class="breadcrumb-item active"
                                 aria-current="page"><?php echo urldecode($_GET['s']) ?></li>
@@ -47,11 +48,13 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         <form id="from_data">
 
                                                             <div class="form-group has-success">
-                                                                <label for="success" class="control-label">ชื่อผู้ใช้</label>
+                                                                <label for="success"
+                                                                       class="control-label">ชื่อผู้ใช้</label>
                                                                 <div class="">
                                                                     <input type="text" name="user_id"
                                                                            class="form-control"
-                                                                           required="required" id="user_id">
+                                                                           required="required" id="user_id"
+                                                                           placeholder="ชื่อผู้ใช้">
                                                                 </div>
                                                             </div>
 
@@ -67,7 +70,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             </div>
 
                                                             <div class="form-group has-success">
-                                                                <label for="success" class="control-label">Email Address</label>
+                                                                <label for="success" class="control-label">Email
+                                                                    Address</label>
                                                                 <div class="">
                                                                     <input type="text" name="email"
                                                                            class="form-control"
@@ -81,7 +85,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <div class="">
                                                                     <input type="text" name="first_name"
                                                                            class="form-control"
-                                                                           required="required" id="first_name">
+                                                                           required="required" id="first_name"
+                                                                           placeholder="ชื่อ First Name">
                                                                 </div>
                                                             </div>
 
@@ -91,7 +96,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <div class="">
                                                                     <input type="text" name="last_name"
                                                                            class="form-control"
-                                                                           required="required" id="last_name">
+                                                                           required="required" id="last_name"
+                                                                           placeholder="นามสกุล Last Name">
                                                                 </div>
                                                             </div>
 
@@ -100,7 +106,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                    name="department_id">
 
                                                             <div class="form-group has-success">
-                                                                <label class="control-label" for="select-testing">แผนก</label>
+                                                                <label class="control-label"
+                                                                       for="select-testing">แผนก</label>
                                                                 <div class=”form-group”>
                                                                     <select id="department_id" name="department_id"
                                                                             class="form-control" data-live-search="true"
@@ -126,7 +133,8 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                             <div class="form-group has-success">
                                                                 <label class="control-label" for="select-testing">ประเภทผู้ใช้
-                                                                    Account Type (Administrator = สิทธิ์จัดการระบบ)</label>
+                                                                    Account Type (Administrator =
+                                                                    สิทธิ์จัดการระบบ)</label>
 
                                                                 <div class=”form-group”>
                                                                     <select id="account_type" name="account_type"
@@ -151,6 +159,15 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <span class="help-block"></span>
                                                             </div>
 
+                                                            <div class="form-group">
+                                                                <label for="approve_permission" class="control-label">สิทธิ์อนุมัติเอกสาร</label>
+                                                                <select id="approve_permission" name="approve_permission"
+                                                                        class="form-control" data-live-search="true"
+                                                                        title="Please select">
+                                                                    <option value="N">ไม่มีสิทธิ์</option>
+                                                                    <option value="Y">มีสิทธิ์</option>
+                                                                </select>
+                                                            </div>
 
 
                                                             <div class="form-group has-success">

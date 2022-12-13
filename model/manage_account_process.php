@@ -33,7 +33,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "last_name" => $result['last_name'],
             "department_id" => $result['department_id'],
             "department_desc" => $result['department_desc'],
-            "permission_id" => $result['permission_id'],
+            "permission_id" => $result['account_type'],
             "permission_detail" => $result['permission_detail'],
             "approve_permission" => $result['approve_permission'],
             "status" => $result['status']);
