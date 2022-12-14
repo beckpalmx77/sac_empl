@@ -130,7 +130,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <input type="hidden" class="form-control"
                                                    id="page_manage" name="page_manage"
                                                    readonly="true"
-                                                   value="USER"
+                                                   value="ADMIN"
                                                    placeholder="page_manage">
 
                                             <input type="hidden" class="form-control"
@@ -235,44 +235,27 @@ if (strlen($_SESSION['alogin']) == "") {
                                                           rows="3"></textarea>
                                             </div>
 
-                                            <?php if ($_SESSION['approve_permission'] === 'Y') { ?>
-                                                <div class="form-group">
-                                                    <label for="status"
-                                                           class="control-label">Status</label>
-                                                    N = รอพิจารณา , A = อนุมัติ , R = ไม่อนุมัติ
-                                                    <select id="status" name="status"
-                                                            class="form-control"
-                                                            data-live-search="true"
-                                                            title="Please select">
-                                                        <option>N</option>
-                                                        <option>A</option>
-                                                        <option>R</option>
-                                                    </select>
-                                                </div>
-                                            <?php } else { ?>
-                                                <div class="form-group">
-                                                    <label for="status"
-                                                           class="control-label">Status</label>
-                                                    N = รอพิจารณา , A = อนุมัติ , R = ไม่อนุมัติ
-                                                    <select id="status" name="status"
-                                                            class="form-control"
-                                                            data-live-search="true"
-                                                            readonly="true"
-                                                            title="Please select">
-                                                        <option>N</option>
-                                                        <option>A</option>
-                                                        <option>R</option>
-                                                    </select>
-                                                </div>
 
-                                            <?php } ?>
+                                            <div class="form-group">
+                                                <label for="status"
+                                                       class="control-label">Status</label>
+                                                N = รอพิจารณา , A = อนุมัติ , R = ไม่อนุมัติ
+                                                <select id="status" name="status"
+                                                        class="form-control"
+                                                        data-live-search="true"
+                                                        title="Please select">
+                                                    <option>N</option>
+                                                    <option>A</option>
+                                                    <option>R</option>
+                                                </select>
+                                            </div>
+
 
                                         </div>
                                     </div>
 
                                     <div class="modal-footer">
                                         <input type="hidden" name="id" id="id"/>
-                                        <input type="hidden" name="status" id="status"/>
                                         <input type="hidden" name="action" id="action" value=""/>
                                         <span class="icon-input-btn">
                                                                 <i class="fa fa-check"></i>
@@ -479,16 +462,18 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 't_leave_start'},
                     {data: 'leave_type_detail'},
                     {data: 'doc_date'},
-                    {data: 'remark'},
+                    {data: 'status'},
                     {data: 'approve'},
                 ]
             });
 
             <!-- *** FOR SUBMIT FORM *** -->
             $("#recordModal").on('submit', '#recordForm', function (event) {
+                //alert($('#status').val());
                 event.preventDefault();
                 $('#save').attr('disabled', 'disabled');
                 let formData = $(this).serialize();
+                //alert(formData);
                 $.ajax({
                     url: 'model/manage_holiday_admin_process.php',
                     method: "POST",
