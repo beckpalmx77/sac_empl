@@ -2,10 +2,10 @@ function dateAgo(date) {
     let startDate = new Date(date);
     let diffDate = new Date(new Date() - startDate);
     return ((diffDate.toISOString().slice(0, 4) - 1970) + "Y " +
-        diffDate.getMonth() + "M " + (diffDate.getDate()-1) + "D");
+        diffDate.getMonth() + "M " + (diffDate.getDate() - 1) + "D");
 }
 
-function CalDay(date_1,date_2) {
+function CalDay(date_1, date_2) {
 
     let date1 = new Date(date_1);
     let date2 = new Date(date_2);
@@ -22,15 +22,15 @@ function CalDay(date_1,date_2) {
 
 function getAge(dateString) {
     let now = new Date();
-    let today = new Date(now.getYear(),now.getMonth(),now.getDate());
+    let today = new Date(now.getYear(), now.getMonth(), now.getDate());
 
     let yearNow = now.getYear();
     let monthNow = now.getMonth();
     let dateNow = now.getDate();
 
-    let dob = new Date(dateString.substring(6,10),
-        dateString.substring(0,2)-1,
-        dateString.substring(3,5)
+    let dob = new Date(dateString.substring(6, 10),
+        dateString.substring(0, 2) - 1,
+        dateString.substring(3, 5)
     );
 
     let yearDob = dob.getYear();
@@ -43,7 +43,7 @@ function getAge(dateString) {
     let dayString = "";
     let yearAge = "";
     let monthAge = "";
-    let dateAge ="";
+    let dateAge = "";
 
 
     yearAge = yearNow - yearDob;
@@ -52,7 +52,7 @@ function getAge(dateString) {
         monthAge = monthNow - monthDob;
     else {
         yearAge--;
-        monthAge = 12 + monthNow -monthDob;
+        monthAge = 12 + monthNow - monthDob;
     }
 
     if (dateNow >= dateDob)
@@ -73,31 +73,52 @@ function getAge(dateString) {
         days: dateAge
     };
 
-    if ( age.years > 1 ) yearString = " ปี";
+    if (age.years > 1) yearString = " ปี";
     else yearString = " ปี";
-    if ( age.months> 1 ) monthString = " เดือน";
+    if (age.months > 1) monthString = " เดือน";
     else monthString = " เดือน";
-    if ( age.days > 1 ) dayString = " วัน";
+    if (age.days > 1) dayString = " วัน";
     else dayString = " วัน";
 
 
-    if ( (age.years > 0) && (age.months > 0) && (age.days > 0) )
-        ageString = age.years + yearString + " " + age.months + monthString + " " + age.days + dayString ;
-    else if ( (age.years == 0) && (age.months == 0) && (age.days > 0) )
-        ageString = age.days + dayString ;
-    else if ( (age.years > 0) && (age.months == 0) && (age.days == 0) )
+    if ((age.years > 0) && (age.months > 0) && (age.days > 0))
+        ageString = age.years + yearString + " " + age.months + monthString + " " + age.days + dayString;
+    else if ((age.years == 0) && (age.months == 0) && (age.days > 0))
+        ageString = age.days + dayString;
+    else if ((age.years > 0) && (age.months == 0) && (age.days == 0))
         ageString = age.years + yearString + " ";
-    else if ( (age.years > 0) && (age.months > 0) && (age.days == 0) )
-        ageString = age.years + yearString + " " + age.months + monthString ;
-    else if ( (age.years == 0) && (age.months > 0) && (age.days > 0) )
-        ageString = age.months + monthString + " " + age.days + dayString ;
-    else if ( (age.years > 0) && (age.months == 0) && (age.days > 0) )
-        ageString = age.years + yearString + " " + age.days + dayString ;
-    else if ( (age.years == 0) && (age.months > 0) && (age.days == 0) )
-        ageString = age.months + monthString ;
+    else if ((age.years > 0) && (age.months > 0) && (age.days == 0))
+        ageString = age.years + yearString + " " + age.months + monthString;
+    else if ((age.years == 0) && (age.months > 0) && (age.days > 0))
+        ageString = age.months + monthString + " " + age.days + dayString;
+    else if ((age.years > 0) && (age.months == 0) && (age.days > 0))
+        ageString = age.years + yearString + " " + age.days + dayString;
+    else if ((age.years == 0) && (age.months > 0) && (age.days == 0))
+        ageString = age.months + monthString;
     else ageString = "ไม่สามารถคำนวนได้ ในขณะนี้";
 
     return ageString;
 
 
 }
+
+function CalAge_Use(dateStrings) {
+
+    let startDate = new Date(2021, 1, 1); // January 1, 2021
+    let endDate = new Date(2022, 6, 30); // June 30, 2022
+
+    let diff = endDate.getTime() - startDate.getTime();
+    let days = diff / (1000 * 60 * 60 * 24); // convert milliseconds to days
+
+    let years = Math.floor(days / 365);
+    let remainingDays = days % 365;
+    let months = Math.floor(remainingDays / 30);
+    remainingDays = remainingDays % 30;
+
+    console.log(years + " years, " + months + " months, " + remainingDays + " days");
+// Output: 1 year, 5 months, 29 days
+
+}
+
+
+

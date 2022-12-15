@@ -551,6 +551,8 @@ if (strlen($_SESSION['alogin']) == "") {
 
                         work_age = getAge(start_w_date);
 
+                        //work_age = CalAge_Use(start_w_date);
+
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
