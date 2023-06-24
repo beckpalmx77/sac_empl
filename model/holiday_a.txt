@@ -1,1 +1,2 @@
-15 | A / ADMIN
+SELECT * FROM vdholiday_event
+            WHERE 1  AND emp_id = '65001' ORDER BY  doc_year  desc,year desc , month desc , day desc 

@@ -73,19 +73,11 @@ if ($_POST["action"] === 'UPDATE') {
         $remark = $_POST["remark"];
         $status = $_POST["status"];
 
-
-        $sql_find = "SELECT * FROM dholiday_event WHERE id = " . $id;
+        $sql_find = "SELECT * FROM dholiday_event WHERE doc_id = '" . $doc_id . "'";
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
             if ($_POST["page_manage"] === "ADMIN") {
-
-                /* $txt = $id . " | " . $status . " / " . $_POST["page_manage"] ;
-                $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
-                fwrite($my_file, $txt);
-                fclose($my_file);
-                */
-
                 $sql_update = "UPDATE dholiday_event SET status=:status
                                WHERE id = :id";
                 $query = $conn->prepare($sql_update);
@@ -191,12 +183,12 @@ if ($_POST["action"] === 'GET_HOLIDAY_DOCUMENT') {
 
     $stmt = $conn->prepare($sql_load);
 
-    /*
-        $txt = $sql_load;
-        $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
-        fwrite($my_file, $txt);
-        fclose($my_file);
-    */
+
+    $txt = $sql_load;
+    $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
+    fwrite($my_file, $txt);
+    fclose($my_file);
+
 
 // Bind values
     foreach ($searchArray as $key => $search) {
