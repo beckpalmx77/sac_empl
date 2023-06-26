@@ -330,19 +330,19 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                             <table cellpadding="0" cellspacing="0" border="0"
                                                                    class="display"
-                                                                   id="TableLeaveTypeList"
+                                                                   id="TableEmployeeList"
                                                                    width="100%">
                                                                 <thead>
                                                                 <tr>
-                                                                    <th>รหัสประเภทการลา</th>
-                                                                    <th>รายละเอียด</th>
+                                                                    <th>รหัสพนักงาน</th>
+                                                                    <th>ชื่อพนักงาน</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tfoot>
                                                                 <tr>
-                                                                    <th>รหัสประเภทการลา</th>
-                                                                    <th>รายละเอียด</th>
+                                                                    <th>รหัสพนักงาน</th>
+                                                                    <th>ชื่อพนักงาน</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </tfoot>
