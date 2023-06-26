@@ -192,11 +192,11 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                            id="department_id"
                                                                            name="department_id">
                                                                     <div class="col-sm-10">
-                                                                        <label for="department_desc"
+                                                                        <label for="department_id"
                                                                                class="control-label">หน่วยงาน</label>
                                                                         <input type="text" class="form-control"
-                                                                               id="department_desc"
-                                                                               name="department_desc"
+                                                                               id="department_id"
+                                                                               name="department_id"
                                                                                required="required"
                                                                                readonly="true"
                                                                                placeholder="หน่วยงาน">
@@ -461,7 +461,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 'columns': [
                     {data: 'emp_id'},
                     {data: 'full_name'},
-                    {data: 'department_desc'},
+                    {data: 'department_id'},
                     {data: 'nick_name'},
                     {data: 'start_work_date'},
                     {data: 'update'},
@@ -500,7 +500,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#f_name').val("");
                 $('#l_name').val("");
                 $('#department_id').val("");
-                $('#department_desc').val("");
+                $('#department_id').val("");
                 $('#work_time_id').val("");
                 $('#work_time_desc').val("");
                 $('#start_work_date').val("");
@@ -538,8 +538,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         let sex = response[i].sex;
                         let nick_name = response[i].nick_name;
                         let start_work_date = response[i].start_work_date;
+                        let dept_id = response[i].dept_id;
                         let department_id = response[i].department_id;
-                        let department_desc = response[i].department_desc;
                         let work_time_id = response[i].work_time_id;
                         let work_time_detail = response[i].work_time_detail;
                         let position = response[i].position;
@@ -562,7 +562,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#nick_name').val(nick_name);
                         $('#start_work_date').val(start_work_date);
                         $('#department_id').val(department_id);
-                        $('#department_desc').val(department_desc);
+                        $('#department_id').val(department_id);
                         $('#work_time_id').val(work_time_id);
                         $('#work_time_detail').val(work_time_detail);
                         $('#work_age').val(work_age);

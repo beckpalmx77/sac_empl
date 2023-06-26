@@ -6,8 +6,6 @@ error_reporting(~0);
 include("../config/connect_sqlserver.php");
 include("../config/connect_db.php");
 
-$previous_year = date("Y") - 1;
-
 $sql_sqlsvr = "SELECT EMP_KEY,EMP_INTL,EMPFILE.EMP_NAME,EMPFILE.EMP_SURNME,EMPFILE.EMP_GENDER,EMPFILE.EMP_EMAIL
 ,PERSONALINFO.PRS_SC_D,PAYROLLINFO.PRI_SALARY ,PERSONALINFO.PRS_DEPT
 ,PERSONALINFO.PRS_JBT,DEPTTAB.DEPT_THAIDESC,JOBTITLE.JBT_THAIDESC
@@ -16,9 +14,8 @@ FROM EMPFILE
 LEFT JOIN PAYROLLINFO ON PAYROLLINFO.PRI_EMP = EMPFILE.EMP_KEY
 LEFT JOIN PERSONALINFO ON PERSONALINFO.PRS_EMP = EMPFILE.EMP_KEY
 LEFT JOIN DEPTTAB ON DEPTTAB.DEPT_KEY = PERSONALINFO.PRS_DEPT
-LEFT JOIN JOBTITLE ON JOBTITLE.JBT_KEY = PERSONALINFO.PRS_JBT
-WHERE YEAR(PERSONALINFO.PRS_SC_D) >= " . $previous_year
-. " ORDER BY PERSONALINFO.PRS_DEPT DESC  ";
+LEFT JOIN JOBTITLE ON JOBTITLE.JBT_KEY = PERSONALINFO.PRS_JBT 
+ORDER BY PERSONALINFO.PRS_DEPT DESC  ";
 
 
 //$myfile = fopen("qry_file1.txt", "w") or die("Unable to open file!");
@@ -68,38 +65,7 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
         $query->execute();
 
     } else {
-
-        echo "INSERT Employee : " . $result_sqlsvr["PRS_NO"] . "|" . $birth . " | " . $result_sqlsvr["EMP_NAME"] . " | " . $result_sqlsvr["EMP_SURNME"] . $result_sqlsvr["DEPT_THAIDESC"] . "\n\r";
-
-        $sql = "INSERT INTO memployee(emp_id,sex,prefix,f_name,l_name,nick_name,email_address,birthday,position_id,position,dept_id
-        ,department_id,start_work_date,work_time_id,status)
-        VALUES (:emp_id,:sex,:prefix,:f_name,:l_name,:nick_name,:email_address,:birthday,:position_id,:position,:dept_id
-        ,:department_id,:start_work_date,:work_time_id,:status)";
-        $query = $conn->prepare($sql);
-        $query->bindParam(':emp_id', $result_sqlsvr["PRS_NO"], PDO::PARAM_STR);
-        $query->bindParam(':sex', $sex, PDO::PARAM_STR);
-        $query->bindParam(':prefix', $result_sqlsvr["EMP_INTL"], PDO::PARAM_STR);
-        $query->bindParam(':f_name', $result_sqlsvr["EMP_NAME"], PDO::PARAM_STR);
-        $query->bindParam(':l_name', $result_sqlsvr["EMP_SURNME"], PDO::PARAM_STR);
-        $query->bindParam(':nick_name', $result_sqlsvr["EMP_EMAIL"] , PDO::PARAM_STR);
-        $query->bindParam(':email_address', $email_address, PDO::PARAM_STR);
-        $query->bindParam(':birthday', $birth, PDO::PARAM_STR);
-        $query->bindParam(':position_id', $result_sqlsvr["PRS_JBT"], PDO::PARAM_STR);
-        $query->bindParam(':position', $result_sqlsvr["JBT_THAIDESC"], PDO::PARAM_STR);
-        $query->bindParam(':dept_id', $result_sqlsvr["PRS_DEPT"], PDO::PARAM_STR);
-        $query->bindParam(':department_id', $result_sqlsvr["DEPT_THAIDESC"], PDO::PARAM_STR);
-        $query->bindParam(':start_work_date', $start_work_date, PDO::PARAM_STR);
-        $query->bindParam(':work_time_id', $work_time_id, PDO::PARAM_STR);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
-        $query->execute();
-
-        $lastInsertId = $conn->lastInsertId();
-
-        if ($lastInsertId) {
-            echo "Save OK";
-        } else {
-            echo "Error";
-        }
+        echo "Not Found : " . $result_sqlsvr["PRS_NO"] . "|" . $result_sqlsvr["EMP_NAME"] . "|" . $result_sqlsvr["EMP_SURNME"] . "\n\r";
     }
 
 }

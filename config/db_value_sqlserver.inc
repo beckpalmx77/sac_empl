@@ -1,10 +1,10 @@
 <?php
 
 
-$host = '192.168.88.13';
+$host = '192.168.39.13';
 $dbuser = 'SYY';
 $dbpass = '39122222';
-$dbname = 'SAC';
+$dbname = 'Sac_PR_V7';
 
 
 //$host = 'BECKPALMX-HP\SQLEXPRESS';

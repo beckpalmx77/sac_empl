@@ -13,8 +13,7 @@ if ($_POST["action"] === 'GET_DATA') {
 
     $return_arr = array();
 
-    $sql_get = "SELECT em.*,md.department_desc,mt.work_time_detail FROM memployee em
-            left join mdepartment md on md.department_id = em.department_id
+    $sql_get = "SELECT em.*,mt.work_time_detail FROM memployee em            
             left join mwork_time mt on mt.work_time_id = em.work_time_id  
             WHERE em.id = " . $id;
 
@@ -28,8 +27,8 @@ if ($_POST["action"] === 'GET_DATA') {
             "l_name" => $result['l_name'],
             "sex" => $result['sex'],
             "start_work_date" => $result['start_work_date'],
+            "dept_id" => $result['dept_id'],
             "department_id" => $result['department_id'],
-            "department_desc" => $result['department_desc'],
             "work_time_id" => $result['work_time_id'],
             "work_time_detail" => $result['work_time_detail'],
             "prefix" => $result['prefix'],
@@ -62,7 +61,7 @@ if ($_POST["action"] === 'ADD') {
         $emp_id = $_POST["emp_id"];
         $f_name = $_POST["f_name"];
         $l_name = $_POST["l_name"];
-        $department_id = $_POST["department_id"];
+        $dept_id = $_POST["dept_id"];
         $work_time_id = $_POST["work_time_id"];
         $remark = $_POST["remark"];
         $sex = $_POST["sex"];
@@ -77,15 +76,15 @@ if ($_POST["action"] === 'ADD') {
         if ($nRows > 0) {
             echo $dup;
         } else {
-            $sql = "INSERT INTO memployee (emp_id,f_name,l_name,work_time_id,department_id,remark,email_address,sex,prefix,nick_name,position,start_work_date) 
-                    VALUES (:emp_id,:f_name,:l_name,:work_time_id,:department_id,:remark,:email_address,:sex,:prefix,:nick_name,:position,:start_work_date)";
+            $sql = "INSERT INTO memployee (emp_id,f_name,l_name,work_time_id,dept_id,remark,email_address,sex,prefix,nick_name,position,start_work_date) 
+                    VALUES (:emp_id,:f_name,:l_name,:work_time_id,:dept_id,:remark,:email_address,:sex,:prefix,:nick_name,:position,:start_work_date)";
 
             $query = $conn->prepare($sql);
             $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
             $query->bindParam(':f_name', $f_name, PDO::PARAM_STR);
             $query->bindParam(':l_name', $l_name, PDO::PARAM_STR);
             $query->bindParam(':work_time_id', $work_time_id, PDO::PARAM_STR);
-            $query->bindParam(':department_id', $department_id, PDO::PARAM_STR);
+            $query->bindParam(':dept_id', $dept_id, PDO::PARAM_STR);
             $query->bindParam(':remark', $remark, PDO::PARAM_STR);
             $query->bindParam(':email_address', $email, PDO::PARAM_STR);
             $query->bindParam(':sex', $sex, PDO::PARAM_STR);
@@ -96,15 +95,15 @@ if ($_POST["action"] === 'ADD') {
             $query->execute();
             $lastInsertId = $conn->lastInsertId();
             if ($lastInsertId) {
-                $sql_user = "INSERT INTO ims_user (emp_id,user_id,first_name,last_name,password,department_id,account_type,picture,company,email) 
-                    VALUES (:emp_id,:user_id,:first_name,:last_name,:password,:department_id,:account_type,:user_picture,:company,:email)";
+                $sql_user = "INSERT INTO ims_user (emp_id,user_id,first_name,last_name,password,dept_id,account_type,picture,company,email) 
+                    VALUES (:emp_id,:user_id,:first_name,:last_name,:password,:dept_id,:account_type,:user_picture,:company,:email)";
                 $query_user = $conn->prepare($sql_user);
                 $query_user->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
                 $query_user->bindParam(':user_id', $emp_id, PDO::PARAM_STR);
                 $query_user->bindParam(':first_name', $f_name, PDO::PARAM_STR);
                 $query_user->bindParam(':last_name', $l_name, PDO::PARAM_STR);
                 $query_user->bindParam(':password', $user_password, PDO::PARAM_STR);
-                $query_user->bindParam(':department_id', $department_id, PDO::PARAM_STR);
+                $query_user->bindParam(':dept_id', $dept_id, PDO::PARAM_STR);
                 $query_user->bindParam(':account_type', $account_type_default, PDO::PARAM_STR);
                 $query_user->bindParam(':user_picture', $user_picture, PDO::PARAM_STR);
                 $query_user->bindParam(':company', $company, PDO::PARAM_STR);
@@ -131,7 +130,7 @@ if ($_POST["action"] === 'UPDATE') {
         $emp_id = $_POST["emp_id"];
         $f_name = $_POST["f_name"];
         $l_name = $_POST["l_name"];
-        $department_id = $_POST["department_id"];
+        $dept_id = $_POST["dept_id"];
         $work_time_id = $_POST["work_time_id"];
         $remark = $_POST["remark"];
         $sex = $_POST["sex"];
@@ -145,14 +144,14 @@ if ($_POST["action"] === 'UPDATE') {
         if ($nRows > 0) {
 
             $sql_update = "UPDATE memployee SET f_name=:f_name,l_name=:l_name,sex=:sex,work_time_id=:work_time_id
-            ,department_id=:department_id,remark=:remark,nick_name=:nick_name,position=:position,start_work_date=:start_work_date              
+            ,dept_id=:dept_id,remark=:remark,nick_name=:nick_name,position=:position,start_work_date=:start_work_date              
             WHERE id = :id";
             $query = $conn->prepare($sql_update);
             $query->bindParam(':f_name', $f_name, PDO::PARAM_STR);
             $query->bindParam(':l_name', $l_name, PDO::PARAM_STR);
             $query->bindParam(':sex', $sex, PDO::PARAM_STR);
             $query->bindParam(':work_time_id', $work_time_id, PDO::PARAM_STR);
-            $query->bindParam(':department_id', $department_id, PDO::PARAM_STR);
+            $query->bindParam(':dept_id', $dept_id, PDO::PARAM_STR);
             $query->bindParam(':remark', $remark, PDO::PARAM_STR);
             $query->bindParam(':nick_name', $nick_name, PDO::PARAM_STR);
             $query->bindParam(':position', $position, PDO::PARAM_STR);
@@ -160,12 +159,12 @@ if ($_POST["action"] === 'UPDATE') {
             $query->bindParam(':id', $id, PDO::PARAM_STR);
             $query->execute();
 
-            $sql_user = "UPDATE ims_user SET first_name=:f_name,last_name=:l_name,department_id=:department_id       
+            $sql_user = "UPDATE ims_user SET first_name=:f_name,last_name=:l_name,dept_id=:dept_id       
             WHERE emp_id = :emp_id";
             $query_user = $conn->prepare($sql_user);
             $query_user->bindParam(':f_name', $f_name, PDO::PARAM_STR);
             $query_user->bindParam(':l_name', $l_name, PDO::PARAM_STR);
-            $query_user->bindParam(':department_id', $department_id, PDO::PARAM_STR);
+            $query_user->bindParam(':dept_id', $dept_id, PDO::PARAM_STR);
             $query_user->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
             $query_user->execute();
 
@@ -238,11 +237,10 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-    $sql_getdata = "SELECT em.*,md.department_desc,mt.work_time_detail FROM memployee em
-            left join mdepartment md on md.department_id = em.department_id
+    $sql_getdata = "SELECT em.*,mt.work_time_detail FROM memployee em            
             left join mwork_time mt on mt.work_time_id = em.work_time_id 
             WHERE 1 " . $searchQuery
-        . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset";
+        . " ORDER BY status DESC, emp_id DESC , " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset";
 
     $stmt = $conn->prepare($sql_getdata);
 
@@ -278,8 +276,8 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
                 "prefix" => $row['prefix'],
                 "sex" => $row['sex'],
                 "full_name" => $row['f_name'] . " " . $row['l_name'],
+                "dept_id" => $row['dept_id'],
                 "department_id" => $row['department_id'],
-                "department_desc" => $row['department_desc'],
                 "work_time_id" => $row['work_time_id'],
                 "work_time_detail" => $row['work_time_detail'],
                 "start_work_date" => $row['start_work_date'],
@@ -291,9 +289,9 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
         } else {
             $data[] = array(
                 "id" => $row['id'],
+                "dept_id" => $row['dept_id'],
                 "department_id" => $row['department_id'],
-                "department_desc" => $row['department_desc'],
-                "select" => "<button type='button' name='select' id='" . $row['department_desc'] . "@" . $row['department_id'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
+                "select" => "<button type='button' name='select' id='" . $row['department_id'] . "@" . $row['dept_id'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
 </button>",
             );
         }
