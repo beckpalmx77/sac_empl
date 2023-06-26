@@ -143,7 +143,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                value="<?php echo $_SESSION['emp_id'] ?> "
                                                                                placeholder="">
                                                                     </div>
-                                                                    <div class="col-sm-8">
+                                                                    <div class="col-sm-6">
                                                                         <label for="text"
                                                                                class="control-label">ชื่อ -
                                                                             นามสกุล</label>
@@ -152,6 +152,17 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                readonly="true"
                                                                                value="<?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?> "
                                                                                placeholder="full_name">
+                                                                    </div>
+
+                                                                    <div class="col-sm-2">
+                                                                        <label for="leave_type_id"
+                                                                               class="control-label">เลือก</label>
+                                                                        <a data-toggle="modal"
+                                                                           href="#SearchLeaveTypeModal"
+                                                                           class="btn btn-primary">
+                                                                            Click <i class="fa fa-search"
+                                                                                     aria-hidden="true"></i>
+                                                                        </a>
                                                                     </div>
 
                                                                 </div>
