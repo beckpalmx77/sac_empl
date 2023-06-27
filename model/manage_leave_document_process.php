@@ -157,7 +157,8 @@ if ($_POST["action"] === 'UPDATE') {
             } else {
                 $sql_update = "UPDATE dleave_event SET leave_type_id=:leave_type_id
                 ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
-                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year        
+                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year      
+                ,emp_id=:emp_id                  
                 WHERE id = :id";
                 $query = $conn->prepare($sql_update);
                 $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
@@ -167,6 +168,7 @@ if ($_POST["action"] === 'UPDATE') {
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
+                $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
                 $query->bindParam(':id', $id, PDO::PARAM_STR);
                 $query->execute();
                 echo $save_success;
@@ -241,7 +243,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
 
 ## Fetch records
-    $stmt = $conn->prepare("SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc,em.f_name,em.l_name 
+    $stmt = $conn->prepare("SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc,em.f_name,em.l_name,em.department_id  
             FROM dleave_event dl
             left join mleave_type lt on lt.leave_type_id = dl.leave_type_id
             left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = dl.status
@@ -277,6 +279,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "time_leave_to" => $row['time_leave_to'],
                 "dt_leave_start" => $row['date_leave_start'] . " " .  $row['time_leave_start'],
                 "dt_leave_to" => $row['date_leave_to'] . " " .  $row['time_leave_to'],
+                "department_id" => $row['department_id'],
                 "remark" => $row['remark'],
                 "full_name" => $row['f_name'] . " " .  $row['l_name'],
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",

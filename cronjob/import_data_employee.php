@@ -5,6 +5,7 @@ error_reporting(~0);
 
 include("../config/connect_sqlserver.php");
 include("../config/connect_db.php");
+include("../util/record_util.php");
 
 $previous_year = date("Y") - 1;
 
@@ -25,9 +26,19 @@ WHERE YEAR(PERSONALINFO.PRS_SC_D) >= " . $previous_year
 //fwrite($myfile, $sql_sqlsvr);
 //fclose($myfile);
 
-$email_address ="@sac.com";
 
+$company ="SAC";
+$email_address ="@sac.com";
 $work_time_id = "S001";
+$password = '$2y$10$F75vk7nW95vHpCYo86RUQOOhnEiVZ693ZPps5S1c96xh5SxWgPXea';
+$picture = 'img/icon/admin-001.png';
+$status_u = 'Active';
+$approve_level = "-";
+$approve_permission = "N";
+$lang = "th";
+$account_type = "user";
+$permission_price ="-";
+$document_dept_cond = "-";
 
 $stmt_sqlsvr = $conn_sqlsvr->prepare($sql_sqlsvr);
 $stmt_sqlsvr->execute();
@@ -49,7 +60,7 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
     $nRows = $conn->query($sql_find)->fetchColumn();
     if ($nRows > 0) {
 
-        echo "UPDATE Employee : " . $result_sqlsvr["PRS_NO"] . "|" . $birth . " | " . $result_sqlsvr["EMP_NAME"] . " | " . $result_sqlsvr["EMP_SURNME"] . $result_sqlsvr["DEPT_THAIDESC"] . "\n\r";
+        //echo "UPDATE Employee : " . $result_sqlsvr["PRS_NO"] . "|" . $birth . " | " . $result_sqlsvr["EMP_NAME"] . " | " . $result_sqlsvr["EMP_SURNME"] . $result_sqlsvr["DEPT_THAIDESC"] . "\n\r";
 
         $sql = "UPDATE memployee SET position_id=:position_id,position=:position,dept_id=:dept_id,department_id=:department_id,
         status=:status,work_time_id=:work_time_id,birthday=:birthday,start_work_date=:start_work_date
@@ -100,6 +111,41 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
         } else {
             echo "Error";
         }
+    }
+
+    $sql_find = "SELECT * FROM ims_user WHERE user_id = '". $result_sqlsvr["PRS_NO"] . "'";
+    $nRows = $conn->query($sql_find)->fetchColumn();
+    if ($nRows > 0) {
+        echo "dup = " . $result_sqlsvr["PRS_NO"] . "\n\r";
+    } else {
+
+        $last_row = LAST_ID($conn,"ims_user","line_no");
+
+        $sql = "INSERT INTO ims_user(line_no,emp_id,email,user_id,first_name,last_name,department_id,account_type,picture,lang,permission_price,company,approve_permission,approve_level,status,password,document_dept_cond)
+        VALUES (:line_no,:emp_id,:email,:user_id,:first_name,:last_name,:department_id,:account_type,:picture,:lang,:permission_price,:company,:approve_permission,:approve_level,:status,:password,:document_dept_cond)";
+
+        echo "Row = " . $last_row . " | " . $result_sqlsvr["PRS_NO"] . "\n\r" ;
+
+        $query = $conn->prepare($sql);
+        $query->bindParam(':line_no', $last_row, PDO::PARAM_STR);
+        $query->bindParam(':emp_id', $result_sqlsvr["PRS_NO"], PDO::PARAM_STR);
+        $query->bindParam(':email', $email_address, PDO::PARAM_STR);
+        $query->bindParam(':user_id', $result_sqlsvr["PRS_NO"], PDO::PARAM_STR);
+        $query->bindParam(':first_name', $result_sqlsvr["EMP_NAME"], PDO::PARAM_STR);
+        $query->bindParam(':last_name', $result_sqlsvr["EMP_SURNME"], PDO::PARAM_STR);
+        $query->bindParam(':department_id', $result_sqlsvr["PRS_DEPT"], PDO::PARAM_STR);
+        $query->bindParam(':account_type', $account_type, PDO::PARAM_STR);
+        $query->bindParam(':picture', $picture, PDO::PARAM_STR);
+        $query->bindParam(':lang', $lang, PDO::PARAM_STR);
+        $query->bindParam(':permission_price', $permission_price, PDO::PARAM_STR);
+        $query->bindParam(':company', $company, PDO::PARAM_STR);
+        $query->bindParam(':approve_permission', $approve_permission, PDO::PARAM_STR);
+        $query->bindParam(':approve_level', $approve_level, PDO::PARAM_STR);
+        $query->bindParam(':status', $status_u, PDO::PARAM_STR);
+        $query->bindParam(':password', $password, PDO::PARAM_STR);
+        $query->bindParam(':document_dept_cond', $document_dept_cond, PDO::PARAM_STR);
+        $query->execute();
+
     }
 
 }

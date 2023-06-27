@@ -62,9 +62,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>เลขที่เอกสาร</th>
                                                     <th>ชื่อ-นามสกุล</th>
                                                     <th>หน่วยงาน</th>
-                                                    <th>วันที่หยุดปกติ</th>
-                                                    <th>วันที่ต้องการหยุด</th>
-                                                    <th>เหตุผล</th>
+                                                    <th>วันที่ขอ OT</th>
+                                                    <th>ช่วงเวลาที่ขอ OT</th>
                                                     <th>สถานะ</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -75,9 +74,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>เลขที่เอกสาร</th>
                                                     <th>ชื่อ-นามสกุล</th>
                                                     <th>หน่วยงาน</th>
-                                                    <th>วันที่หยุดปกติ</th>
-                                                    <th>วันที่ต้องการหยุด</th>
-                                                    <th>เหตุผล</th>
+                                                    <th>วันที่ขอ OT</th>
+                                                    <th>ช่วงเวลาที่ขอ OT</th>
                                                     <th>สถานะ</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -188,66 +186,86 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <div class="form-group row">
                                                                     <input type="hidden" class="form-control"
                                                                            id="leave_type_id"
-                                                                           value=""
-                                                                           placeholder=""
+                                                                           required="required"
                                                                            name="leave_type_id">
-                                                                    <div class="col-sm-6">
+                                                                    <div class="col-sm-10">
                                                                         <label for="leave_type_detail"
                                                                                class="control-label">ประเภทเอกสาร</label>
                                                                         <input type="text" class="form-control"
                                                                                id="leave_type_detail"
                                                                                name="leave_type_detail"
+                                                                               required="required"
                                                                                readonly="true"
                                                                                placeholder="">
                                                                     </div>
+
+                                                                    <!--div class="col-sm-2">
+                                                                        <label for="leave_type_id"
+                                                                               class="control-label">เลือก</label>
+                                                                        <a data-toggle="modal"
+                                                                           href="#SearchLeaveTypeModal"
+                                                                           class="btn btn-primary">
+                                                                            Click <i class="fa fa-search"
+                                                                                     aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </div-->
                                                                 </div>
 
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-3">
                                                                         <label for="date_leave_start"
-                                                                               class="control-label">วันที่หยุดปกติ</label>
+                                                                               class="control-label">วันที่ขอ OT</label>
                                                                         <i class="fa fa-calendar"
                                                                            aria-hidden="true"></i>
                                                                         <input type="text" class="form-control"
                                                                                id="date_leave_start"
                                                                                name="date_leave_start"
-                                                                               value="<?php //echo $curr_date ?>"
+                                                                               value=""
                                                                                required="required"
                                                                                readonly="true"
-                                                                               placeholder="วันที่หยุดปกติ">
+                                                                               placeholder="วันที่ขอ OT">
                                                                     </div>
                                                                     <div class="col-sm-3">
-                                                                        <label for="date_leave_start"
-                                                                               class="control-label"></label>
-                                                                        <input type="hidden" class="form-control"
+                                                                        <label for="time_leave_start"
+                                                                               class="control-label">เวลาเริ่มต้น</label>
+                                                                        <input type="text" class="form-control"
                                                                                id="time_leave_start"
                                                                                name="time_leave_start"
-                                                                               value="<?php echo $_SESSION['work_time_start'] ?>"
+                                                                               value=""
                                                                                required="required"
-                                                                               placeholder="เวลาเริ่มต้น">
+                                                                               placeholder="hh:mm">
                                                                     </div>
-                                                                    <div class="col-sm-3">
-                                                                        <label for="date_leave_start"
-                                                                               class="control-label">วันที่ต้องการหยุด</label>
+
+                                                                    <input type="hidden" class="form-control"
+                                                                           id="date_leave_to"
+                                                                           name="date_leave_to"
+                                                                           value="echo $curr_date"
+                                                                           readonly="true"
+                                                                           placeholder="วันที่ขอ OT">
+
+                                                                    <!--div class="col-sm-3">
+                                                                        <label for="date_leave_to"
+                                                                               class="control-label">วันที่ขอ OT</label>
                                                                         <i class="fa fa-calendar"
                                                                            aria-hidden="true"></i>
-                                                                        <input type="text" class="form-control"
+                                                                        <input type="hidden" class="form-control"
                                                                                id="date_leave_to"
                                                                                name="date_leave_to"
-                                                                               value="<?php //echo $curr_date ?>"
+                                                                               value="echo $curr_date"
                                                                                required="required"
                                                                                readonly="true"
-                                                                               placeholder="วันที่ต้องการหยุด">
-                                                                    </div>
+                                                                               placeholder="วันที่ขอ OT">
+                                                                    </div-->
+
                                                                     <div class="col-sm-3">
                                                                         <label for="time_leave_to"
-                                                                               class="control-label"></label>
-                                                                        <input type="hidden" class="form-control"
+                                                                               class="control-label">เวลาสิ้นสุด</label>
+                                                                        <input type="text" class="form-control"
                                                                                id="time_leave_to"
                                                                                name="time_leave_to"
                                                                                required="required"
-                                                                               value="<?php echo $_SESSION['work_time_stop'] ?>"
-                                                                               placeholder="เวลาสิ้นสุด">
+                                                                               value=""
+                                                                               placeholder="hh:mm">
                                                                     </div>
                                                                 </div>
 
@@ -314,7 +332,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                             </div>
                                         </div>
 
-
                                         <div class="modal fade" id="SearchEmployeeModal">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
@@ -354,6 +371,47 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 </div>
                                             </div>
                                         </div>
+
+
+                                        <div class="modal fade" id="SearchLeaveTypeModal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="container"></div>
+                                                    <div class="modal-body">
+
+                                                        <div class="modal-body">
+
+                                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                                   class="display"
+                                                                   id="TableLeaveTypeList"
+                                                                   width="100%">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>รหัสประเภทการลา</th>
+                                                                    <th>รายละเอียด</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <th>รหัสประเภทการลา</th>
+                                                                    <th>รายละเอียด</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -382,15 +440,18 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="js/myadmin.min.js"></script>
 
     <script src="js/modal/show_employee_modal.js"></script>
-
+    <script src="js/modal/show_leave_type_modal.js"></script>
     <script src="js/util/calculate_datetime.js"></script>
 
     <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
     <script src="vendor/date-picker-1.9/js/bootstrap-datepicker.js"></script>
     <script src="vendor/date-picker-1.9/locales/bootstrap-datepicker.th.min.js"></script>
-    <!--link href="vendor/date-picker-1.9/css/date_picker_style.css" rel="stylesheet"/-->
     <link href="vendor/date-picker-1.9/css/bootstrap-datepicker.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.min.js"></script>
+
+
 
     <script src="vendor/datatables/v11/bootbox.min.js"></script>
     <script src="vendor/datatables/v11/jquery.dataTables.min.js"></script>
@@ -446,7 +507,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/manage_leave_change_workdate_document_process.php',
+                    'url': 'model/manage_ot_request_document_process.php',
                     'data': formData
                 },
                 'columns': [
@@ -456,7 +517,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'department_id'},
                     {data: 'dt_leave_start'},
                     {data: 'dt_leave_to'},
-                    {data: 'remark'},
                     {data: 'status'},
                     {data: 'update'},
                 ]
@@ -465,24 +525,17 @@ if (strlen($_SESSION['alogin']) == "") {
             <!-- *** FOR SUBMIT FORM *** -->
             $("#recordModal").on('submit', '#recordForm', function (event) {
                 event.preventDefault();
-                //$('#save').attr('disabled', 'disabled');
 
-                if ($('#date_leave_start').val() !== '') {
+                //alert("time_leave_start = " + chkTime($('#time_leave_start').val()));
+                //alert("time_leave_to = " + chkTime($('#time_leave_to').val()));
 
-                    let leave_type_id = $('#leave_type_id').val();
+                if (chkTime($('#time_leave_start').val()) && chkTime($('#time_leave_to').val())) {
 
-                    let date_leave_1 = $('#doc_date').val().substr(3, 2) + "/" + $('#doc_date').val().substr(0, 2) + "/" + $('#doc_date').val().substr(6, 10);
-                    let date_leave_2 = $('#date_leave_start').val().substr(3, 2) + "/" + $('#date_leave_start').val().substr(0, 2) + "/" + $('#date_leave_start').val().substr(6, 10);
+                    if ($('#date_leave_start').val() !== '' && $('#time_leave_start').val() !== '' && $('#time_leave_to').val() !== '') {
 
-                    let check_day = CalDay(date_leave_1, date_leave_2); // Check Date
-                    let l_before = $('#leave_before').val();
-
-
-                    if (leave_type_id === "C") {
-                        //alert("OK");
                         let formData = $(this).serialize();
                         $.ajax({
-                            url: 'model/manage_leave_change_workdate_document_process.php',
+                            url: 'model/manage_ot_request_document_process.php',
                             method: "POST",
                             data: formData,
                             success: function (data) {
@@ -493,16 +546,15 @@ if (strlen($_SESSION['alogin']) == "") {
                                 dataRecords.ajax.reload();
                             }
                         })
-                    } else {
-                        alertify.error("ไม่สามารถบันทึกได้ การลาต้องลาล่วงหน้า : " + l_before + " วัน");
-                    }
 
+                    } else {
+                        alertify.error("กรุณาป้อนวันที่ - เวลา ต้องการขอ OT !!!");
+                    }
                 } else {
-                    alertify.error("กรุณาป้อนวันที่ต้องการลา !!!");
+                    alertify.error("กรุณาป้อนวันที่ - เวลา ให้ถูกต้อง !!!");
                 }
 
             });
-
             <!-- *** FOR SUBMIT FORM *** -->
         });
 
@@ -512,12 +564,11 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
 
             $("#btnAdd").click(function () {
-                //alert(<?php echo $_SESSION['work_time_start']?>);
                 $('#recordModal').modal('show');
                 $('#id').val("");
                 $('#doc_id').val("");
-                $('#leave_type_id').val("C");
-                $('#leave_type_detail').val("เปลี่ยนวันหยุด");
+                $('#leave_type_id').val("O");
+                $('#leave_type_detail').val("การขอทำงานล่วงเวลา OT");
                 $('#date_leave_start').val("");
                 $('#date_leave_to').val("");
                 $('#remark').val("");
@@ -537,7 +588,7 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GET_DATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_leave_change_workdate_document_process.php',
+                url: 'model/manage_ot_request_document_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
@@ -608,7 +659,7 @@ if (strlen($_SESSION['alogin']) == "") {
         });
     </script>
 
-    <script>
+    <!--script>
         $('#date_leave_start').change(function () {
             if ($('#leave_type_id').val() !== '') {
                 check_before_leave();
@@ -618,7 +669,7 @@ if (strlen($_SESSION['alogin']) == "") {
             }
         });
 
-    </script>
+    </script-->
 
     <script>
         function check_before_leave() {
@@ -628,7 +679,7 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "SEARCH_DATA", leave_type_id: leave_type_id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_leave_type_process.php',
+                url: 'model/manage_ot_request_document_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
@@ -656,6 +707,45 @@ if (strlen($_SESSION['alogin']) == "") {
             });
         });
     </script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('#time_leave_start').on('change', function() {
+                chkTime($(this).val());
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#time_leave_to').on('change', function() {
+                chkTime($(this).val());
+            });
+        });
+    </script>
+
+    <script>
+
+        function chkTime(TimeInput) {
+            let timeFormat = /^([01]\d|2[0-3]):([0-5]\d)$/; // Regular expression for 24-hour HH:MM format
+            if (timeFormat.test(TimeInput)) {
+                $(this).removeClass('invalid');
+                return true;
+            } else {
+                $(this).addClass('invalid');
+                alertify.error("ป้อนเวลาตามรูปแบบ ชั่วโมง:นาที เท่่านั้น");
+                return false;
+            }
+        }
+
+    </script>
+
+    <style>
+        .invalid {
+            border: 1px solid red;
+        }
+    </style>
 
     </body>
     </html>

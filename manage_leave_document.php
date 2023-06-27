@@ -61,6 +61,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>ปี</th>
                                                     <th>เลขที่เอกสาร</th>
                                                     <th>ชื่อ-นามสกุล</th>
+                                                    <th>หน่วยงาน</th>
                                                     <th>ประเภทการลา</th>
                                                     <th>วันที่ลาเริ่มต้น</th>
                                                     <th>วันที่ลาสิ้นสุด</th>
@@ -73,6 +74,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>ปี</th>
                                                     <th>เลขที่เอกสาร</th>
                                                     <th>ชื่อ-นามสกุล</th>
+                                                    <th>หน่วยงาน</th>
                                                     <th>ประเภทการลา</th>
                                                     <th>วันที่ลาเริ่มต้น</th>
                                                     <th>วันที่ลาสิ้นสุด</th>
@@ -143,7 +145,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                value="<?php echo $_SESSION['emp_id'] ?> "
                                                                                placeholder="">
                                                                     </div>
-                                                                    <div class="col-sm-8">
+                                                                    <div class="col-sm-6">
                                                                         <label for="text"
                                                                                class="control-label">ชื่อ -
                                                                             นามสกุล</label>
@@ -152,6 +154,17 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                readonly="true"
                                                                                value="<?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?> "
                                                                                placeholder="full_name">
+                                                                    </div>
+
+                                                                    <div class="col-sm-2">
+                                                                        <label for="emp_id"
+                                                                               class="control-label">เลือก</label>
+                                                                        <a data-toggle="modal"
+                                                                           href="#SearchEmployeeModal"
+                                                                           class="btn btn-primary">
+                                                                            Click <i class="fa fa-search"
+                                                                                     aria-hidden="true"></i>
+                                                                        </a>
                                                                     </div>
 
                                                                 </div>
@@ -312,6 +325,46 @@ if (strlen($_SESSION['alogin']) == "") {
                                             </div>
                                         </div>
 
+                                        <div class="modal fade" id="SearchEmployeeModal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="container"></div>
+                                                    <div class="modal-body">
+
+                                                        <div class="modal-body">
+
+                                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                                   class="display"
+                                                                   id="TableEmployeeList"
+                                                                   width="100%">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>รหัสพนักงาน</th>
+                                                                    <th>ชื่อพนักงาน</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <th>รหัสพนักงาน</th>
+                                                                    <th>ชื่อพนักงาน</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
 
                                         <div class="modal fade" id="SearchLeaveTypeModal">
                                             <div class="modal-dialog modal-lg">
@@ -379,6 +432,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/myadmin.min.js"></script>
 
+    <script src="js/modal/show_employee_modal.js"></script>
     <script src="js/modal/show_leave_type_modal.js"></script>
     <script src="js/util/calculate_datetime.js"></script>
 
@@ -450,6 +504,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'doc_year'},
                     {data: 'doc_id'},
                     {data: 'full_name'},
+                    {data: 'department_id'},
                     {data: 'leave_type_detail'},
                     {data: 'dt_leave_start'},
                     {data: 'dt_leave_to'},
