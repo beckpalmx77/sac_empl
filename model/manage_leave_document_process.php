@@ -15,15 +15,15 @@ if ($_POST["action"] === 'GET_DATA') {
 
     $sql_get = "SELECT dl.*,lt.leave_type_detail,lt.leave_before,ms.status_doc_desc,em.f_name,em.l_name 
             FROM dleave_event dl
-            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id
-            left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = dl.status
-            left join memployee em on em.emp_id = dl.emp_id  
+            LEFT JOIN mleave_type lt ON lt.leave_type_id = dl.leave_type_id
+            LEFT JOIN mstatus ms ON ms.status_doctype = 'LEAVE' AND ms.status_doc_id = dl.status
+            LEFT JOIN memployee em ON em.emp_id = dl.emp_id  
             WHERE dl.id = " . $id;
 
     $statement = $conn->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach ($results as $result) {
+    foreach ($results AS $result) {
         $return_arr[] = array("id" => $result['id'],
             "doc_id" => $result['doc_id'],
             "doc_date" => $result['doc_date'],
@@ -69,7 +69,16 @@ if ($_POST["action"] === 'ADD') {
         $dept_id = $_POST["department"];
         $doc_date = $_POST["doc_date"];
         $doc_year = substr($_POST["date_leave_start"], 6);
-        $doc_id = "L-" . $dept_id . "-" . substr($doc_date, 6) . "-" . sprintf('%04s', LAST_ID($conn, "dleave_event", 'id'));
+
+        $sql_get_dept = "SELECT mp.dept_ids AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
+
+        $dept_id_save = GET_VALUE($conn, $sql_get_dept);
+
+        //$myfile = fopen("dept-param.txt", "w") or die("Unable to open file!");
+        //fwrite($myfile,  $sql_get_dept . " | " . $dept_id_save);
+        //fclose($myfile);
+
+        $doc_id = "L-" . $dept_id_save . "-" . substr($doc_date, 6) . "-" . sprintf('%04s', LAST_ID($conn, "dleave_event", 'id'));
         $leave_type_id = $_POST["leave_type_id"];
         $emp_id = $_POST["emp_id"];
         $date_leave_start = $_POST["date_leave_start"];
@@ -78,18 +87,18 @@ if ($_POST["action"] === 'ADD') {
         $time_leave_to = $_POST["time_leave_to"];
         $remark = $_POST["remark"];
 
-        $day_max = GET_VALUE($conn, "select day_max as data from mleave_type where leave_type_id ='" . $leave_type_id . "'");
+        $day_max = GET_VALUE($conn, "SELECT day_max AS data FROM mleave_type WHERE leave_type_id ='" . $leave_type_id . "'");
 
         $cnt_day = "";
-        $sql_cnt = "SELECT COUNT(*) as days FROM dholiday_event WHERE doc_year = '" . $doc_year . "' AND emp_id = '" . $emp_id . "'";
-        foreach ($conn->query($sql_cnt) as $row) {
+        $sql_cnt = "SELECT COUNT(*) AS days FROM dholiday_event WHERE doc_year = '" . $doc_year . "' AND emp_id = '" . $emp_id . "'";
+        foreach ($conn->query($sql_cnt) AS $row) {
             $cnt_day = $row['days'];
         }
         if ($cnt_day >= $day_max) {
             echo $Error_Over;
         } else {
 
-            $sql_find = "SELECT * FROM dleave_event dl WHERE dl.date_leave_start = '" . $date_leave_start . "' and dl.emp_id = '" . $emp_id . "' ";
+            $sql_find = "SELECT * FROM dleave_event dl WHERE dl.date_leave_start = '" . $date_leave_start . "' AND dl.emp_id = '" . $emp_id . "' ";
 
             $nRows = $conn->query($sql_find)->fetchColumn();
             if ($nRows > 0) {
@@ -110,9 +119,9 @@ if ($_POST["action"] === 'ADD') {
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
                 $query->execute();
-                $lastInsertId = $conn->lastInsertId();
+                $lAStInsertId = $conn->lAStInsertId();
 
-                if ($lastInsertId) {
+                if ($lAStInsertId) {
                     echo $save_success;
                 } else {
                     echo $error;
@@ -207,16 +216,18 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $rowperpage = $_POST['length']; // Rows display per page
     $columnIndex = $_POST['order'][0]['column']; // Column index
     $columnName = $_POST['columns'][$columnIndex]['data']; // Column name
-    //$columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
-    $columnSortOrder = 'desc'; // asc or desc
+    //$columnSortOrder = $_POST['order'][0]['dir']; // ASc or desc
+    $columnSortOrder = 'desc'; // ASc or desc
     $searchValue = $_POST['search']['value']; // Search value
 
     $searchArray = array();
 
 ## Search
     $searchQuery = " ";
-    if ($_POST["page_manage"]!=="ADMIN") {
-        $searchQuery = " AND dl.emp_id = '" . $_SESSION['emp_id'] . "' ";
+
+
+    if ($_SESSION['document_dept_cond']!=="A") {
+        $searchQuery = " AND dl.dept_id in (" . $_SESSION['document_dept_cond'] . ") ";
     }
 
     if ($searchValue != '') {
@@ -229,30 +240,48 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     }
 
 ## Total number of records without filtering
-    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM dleave_event dl ");
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM v_dleave_event dl ");
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM dleave_event dl WHERE 1 " . $searchQuery);
+    $sql_count_record = "SELECT COUNT(*) AS allcount FROM v_dleave_event dl WHERE 1 " . $searchQuery ;
+    $stmt = $conn->prepare($sql_count_record);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
+    /*
+    $txt = $sql_count_record ;
+    $my_file = fopen("leave_select_count.txt", "w") or die("Unable to open file!");
+    fwrite($my_file, $txt);
+    fclose($my_file);
+    */
+
 
 
 ## Fetch records
-    $stmt = $conn->prepare("SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc,em.f_name,em.l_name,em.department_id  
-            FROM dleave_event dl
-            left join mleave_type lt on lt.leave_type_id = dl.leave_type_id
-            left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = dl.status
-            left join memployee em on em.emp_id = dl.emp_id  
-            WHERE 1 " . $searchQuery . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
+    // ,em.f_name,em.l_name,em.department_id
+
+    $sql_get_leave = "SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc  
+            FROM v_dleave_event dl
+            LEFT JOIN mleave_type lt on lt.leave_type_id = dl.leave_type_id
+            LEFT JOIN mstatus ms on ms.status_doctype = 'LEAVE' AND ms.status_doc_id = dl.status              
+            WHERE 1 " . $searchQuery . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset" ;
+
+    /*
+    $txt = $sql_get_leave ;
+    $my_file = fopen("leave_select.txt", "w") or die("Unable to open file!");
+    fwrite($my_file, $txt);
+    fclose($my_file);
+    */
+
+    $stmt = $conn->prepare($sql_get_leave);
 
 
 // Bind values
-    foreach ($searchArray as $key => $search) {
+    foreach ($searchArray AS $key => $search) {
         $stmt->bindValue(':' . $key, $search, PDO::PARAM_STR);
     }
 
@@ -262,7 +291,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $empRecords = $stmt->fetchAll();
     $data = array();
 
-    foreach ($empRecords as $row) {
+    foreach ($empRecords AS $row) {
 
         if ($_POST['sub_action'] === "GET_MASTER") {
             $data[] = array(
@@ -282,16 +311,16 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "department_id" => $row['department_id'],
                 "remark" => $row['remark'],
                 "full_name" => $row['f_name'] . " " .  $row['l_name'],
-                "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
-                "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' class='btn btn-success btn-xs approve' data-toggle='tooltip' title='Approve'>Approve</button>",
-                "status" => $row['status'] === 'A' ? "<div class='text-success'>" . $row['status_doc_desc'] . "</div>" : "<div class='text-muted'> " . $row['status_doc_desc'] . "</div>",
+                "update" => "<button type='button' name='update' id='" . $row['id'] . "' clASs='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
+                "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' clASs='btn btn-success btn-xs approve' data-toggle='tooltip' title='Approve'>Approve</button>",
+                "status" => $row['status'] === 'A' ? "<div clASs='text-success'>" . $row['status_doc_desc'] . "</div>" : "<div clASs='text-muted'> " . $row['status_doc_desc'] . "</div>",
             );
         } else {
             $data[] = array(
                 "id" => $row['id'],
                 "leave_type_id" => $row['leave_type_id'],
                 "leave_type_detail" => $row['leave_type_detail'],
-                "select" => "<button type='button' name='select' id='" . $row['leave_type_id'] . "@" . $row['leave_type_detail'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
+                "SELECT" => "<button type='button' name='SELECT' id='" . $row['leave_type_id'] . "@" . $row['leave_type_detail'] . "' clASs='btn btn-outline-success btn-xs SELECT' data-toggle='tooltip' title='SELECT'>SELECT <i clASs='fa fa-check' aria-hidden='true'></i>
 </button>",
             );
         }

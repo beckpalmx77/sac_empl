@@ -185,11 +185,11 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
 
     $searchQuery = " ";
 
-/*
-    if ($_POST["action_for"] === "LEAVE") {
-        $searchQuery = " AND (day_flag ='L') ";
+
+    if ($_SESSION['document_dept_cond']!=="A") {
+        $searchQuery = " AND dept_id in (" . $_SESSION['document_dept_cond'] . ") ";
     }
-*/
+
 
     if ($searchValue != '') {
         $searchQuery = " AND (emp_id LIKE :emp_id or
@@ -202,7 +202,7 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
 
 ## Total number of records without filtering
 
-    $sql_cond = "SELECT COUNT(*) AS allcount FROM memployee WHERE 1 ";
+    $sql_cond = "SELECT COUNT(*) AS allcount FROM memployee WHERE status = 'Y' ";
 
     $stmt = $conn->prepare($sql_cond);
     $stmt->execute();
@@ -210,13 +210,13 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
     $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM memployee WHERE 1 " . $searchQuery);
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM memployee WHERE status = 'Y' " . $searchQuery);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-    $stmt = $conn->prepare("SELECT * FROM memployee WHERE 1 " . $searchQuery
+    $stmt = $conn->prepare("SELECT * FROM memployee WHERE status = 'Y' " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
 /*
@@ -259,7 +259,9 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
                 "id" => $row['id'],
                 "emp_id" => $row['emp_id'],
                 "full_name" => $row['f_name'] . " " . $row['l_name'],
-                "select" => "<button type='button' name='select' id='" . $row['emp_id'] . "@" . $row['f_name'] . " " .  $row['l_name'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
+                "nick_name" => $row['nick_name'],
+                "department_id" => $row['department_id'],
+                "select" => "<button type='button' name='select' id='" . $row['emp_id'] . "@" . $row['f_name'] . " " .  $row['l_name'] . "@" . $row['nick_name']. "@" . $row['department_id']. "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
 </button>",
             );
 /*

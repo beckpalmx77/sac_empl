@@ -24,6 +24,8 @@ $(document).ready(function () {
         'columns': [
             {data: 'emp_id'},
             {data: 'full_name'},
+            {data: 'nick_name'},
+            {data: 'department_id'},
             {data: 'select'}
         ]
     });
