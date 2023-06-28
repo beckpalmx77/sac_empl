@@ -96,6 +96,11 @@ if ($_POST["action"] === 'ADD') {
         $time_leave_to = $_POST["time_leave_to"];
         $remark = $_POST["remark"];
 
+        $sql_time = "SELECT TIMEDIFF('". $time_leave_to . "','" . $time_leave_start ."') AS total_time ";
+        foreach ($conn->query($sql_time) AS $row) {
+            $total_time = $row['total_time'];
+        }
+
         $day_max = GET_VALUE($conn, "SELECT day_max AS data FROM mleave_type WHERE leave_type_id ='" . $leave_type_id . "'");
 
         $cnt_day = "";
@@ -111,8 +116,8 @@ if ($_POST["action"] === 'ADD') {
             if ($nRows > 0) {
                 echo $dup;
             } else {
-                $sql = "INSERT INTO ot_request (doc_id,doc_year,doc_month,dept_id,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark) 
-                    VALUES (:doc_id,:doc_year,:doc_month,:dept_id,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:remark)";
+                $sql = "INSERT INTO ot_request (doc_id,doc_year,doc_month,dept_id,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,total_time,remark) 
+                    VALUES (:doc_id,:doc_year,:doc_month,:dept_id,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:total_time,:remark)";
 
                 //$myfile = fopen("condition-param.txt", "w") or die("Unable to open file!");
                 //fwrite($myfile,  $sql);
@@ -130,6 +135,7 @@ if ($_POST["action"] === 'ADD') {
                 $query->bindParam(':time_leave_start', $time_leave_start, PDO::PARAM_STR);
                 $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':total_time', $total_time, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
 
                 $query->execute();
@@ -167,22 +173,34 @@ if ($_POST["action"] === 'UPDATE') {
         $remark = $_POST["remark"];
         $status = $_POST["status"];
 
+        $sql_time = "SELECT TIMEDIFF('". $time_leave_to . "','" . $time_leave_start ."') AS total_time ";
+        foreach ($conn->query($sql_time) AS $row) {
+            $total_time = $row['total_time'];
+        }
+
         $sql_find = "SELECT * FROM v_ot_request WHERE doc_id = '" . $doc_id . "'";
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
             if ($_SESSION['approve_permission']==="Y") {
                 $sql_update = "UPDATE ot_request SET status=:status
+                ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
+                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,total_time=:total_time
                                WHERE id = :id";
                 $query = $conn->prepare($sql_update);
                 $query->bindParam(':status', $status, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_start', $time_leave_start, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':total_time', $total_time, PDO::PARAM_STR);
                 $query->bindParam(':id', $id, PDO::PARAM_STR);
                 $query->execute();
                 echo $save_success;
             } else {
                 $sql_update = "UPDATE ot_request SET leave_type_id=:leave_type_id
                 ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
-                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year      
+                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year,total_time=:total_time     
                 ,emp_id=:emp_id                  
                 WHERE id = :id";
                 $query = $conn->prepare($sql_update);
@@ -193,6 +211,7 @@ if ($_POST["action"] === 'UPDATE') {
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
+                $query->bindParam(':total_time', $total_time, PDO::PARAM_STR);
                 $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
                 $query->bindParam(':id', $id, PDO::PARAM_STR);
                 $query->execute();
