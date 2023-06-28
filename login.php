@@ -109,7 +109,6 @@ include('includes/Header.php');
     });
 </script>
 
-
 <body class="bg-gradient-login">
 <!-- Login Content -->
 <div class="container-login">
