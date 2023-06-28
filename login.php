@@ -48,41 +48,47 @@ include('includes/Header.php');
 <script>
     $(document).ready(function () {
         $("button").click(function () {
-            let username = $("#username").val();
-            let password = $("#password").val();
-            let remember = "";
-
-            if ($("#remember").prop("checked")) {
-                remember = $("#remember").val();
-            }
-
-            if (username != "" && password != "") {
-                $.ajax
-                ({
-                    type: 'post',
-                    url: 'login_process.php',
-                    data: {
-                        username: username,
-                        password: password,
-                        remember: remember,
-                    },
-                    success: function (response) {
-                        if (response !== "0") {
-                            window.location.href = response;
-                        } else {
-                            alert("เข้าระบบไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง");
-                            window.location.href = "login.php";
-                        }
-                    }
-                });
-            } else {
-                alert("Please Fill All The Details");
-            }
-
-            return false;
+            check_login();
         });
     });
 
+</script>
+
+<script>
+    function check_login() {
+        let username = $("#username").val();
+        let password = $("#password").val();
+        let remember = "";
+
+        if ($("#remember").prop("checked")) {
+            remember = $("#remember").val();
+        }
+
+        if (username != "" && password != "") {
+            $.ajax
+            ({
+                type: 'post',
+                url: 'login_process.php',
+                data: {
+                    username: username,
+                    password: password,
+                    remember: remember,
+                },
+                success: function (response) {
+                    if (response !== "0") {
+                        window.location.href = response;
+                    } else {
+                        alert("เข้าระบบไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง");
+                        window.location.href = "login.php";
+                    }
+                }
+            });
+        } else {
+            alert("Please Fill All The Details");
+        }
+
+        return false;
+    }
 </script>
 
 
@@ -92,6 +98,14 @@ include('includes/Header.php');
             //alert($(this).is(':checked'));
             $('#password').attr('type') === 'password' ? $('#password').attr('type', 'text') : $('#password').attr('type', 'password');
         });
+    });
+</script>
+
+<script>
+    $(document).keyup(function(event) {
+        if (event.which === 13) {
+            check_login();
+        }
     });
 </script>
 

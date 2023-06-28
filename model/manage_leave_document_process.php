@@ -155,7 +155,7 @@ if ($_POST["action"] === 'UPDATE') {
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
-            if ($_POST["page_manage"]==="ADMIN") {
+            if ($_SESSION['approve_permission']==="Y") {
                 $sql_update = "UPDATE dleave_event SET status=:status
                                WHERE id = :id";
                 $query = $conn->prepare($sql_update);
