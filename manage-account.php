@@ -90,29 +90,38 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <form method="post" id="recordForm">
                                                         <div class="modal-body">
                                                             <div class="modal-body">
-
-                                                                <input type="text" class="form-control"
-                                                                       id="email"
-                                                                       name="email"
-                                                                       required="required"
-                                                                       placeholder="email">
-
-                                                                <div class="form-group">
-                                                                    <label for="text"
-                                                                           class="control-label">รหัสผู้ใช้งาน</label>
-                                                                    <input type="user_id" class="form-control"
-                                                                           id="user_id" name="user_id"
-                                                                           placeholder="รหัสผู้ใช้งาน">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="text"
-                                                                           class="control-label">รหัสพนักงาน</label>
-                                                                    <input type="emp_id" class="form-control"
-                                                                           id="emp_id" name="emp_id"
-                                                                           placeholder="รหัสพนักงาน">
-                                                                </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-6">
+                                                                        <label for="user_id"
+                                                                               class="control-label">รหัสผู้ใช้งาน</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="user_id"
+                                                                               name="user_id"
+                                                                               required="required"
+                                                                               placeholder="รหัสผู้ใช้งาน">
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="email"
+                                                                               class="control-label">Email Address</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="email"
+                                                                               name="email"
+                                                                               required="required"
+                                                                               placeholder="Email Address">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-2">
+                                                                        <label for="emp_id"
+                                                                               class="control-label">รหัสพนักงาน</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="emp_id"
+                                                                               name="emp_id"
+                                                                               required="required"
+                                                                               placeholder="รหัสพนักงาน">
+                                                                    </div>
+                                                                    <div class="col-sm-5">
                                                                         <label for="first_name"
                                                                                class="control-label">ชื่อ</label>
                                                                         <input type="text" class="form-control"
@@ -121,7 +130,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                required="required"
                                                                                placeholder="ชื่อ">
                                                                     </div>
-                                                                    <div class="col-sm-6">
+                                                                    <div class="col-sm-5">
                                                                         <label for="last_name"
                                                                                class="control-label">นามสกุล</label>
                                                                         <input type="text" class="form-control"
@@ -194,6 +203,16 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <option value="N">ไม่มีสิทธิ์</option>
                                                                         <option value="Y">มีสิทธิ์</option>
                                                                     </select>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-12">
+                                                                        <label for="document_dept_cond"
+                                                                               class="control-label">แผนกที่อนุมัติเอกสารได้</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="document_dept_cond"
+                                                                               name="document_dept_cond"
+                                                                               placeholder="แผนกที่อนุมัติเอกสารได้">
+                                                                    </div>
                                                                 </div>
 
                                                                 <div class=”form-group”>
@@ -458,6 +477,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let department_id = response[i].department_id;
                         let department_desc = response[i].department_desc;
                         let approve_permission = response[i].approve_permission;
+                        let document_dept_cond = response[i].document_dept_cond;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
@@ -472,6 +492,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#department_id').val(department_id);
                         $('#department_desc').val(department_desc);
                         $('#approve_permission').val(approve_permission);
+                        $('#document_dept_cond').val(document_dept_cond);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
@@ -511,6 +532,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let department_id = response[i].department_id;
                         let department_desc = response[i].department_desc;
                         let approve_permission = response[i].approve_permission;
+                        let document_dept_cond = response[i].document_dept_cond;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
@@ -525,6 +547,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#department_id').val(department_id);
                         $('#department_desc').val(department_desc);
                         $('#approve_permission').val(approve_permission);
+                        $('#document_dept_cond').val(document_dept_cond);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
                         $('#action').val('DELETE');

@@ -36,6 +36,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "permission_id" => $result['account_type'],
             "permission_detail" => $result['permission_detail'],
             "approve_permission" => $result['approve_permission'],
+            "document_dept_cond" => $result['document_dept_cond'],
             "status" => $result['status']);
     }
 
@@ -59,6 +60,7 @@ if ($_POST["action"] === 'ADD') {
         $department_id = $_POST["department_id"];
         $picture = $account_type == 'admin' ? "img/icon/admin-001.png" : "img/icon/user-001.png";
         $approve_permission = $_POST["approve_permission"];
+        $document_dept_cond = $_POST["document_dept_cond"];
         $status = "Active";
 
         $sql_find = "SELECT * FROM ims_user WHERE user_id = '" . $user_id . "'";
@@ -67,8 +69,8 @@ if ($_POST["action"] === 'ADD') {
         if ($nRows > 0) {
             echo 2;
         } else {
-            $sql = "INSERT INTO ims_user(user_id,email,password,first_name,last_name,account_type,picture,department_idม,approve_permission,status)
-            VALUES (:user_id,:email,:password,:first_name,:last_name,:account_type,:picture,:department_id,:approve_permission,:status)";
+            $sql = "INSERT INTO ims_user(user_id,email,password,first_name,last_name,account_type,picture,department_idม,approve_permission,document_dept_cond,status)
+            VALUES (:user_id,:email,:password,:first_name,:last_name,:account_type,:picture,:department_id,:approve_permission,:document_dept_cond,:status)";
             $query = $conn->prepare($sql);
             $query->bindParam(':user_id', $user_id, PDO::PARAM_STR);
             $query->bindParam(':email', $email, PDO::PARAM_STR);
@@ -79,6 +81,7 @@ if ($_POST["action"] === 'ADD') {
             $query->bindParam(':picture', $picture, PDO::PARAM_STR);
             $query->bindParam(':department_id', $department_id, PDO::PARAM_STR);
             $query->bindParam(':approve_permission', $approve_permission, PDO::PARAM_STR);
+            $query->bindParam(':document_dept_cond', $document_dept_cond, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->execute();
 
@@ -108,12 +111,13 @@ if ($_POST["action"] === 'UPDATE') {
         $department_id = $_POST["department_id"];
         $picture = $account_type === 'admin' ? "img/icon/admin-001.png" : "img/icon/user-001.png";
         $approve_permission = $_POST["approve_permission"];
+        $document_dept_cond = $_POST["document_dept_cond"];
         $sql_find = "SELECT * FROM ims_user WHERE id = '" . $id . "'";
 
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             $sql_update = "UPDATE ims_user SET first_name=:first_name,last_name=:last_name,status=:status,account_type=:account_type
-            ,picture=:picture,department_id=:department_id,email=:email,approve_permission=:approve_permission
+            ,picture=:picture,department_id=:department_id,email=:email,approve_permission=:approve_permission,document_dept_cond=:document_dept_cond
             WHERE id = :id";
 
             $query = $conn->prepare($sql_update);
@@ -125,6 +129,7 @@ if ($_POST["action"] === 'UPDATE') {
             $query->bindParam(':department_id', $department_id, PDO::PARAM_STR);
             $query->bindParam(':email', $email, PDO::PARAM_STR);
             $query->bindParam(':approve_permission', $approve_permission, PDO::PARAM_STR);
+            $query->bindParam(':document_dept_cond', $document_dept_cond, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_STR);
             $query->execute();
             echo $save_success;
@@ -201,6 +206,14 @@ if ($_POST["action"] === 'GET_ACCOUNT') {
     $columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
     $searchValue = $_POST['search']['value']; // Search value
     $searchArray = array();
+
+    if ($columnName !== "") {
+        $columnName = "status," . $columnName;
+    }
+
+    //$myfile = fopen("permission-param.txt", "w") or die("Unable to open file!");
+    //fwrite($myfile, "Sort | " . $columnName );
+    //fclose($myfile);
 
 ## Search
     $searchQuery = " ";

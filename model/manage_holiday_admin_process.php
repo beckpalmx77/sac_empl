@@ -184,10 +184,10 @@ if ($_POST["action"] === 'GET_HOLIDAY_DOCUMENT') {
     $stmt = $conn->prepare($sql_load);
 
 
-    $txt = $sql_load;
-    $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
-    fwrite($my_file, $txt);
-    fclose($my_file);
+    //$txt = $sql_load;
+    //$my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
+    //fwrite($my_file, $txt);
+    //fclose($my_file);
 
 
 // Bind values

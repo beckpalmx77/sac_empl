@@ -344,14 +344,14 @@ if (strlen($_SESSION['alogin']) == "") {
                         success: function (dataResult) {
                             var dataResult = JSON.parse(dataResult);
                             if (dataResult.statusCode == 200) {
-                                alert("บันทึกข้อมูลเรียบร้อย");
+                                alertify.success("บันทึกข้อมูลเรียบร้อย");
                             } else if (dataResult.statusCode == 201) {
-                                alert("ไม่สามารถบันทึกข้อมูลได้");
+                                alertify.error("ไม่สามารถบันทึกข้อมูลได้");
                             }
                         }
                     });
                 } else {
-                    alert('กรุณาป้อนข้อมูลให้ครบถ้วน');
+                    alertify.error('กรุณาป้อนข้อมูลให้ครบถ้วน');
                 }
             });
         });
@@ -370,7 +370,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     data: formData,
                     success: function (data) {
                         if (data === "have") {
-                            alert("มีรหัสนี้อยู่แล้ว เปลี่ยนหรือเลือกจาก LIst เพื่อปรับปรุง");
+                            alertify.error("มีรหัสนี้อยู่แล้ว เปลี่ยนหรือเลือกจาก LIst เพื่อปรับปรุง");
                         }
                     }
                 })
