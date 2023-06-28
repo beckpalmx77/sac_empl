@@ -338,6 +338,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <tr>
                                                                     <th>รหัสพนักงาน</th>
                                                                     <th>ชื่อพนักงาน</th>
+                                                                    <th>ชื่อเล่น</th>
+                                                                    <th>หน่วยงาน</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
@@ -345,6 +347,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <tr>
                                                                     <th>รหัสพนักงาน</th>
                                                                     <th>ชื่อพนักงาน</th>
+                                                                    <th>ชื่อเล่น</th>
+                                                                    <th>หน่วยงาน</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </tfoot>
@@ -446,7 +450,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/manage_leave_change_workdate_document_process.php',
+                    'url': 'model/manage_change_workdate_document_process.php',
                     'data': formData
                 },
                 'columns': [
@@ -482,7 +486,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         //alert("OK");
                         let formData = $(this).serialize();
                         $.ajax({
-                            url: 'model/manage_leave_change_workdate_document_process.php',
+                            url: 'model/manage_change_workdate_document_process.php',
                             method: "POST",
                             data: formData,
                             success: function (data) {
@@ -537,7 +541,7 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GET_DATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_leave_change_workdate_document_process.php',
+                url: 'model/manage_change_workdate_document_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {

@@ -235,7 +235,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                name="time_leave_start"
                                                                                value="<?php echo $_SESSION['work_time_start'] ?>"
                                                                                required="required"
-                                                                               placeholder="เวลาเริ่มต้น">
+                                                                               placeholder="hh:mm">
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <label for="date_leave_start"
@@ -258,7 +258,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                name="time_leave_to"
                                                                                required="required"
                                                                                value="<?php echo $_SESSION['work_time_stop'] ?>"
-                                                                               placeholder="เวลาสิ้นสุด">
+                                                                               placeholder="hh:mm">
                                                                     </div>
                                                                 </div>
 
@@ -522,36 +522,41 @@ if (strlen($_SESSION['alogin']) == "") {
                 event.preventDefault();
                 //$('#save').attr('disabled', 'disabled');
 
-                if ($('#date_leave_start').val() !== '') {
+                if (chkTime($('#time_leave_start').val()) && chkTime($('#time_leave_to').val())) {
 
-                    let date_leave_1 = $('#doc_date').val().substr(3, 2) + "/" + $('#doc_date').val().substr(0, 2) + "/" + $('#doc_date').val().substr(6, 10);
-                    let date_leave_2 = $('#date_leave_start').val().substr(3, 2) + "/" + $('#date_leave_start').val().substr(0, 2) + "/" + $('#date_leave_start').val().substr(6, 10);
+                    if ($('#date_leave_start').val() !== '') {
 
-                    let check_day = CalDay(date_leave_1, date_leave_2); // Check Date
-                    let l_before = $('#leave_before').val();
+                        let date_leave_1 = $('#doc_date').val().substr(3, 2) + "/" + $('#doc_date').val().substr(0, 2) + "/" + $('#doc_date').val().substr(6, 10);
+                        let date_leave_2 = $('#date_leave_start').val().substr(3, 2) + "/" + $('#date_leave_start').val().substr(0, 2) + "/" + $('#date_leave_start').val().substr(6, 10);
+
+                        let check_day = CalDay(date_leave_1, date_leave_2); // Check Date
+                        let l_before = $('#leave_before').val();
 
 
-                    if (check_day >= l_before) {
-                        //alert("OK");
-                        let formData = $(this).serialize();
-                        $.ajax({
-                            url: 'model/manage_leave_document_process.php',
-                            method: "POST",
-                            data: formData,
-                            success: function (data) {
-                                alertify.success(data);
-                                $('#recordForm')[0].reset();
-                                $('#recordModal').modal('hide');
-                                $('#save').attr('disabled', false);
-                                dataRecords.ajax.reload();
-                            }
-                        })
+                        if (check_day >= l_before) {
+                            //alert("OK");
+                            let formData = $(this).serialize();
+                            $.ajax({
+                                url: 'model/manage_leave_document_process.php',
+                                method: "POST",
+                                data: formData,
+                                success: function (data) {
+                                    alertify.success(data);
+                                    $('#recordForm')[0].reset();
+                                    $('#recordModal').modal('hide');
+                                    $('#save').attr('disabled', false);
+                                    dataRecords.ajax.reload();
+                                }
+                            })
+                        } else {
+                            alertify.error("ไม่สามารถบันทึกได้ การลาต้องลาล่วงหน้า : " + l_before + " วัน");
+                        }
+
                     } else {
-                        alertify.error("ไม่สามารถบันทึกได้ การลาต้องลาล่วงหน้า : " + l_before + " วัน");
+                        alertify.error("กรุณาป้อนวันที่ต้องการลา !!!");
                     }
-
                 } else {
-                    alertify.error("กรุณาป้อนวันที่ต้องการลา !!!");
+                    alertify.error("กรุณาป้อนวันที่ - เวลา ให้ถูกต้อง !!!");
                 }
 
             });
@@ -709,6 +714,44 @@ if (strlen($_SESSION['alogin']) == "") {
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#time_leave_start').on('change', function() {
+                chkTime($(this).val());
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#time_leave_to').on('change', function() {
+                chkTime($(this).val());
+            });
+        });
+    </script>
+
+    <script>
+
+        function chkTime(TimeInput) {
+            let timeFormat = /^([01]\d|2[0-3]):([0-5]\d)$/; // Regular expression for 24-hour HH:MM format
+            if (timeFormat.test(TimeInput)) {
+                $(this).removeClass('invalid');
+                return true;
+            } else {
+                $(this).addClass('invalid');
+                alertify.error("ป้อนเวลาตามรูปแบบ ชั่วโมง:นาที เท่่านั้น");
+                return false;
+            }
+        }
+
+    </script>
+
+    <style>
+        .invalid {
+            border: 1px solid red;
+        }
+    </style>
 
     </body>
     </html>

@@ -355,6 +355,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <tr>
                                                                     <th>รหัสพนักงาน</th>
                                                                     <th>ชื่อพนักงาน</th>
+                                                                    <th>ชื่อเล่น</th>
+                                                                    <th>หน่วยงาน</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
@@ -362,6 +364,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <tr>
                                                                     <th>รหัสพนักงาน</th>
                                                                     <th>ชื่อพนักงาน</th>
+                                                                    <th>ชื่อเล่น</th>
+                                                                    <th>หน่วยงาน</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </tfoot>
@@ -568,7 +572,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#id').val("");
                 $('#doc_id').val("");
                 $('#leave_type_id').val("O");
-                $('#leave_type_detail').val("การขอทำงานล่วงเวลา OT");
+                $('#leave_type_detail').val("การขอทำงานล่วงเวลา (OT)");
                 $('#date_leave_start').val("");
                 $('#date_leave_to').val("");
                 $('#remark').val("");

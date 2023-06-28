@@ -65,20 +65,35 @@ if ($_POST["action"] === 'SEARCH') {
 }
 
 if ($_POST["action"] === 'ADD') {
+
     if ($_POST["doc_date"] !== '' && $_POST["emp_id"] !== '' && $_POST["leave_type_id"]!== '') {
+
+        $table = "dleave_event";
         $dept_id = $_POST["department"];
         $doc_date = $_POST["doc_date"];
         $doc_year = substr($_POST["date_leave_start"], 6);
-
+        $doc_month = substr($_POST["date_leave_start"], 3,2);
+        $filed = "id";
         $sql_get_dept = "SELECT mp.dept_ids AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
 
         $dept_id_save = GET_VALUE($conn, $sql_get_dept);
 
-        //$myfile = fopen("dept-param.txt", "w") or die("Unable to open file!");
-        //fwrite($myfile,  $sql_get_dept . " | " . $dept_id_save);
-        //fclose($myfile);
+        $condition = " WHERE doc_year = '" . $doc_year . "' AND doc_month = '" . $doc_month . "' AND dept_id = '" . $dept_id_save .  "'";
+/*
+        $myfile = fopen("action-param.txt", "w") or die("Unable to open file!");
+        fwrite($myfile,  $condition);
+        fclose($myfile);
+*/
 
-        $doc_id = "L-" . $dept_id_save . "-" . substr($doc_date, 6) . "-" . sprintf('%04s', LAST_ID($conn, "dleave_event", 'id'));
+        $last_number = LAST_DOCUMENT_NUMBER($conn,$filed,$table,$condition);
+
+        $doc_id = "L-" . $dept_id_save . "-" . substr($doc_date, 3) . "-" . sprintf('%04s', $last_number);
+/*
+        $myfile = fopen("dept-param.txt", "w") or die("Unable to open file!");
+        fwrite($myfile,  $condition . " | " . $doc_id . " | " . $last_number);
+        fclose($myfile);
+*/
+
         $leave_type_id = $_POST["leave_type_id"];
         $emp_id = $_POST["emp_id"];
         $date_leave_start = $_POST["date_leave_start"];
@@ -104,12 +119,14 @@ if ($_POST["action"] === 'ADD') {
             if ($nRows > 0) {
                 echo $dup;
             } else {
-                $sql = "INSERT INTO dleave_event (doc_id,doc_year,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark) 
-                    VALUES (:doc_id,:doc_year,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:remark)";
+                $sql = "INSERT INTO dleave_event (doc_id,doc_year,doc_month,dept_id,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark) 
+                    VALUES (:doc_id,:doc_year,:doc_month,:dept_id,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:remark)";
 
                 $query = $conn->prepare($sql);
                 $query->bindParam(':doc_id', $doc_id, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
+                $query->bindParam(':doc_month', $doc_month, PDO::PARAM_STR);
+                $query->bindParam(':dept_id', $dept_id_save, PDO::PARAM_STR);
                 $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
                 $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
                 $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
@@ -118,6 +135,7 @@ if ($_POST["action"] === 'ADD') {
                 $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+
                 $query->execute();
                 $lAStInsertId = $conn->lAStInsertId();
 
@@ -126,6 +144,7 @@ if ($_POST["action"] === 'ADD') {
                 } else {
                     echo $error;
                 }
+
             }
         }
     } else {
