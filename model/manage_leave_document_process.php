@@ -6,6 +6,7 @@ include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
 include('../util/GetData.php');
+include('../util/Time_Util.php');
 
 if ($_POST["action"] === 'GET_DATA') {
 
@@ -170,24 +171,63 @@ if ($_POST["action"] === 'UPDATE') {
         $remark = $_POST["remark"];
         $status = $_POST["status"];
 
+        $datetime_leave_start_cal = substr($date_leave_start,6) . "-" . substr($date_leave_start,3,2) . "-" . substr($date_leave_start,0,2) . " " . $time_leave_start ;
+        $datetime_leave_to_cal = substr($date_leave_to,6) . "-" . substr($date_leave_to,3,2) . "-" . substr($date_leave_to,0,2) . " " . $time_leave_to ;
+
+        $sql_time = "SELECT TIMEDIFF('". $datetime_leave_to_cal . "','" . $datetime_leave_start_cal ."') AS total_time ";
+        foreach ($conn->query($sql_time) AS $row) {
+            $total_time = $row['total_time'];
+        }
+
+        /*
+        $myfile = fopen("time1-param.txt", "w") or die("Unable to open file!");
+        fwrite($myfile,  $datetime_leave_start_cal . " | " . $datetime_leave_to_cal);
+        fclose($myfile); */
+
+        //$total_time = Calculate_Time($datetime_leave_start_cal,$datetime_leave_to_cal);
+
+        //$myfile = fopen("time2-param.txt", "w") or die("Unable to open file!");
+        //fwrite($myfile,  $datetime_leave_start_cal . " | " . $datetime_leave_to_cal . " | " . $total_time);
+        //fclose($myfile);
+
         $sql_find = "SELECT * FROM dleave_event WHERE doc_id = '" . $doc_id . "'";
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
             if ($_SESSION['approve_permission']==="Y") {
-                $sql_update = "UPDATE dleave_event SET status=:status
-                               WHERE id = :id";
+                $sql_update = "UPDATE dleave_event SET status=:status,leave_type_id=:leave_type_id
+                ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
+                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year,total_time=:total_time     
+                ,emp_id=:emp_id                  
+                WHERE id = :id";
+
+                //$myfile = fopen("update_sql1.txt", "w") or die("Unable to open file!");
+                //fwrite($myfile,$sql_update);
+                //fclose($myfile);
+
                 $query = $conn->prepare($sql_update);
                 $query->bindParam(':status', $status, PDO::PARAM_STR);
+                $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_start', $time_leave_start, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+                $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
+                $query->bindParam(':total_time', $total_time, PDO::PARAM_STR);
+                $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
                 $query->bindParam(':id', $id, PDO::PARAM_STR);
                 $query->execute();
                 echo $save_success;
             } else {
                 $sql_update = "UPDATE dleave_event SET leave_type_id=:leave_type_id
                 ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
-                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year      
+                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year,total_time=:total_time     
                 ,emp_id=:emp_id                  
                 WHERE id = :id";
+                //$myfile = fopen("update_sql2.txt", "w") or die("Unable to open file!");
+                //fwrite($myfile,$sql_update);
+                //fclose($myfile);
                 $query = $conn->prepare($sql_update);
                 $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
                 $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
@@ -196,6 +236,7 @@ if ($_POST["action"] === 'UPDATE') {
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
+                $query->bindParam(':total_time', $total_time, PDO::PARAM_STR);
                 $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
                 $query->bindParam(':id', $id, PDO::PARAM_STR);
                 $query->execute();

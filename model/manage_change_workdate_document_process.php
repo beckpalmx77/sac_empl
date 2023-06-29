@@ -116,7 +116,7 @@ if ($_POST["action"] === 'ADD') {
             if ($nRows > 0) {
                 echo $dup;
             } else {
-                $sql = "INSERT INTO v_dchange_event (doc_id,doc_year,doc_month,dept_id,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark) 
+                $sql = "INSERT INTO dchange_event (doc_id,doc_year,doc_month,dept_id,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark) 
                     VALUES (:doc_id,:doc_year,:doc_month,:dept_id,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:remark)";
 
                 $query = $conn->prepare($sql);
@@ -167,23 +167,37 @@ if ($_POST["action"] === 'UPDATE') {
         $remark = $_POST["remark"];
         $status = $_POST["status"];
 
+        $total_time = "";
+
         $sql_find = "SELECT * FROM v_dchange_event WHERE doc_id = '" . $doc_id . "'";
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
             if ($_SESSION['approve_permission']==="Y") {
-                $sql_update = "UPDATE v_dchange_event SET status=:status
-                               WHERE id = :id";
+                $sql_update = "UPDATE dchange_event SET status=:status,leave_type_id=:leave_type_id
+                ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
+                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year,total_time=:total_time     
+                ,emp_id=:emp_id                  
+                WHERE id = :id";
                 $query = $conn->prepare($sql_update);
                 $query->bindParam(':status', $status, PDO::PARAM_STR);
+                $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_start', $time_leave_start, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+                $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
+                $query->bindParam(':total_time', $total_time, PDO::PARAM_STR);
+                $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
                 $query->bindParam(':id', $id, PDO::PARAM_STR);
                 $query->execute();
                 echo $save_success;
             } else {
-                $sql_update = "UPDATE v_dchange_event SET leave_type_id=:leave_type_id
+                $sql_update = "UPDATE dchange_event SET leave_type_id=:leave_type_id
                 ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
-                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year
-                ,emp_id=:emp_id                
+                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year,total_time=:total_time     
+                ,emp_id=:emp_id                  
                 WHERE id = :id";
                 $query = $conn->prepare($sql_update);
                 $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
@@ -193,6 +207,7 @@ if ($_POST["action"] === 'UPDATE') {
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
+                $query->bindParam(':total_time', $total_time, PDO::PARAM_STR);
                 $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
                 $query->bindParam(':id', $id, PDO::PARAM_STR);
                 $query->execute();
@@ -210,11 +225,11 @@ if ($_POST["action"] === 'DELETE') {
 
     $id = $_POST["id"];
 
-    $sql_find = "SELECT * FROM v_dchange_event WHERE id = " . $id;
+    $sql_find = "SELECT * FROM dchange_event WHERE id = " . $id;
     $nRows = $conn->query($sql_find)->fetchColumn();
     if ($nRows > 0) {
         try {
-            $sql = "DELETE FROM v_dchange_event WHERE id = " . $id;
+            $sql = "DELETE FROM dchange_event WHERE id = " . $id;
             $query = $conn->prepare($sql);
             $query->execute();
             echo $del_success;
