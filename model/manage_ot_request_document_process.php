@@ -110,8 +110,6 @@ if ($_POST["action"] === 'ADD') {
         }
             $sql_find = "SELECT * FROM v_ot_request ot WHERE ot.date_leave_start = '" . $date_leave_start . "' AND ot.emp_id = '" . $emp_id . "' ";
 
-
-
             $nRows = $conn->query($sql_find)->fetchColumn();
             if ($nRows > 0) {
                 echo $dup;

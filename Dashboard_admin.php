@@ -20,7 +20,9 @@ if (strlen($_SESSION['alogin']) == "") {
                 ?>
                             <div class="card-header">
                             สถิติการลาประจำวันที่
-                            <?php echo date("d/m/Y"); ?>
+                            <?php echo date("d/m/Y");
+                            $current_date = date("d/m/Y");
+                            ?>
                             </div>
 
 
@@ -31,7 +33,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบลา ทั้งหมด
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการลา ทั้งหมด
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-primary"
                                                                                                    id="Text1"></p></div>
@@ -54,7 +56,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบลากิจ
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารใบลากิจ
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
                                                                                                    id="Text2"></p></div>
@@ -77,7 +79,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบลาพักผ่อน
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการลาพักผ่อน
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-info"
                                                                                                    id="Text3"></p></div>
@@ -100,7 +102,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">ใบลาป่วย
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการลาป่วย
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-warning"
                                                                                                    id="Text4"></p></div>
@@ -120,16 +122,41 @@ if (strlen($_SESSION['alogin']) == "") {
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-3">
-                            <div class="card mb-3">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card h-100">
                                 <div class="card-body">
-                                    <section class="container-fluid">
-
-
-
-                                    </section>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนวันหยุด
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-gray-500"
+                                                                                                   id="Text5"></p></div>
+                                            <div class="mt-2 mb-0 text-muted text-xs">
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-file fa-2x text-gray-500"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการขอทำงานล่วงเวลา
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-black-50"
+                                                                                                   id="Text6"></p></div>
+                                            <div class="mt-2 mb-0 text-muted text-xs">
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-file fa-2x text-black-50"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -172,11 +199,19 @@ if (strlen($_SESSION['alogin']) == "") {
                 GET_DATA("dleave_event", i);
             }
 
+            GET_DATA("dchange_event", 5);
+            GET_DATA("ot_request", 6);
+
             setInterval(function () {
                 for (let i = 1; i <= 4; i++) {
                     GET_DATA("dleave_event", i);
                 }
+                GET_DATA("dchange_event", 5);
+                GET_DATA("ot_request", 6);
             }, 3000);
+
+
+
         });
 
     </script>
@@ -184,21 +219,30 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
 
         function GET_DATA(table_name, idx) {
+            const current_date = "<?php echo str_replace('/','-',$current_date); ?>";
+            let where_date = "And doc_date = '" + current_date + "'";
+            //alert(where_date);
             let input_text = document.getElementById("Text" + idx);
             let action = "GET_COUNT_RECORDS_COND";
             let cond = "";
             switch (idx) {
                 case 1:
-                    cond = "";
+                    cond = " Where doc_date = '" + current_date + "'" ;
                     break;
                 case 2:
-                    cond = " Where leave_type_id = 'L1' ";
+                    cond = " Where leave_type_id = 'L1' " + where_date;
                     break;
                 case 3:
-                    cond = " Where leave_type_id = 'L3' ";
+                    cond = " Where leave_type_id = 'L3' " + where_date;
                     break;
                 case 4:
-                    cond = " Where leave_type_id = 'L2' ";
+                    cond = " Where leave_type_id = 'L2' " + where_date;
+                    break;
+                case 5:
+                    cond = " Where leave_type_id = 'C' " + where_date;
+                    break;
+                case 6:
+                    cond = " Where leave_type_id = 'O' " + where_date;
                     break;
             }
             //alert(cond);
