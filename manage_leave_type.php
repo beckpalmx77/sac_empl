@@ -52,7 +52,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <table id='TableRecordList' class='display dataTable'>
                                                 <thead>
                                                 <tr>
-                                                    <th>รหัสประเภทการลา</th>
+                                                    <th>รหัสประเภทเอกสาร</th>
                                                     <th>รายละเอียด</th>
                                                     <th>จำนวนวันสูงสุด</th>
                                                     <th>Status</th>
@@ -62,7 +62,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
-                                                    <th>รหัสประเภทการลา</th>
+                                                    <th>รหัสประเภทเอกสาร</th>
                                                     <th>รายละเอียด</th>
                                                     <th>จำนวนวันสูงสุด</th>
                                                     <th>Status</th>

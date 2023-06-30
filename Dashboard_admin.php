@@ -210,8 +210,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 GET_DATA("ot_request", 6);
             }, 3000);
 
-
-
         });
 
     </script>
