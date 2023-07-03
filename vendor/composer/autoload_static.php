@@ -8,6 +8,7 @@ class ComposerStaticInit81749a0b49ac44f05f3399940816f0e6
 {
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -15,18 +16,21 @@ class ComposerStaticInit81749a0b49ac44f05f3399940816f0e6
         array (
             'setasign\\Fpdi\\' => 14,
         ),
+        'p' => 
+        array (
+            'phpseclib3\\' => 11,
+        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'PhpAmqpLib\\' => 11,
+            'ParagonIE\\ConstantTime\\' => 23,
         ),
         'M' => 
         array (
+            'Mpdf\\PsrLogAwareTrait\\' => 22,
             'Mpdf\\' => 5,
-        ),
-        'H' => 
-        array (
-            'Http\\Message\\' => 13,
         ),
         'D' => 
         array (
@@ -39,6 +43,10 @@ class ComposerStaticInit81749a0b49ac44f05f3399940816f0e6
         array (
             0 => __DIR__ . '/..' . '/setasign/fpdi/src',
         ),
+        'phpseclib3\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -47,13 +55,21 @@ class ComposerStaticInit81749a0b49ac44f05f3399940816f0e6
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'PhpAmqpLib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-amqplib/php-amqplib/PhpAmqpLib',
+        ),
+        'ParagonIE\\ConstantTime\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
+        ),
+        'Mpdf\\PsrLogAwareTrait\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mpdf/psr-log-aware-trait/src',
+        ),
         'Mpdf\\' => 
         array (
             0 => __DIR__ . '/..' . '/mpdf/mpdf/src',
-        ),
-        'Http\\Message\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
         ),
         'DeepCopy\\' => 
         array (
