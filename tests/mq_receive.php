@@ -5,7 +5,7 @@ require_once '../vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-$connection = new AMQPStreamConnection('localhost', 5672, 'admin', 'admin');
+$connection = new AMQPStreamConnection('192.168.88.8', 5672, 'admin', 'admin');
 $channel = $connection->channel();
 
 $channel->queue_declare('sac_msg', false, false, false, false);
