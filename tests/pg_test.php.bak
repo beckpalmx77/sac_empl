@@ -7,7 +7,7 @@ $orders = $stmt->fetchAll();
 foreach($orders as $order)
 {
         echo $order['date'] . "\n\r";
-        $msg_data = "Date = " . $order['date'];
+        $msg = "Date = " . $order['date'];
 }
 
 
@@ -21,7 +21,7 @@ $channel = $connection->channel();
 
 $channel->queue_declare('sac_msg', false, false, false, false);
 
-$msg = new AMQPMessage($msg_data);
+$msg = new AMQPMessage($msg);
 $channel->basic_publish($msg, '', 'sac_msg');
 
 echo " [x] Sent 'Send Data'\n";
