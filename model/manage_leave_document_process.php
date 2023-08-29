@@ -2,11 +2,12 @@
 session_start();
 error_reporting(0);
 
+include('../config/config_rabbit.inc');
 include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
 include('../util/GetData.php');
-include('../util/Time_Util.php');
+include('../util/send_message.php');
 
 if ($_POST["action"] === 'GET_DATA') {
 

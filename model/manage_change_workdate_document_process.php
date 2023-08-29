@@ -2,10 +2,12 @@
 session_start();
 error_reporting(0);
 
+include('../config/config_rabbit.inc');
 include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
 include('../util/GetData.php');
+include('../util/send_message.php');
 
 if ($_POST["action"] === 'GET_DATA') {
 
@@ -138,6 +140,11 @@ if ($_POST["action"] === 'ADD') {
 
                 if ($lAStInsertId) {
                     echo $save_success;
+                    $sToken = "zgbi6mXoK6rkJWSeFZm5wPjQfiOniYnV2MOxXeTMlA1";
+                    $sMessage = "มีเอกสารการลา เลขที่เอกสาร = " . $data . " " . $date . " " . $customer_code . " " . $customer_name ;
+                    echo $sMessage ;
+                    sendLineNotify($sMessage,$sToken);
+
                 } else {
                     echo $error;
                 }
