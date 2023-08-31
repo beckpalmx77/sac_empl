@@ -1,5 +1,0 @@
-UPDATE dleave_event SET status=:status,leave_type_id=:leave_type_id
-                ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
-                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year,total_time=:total_time     
-                ,emp_id=:emp_id                  
-                WHERE id = :id

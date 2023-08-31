@@ -69,8 +69,14 @@ if ($_POST["action"] === 'ADD') {
         if ($nRows > 0) {
             echo 2;
         } else {
-            $sql = "INSERT INTO ims_user(user_id,email,password,first_name,last_name,account_type,picture,department_idม,approve_permission,document_dept_cond,status)
+            $sql = "INSERT INTO ims_user(user_id,email,password,first_name,last_name,account_type,picture,department_id,approve_permission,document_dept_cond,status)
             VALUES (:user_id,:email,:password,:first_name,:last_name,:account_type,:picture,:department_id,:approve_permission,:document_dept_cond,:status)";
+/*
+            $myfile = fopen("myqeury_1.txt", "w") or die("Unable to open file!");
+            fwrite($myfile, $sql);
+            fclose($myfile);
+*/
+
             $query = $conn->prepare($sql);
             $query->bindParam(':user_id', $user_id, PDO::PARAM_STR);
             $query->bindParam(':email', $email, PDO::PARAM_STR);
