@@ -79,21 +79,16 @@ if ($_POST["action"] === 'ADD') {
 
         $sql_get_dept = "SELECT mp.dept_ids AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
 
-        $sql_get_dept_desc = "SELECT mp.department_desc AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
-
-        $sql_get_emp = "SELECT concat(em.f_name ,' ', em.l_name) AS full_name AS data FROM memployee em 
-                        WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
-
-        $sql_get_leave = "SELECT lv.leave_type_detail AS data AS data FROM mleave_type lv 
-                        WHERE lv.leave_type_id = '" . $_POST["leave_type_id"] . "'";
-
         $dept_id_save = GET_VALUE($conn, $sql_get_dept);
+
+        $sql_get_dept_desc = "SELECT mp.department_desc AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
 
         $dept_desc = GET_VALUE($conn, $sql_get_dept_desc);
 
-        $emp_full_name = GET_VALUE($conn, $sql_get_emp);
+        $emp_full_name = $_POST["full_name"];
 
-        $leave_type_desc = GET_VALUE($conn, $sql_get_leave);
+        $leave_type_desc = $_POST["leave_type_detail"];
+
 
         $condition = " WHERE doc_year = '" . $doc_year . "' AND doc_month = '" . $doc_month . "' AND dept_id = '" . $dept_id_save .  "'";
 /*
@@ -158,7 +153,8 @@ if ($_POST["action"] === 'ADD') {
 
                 if ($lAStInsertId) {
 
-                    $sToken = "8qcGnhyM2Td70CrvFgYbV8osxNWrpfhMizjjUC1PSFX";
+                    //$sToken = "8qcGnhyM2Td70CrvFgYbV8osxNWrpfhMizjjUC1PSFX";
+                    $sToken = "zgbi6mXoK6rkJWSeFZm5wPjQfiOniYnV2MOxXeTMlA1";
                     $sMessage = "มีเอกสารการลา " . $leave_type_desc
                         . "\n\r" . "เลขที่เอกสาร = " . $doc_id . " วันที่เอกสาร = " . $doc_date
                         . "\n\r" . "วันที่ขอลา : " . $date_leave_start . " - " . $time_leave_start .  " ถึง : " . $date_leave_to . " - " .  $time_leave_to
