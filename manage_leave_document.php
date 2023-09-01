@@ -533,8 +533,9 @@ if (strlen($_SESSION['alogin']) == "") {
                         let l_before = $('#leave_before').val();
 
 
-                        if (check_day >= l_before) {
+                        //if (check_day >= l_before) {
                             //alert("OK");
+
                             let formData = $(this).serialize();
                             $.ajax({
                                 url: 'model/manage_leave_document_process.php',
@@ -548,9 +549,10 @@ if (strlen($_SESSION['alogin']) == "") {
                                     dataRecords.ajax.reload();
                                 }
                             })
-                        } else {
-                            alertify.error("ไม่สามารถบันทึกได้ การลาต้องลาล่วงหน้า : " + l_before + " วัน");
-                        }
+
+                        //} else {
+                            //alertify.error("ไม่สามารถบันทึกได้ การลาต้องลาล่วงหน้า : " + l_before + " วัน");
+                        //}
 
                     } else {
                         alertify.error("กรุณาป้อนวันที่ต้องการลา !!!");
