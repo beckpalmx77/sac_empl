@@ -76,6 +76,7 @@ if ($_POST["action"] === 'ADD') {
         $doc_year = substr($_POST["date_leave_start"], 6);
         $doc_month = substr($_POST["date_leave_start"], 3,2);
         $filed = "id";
+
         $sql_get_dept = "SELECT mp.dept_ids AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
 
         $sql_get_dept_desc = "SELECT mp.department_desc AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
