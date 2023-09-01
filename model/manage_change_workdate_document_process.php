@@ -80,6 +80,14 @@ if ($_POST["action"] === 'ADD') {
 
         $dept_id_save = GET_VALUE($conn, $sql_get_dept);
 
+        $sql_get_dept_desc = "SELECT mp.department_desc AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
+
+        $dept_desc = GET_VALUE($conn, $sql_get_dept_desc);
+
+        $emp_full_name = $_POST["full_name"];
+
+        $leave_type_desc = $_POST["leave_type_detail"];
+
         $condition = " WHERE doc_year = '" . $doc_year . "' AND doc_month = '" . $doc_month . "' AND dept_id = '" . $dept_id_save .  "'";
         /*
                 $myfile = fopen("action-param.txt", "w") or die("Unable to open file!");
@@ -139,9 +147,14 @@ if ($_POST["action"] === 'ADD') {
                 $lAStInsertId = $conn->lAStInsertId();
 
                 if ($lAStInsertId) {
-                    echo $save_success;
-                    $sToken = "zgbi6mXoK6rkJWSeFZm5wPjQfiOniYnV2MOxXeTMlA1";
-                    $sMessage = "มีเอกสารการลา เลขที่เอกสาร = " . $data . " " . $date . " " . $customer_code . " " . $customer_name ;
+
+                    $sToken = "8qcGnhyM2Td70CrvFgYbV8osxNWrpfhMizjjUC1PSFX";
+                    //$sToken = "zgbi6mXoK6rkJWSeFZm5wPjQfiOniYnV2MOxXeTMlA1";
+                    $sMessage = "มีเอกสารการ " . $leave_type_desc
+                        . "\n\r" . "เลขที่เอกสาร = " . $doc_id . " วันที่เอกสาร = " . $doc_date
+                        . "\n\r" . "วันที่หยุดปกติ : " . $date_leave_start . " ต้องการเปลี่ยนไปหยุดวันที่ : " . $date_leave_to
+                        . "\n\r" . "ผู้ขอ : " . $emp_full_name  . " " .  $dept_desc;
+
                     echo $sMessage ;
                     sendLineNotify($sMessage,$sToken);
 
