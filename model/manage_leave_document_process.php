@@ -153,8 +153,8 @@ if ($_POST["action"] === 'ADD') {
 
                 if ($lAStInsertId) {
 
-                    //$sToken = "8qcGnhyM2Td70CrvFgYbV8osxNWrpfhMizjjUC1PSFX";
-                    $sToken = "zgbi6mXoK6rkJWSeFZm5wPjQfiOniYnV2MOxXeTMlA1";
+                    $sToken = "8qcGnhyM2Td70CrvFgYbV8osxNWrpfhMizjjUC1PSFX";
+                    //$sToken = "zgbi6mXoK6rkJWSeFZm5wPjQfiOniYnV2MOxXeTMlA1";
                     $sMessage = "มีเอกสารการลา " . $leave_type_desc
                         . "\n\r" . "เลขที่เอกสาร = " . $doc_id . " วันที่เอกสาร = " . $doc_date
                         . "\n\r" . "วันที่ขอลา : " . $date_leave_start . " - " . $time_leave_start .  " ถึง : " . $date_leave_to . " - " .  $time_leave_to
