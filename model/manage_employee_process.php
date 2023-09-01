@@ -237,19 +237,21 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-    $sql_getdata = "SELECT em.*,mt.work_time_detail FROM memployee em            
+    $sql_getdata = "SELECT em.*,mt.work_time_detail,dp.department_desc FROM memployee em            
             left join mwork_time mt on mt.work_time_id = em.work_time_id 
+            left join mdepartment dp on dp.department_id = em.dept_id 	
             WHERE 1 " . $searchQuery
         . " ORDER BY status DESC, emp_id DESC , " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset";
 
     $stmt = $conn->prepare($sql_getdata);
 
-    /*
+/*
                 $txt = $sql_getdata ;
                 $my_file = fopen("emp.txt", "w") or die("Unable to open file!");
                 fwrite($my_file, $txt);
                 fclose($my_file);
-    */
+*/
+
 
 
 // Bind values
@@ -278,6 +280,7 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
                 "full_name" => $row['f_name'] . " " . $row['l_name'],
                 "dept_id" => $row['dept_id'],
                 "department_id" => $row['department_id'],
+                "department_desc" => $row['department_desc'],
                 "work_time_id" => $row['work_time_id'],
                 "work_time_detail" => $row['work_time_detail'],
                 "start_work_date" => $row['start_work_date'],
