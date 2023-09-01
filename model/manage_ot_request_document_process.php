@@ -78,7 +78,17 @@ if ($_POST["action"] === 'ADD') {
         $filed = "id";
         $sql_get_dept = "SELECT mp.dept_ids AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
 
+        $sql_get_emp = "SELECT concat(em.f_name ,' ', em.l_name) AS full_name AS data FROM memployee em 
+                        WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
+
+        $sql_get_leave = "SELECT lv.leave_type_detail AS data AS data FROM mleave_type lv 
+                        WHERE lv.leave_type_id = '" . $_POST["leave_type_id"] . "'";
+
         $dept_id_save = GET_VALUE($conn, $sql_get_dept);
+
+        $emp_full_name = GET_VALUE($conn, $sql_get_emp);
+
+        $leave_type_desc = GET_VALUE($conn, $sql_get_leave);
 
         $condition = " WHERE doc_year = '" . $doc_year . "' AND doc_month = '" . $doc_month . "' AND dept_id = '" . $dept_id_save .  "'";
 
@@ -142,7 +152,16 @@ if ($_POST["action"] === 'ADD') {
                 $lAStInsertId = $conn->lAStInsertId();
 
                 if ($lAStInsertId) {
+
+                    $sToken = "8qcGnhyM2Td70CrvFgYbV8osxNWrpfhMizjjUC1PSFX";
+                    $sMessage = "มีเอกสารการขอล่วงเวลา เลขที่เอกสาร = " . $doc_id . " วันที่เอกสาร = " . $doc_date
+                        . "\n\r" . "วันที่ขอทำงานล่วงเวลา : " . $date_leave_start . " เวลา : " . $time_leave_start . " - " .  $time_leave_to
+                        . "\n\r" . "ผู้ขอ : " . $emp_full_name ;
+
+                    echo $sMessage ;
+                    sendLineNotify($sMessage,$sToken);
                     echo $save_success;
+
                 } else {
                     echo $error;
                 }
