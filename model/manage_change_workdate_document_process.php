@@ -172,7 +172,7 @@ if ($_POST["action"] === 'ADD') {
 
 if ($_POST["action"] === 'UPDATE') {
 
-    if ($_POST["doc_id"] != '' && $_POST["status"]!=='A') {
+    if ($_POST["doc_id"] != '') {
         $id = $_POST["id"];
         $doc_id = $_POST["doc_id"];
         $doc_date = $_POST["doc_date"];
@@ -186,6 +186,10 @@ if ($_POST["action"] === 'UPDATE') {
         $time_leave_to = $_POST["time_leave_to"];
         $remark = $_POST["remark"];
         $status = $_POST["status"];
+
+        //$myfile = fopen("get-status.txt", "w") or die("Unable to open file!");
+        //fwrite($myfile,  $doc_id . " | " . $status . " | " . $doc_date);
+        //fclose($myfile);
 
         $total_time = "";
 

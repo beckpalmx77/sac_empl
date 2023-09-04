@@ -179,7 +179,7 @@ if ($_POST["action"] === 'ADD') {
 
 if ($_POST["action"] === 'UPDATE') {
 
-    if ($_POST["doc_id"] != '' && $_POST["status"]!=='A') {
+    if ($_POST["doc_id"] != '') {
         $id = $_POST["id"];
         $doc_id = $_POST["doc_id"];
         $doc_date = $_POST["doc_date"];
