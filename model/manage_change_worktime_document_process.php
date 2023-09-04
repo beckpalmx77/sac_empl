@@ -34,9 +34,11 @@ if ($_POST["action"] === 'GET_DATA') {
             "leave_type_detail" => $result['leave_type_detail'],
             "emp_id" => $result['emp_id'],
             "date_leave_start" => $result['date_leave_start'],
-            "date_leave_to" => $result['date_leave_to'],            
             "time_leave_start" => $result['time_leave_start'],
             "time_leave_to" => $result['time_leave_to'],
+            "date_leave_start_c" => $result['date_leave_start_c'],
+            "time_leave_start_c" => $result['time_leave_start_c'],
+            "time_leave_to_c" => $result['time_leave_to_c'],
             "f_name" => $result['f_name'],
             "l_name" => $result['l_name'],
             "full_name" => $result['f_name'] . " " .  $result['l_name'],
@@ -97,7 +99,7 @@ if ($_POST["action"] === 'ADD') {
 
         $last_number = LAST_DOCUMENT_NUMBER($conn,$filed,$table,$condition);
 
-        $doc_id = "C-" . $dept_id_save . "-" . substr($doc_date, 3) . "-" . sprintf('%04s', $last_number);
+        $doc_id = "S-" . $dept_id_save . "-" . substr($doc_date, 3) . "-" . sprintf('%04s', $last_number);
         /*
                 $myfile = fopen("dept-param.txt", "w") or die("Unable to open file!");
                 fwrite($myfile,  $condition . " | " . $doc_id . " | " . $last_number);
@@ -108,9 +110,19 @@ if ($_POST["action"] === 'ADD') {
         $emp_id = $_POST["emp_id"];
         $date_leave_start = $_POST["date_leave_start"];
         $time_leave_start = $_POST["time_leave_start"];
-        $date_leave_to = $_POST["date_leave_to"];
         $time_leave_to = $_POST["time_leave_to"];
+        $date_leave_start_c = $_POST["date_leave_start_c"];
+        $time_leave_start_c = $_POST["time_leave_start_c"];
+        $time_leave_to_c = $_POST["time_leave_to_c"];
         $remark = $_POST["remark"];
+
+/*
+        $myfile = fopen("get-status.txt", "w") or die("Unable to open file!");
+        fwrite($myfile,  $date_leave_start . " | " . $time_leave_start . " | " . $time_leave_to
+            . " | " . $date_leave_start_c . " | " . $time_leave_start_c . " | " . $time_leave_to_c);
+        fclose($myfile);
+*/
+
 
         $day_max = GET_VALUE($conn, "SELECT day_max AS data FROM mleave_type WHERE leave_type_id ='" . $leave_type_id . "'");
 
@@ -126,8 +138,10 @@ if ($_POST["action"] === 'ADD') {
             if ($nRows > 0) {
                 echo $dup;
             } else {
-                $sql = "INSERT INTO dtime_change_event (doc_id,doc_year,doc_month,dept_id,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark) 
-                    VALUES (:doc_id,:doc_year,:doc_month,:dept_id,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:remark)";
+                $sql = "INSERT INTO dtime_change_event (doc_id,doc_year,doc_month,dept_id,doc_date,leave_type_id,emp_id
+                    ,date_leave_start,time_leave_start,time_leave_to,date_leave_start_c,time_leave_start_c,time_leave_to_c,remark) 
+                    VALUES (:doc_id,:doc_year,:doc_month,:dept_id,:doc_date,:leave_type_id,:emp_id
+                    ,:date_leave_start,:time_leave_start,:time_leave_to,:date_leave_start_c,:time_leave_start_c,:time_leave_to_c,:remark)";
 
                 $query = $conn->prepare($sql);
                 $query->bindParam(':doc_id', $doc_id, PDO::PARAM_STR);
@@ -139,8 +153,10 @@ if ($_POST["action"] === 'ADD') {
                 $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
                 $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
                 $query->bindParam(':time_leave_start', $time_leave_start, PDO::PARAM_STR);
-                $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_start_c', $date_leave_start_c, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_start_c', $time_leave_start_c, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_to_c', $time_leave_to_c, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
 
                 $query->execute();
@@ -148,11 +164,12 @@ if ($_POST["action"] === 'ADD') {
 
                 if ($lAStInsertId) {
 
-                    $sToken = "8qcGnhyM2Td70CrvFgYbV8osxNWrpfhMizjjUC1PSFX";
+                    $sToken = "gf0Sx2unVFgz7u81vqrU6wcUA2XLLVoPOo2d0Dlvdlr";
                     //$sToken = "zgbi6mXoK6rkJWSeFZm5wPjQfiOniYnV2MOxXeTMlA1";
                     $sMessage = "มีเอกสารการ " . $leave_type_desc
                         . "\n\r" . "เลขที่เอกสาร = " . $doc_id . " วันที่เอกสาร = " . $doc_date
-                        . "\n\r" . "วันที่หยุดปกติ : " . $date_leave_start . " ต้องการเปลี่ยนไปหยุดวันที่ : " . $date_leave_to
+                        . "\n\r" . "วันที่ทำงานปกติ : " . $date_leave_start . $time_leave_start . " - " . $time_leave_to
+                        . "\n\r" . "เปลี่ยนเป็นวันที่ : " . $date_leave_start_c . $time_leave_start_c . " - " . $time_leave_to_c
                         . "\n\r" . "ผู้ขอ : " . $emp_full_name  . " " .  $dept_desc;
 
                     echo $sMessage ;
@@ -182,14 +199,20 @@ if ($_POST["action"] === 'UPDATE') {
         $emp_id = $_POST["emp_id"];
         $date_leave_start = $_POST["date_leave_start"];
         $time_leave_start = $_POST["time_leave_start"];
-        $date_leave_to = $_POST["date_leave_to"];
         $time_leave_to = $_POST["time_leave_to"];
+        $date_leave_start_c = $_POST["date_leave_start_c"];
+        $time_leave_start_c = $_POST["time_leave_start_c"];
+        $time_leave_to_c = $_POST["time_leave_to_c"];
+
         $remark = $_POST["remark"];
         $status = $_POST["status"];
 
-        //$myfile = fopen("get-status.txt", "w") or die("Unable to open file!");
-        //fwrite($myfile,  $doc_id . " | " . $status . " | " . $doc_date);
-        //fclose($myfile);
+/*
+        $myfile = fopen("get-status.txt", "w") or die("Unable to open file!");
+        fwrite($myfile,  $date_leave_start . " | " . $time_leave_start . " | " . $time_leave_to
+        . " | " . $date_leave_start_c . " | " . $time_leave_start_c . " | " . $time_leave_to_c);
+        fclose($myfile);
+*/
 
         $total_time = "";
 
@@ -199,17 +222,20 @@ if ($_POST["action"] === 'UPDATE') {
 
             if ($_SESSION['approve_permission']==="Y") {
                 $sql_update = "UPDATE dtime_change_event SET status=:status,leave_type_id=:leave_type_id
-                ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
-                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year,total_time=:total_time     
+                ,date_leave_start=:date_leave_start,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to
+                ,date_leave_start_c=:date_leave_start_c,time_leave_start_c=:time_leave_start_c,time_leave_to_c=:time_leave_to_c
+                ,remark=:remark,doc_year=:doc_year,total_time=:total_time     
                 ,emp_id=:emp_id                  
                 WHERE id = :id";
                 $query = $conn->prepare($sql_update);
                 $query->bindParam(':status', $status, PDO::PARAM_STR);
                 $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
                 $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
-                $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':time_leave_start', $time_leave_start, PDO::PARAM_STR);
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_start_c', $date_leave_start_c, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_start_c', $time_leave_start_c, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_to_c', $time_leave_to_c, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
                 $query->bindParam(':total_time', $total_time, PDO::PARAM_STR);
@@ -219,16 +245,19 @@ if ($_POST["action"] === 'UPDATE') {
                 echo $save_success;
             } else {
                 $sql_update = "UPDATE dtime_change_event SET leave_type_id=:leave_type_id
-                ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
-                ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year,total_time=:total_time     
+                ,date_leave_start=:date_leave_start,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to
+                ,date_leave_start_c=:date_leave_start_c,time_leave_start_c=:time_leave_start_c,time_leave_to_c=:time_leave_to_c
+                ,remark=:remark,doc_year=:doc_year,total_time=:total_time     
                 ,emp_id=:emp_id                  
                 WHERE id = :id";
                 $query = $conn->prepare($sql_update);
                 $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
                 $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
-                $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':time_leave_start', $time_leave_start, PDO::PARAM_STR);
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
+                $query->bindParam(':date_leave_start_c', $date_leave_start_c, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_start_c', $time_leave_start_c, PDO::PARAM_STR);
+                $query->bindParam(':time_leave_to_c', $time_leave_to_c, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
                 $query->bindParam(':total_time', $total_time, PDO::PARAM_STR);
@@ -339,11 +368,13 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "leave_type_id" => $row['leave_type_id'],
                 "leave_type_detail" => $row['leave_type_detail'],
                 "date_leave_start" => $row['date_leave_start'],
-                "date_leave_to" => $row['date_leave_to'],
                 "time_leave_start" => $row['time_leave_start'],
                 "time_leave_to" => $row['time_leave_to'],
-                "dt_leave_start" => $row['date_leave_start'] . " " .  $row['time_leave_start'],
-                "dt_leave_to" => $row['date_leave_to'] . " " .  $row['time_leave_to'],
+                "date_leave_start_c" => $row['date_leave_start_c'],
+                "time_leave_start_c" => $row['time_leave_start_c'],
+                "time_leave_to_c" => $row['time_leave_to_c'],
+                "dt_leave_start" => $row['date_leave_start'] . " " .  $row['time_leave_start'] . " - " . $row['time_leave_to'],
+                "dt_leave_to" => $row['date_leave_start_c'] . " " .  $row['time_leave_start_c'] . " - " . $row['time_leave_to_c'],
                 "department_id" => $row['department_id'],
                 "remark" => $row['remark'],
                 "full_name" => $row['f_name'] . " " .  $row['l_name'],

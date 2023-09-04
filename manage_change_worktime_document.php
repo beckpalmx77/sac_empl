@@ -62,8 +62,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>เลขที่เอกสาร</th>
                                                     <th>ชื่อ-นามสกุล</th>
                                                     <th>หน่วยงาน</th>
-                                                    <th>วันที่หยุดปกติ</th>
-                                                    <th>วันที่ต้องการหยุด</th>
+                                                    <th>วันที่ทำงานปกติ</th>
+                                                    <th>วันที่ต้องเปลี่ยน</th>
                                                     <th>เหตุผล</th>
                                                     <th>สถานะ</th>
                                                     <th>Action</th>
@@ -75,8 +75,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>เลขที่เอกสาร</th>
                                                     <th>ชื่อ-นามสกุล</th>
                                                     <th>หน่วยงาน</th>
-                                                    <th>วันที่หยุดปกติ</th>
-                                                    <th>วันที่ต้องการหยุด</th>
+                                                    <th>วันที่ทำงานปกติ</th>
+                                                    <th>วันที่ต้องเปลี่ยน</th>
                                                     <th>เหตุผล</th>
                                                     <th>สถานะ</th>
                                                     <th>Action</th>
@@ -205,21 +205,20 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-3">
                                                                         <label for="date_leave_start"
-                                                                               class="control-label">วันที่หยุดปกติ</label>
+                                                                               class="control-label">วันที่ทำงานปกติ</label>
                                                                         <i class="fa fa-calendar"
                                                                            aria-hidden="true"></i>
                                                                         <input type="text" class="form-control"
                                                                                id="date_leave_start"
                                                                                name="date_leave_start"
-                                                                               value="<?php //echo $curr_date ?>"
                                                                                required="required"
                                                                                readonly="true"
-                                                                               placeholder="วันที่หยุดปกติ">
+                                                                               placeholder="วันที่ทำงานปกติ">
                                                                     </div>
                                                                     <div class="col-sm-3">
-                                                                        <label for="date_leave_start"
-                                                                               class="control-label"></label>
-                                                                        <input type="hidden" class="form-control"
+                                                                        <label for="time_leave_start"
+                                                                               class="control-label">เวลาเริ่มต้น</label>
+                                                                        <input type="text" class="form-control"
                                                                                id="time_leave_start"
                                                                                name="time_leave_start"
                                                                                value="<?php echo $_SESSION['work_time_start'] ?>"
@@ -227,26 +226,49 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                placeholder="เวลาเริ่มต้น">
                                                                     </div>
                                                                     <div class="col-sm-3">
-                                                                        <label for="date_leave_start"
-                                                                               class="control-label">วันที่ต้องการหยุด</label>
-                                                                        <i class="fa fa-calendar"
-                                                                           aria-hidden="true"></i>
-                                                                        <input type="text" class="form-control"
-                                                                               id="date_leave_to"
-                                                                               name="date_leave_to"
-                                                                               value="<?php //echo $curr_date ?>"
-                                                                               required="required"
-                                                                               readonly="true"
-                                                                               placeholder="วันที่ต้องการหยุด">
-                                                                    </div>
-                                                                    <div class="col-sm-3">
                                                                         <label for="time_leave_to"
-                                                                               class="control-label"></label>
-                                                                        <input type="hidden" class="form-control"
+                                                                               class="control-label">เวลาสิ้นสุด</label>
+                                                                        <input type="text" class="form-control"
                                                                                id="time_leave_to"
                                                                                name="time_leave_to"
                                                                                required="required"
                                                                                value="<?php echo $_SESSION['work_time_stop'] ?>"
+                                                                               placeholder="เวลาสิ้นสุด">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-3">
+                                                                        <label for="date_leave_start_c"
+                                                                               class="control-label">เปลี่ยนเป็นวันที่</label>
+                                                                        <i class="fa fa-calendar"
+                                                                           aria-hidden="true"></i>
+                                                                        <input type="text" class="form-control"
+                                                                               id="date_leave_start_c"
+                                                                               name="date_leave_start_c"
+                                                                               value=""
+                                                                               required="required"
+                                                                               readonly="true"
+                                                                               placeholder="เปลี่ยนเป็นวันที่">
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <label for="time_leave_start_c"
+                                                                               class="control-label">เวลาเริ่มต้น</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="time_leave_start_c"
+                                                                               name="time_leave_start_c"
+                                                                               value=""
+                                                                               required="required"
+                                                                               placeholder="เวลาเริ่มต้น">
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <label for="time_leave_to_c"
+                                                                               class="control-label">เวลาสิ้นสุด</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="time_leave_to_c"
+                                                                               name="time_leave_to_c"
+                                                                               required="required"
+                                                                               value=""
                                                                                placeholder="เวลาสิ้นสุด">
                                                                     </div>
                                                                 </div>
@@ -523,7 +545,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#leave_type_id').val("S");
                 $('#leave_type_detail').val("เปลี่ยนเวลาการทำงาน");
                 $('#date_leave_start').val("");
-                $('#date_leave_to').val("");
+                $('#date_leave_start_c').val("");                  
                 $('#remark').val("");
                 $('#status').val("N");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
@@ -555,9 +577,11 @@ if (strlen($_SESSION['alogin']) == "") {
                         let leave_type_id = response[i].leave_type_id;
                         let leave_type_detail = response[i].leave_type_detail;
                         let date_leave_start = response[i].date_leave_start;
-                        let date_leave_to = response[i].date_leave_to;
                         let time_leave_start = response[i].time_leave_start;
                         let time_leave_to = response[i].time_leave_to;
+                        let date_leave_start_c = response[i].date_leave_start_c;
+                        let time_leave_start_c = response[i].time_leave_start_c;
+                        let time_leave_to_c = response[i].time_leave_to_c;
                         let leave_before = response[i].leave_before;
                         let remark = response[i].remark;
                         let status = response[i].status;
@@ -571,9 +595,11 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#leave_type_id').val(leave_type_id);
                         $('#leave_type_detail').val(leave_type_detail);
                         $('#date_leave_start').val(date_leave_start);
-                        $('#date_leave_to').val(date_leave_to);
                         $('#time_leave_start').val(time_leave_start);
                         $('#time_leave_to').val(time_leave_to);
+                        $('#date_leave_start_c').val(date_leave_start_c);
+                        $('#time_leave_start_c').val(time_leave_start_c);
+                        $('#time_leave_to_c').val(time_leave_to_c);
                         $('#leave_before').val(leave_before);
                         $('#remark').val(remark);
                         $('#status').val(status);
@@ -652,7 +678,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            $('#date_leave_to').datepicker({
+            $('#date_leave_start_c').datepicker({
                 format: "dd-mm-yyyy",
                 todayHighlight: true,
                 language: "th",
