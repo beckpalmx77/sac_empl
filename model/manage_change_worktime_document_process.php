@@ -168,8 +168,8 @@ if ($_POST["action"] === 'ADD') {
                     //$sToken = "zgbi6mXoK6rkJWSeFZm5wPjQfiOniYnV2MOxXeTMlA1";
                     $sMessage = "มีเอกสารการ " . $leave_type_desc
                         . "\n\r" . "เลขที่เอกสาร = " . $doc_id . " วันที่เอกสาร = " . $doc_date
-                        . "\n\r" . "วันที่ทำงานปกติ : " . $date_leave_start . $time_leave_start . " - " . $time_leave_to
-                        . "\n\r" . "เปลี่ยนเป็นวันที่ : " . $date_leave_start_c . $time_leave_start_c . " - " . $time_leave_to_c
+                        . "\n\r" . "วันที่ทำงานปกติ : " . $date_leave_start . " " .  $time_leave_start . " - " . $time_leave_to
+                        . "\n\r" . "เปลี่ยนเป็นวันที่ : " . $date_leave_start_c . " " .  $time_leave_start_c . " - " . $time_leave_to_c
                         . "\n\r" . "ผู้ขอ : " . $emp_full_name  . " " .  $dept_desc;
 
                     echo $sMessage ;
