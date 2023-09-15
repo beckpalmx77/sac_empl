@@ -6,7 +6,7 @@ error_reporting(~0);
 include("../config/connect_sqlserver.php");
 include("../config/connect_db.php");
 
-$sql_sqlsvr = "SELECT EMP_KEY,EMP_INTL,EMPFILE.EMP_NAME,EMPFILE.EMP_SURNME,EMPFILE.EMP_GENDER,EMPFILE.EMP_EMAIL
+$sql_sqlsvr = "SELECT EMP_KEY,EMP_INTL,EMPFILE.EMP_NAME,EMPFILE.EMP_SURNME,EMPFILE.EMP_GENDER,EMPFILE.EMP_EMAIL,EMPFILE.EMP_TEL
 ,PERSONALINFO.PRS_SC_D,PAYROLLINFO.PRI_SALARY ,PERSONALINFO.PRS_DEPT
 ,PERSONALINFO.PRS_JBT,DEPTTAB.DEPT_THAIDESC,JOBTITLE.JBT_THAIDESC
 ,PAYROLLINFO.PRI_STATUS,EMPFILE.EMP_BIRTH,PERSONALINFO.PRS_NO
@@ -40,7 +40,9 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
     $birth = substr($birth_str,8,2) . "-" . substr($birth_str,5,2) . "-" . substr($birth_str,0,4) ;
 
     $start_work_date_str = $result_sqlsvr["PRS_SC_D"]==""?"0000-00-00":$result_sqlsvr["PRS_SC_D"];
-    $start_work_date = substr($start_work_date_str,8,2) . "-" . substr($start_work_date_str,5,2) . "-" . substr($start_work_date_str,0,4) ;
+    $emp_tel = $result_sqlsvr["EMP_TEL"] ;
+
+    $start_work_date_str = $result_sqlsvr["PRS_SC_D"]==""?"0000-00-00":$result_sqlsvr["PRS_SC_D"];
 
     $sql_find = "SELECT * FROM memployee WHERE emp_id = '" . $result_sqlsvr["PRS_NO"] . "'";
     $nRows = $conn->query($sql_find)->fetchColumn();
@@ -49,7 +51,7 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
         echo "UPDATE Employee : " . $result_sqlsvr["PRS_NO"] . "|" . $birth . " | " . $result_sqlsvr["EMP_NAME"] . " | " . $result_sqlsvr["EMP_SURNME"] . $result_sqlsvr["DEPT_THAIDESC"] . "\n\r";
 
         $sql = "UPDATE memployee SET position_id=:position_id,position=:position,dept_id=:dept_id,department_id=:department_id,
-        status=:status,work_time_id=:work_time_id,birthday=:birthday,start_work_date=:start_work_date
+        status=:status,work_time_id=:work_time_id,birthday=:birthday,start_work_date=:start_work_date,phone=:emp_tel
         WHERE emp_id = :emp_id ";
 
         $query = $conn->prepare($sql);
@@ -61,6 +63,7 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
         $query->bindParam(':work_time_id', $work_time_id, PDO::PARAM_STR);
         $query->bindParam(':birthday', $birth, PDO::PARAM_STR);
         $query->bindParam(':start_work_date', $start_work_date, PDO::PARAM_STR);
+        $query->bindParam(':emp_tel', $emp_tel, PDO::PARAM_STR);
         $query->bindParam(':emp_id', $result_sqlsvr["PRS_NO"], PDO::PARAM_STR);
         $query->execute();
 
