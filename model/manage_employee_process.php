@@ -35,6 +35,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "nick_name" => $result['nick_name'],
             "remark" => $result['remark'],
             "position" => $result['position'],
+            "week_holiday" => $result['week_holiday'],
             "status" => $result['status']);
     }
     echo json_encode($return_arr);
@@ -95,7 +96,7 @@ if ($_POST["action"] === 'ADD') {
             $query->execute();
             $lastInsertId = $conn->lastInsertId();
             if ($lastInsertId) {
-                $sql_user = "INSERT INTO ims_user (emp_id,user_id,first_name,last_name,password,dept_id,account_type,picture,company,email) 
+                $sql_user = "INSERT INTO ims_user (emp_id,user_id,first_name,last_name,password,department_id,account_type,picture,company,email) 
                     VALUES (:emp_id,:user_id,:first_name,:last_name,:password,:dept_id,:account_type,:user_picture,:company,:email)";
                 $query_user = $conn->prepare($sql_user);
                 $query_user->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
@@ -137,29 +138,20 @@ if ($_POST["action"] === 'UPDATE') {
         $prefix = $_POST["prefix"];
         $nick_name = $_POST["nick_name"];
         $position = $_POST["position"];
-        $start_work_date = $_POST["start_work_date"];
+        $week_holiday = $_POST["week_holiday"];
 
         $sql_find = "SELECT * FROM memployee WHERE emp_id = '" . $emp_id . "'";
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
-            $sql_update = "UPDATE memployee SET f_name=:f_name,l_name=:l_name,sex=:sex,work_time_id=:work_time_id
-            ,dept_id=:dept_id,remark=:remark,nick_name=:nick_name,position=:position,start_work_date=:start_work_date              
+            $sql_update = "UPDATE memployee SET week_holiday=:week_holiday              
             WHERE id = :id";
             $query = $conn->prepare($sql_update);
-            $query->bindParam(':f_name', $f_name, PDO::PARAM_STR);
-            $query->bindParam(':l_name', $l_name, PDO::PARAM_STR);
-            $query->bindParam(':sex', $sex, PDO::PARAM_STR);
-            $query->bindParam(':work_time_id', $work_time_id, PDO::PARAM_STR);
-            $query->bindParam(':dept_id', $dept_id, PDO::PARAM_STR);
-            $query->bindParam(':remark', $remark, PDO::PARAM_STR);
-            $query->bindParam(':nick_name', $nick_name, PDO::PARAM_STR);
-            $query->bindParam(':position', $position, PDO::PARAM_STR);
-            $query->bindParam(':start_work_date', $start_work_date, PDO::PARAM_STR);
+            $query->bindParam(':week_holiday', $week_holiday, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_STR);
             $query->execute();
 
-            $sql_user = "UPDATE ims_user SET first_name=:f_name,last_name=:l_name,dept_id=:dept_id       
+            $sql_user = "UPDATE ims_user SET first_name=:f_name,last_name=:l_name,department_id=:dept_id       
             WHERE emp_id = :emp_id";
             $query_user = $conn->prepare($sql_user);
             $query_user->bindParam(':f_name', $f_name, PDO::PARAM_STR);
@@ -169,6 +161,12 @@ if ($_POST["action"] === 'UPDATE') {
             $query_user->execute();
 
             echo $save_success;
+/*
+            $txt = $id . " | " . $emp_id . " | " . $week_holiday . " | " . $save_success;
+            $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
+            fwrite($my_file, $txt);
+            fclose($my_file);
+*/
 
         }
 
@@ -284,6 +282,7 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
                 "work_time_id" => $row['work_time_id'],
                 "work_time_detail" => $row['work_time_detail'],
                 "start_work_date" => $row['start_work_date'],
+                "week_holiday" => $row['week_holiday'],
                 "detail" => "<button type='button' name='detail' emp_id='" . $row['emp_id'] . "' class='btn btn-info btn-xs detail' data-toggle='tooltip' title='Detail'>Detail</button>",
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
                 "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' class='btn btn-success btn-xs approve' data-toggle='tooltip' title='Approve'>Approve</button>",

@@ -2,6 +2,7 @@
 session_start();
 error_reporting(0);
 include('includes/Header.php');
+include('config/connect_db.php');
 $curr_date = date("d-m-Y");
 
 if (strlen($_SESSION['alogin']) == "") {
@@ -43,14 +44,14 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <section class="container-fluid">
 
-                                        <div class="col-md-12 col-md-offset-2">
+                                        <!--div class="col-md-12 col-md-offset-2">
                                             <label for="name_t"
                                                    class="control-label"><b>เพิ่ม <?php echo urldecode($_GET['s']) ?></b></label>
                                             <button type='button' name='btnAdd' id='btnAdd'
                                                     class='btn btn-primary btn-xs'>Add
                                                 <i class="fa fa-plus"></i>
                                             </button>
-                                        </div>
+                                        </div-->
 
                                         <div class="col-md-12 col-md-offset-2">
                                             <table id='TableRecordList' class='display dataTable'>
@@ -167,15 +168,31 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                readonly="true"
                                                                                placeholder="วันทีเริ่มงาน">
                                                                     </div>
+
                                                                     <div class="col-sm-4">
+                                                                        <label for="week_holiday"
+                                                                               class="control-label">วันหยุดประจำสัปดาห์</label>
+                                                                        <select id="week_holiday" name="week_holiday"
+                                                                                class="form-control" data-live-search="true"
+                                                                                title="Please select">
+                                                                            <option value="1">วันจันทร์</option>
+                                                                            <option value="2">วันอังคาร</option>
+                                                                            <option value="3">วันพุธ</option>
+                                                                            <option value="4">วันพฤหัสบดี</option>
+                                                                            <option value="5">วันศุกร์</option>
+                                                                            <option value="6">วันเสาร์</option>
+                                                                            <option value="7">วันอาทิตย์</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <!--div class="col-sm-4">
                                                                         <label for="work_age"
-                                                                               class="control-label">อายุงาน</label>
-                                                                        <input type="text" class="form-control"
+                                                                               class="control-label"></label>
+                                                                        <input type="hidden" class="form-control"
                                                                                id="work_age"
                                                                                name="work_age"
                                                                                readonly="true"
                                                                                placeholder="อายุงาน">
-                                                                    </div>
+                                                                    </div-->
                                                                     <div class="col-sm-4">
                                                                         <label for="position"
                                                                                class="control-label">ตำแหน่ง</label>
@@ -189,8 +206,8 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                                 <div class="form-group row">
                                                                     <input type="hidden" class="form-control"
-                                                                           id="department_id"
-                                                                           name="department_id">
+                                                                           id="dept_id"
+                                                                           name="dept_id">
                                                                     <div class="col-sm-10">
                                                                         <label for="department_id"
                                                                                class="control-label">หน่วยงาน</label>
@@ -498,7 +515,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#emp_id').val("");
                 $('#f_name').val("");
                 $('#l_name').val("");
-                $('#department_id').val("");
+                $('#dept_id').val("");
                 $('#department_id').val("");
                 $('#work_time_id').val("");
                 $('#work_time_desc').val("");
@@ -519,7 +536,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
         $("#TableRecordList").on('click', '.update', function () {
             let id = $(this).attr("id");
-            //alert(id);
+            // alert(id);
             let formData = {action: "GET_DATA", id: id};
             $.ajax({
                 type: "POST",
@@ -543,30 +560,31 @@ if (strlen($_SESSION['alogin']) == "") {
                         let work_time_detail = response[i].work_time_detail;
                         let position = response[i].position;
                         let remark = response[i].remark;
-                        let work_age = 0 ;
+                        let week_holiday = response[i].week_holiday;
 
-
-                        let start_w_date = start_work_date.substr(3,2) + "/" + start_work_date.substr(0,2) + "/" + start_work_date.substr(6,10);
-
-                        work_age = getAge(start_w_date);
-
+                        //let work_age = 0 ;
+                        // let start_w_date = start_work_date.substr(3,2) + "/" + start_work_date.substr(0,2) + "/" + start_work_date.substr(6,10);
+                        //work_age = getAge(start_w_date);
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
                         $('#emp_id').val(emp_id);
                         $('#f_name').val(f_name);
                         $('#l_name').val(l_name);
+
                         $('#prefix').val(prefix);
                         $('#sex').val(sex);
                         $('#nick_name').val(nick_name);
                         $('#start_work_date').val(start_work_date);
-                        $('#department_id').val(department_id);
+                        $('#dept_id').val(dept_id);
                         $('#department_id').val(department_id);
                         $('#work_time_id').val(work_time_id);
                         $('#work_time_detail').val(work_time_detail);
-                        $('#work_age').val(work_age);
+                        //$('#work_age').val(work_age);
                         $('#position').val(position);
                         $('#remark').val(remark);
+                        $('#week_holiday').val(week_holiday);
+
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
                         $('#save').val('Save');
