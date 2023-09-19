@@ -490,8 +490,8 @@ if (strlen($_SESSION['alogin']) == "") {
                 'columns': [
                     {data: 'doc_year'},
                     {data: 'full_name'},
-                    {data: 'date_leave_start'},
                     {data: 'department_id'},
+                    {data: 'date_leave_start'},
                     {data: 'leave_type_detail'},
                     {data: 'remark'},
                     {data: 'update'},
