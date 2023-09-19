@@ -145,7 +145,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <input type="text" class="form-control"
                                                                                id="emp_id" name="emp_id"
                                                                                readonly="true"
-                                                                               value="<?php echo $_SESSION['emp_id'] ?> "
+                                                                               value=""
                                                                                placeholder="">
                                                                     </div>
                                                                     <div class="col-sm-6">
@@ -155,7 +155,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <input type="text" class="form-control"
                                                                                id="full_name" name="full_name"
                                                                                readonly="true"
-                                                                               value="<?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?> "
+                                                                               value=""
                                                                                placeholder="full_name">
                                                                     </div>
                                                                     <div class="col-sm-2">
@@ -555,6 +555,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         let id = response[i].id;
                         let doc_id = response[i].doc_id;
                         let doc_date = response[i].doc_date;
+                        let emp_id = response[i].emp_id;
+                        let full_name = response[i].full_name;
                         let leave_type_id = response[i].leave_type_id;
                         let leave_type_detail = response[i].leave_type_detail;
                         let date_leave_start = response[i].date_leave_start;
@@ -568,6 +570,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#id').val(id);
                         $('#doc_id').val(doc_id);
                         $('#doc_date').val(doc_date);
+                        $('#emp_id').val(emp_id);
+                        $('#full_name').val(full_name);
                         $('#leave_type_id').val(leave_type_id);
                         $('#leave_type_detail').val(leave_type_detail);
                         $('#date_leave_start').val(date_leave_start);
