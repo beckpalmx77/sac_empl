@@ -64,7 +64,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>ชื่อ - นามสกุล</th>
                                                     <th>แผนก</th>
                                                     <th>ประเภทวันหยุด</th>
-                                                    <th>วันที่บันทึก</th>
                                                     <th>หมายเหตุ</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -76,7 +75,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>ชื่อ - นามสกุล</th>
                                                     <th>แผนก</th>
                                                     <th>ประเภทวันหยุด</th>
-                                                    <th>วันที่บันทึก</th>
                                                     <th>หมายเหตุ</th>
                                                     <th>Action</th>
                                                 </tr>
