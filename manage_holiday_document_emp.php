@@ -493,7 +493,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'full_name'},
                     {data: 'department_id'},
                     {data: 'leave_type_detail'},
-                    {data: 'doc_date'},
                     {data: 'remark'},
                     {data: 'update'},
                 ]
