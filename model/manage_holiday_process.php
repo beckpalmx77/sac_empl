@@ -60,7 +60,8 @@ if ($_POST["action"] === 'SEARCH') {
 
 if ($_POST["action"] === 'ADD') {
     if ($_POST["date_leave_start"] !== '' && $_POST["emp_id"] !== '') {
-        $dept_id = $_POST["department"];
+        $dept_id = $_SESSION['dept_id'];
+        $department_id = $_SESSION['department_id'];
         $doc_date = $_POST["doc_date"];
         $doc_year = substr($_POST["date_leave_start"], 6);
         $doc_id = "H-" . $dept_id . "-" . substr($doc_date, 6) . "-" . sprintf('%04s', LAST_ID($conn, "dholiday_event", 'id'));
@@ -71,6 +72,10 @@ if ($_POST["action"] === 'ADD') {
         $date_leave_to = $_POST["date_leave_start"];
         $time_leave_to = $_POST["time_leave_to"];
         $remark = $_POST["remark"];
+
+        $sql_get_dept = "SELECT mp.dept_ids AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
+        $dept_id_save = GET_VALUE($conn, $sql_get_dept);
+
 
         $day_max = GET_VALUE($conn, "select day_max as data from mleave_type where leave_type_id ='H2' ");
 
@@ -89,8 +94,8 @@ if ($_POST["action"] === 'ADD') {
             if ($nRows > 0) {
                 echo $dup;
             } else {
-                $sql = "INSERT INTO dholiday_event (doc_id,doc_year,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark) 
-                    VALUES (:doc_id,:doc_year,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:remark)";
+                $sql = "INSERT INTO dholiday_event (doc_id,doc_year,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,remark,dept_id) 
+                    VALUES (:doc_id,:doc_year,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:remark,:dept_id)";
                 $query = $conn->prepare($sql);
                 $query->bindParam(':doc_id', $doc_id, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
@@ -102,6 +107,7 @@ if ($_POST["action"] === 'ADD') {
                 $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+                $query->bindParam(':dept_id', $dept_id_save, PDO::PARAM_STR);
                 $query->execute();
                 $lastInsertId = $conn->lastInsertId();
                 if ($lastInsertId) {
@@ -198,10 +204,16 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $searchArray = array();
 
 ## Search
-    $searchQuery = " ";
-    if ($_POST["page_manage"] !== "ADMIN") {
-        $searchQuery = " AND emp_id = '" . $_SESSION['emp_id'] . "'";
+    if ($_SESSION['document_dept_cond']!=="A") {
+        $searchQuery = " AND dept_id in (" . $_SESSION['document_dept_cond'] . ") ";
     }
+
+/*
+    $txt = $searchQuery ;
+    $my_file = fopen("leave_1.txt", "w") or die("Unable to open file!");
+    fwrite($my_file, $txt);
+    fclose($my_file);
+*/
 
     if ($searchValue != '') {
         $searchQuery = " AND (leave_type_id LIKE :leave_type_id or
@@ -239,12 +251,12 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
     $stmt = $conn->prepare($sql_load);
 
-    /*
+/*
             $txt = $sql_load ;
             $my_file = fopen("leave_a.txt", "w") or die("Unable to open file!");
             fwrite($my_file, $txt);
             fclose($my_file);
-    */
+*/
 
 
 // Bind values
