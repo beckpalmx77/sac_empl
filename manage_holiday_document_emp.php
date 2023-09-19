@@ -60,9 +60,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <thead>
                                                 <tr>
                                                     <th>ปี</th>
-                                                    <th>วันที่หยุด</th>
                                                     <th>ชื่อ - นามสกุล</th>
                                                     <th>แผนก</th>
+                                                    <th>วันที่หยุด</th>
                                                     <th>ประเภทวันหยุด</th>
                                                     <th>หมายเหตุ</th>
                                                     <th>Action</th>
@@ -71,9 +71,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <tfoot>
                                                 <tr>
                                                     <th>ปี</th>
-                                                    <th>วันที่หยุด</th>
                                                     <th>ชื่อ - นามสกุล</th>
                                                     <th>แผนก</th>
+                                                    <th>วันที่หยุด</th>
                                                     <th>ประเภทวันหยุด</th>
                                                     <th>หมายเหตุ</th>
                                                     <th>Action</th>
@@ -489,8 +489,8 @@ if (strlen($_SESSION['alogin']) == "") {
                 },
                 'columns': [
                     {data: 'doc_year'},
-                    {data: 'date_leave_start'},
                     {data: 'full_name'},
+                    {data: 'date_leave_start'},
                     {data: 'department_id'},
                     {data: 'leave_type_detail'},
                     {data: 'remark'},
