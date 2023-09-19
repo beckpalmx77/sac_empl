@@ -4,7 +4,7 @@ error_reporting(0);
 
 $curr_date = date("d-m-Y");
 $leave_type_id = "H2";
-$leave_type_detail = "วันหยุดที่กำหนดเอง";
+$leave_type_detail = "วันหยุดนักขัตฤกษ์-ประจำปี";
 
 include('includes/Header.php');
 if (strlen($_SESSION['alogin']) == "") {
@@ -61,7 +61,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <tr>
                                                     <th>ปี</th>
                                                     <th>วันที่หยุด</th>
-                                                    <th>เวลา</th>
+                                                    <th>ชื่อ - นามสกุล</th>
+                                                    <th>แผนก</th>
                                                     <th>ประเภทวันหยุด</th>
                                                     <th>วันที่บันทึก</th>
                                                     <th>หมายเหตุ</th>
@@ -72,7 +73,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <tr>
                                                     <th>ปี</th>
                                                     <th>วันที่หยุด</th>
-                                                    <th>เวลา</th>
+                                                    <th>ชื่อ - นามสกุล</th>
+                                                    <th>แผนก</th>
                                                     <th>ประเภทวันหยุด</th>
                                                     <th>วันที่บันทึก</th>
                                                     <th>หมายเหตุ</th>
@@ -490,7 +492,8 @@ if (strlen($_SESSION['alogin']) == "") {
                 'columns': [
                     {data: 'doc_year'},
                     {data: 'date_leave_start'},
-                    {data: 't_leave_start'},
+                    {data: 'full_name'},
+                    {data: 'department_id'},
                     {data: 'leave_type_detail'},
                     {data: 'doc_date'},
                     {data: 'remark'},
