@@ -6,6 +6,7 @@ include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
 include('../util/GetData.php');
+include('../util/send_message.php');
 
 if ($_POST["action"] === 'GET_DATA') {
 
@@ -68,15 +69,20 @@ if ($_POST["action"] === 'ADD') {
         $doc_id = "H-" . $dept_id . "-" . substr($doc_date, 6) . "-" . sprintf('%04s', LAST_ID($conn, "dholiday_event", 'id'));
         $leave_type_id = $_POST["leave_type_id"];
         $emp_id = $_POST["emp_id"];
+        $full_name = $_POST["full_name"];
         $date_leave_start = $_POST["date_leave_start"];
         $time_leave_start = $_POST["time_leave_start"];
         $date_leave_to = $_POST["date_leave_start"];
         $time_leave_to = $_POST["time_leave_to"];
         $remark = $_POST["remark"];
 
+        $currentDate = date('d-m-Y');
+
         $sql_get_dept = "SELECT mp.dept_ids AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
         $dept_id_save = GET_VALUE($conn, $sql_get_dept);
 
+        $sql_get_dept_desc = "SELECT mp.department_desc AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
+        $dept_desc = GET_VALUE($conn, $sql_get_dept_desc);
 
         $day_max = GET_VALUE($conn, "select day_max as data from mleave_type where leave_type_id ='H2' ");
 
@@ -100,7 +106,7 @@ if ($_POST["action"] === 'ADD') {
                 $query = $conn->prepare($sql);
                 $query->bindParam(':doc_id', $doc_id, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
-                $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
+                $query->bindParam(':doc_date', $currentDate, PDO::PARAM_STR);
                 $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
                 $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
                 $query->bindParam(':date_leave_start', $date_leave_start, PDO::PARAM_STR);
@@ -112,7 +118,19 @@ if ($_POST["action"] === 'ADD') {
                 $query->execute();
                 $lastInsertId = $conn->lastInsertId();
                 if ($lastInsertId) {
+
+                    $sToken = "gf0Sx2unVFgz7u81vqrU6wcUA2XLLVoPOo2d0Dlvdlr";
+                    //$sToken = "zgbi6mXoK6rkJWSeFZm5wPjQfiOniYnV2MOxXeTMlA1";
+                    $sMessage = "มีเอกสารการขอใช้วันหยุดนักขัตฤกษ์-ประจำปี "
+                        . "\n\r" . "เลขที่เอกสาร = " . $doc_id
+                        . "\n\r" . "วันที่เอกสาร = " . $currentDate
+                        . "\n\r" . "วันที่ขอใช้ : " . $date_leave_start
+                        . "\n\r" . "ผู้ขอ : " . $full_name  . " " .  $dept_desc;
+
+                    echo $sMessage ;
+                    sendLineNotify($sMessage,$sToken);
                     echo $save_success;
+
                 } else {
                     echo $error;
                 }
