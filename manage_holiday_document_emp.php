@@ -427,7 +427,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script src="https://cdn.datatables.net/rowreorder/1.4.1/js/dataTables.rowReorder.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-    
+
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.4.1/css/rowReorder.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css"/>
 
@@ -496,13 +496,13 @@ if (strlen($_SESSION['alogin']) == "") {
                     'data': formData
                 },
                 'columns': [
+                    {data: 'update'},
                     {data: 'doc_year'},
                     {data: 'full_name'},
                     {data: 'department_id'},
                     {data: 'date_leave_start'},
                     {data: 'leave_type_detail'},
                     {data: 'remark'},
-                    {data: 'update'},
                 ]
             });
 
