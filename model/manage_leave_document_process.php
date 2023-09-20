@@ -89,7 +89,6 @@ if ($_POST["action"] === 'ADD') {
 
         $leave_type_desc = $_POST["leave_type_detail"];
 
-
         $condition = " WHERE doc_year = '" . $doc_year . "' AND doc_month = '" . $doc_month . "' AND dept_id = '" . $_SESSION['department_id'] .  "'";
 
         $last_number = LAST_DOCUMENT_NUMBER($conn,$filed,$table,$condition);

@@ -89,11 +89,6 @@ if ($_POST["action"] === 'ADD') {
         $leave_type_desc = $_POST["leave_type_detail"];
 
         $condition = " WHERE doc_year = '" . $doc_year . "' AND doc_month = '" . $doc_month . "' AND dept_id = '" . $_SESSION['department_id'] .  "'";
-        /*
-                $myfile = fopen("action-param.txt", "w") or die("Unable to open file!");
-                fwrite($myfile,  $condition);
-                fclose($myfile);
-        */
 
         $last_number = LAST_DOCUMENT_NUMBER($conn,$filed,$table,$condition);
 
