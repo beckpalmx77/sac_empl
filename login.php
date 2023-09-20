@@ -3,6 +3,7 @@
 
 <?php
 include('includes/Header.php');
+include('includes/CheckDevice.php');
 ?>
 
 <style>
@@ -142,7 +143,7 @@ include('includes/Header.php');
                                             <input class="form-check-input" type="checkbox" value="on" id="remember"
                                                    name="remember">
                                             <label class="form-check-label" for="remember">
-                                                Remember Me 30 Days
+                                                Remember Me 30 Days <?php echo $_SESSION['deviceType'];?>
                                             </label>
                                         </div>
                                     </div>
