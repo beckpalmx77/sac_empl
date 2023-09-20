@@ -138,7 +138,7 @@ if ($_POST["action"] === 'ADD') {
                 $query->bindParam(':doc_id', $doc_id, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
                 $query->bindParam(':doc_month', $doc_month, PDO::PARAM_STR);
-                $query->bindParam(':dept_id', $dept_id_save, PDO::PARAM_STR);
+                $query->bindParam(':dept_id', $_SESSION['department_id'], PDO::PARAM_STR);
                 $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
                 $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
                 $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
@@ -309,7 +309,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
 
     if ($_SESSION['document_dept_cond']!=="A") {
-        $searchQuery = " AND dept_id = '" . $_SESSION['department_id'] . "'";
+        $searchQuery = " AND dept_id = '" . $_SESSION['department_id'] . "' ";
     }
 
     if ($searchValue != '') {
@@ -352,12 +352,12 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
             LEFT JOIN mstatus ms on ms.status_doctype = 'LEAVE' AND ms.status_doc_id = dl.status              
             WHERE 1 " . $searchQuery . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset" ;
 
-    /*
+/*
     $txt = $sql_get_leave ;
     $my_file = fopen("leave_select.txt", "w") or die("Unable to open file!");
     fwrite($my_file, $txt);
     fclose($my_file);
-    */
+*/
 
     $stmt = $conn->prepare($sql_get_leave);
 

@@ -116,7 +116,7 @@ if ($_POST["action"] === 'ADD') {
                 $query->bindParam(':date_leave_to', $date_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':time_leave_to', $time_leave_to, PDO::PARAM_STR);
                 $query->bindParam(':remark', $remark, PDO::PARAM_STR);
-                $query->bindParam(':dept_id', $dept_id_save, PDO::PARAM_STR);
+                $query->bindParam(':dept_id', $_SESSION['department_id'], PDO::PARAM_STR);
                 $query->execute();
                 $lastInsertId = $conn->lastInsertId();
                 if ($lastInsertId) {
@@ -227,7 +227,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
 ## Search
     if ($_SESSION['document_dept_cond']!=="A") {
-        $searchQuery = " AND dept_id = '" . $_SESSION['department_id'] . "'";
+        $searchQuery = " AND dept_id = '" . $_SESSION['department_id'] . "' ";
     }
 
 /*
@@ -302,7 +302,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "doc_year" => $row['doc_year'],
                 "doc_date" => $row['doc_date'],
                 "emp_id" => $row['emp_id'],
-                "full_name" => $row['f_name'] . "" . $row['l_name']  ,
+                "full_name" => $row['f_name'] . " " . $row['l_name']  ,
                 "department_id" => $row['department_id'],
                 "leave_type_id" => $row['leave_type_id'],
                 "leave_type_detail" => $row['leave_type_detail'],

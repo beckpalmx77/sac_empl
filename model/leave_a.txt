@@ -1,2 +1,0 @@
-SELECT * FROM vdholiday_event
-            WHERE 1  AND dept_id in ('183')  ORDER BY doc_year desc,year desc , month desc , day desc  LIMIT :limit,:offset

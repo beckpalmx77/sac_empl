@@ -138,7 +138,7 @@ if ($_POST["action"] === 'ADD') {
                 $query->bindParam(':doc_id', $doc_id, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
                 $query->bindParam(':doc_month', $doc_month, PDO::PARAM_STR);
-                $query->bindParam(':dept_id', $dept_id_save, PDO::PARAM_STR);
+                $query->bindParam(':dept_id', $_SESSION['department_id'], PDO::PARAM_STR);
                 $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
                 $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
                 $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
@@ -287,7 +287,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $searchQuery = " ";
 
     if ($_SESSION['document_dept_cond']!=="A") {
-        $searchQuery = " AND dept_id = '" . $_SESSION['department_id'] . "'";
+        $searchQuery = " AND ot.dept_id = '" . $_SESSION['department_id'] . "'";
     }
 
     if ($searchValue != '') {

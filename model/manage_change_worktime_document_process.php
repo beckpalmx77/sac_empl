@@ -147,7 +147,7 @@ if ($_POST["action"] === 'ADD') {
                 $query->bindParam(':doc_id', $doc_id, PDO::PARAM_STR);
                 $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
                 $query->bindParam(':doc_month', $doc_month, PDO::PARAM_STR);
-                $query->bindParam(':dept_id', $dept_id_save, PDO::PARAM_STR);
+                $query->bindParam(':dept_id', $_SESSION['department_id'], PDO::PARAM_STR);
                 $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
                 $query->bindParam(':leave_type_id', $leave_type_id, PDO::PARAM_STR);
                 $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
@@ -310,7 +310,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $searchQuery = " ";
 
     if ($_SESSION['document_dept_cond']!=="A") {
-        $searchQuery = " AND dept_id = '" . $_SESSION['department_id'] . "'";
+        $searchQuery = " AND cl.dept_id = '" . $_SESSION['department_id'] . "' ";
     }
 
     if ($searchValue != '') {
@@ -337,12 +337,20 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
 
 ## Fetch records
-    $stmt = $conn->prepare("SELECT cl.*,lt.leave_type_detail,ms.status_doc_desc,em.f_name,em.l_name,em.department_id 
+    $sql_get_leave = "SELECT cl.*,lt.leave_type_detail,ms.status_doc_desc,em.f_name,em.l_name,em.department_id 
             FROM v_dtime_change_event cl
             left join mleave_type lt on lt.leave_type_id = cl.leave_type_id
             left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = cl.status
             left join memployee em on em.emp_id = cl.emp_id  
-            WHERE 1 " . $searchQuery . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
+            WHERE 1 " . $searchQuery . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset";
+
+    $stmt = $conn->prepare($sql_get_leave);
+
+
+    $txt = $sql_get_leave ;
+    $my_file = fopen("leave_select.txt", "w") or die("Unable to open file!");
+    fwrite($my_file, $txt);
+    fclose($my_file);
 
 
 // Bind values
