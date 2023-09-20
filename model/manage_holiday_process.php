@@ -143,7 +143,8 @@ if ($_POST["action"] === 'UPDATE') {
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
-            if ($_POST["page_manage"] === "ADMIN") {
+            //if ($_POST["page_manage"] === "ADMIN") {
+            if ($_SESSION['document_dept_cond']=="A") {
                 $sql_update = "UPDATE dholiday_event SET status=:status
                                WHERE id = :id";
                 $query = $conn->prepare($sql_update);
