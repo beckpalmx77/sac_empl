@@ -143,7 +143,11 @@ include('includes/CheckDevice.php');
                                             <input class="form-check-input" type="checkbox" value="on" id="remember"
                                                    name="remember">
                                             <label class="form-check-label" for="remember">
-                                                Remember Me 30 Days <?php echo $_SESSION['deviceType'];?>
+                                                 <?php  if ($_SESSION['deviceType']=='computer') {?>
+                                                <p style="color:blue;">Remember Me 30 Days</p>
+                                                <?php } else { ?>
+                                                <p style="color:red;">Remember Me 30 Days</p>
+                                                <?php } ?>
                                             </label>
                                         </div>
                                     </div>
