@@ -475,7 +475,6 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
 
             let formData = {action: "GET_LEAVE_DOCUMENT", sub_action: "GET_MASTER" ,page_manage: "USER",};
-
             let dataRecords = $('#TableRecordList').DataTable({
                 'lengthMenu': [[8, 10, 20, 50, 100], [8, 10, 20, 50, 100]],
                 'language': {
@@ -508,29 +507,27 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'update'},
                 ]
             });
-        });
-    </script>
 
-    <script>
-        <!-- *** FOR SUBMIT FORM *** -->
-        $("#recordModal").on('submit', '#recordForm', function (event) {
-            event.preventDefault();
-            $('#save').attr('disabled', 'disabled');
-            let formData = $(this).serialize();
-            $.ajax({
-                url: 'model/manage_holiday_process.php',
-                method: "POST",
-                data: formData,
-                success: function (data) {
-                    alertify.success(data);
-                    $('#recordForm')[0].reset();
-                    $('#recordModal').modal('hide');
-                    $('#save').attr('disabled', false);
-                    dataRecords.ajax.reload();
-                }
-            })
+            <!-- *** FOR SUBMIT FORM *** -->
+            $("#recordModal").on('submit', '#recordForm', function (event) {
+                event.preventDefault();
+                $('#save').attr('disabled', 'disabled');
+                let formData = $(this).serialize();
+                $.ajax({
+                    url: 'model/manage_holiday_process.php',
+                    method: "POST",
+                    data: formData,
+                    success: function (data) {
+                        alertify.success(data);
+                        $('#recordForm')[0].reset();
+                        $('#recordModal').modal('hide');
+                        $('#save').attr('disabled', false);
+                        dataRecords.ajax.reload();
+                    }
+                })
+            });
+            <!-- *** FOR SUBMIT FORM *** -->
         });
-        <!-- *** FOR SUBMIT FORM *** -->
     </script>
 
     <script>
