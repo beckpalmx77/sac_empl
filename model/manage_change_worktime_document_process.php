@@ -310,7 +310,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $searchQuery = " ";
 
     if ($_SESSION['document_dept_cond']!=="A") {
-        $searchQuery = " AND cl.dept_id in (" . $_SESSION['document_dept_cond'] . ") ";
+        $searchQuery = " AND dept_id = '" . $_SESSION['department_id'] . "'";
     }
 
     if ($searchValue != '') {

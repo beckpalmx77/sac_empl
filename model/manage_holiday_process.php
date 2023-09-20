@@ -66,7 +66,7 @@ if ($_POST["action"] === 'ADD') {
         $department_id = $_SESSION['department_id'];
         $doc_date = $_POST["doc_date"];
         $doc_year = substr($_POST["date_leave_start"], 6);
-        $doc_id = "H-" . $dept_id . "-" . substr($doc_date, 6) . "-" . sprintf('%04s', LAST_ID($conn, "dholiday_event", 'id'));
+
         $leave_type_id = $_POST["leave_type_id"];
         $emp_id = $_POST["emp_id"];
         $full_name = $_POST["full_name"];
@@ -83,6 +83,8 @@ if ($_POST["action"] === 'ADD') {
 
         $sql_get_dept_desc = "SELECT mp.department_desc AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
         $dept_desc = GET_VALUE($conn, $sql_get_dept_desc);
+
+        $doc_id = "H-" . $dept_id_save . "-" . substr($doc_date, 6) . "-" . sprintf('%04s', LAST_ID($conn, "dholiday_event", 'id'));
 
         $day_max = GET_VALUE($conn, "select day_max as data from mleave_type where leave_type_id ='H2' ");
 
@@ -128,7 +130,7 @@ if ($_POST["action"] === 'ADD') {
                         . "\n\r" . "ผู้ขอ : " . $full_name  . " " .  $dept_desc;
 
                     echo $sMessage ;
-                    sendLineNotify($sMessage,$sToken);
+                    //sendLineNotify($sMessage,$sToken);
                     echo $save_success;
 
                 } else {
@@ -225,7 +227,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
 ## Search
     if ($_SESSION['document_dept_cond']!=="A") {
-        $searchQuery = " AND dept_id in (" . $_SESSION['document_dept_cond'] . ") ";
+        $searchQuery = " AND dept_id = '" . $_SESSION['department_id'] . "'";
     }
 
 /*

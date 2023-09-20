@@ -119,12 +119,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                        value="<?php echo $_SESSION['department_id'] ?>"
                                                                        placeholder="department">
 
-                                                                <!--input type="hidden" class="form-control"
-                                                                       id="emp_id" name="emp_id"
-                                                                       readonly="true"
-                                                                       value="<?php echo $_SESSION['emp_id'] ?>"
-                                                                       placeholder="emp_id"-->
-
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-3">
                                                                         <label for="doc_date"
