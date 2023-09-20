@@ -475,6 +475,7 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
 
             let formData = {action: "GET_LEAVE_DOCUMENT", sub_action: "GET_MASTER" ,page_manage: "USER",};
+
             let dataRecords = $('#TableRecordList').DataTable({
                 'lengthMenu': [[8, 10, 20, 50, 100], [8, 10, 20, 50, 100]],
                 'language': {
@@ -493,6 +494,9 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'autoWidth': true,
+                <?php  if ($_SESSION['deviceType']!=='computer') {
+                    echo "'scrollX': true,";
+                }?>
                 'ajax': {
                     'url': 'model/manage_holiday_process.php',
                     'data': formData
