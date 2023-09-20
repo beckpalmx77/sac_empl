@@ -346,12 +346,12 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
     $stmt = $conn->prepare($sql_get_leave);
 
-
+/*
     $txt = $sql_get_leave ;
     $my_file = fopen("leave_select.txt", "w") or die("Unable to open file!");
     fwrite($my_file, $txt);
     fclose($my_file);
-
+*/
 
 // Bind values
     foreach ($searchArray as $key => $search) {
