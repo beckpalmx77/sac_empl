@@ -491,6 +491,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 'processing': true,
                 'serverSide': true,
                 'serverMethod': 'post',
+                'scrollX': true,
                 'ajax': {
                     'url': 'model/manage_holiday_process.php',
                     'data': formData
