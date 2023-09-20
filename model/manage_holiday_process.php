@@ -84,7 +84,7 @@ if ($_POST["action"] === 'ADD') {
         $sql_get_dept_desc = "SELECT mp.department_desc AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
         $dept_desc = GET_VALUE($conn, $sql_get_dept_desc);
 
-        $doc_id = "H-" . $dept_id_save . "-" . substr($doc_date, 6) . "-" . sprintf('%04s', LAST_ID($conn, "dholiday_event", 'id'));
+        $doc_id = "H-" . $_SESSION['department_id'] . "-" . substr($doc_date, 6) . "-" . sprintf('%04s', LAST_ID($conn, "dholiday_event", 'id'));
 
         $day_max = GET_VALUE($conn, "select day_max as data from mleave_type where leave_type_id ='H2' ");
 
