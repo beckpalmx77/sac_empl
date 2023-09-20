@@ -471,6 +471,10 @@ if (strlen($_SESSION['alogin']) == "") {
                 'processing': true,
                 'serverSide': true,
                 'serverMethod': 'post',
+                'autoWidth': true,
+                <?php  if ($_SESSION['deviceType']!=='computer') {
+                    echo "'scrollX': true,";
+                }?>
                 'ajax': {
                     'url': 'model/manage_change_worktime_document_process.php',
                     'data': formData
