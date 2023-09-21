@@ -139,6 +139,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <input type="text" class="form-control"
                                                                                id="emp_id" name="emp_id"
                                                                                readonly="true"
+                                                                               required="required"
                                                                                value=""
                                                                                placeholder="">
                                                                     </div>

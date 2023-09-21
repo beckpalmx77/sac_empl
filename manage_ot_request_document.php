@@ -140,6 +140,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <input type="text" class="form-control"
                                                                                id="emp_id" name="emp_id"
                                                                                readonly="true"
+                                                                               required="required"
                                                                                value="<?php echo $_SESSION['emp_id'] ?> "
                                                                                placeholder="">
                                                                     </div>
