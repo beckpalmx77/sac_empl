@@ -151,7 +151,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                id="full_name" name="full_name"
                                                                                readonly="true"
                                                                                value=""
-                                                                               placeholder="full_name">
+                                                                               placeholder="">
                                                                     </div>
                                                                     <div class="col-sm-2">
                                                                         <label for="emp_id"

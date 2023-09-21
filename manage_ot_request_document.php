@@ -141,7 +141,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                id="emp_id" name="emp_id"
                                                                                readonly="true"
                                                                                required="required"
-                                                                               value="<?php echo $_SESSION['emp_id'] ?> "
+                                                                               value=""
                                                                                placeholder="">
                                                                     </div>
                                                                     <div class="col-sm-6">
@@ -151,8 +151,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <input type="text" class="form-control"
                                                                                id="full_name" name="full_name"
                                                                                readonly="true"
-                                                                               value="<?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?> "
-                                                                               placeholder="full_name">
+                                                                               value=""
+                                                                               placeholder="">
                                                                     </div>
 
                                                                     <div class="col-sm-2">
