@@ -328,12 +328,12 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
-    /*
+
     $txt = $sql_count_record ;
     $my_file = fopen("leave_select_count.txt", "w") or die("Unable to open file!");
     fwrite($my_file, $txt);
     fclose($my_file);
-    */
+
 
 
 
