@@ -21,6 +21,12 @@ $sql = "SELECT iu.*,pm.dashboard_page as dashboard_page,em.work_time_id,wt.work_
         left join memployee em on em.emp_id = iu.emp_id
         left join mwork_time wt on wt.work_time_id = em.work_time_id        
         WHERE iu.user_id=:username ";
+/*
+$txt =  $sql;
+$my_file = fopen("login_a.txt", "w") or die("Unable to open file!");
+fwrite($my_file, $txt);
+fclose($my_file);
+*/
 
 $query = $conn->prepare($sql);
 $query->bindParam(':username', $username, PDO::PARAM_STR);
@@ -55,11 +61,12 @@ if ($query->rowCount() == 1) {
             $_SESSION['document_dept_cond'] = $result->document_dept_cond;
 
 /*
-            $txt =  $_SESSION['work_time_start'] . " | " . $_SESSION['work_time_stop'] ;
+            $txt =  $_SESSION['work_time_start'] . " | " . $_SESSION['work_time_stop'] . " | " . $_SESSION['dashboard_page'] . " | " . $_SESSION['dept_id'];
             $my_file = fopen("time.txt", "w") or die("Unable to open file!");
             fwrite($my_file, $txt);
             fclose($my_file);
 */
+
 
             if ($remember == "on") { // ถ้าติ๊กถูก Login ตลอดไป ให้ทำการสร้าง cookie
                 setcookie("username", $_POST["username"], time() + (86400 * 30), "/");

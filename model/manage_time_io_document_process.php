@@ -15,12 +15,12 @@ if ($_POST["action"] === 'GET_DATA') {
 
     $return_arr = array();
 
-    $sql_get = "SELECT ot.*,lt.leave_type_detail,lt.leave_before,ms.status_doc_desc,em.f_name,em.l_name 
-            FROM v_ot_request ot
-            left join mleave_type lt on lt.leave_type_id = ot.leave_type_id
-            left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = ot.status
-            left join memployee em on em.emp_id = ot.emp_id  
-            WHERE ot.id = " . $id;
+    $sql_get = "SELECT wt.*,lt.leave_type_detail,lt.leave_before,ms.status_doc_desc,em.f_name,em.l_name 
+            FROM v_worktime_emp_io wt
+            left join mleave_type lt on lt.leave_type_id = wt.leave_type_id
+            left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = wt.status
+            left join memployee em on em.emp_id = wt.emp_id  
+            WHERE wt.id = " . $id;
 
     $statement = $conn->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -56,7 +56,7 @@ if ($_POST["action"] === 'SEARCH') {
     if ($_POST["leave_type_id"] !== '') {
 
         $doc_id = $_POST["doc_id"];
-        $sql_find = "SELECT * FROM v_ot_request WHERE doc_id = '" . $doc_id . "'";
+        $sql_find = "SELECT * FROM v_worktime_emp_io WHERE doc_id = '" . $doc_id . "'";
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             echo 2;
@@ -70,7 +70,7 @@ if ($_POST["action"] === 'ADD') {
 
     if ($_POST["doc_date"] !== '' && $_POST["emp_id"] !== '' && $_POST["leave_type_id"]!== '') {
 
-        $table = "v_ot_request";
+        $table = "v_worktime_emp_io";
         $dept_id = $_POST["department"];
         $doc_date = $_POST["doc_date"];
         $doc_year = substr($_POST["date_leave_start"], 6);
@@ -93,7 +93,7 @@ if ($_POST["action"] === 'ADD') {
 
         $last_number = LAST_DOCUMENT_NUMBER($conn,$filed,$table,$condition);
 
-        $doc_id = "O-" . $_SESSION['department_id'] . "-" . substr($doc_date, 3) . "-" . sprintf('%04s', $last_number);
+        $doc_id = "WT-" . $_SESSION['department_id'] . "-" . substr($doc_date, 3) . "-" . sprintf('%04s', $last_number);
 
         //$myfile = fopen("dept-param.txt", "w") or die("Unable to open file!");
         //fwrite($myfile,  $dept_id_save . " | " . $dept_desc . " | " . $emp_full_name . " | " . $leave_type_desc);
@@ -120,13 +120,13 @@ if ($_POST["action"] === 'ADD') {
         foreach ($conn->query($sql_cnt) AS $row) {
             $cnt_day = $row['days'];
         }
-            $sql_find = "SELECT * FROM v_ot_request ot WHERE ot.date_leave_start = '" . $date_leave_start . "' AND ot.emp_id = '" . $emp_id . "' ";
+            $sql_find = "SELECT * FROM v_worktime_emp_io wt WHERE wt.date_leave_start = '" . $date_leave_start . "' AND wt.emp_id = '" . $emp_id . "' ";
 
             $nRows = $conn->query($sql_find)->fetchColumn();
             if ($nRows > 0) {
                 echo $dup;
             } else {
-                $sql = "INSERT INTO ot_request (doc_id,doc_year,doc_month,dept_id,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,total_time,remark) 
+                $sql = "INSERT INTO worktime_emp_io (doc_id,doc_year,doc_month,dept_id,doc_date,leave_type_id,emp_id,date_leave_start,time_leave_start,date_leave_to,time_leave_to,total_time,remark) 
                     VALUES (:doc_id,:doc_year,:doc_month,:dept_id,:doc_date,:leave_type_id,:emp_id,:date_leave_start,:time_leave_start,:date_leave_to,:time_leave_to,:total_time,:remark)";
 
                 //$myfile = fopen("condition-param.txt", "w") or die("Unable to open file!");
@@ -155,12 +155,12 @@ if ($_POST["action"] === 'ADD') {
 
                     $sToken = "gf0Sx2unVFgz7u81vqrU6wcUA2XLLVoPOo2d0Dlvdlr";
                     //$sToken = "zgbi6mXoK6rkJWSeFZm5wPjQfiOniYnV2MOxXeTMlA1";
-                    $sMessage = "มีเอกสารการขอล่วงเวลา เลขที่เอกสาร = " . $doc_id . " วันที่เอกสาร = " . $doc_date
-                        . "\n\r" . "วันที่ขอทำงานล่วงเวลา : " . $date_leave_start . " เวลา : " . $time_leave_start . " - " .  $time_leave_to
+                    $sMessage = "มีเอกสารการลงเวลาการทำงานกรณีสแกนนิ้วไม่ได้ เลขที่เอกสาร = " . $doc_id . " วันที่เอกสาร = " . $doc_date
+                        . "\n\r" . "วันที่ขอลงเวลาการทำงาน : " . $date_leave_start . " เวลา : " . $time_leave_start
                         . "\n\r" . "ผู้ขอ : " . $emp_full_name  . " " .  $dept_desc;
 
                     echo $sMessage ;
-                    sendLineNotify($sMessage,$sToken);
+                    sendLineNwtify($sMessage,$sToken);
                     echo $save_success;
 
                 } else {
@@ -198,12 +198,12 @@ if ($_POST["action"] === 'UPDATE') {
             $total_time = $row['total_time'];
         }
 
-        $sql_find = "SELECT * FROM v_ot_request WHERE doc_id = '" . $doc_id . "'";
+        $sql_find = "SELECT * FROM v_worktime_emp_io WHERE doc_id = '" . $doc_id . "'";
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
             if ($_SESSION['approve_permission']==="Y") {
-                $sql_update = "UPDATE ot_request SET status=:status,leave_type_id=:leave_type_id
+                $sql_update = "UPDATE worktime_emp_io SET status=:status,leave_type_id=:leave_type_id
                 ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
                 ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year,total_time=:total_time     
                 ,emp_id=:emp_id                  
@@ -223,7 +223,7 @@ if ($_POST["action"] === 'UPDATE') {
                 $query->execute();
                 echo $save_success;
             } else {
-                $sql_update = "UPDATE ot_request SET leave_type_id=:leave_type_id
+                $sql_update = "UPDATE worktime_emp_io SET leave_type_id=:leave_type_id
                 ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
                 ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year,total_time=:total_time     
                 ,emp_id=:emp_id                  
@@ -254,11 +254,11 @@ if ($_POST["action"] === 'DELETE') {
 
     $id = $_POST["id"];
 
-    $sql_find = "SELECT * FROM ot_request WHERE id = " . $id;
+    $sql_find = "SELECT * FROM worktime_emp_io WHERE id = " . $id;
     $nRows = $conn->query($sql_find)->fetchColumn();
     if ($nRows > 0) {
         try {
-            $sql = "DELETE FROM ot_request WHERE id = " . $id;
+            $sql = "DELETE FROM worktime_emp_io WHERE id = " . $id;
             $query = $conn->prepare($sql);
             $query->execute();
             echo $del_success;
@@ -286,7 +286,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $searchQuery = " ";
 
     if ($_SESSION['document_dept_cond']!=="A") {
-        $searchQuery = " AND ot.dept_id = '" . $_SESSION['department_id'] . "'";
+        $searchQuery = " AND wt.dept_id = '" . $_SESSION['department_id'] . "'";
     }
 
     if ($searchValue != '') {
@@ -298,26 +298,26 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
         );
     }
 
-## Total number of records without filtering
-    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM v_ot_request ot ");
+## Twtal number of records without filtering
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM v_worktime_emp_io wt ");
     $stmt->execute();
     $records = $stmt->fetch();
-    $totalRecords = $records['allcount'];
+    $twtalRecords = $records['allcount'];
 
-## Total number of records with filtering
-    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM v_ot_request ot WHERE 1 " . $searchQuery);
+## Twtal number of records with filtering
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM v_worktime_emp_io wt WHERE 1 " . $searchQuery);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
-    $totalRecordwithFilter = $records['allcount'];
+    $twtalRecordwithFilter = $records['allcount'];
 
 
 
 ## Fetch records
-    $stmt = $conn->prepare("SELECT ot.*,lt.leave_type_detail,ms.status_doc_desc,em.f_name,em.l_name,em.department_id 
-            FROM v_ot_request ot
-            left join mleave_type lt on lt.leave_type_id = ot.leave_type_id
-            left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = ot.status
-            left join memployee em on em.emp_id = ot.emp_id  
+    $stmt = $conn->prepare("SELECT wt.*,lt.leave_type_detail,ms.status_doc_desc,em.f_name,em.l_name,em.department_id 
+            FROM v_worktime_emp_io wt
+            left join mleave_type lt on lt.leave_type_id = wt.leave_type_id
+            left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = wt.status
+            left join memployee em on em.emp_id = wt.emp_id  
             WHERE 1 " . $searchQuery . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
 
@@ -371,8 +371,8 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 ## Response Return Value
     $response = array(
         "draw" => intval($draw),
-        "iTotalRecords" => $totalRecords,
-        "iTotalDisplayRecords" => $totalRecordwithFilter,
+        "iTwtalRecords" => $twtalRecords,
+        "iTwtalDisplayRecords" => $twtalRecordwithFilter,
         "aaData" => $data
     );
 
