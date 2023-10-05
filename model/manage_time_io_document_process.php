@@ -298,17 +298,17 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
         );
     }
 
-## Twtal number of records without filtering
+## Total number of records without filtering
     $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM v_worktime_emp_io wt ");
     $stmt->execute();
     $records = $stmt->fetch();
-    $twtalRecords = $records['allcount'];
+    $totalRecords = $records['allcount'];
 
-## Twtal number of records with filtering
+## Total number of records with filtering
     $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM v_worktime_emp_io wt WHERE 1 " . $searchQuery);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
-    $twtalRecordwithFilter = $records['allcount'];
+    $TotalRecordwithFilter = $records['allcount'];
 
 
 
@@ -371,8 +371,8 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 ## Response Return Value
     $response = array(
         "draw" => intval($draw),
-        "iTwtalRecords" => $twtalRecords,
-        "iTwtalDisplayRecords" => $twtalRecordwithFilter,
+        "iTotalRecords" => $totalRecords,
+        "iTotalDisplayRecords" => $TotalRecordwithFilter,
         "aaData" => $data
     );
 
