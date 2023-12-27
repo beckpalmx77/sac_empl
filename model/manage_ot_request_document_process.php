@@ -318,7 +318,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
             left join mleave_type lt on lt.leave_type_id = ot.leave_type_id
             left join mstatus ms on ms.status_doctype = 'LEAVE' and ms.status_doc_id = ot.status
             left join memployee em on em.emp_id = ot.emp_id  
-            WHERE 1 " . $searchQuery . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
+            WHERE 1 " . $searchQuery . " ORDER BY id desc , " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
 
 // Bind values

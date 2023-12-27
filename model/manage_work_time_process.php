@@ -169,7 +169,7 @@ if ($_POST["action"] === 'GET_WORKTIME') {
 
 ## Fetch records
     $stmt = $conn->prepare("SELECT * FROM mwork_time WHERE 1 " . $searchQuery
-        . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
+        . " ORDER BY id desc , " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
     /*
         $txt = $searchQuery . " | " . $columnName . " | " . $columnSortOrder ;

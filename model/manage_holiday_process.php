@@ -269,7 +269,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
     $sql_load = "SELECT * FROM vdholiday_event
             WHERE 1 " . $searchQuery
-        . " ORDER BY " . $columnName . " " . $columnSortOrder . $orderbyext . " LIMIT :limit,:offset";
+        . " ORDER BY id desc , " . $columnName . " " . $columnSortOrder . $orderbyext . " LIMIT :limit,:offset";
 
     $stmt = $conn->prepare($sql_load);
 

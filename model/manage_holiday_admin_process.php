@@ -179,7 +179,7 @@ if ($_POST["action"] === 'GET_HOLIDAY_DOCUMENT') {
     $sql_load = "SELECT * FROM vdholiday_event
             WHERE 1 " . $searchQuery
         //. " ORDER BY " . $columnName . " " . $columnSortOrder . $orderbyext . " LIMIT :limit,:offset";
-        . " ORDER BY " . $columnName . " " . $columnSortOrder . $orderbyext;
+        . " ORDER BY id desc , " . $columnName . " " . $columnSortOrder . $orderbyext;
 
     $stmt = $conn->prepare($sql_load);
 
