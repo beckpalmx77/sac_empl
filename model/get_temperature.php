@@ -4,8 +4,8 @@ include('../config/connect_db.php');
 $temp_c = $_GET["temp_c"];
 $temp_f = $_GET["temp_f"];
 $humidity = $_GET["humidity"];
-//$ip_address = $_GET["ip_address"];
-//$ssid = $_GET["ssid"];
+$ip_address = $_GET["ip_address"];
+$ssid = $_GET["ssid"];
 
 
 $currentDate = date('Y-m-d H:i:s');
