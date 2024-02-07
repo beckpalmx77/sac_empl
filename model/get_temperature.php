@@ -4,6 +4,7 @@ include('../config/connect_db.php');
 $temp_c = $_GET["temp_c"];
 $temp_f = $_GET["temp_f"];
 $humidity = $_GET["humidity"];
+$heat_index = $_GET["heat_index"];
 $ip_address = $_GET["ip_address"];
 $ssid = $_GET["ssid"];
 
