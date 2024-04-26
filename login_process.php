@@ -69,13 +69,18 @@ if ($query->rowCount() == 1) {
 
 
             if ($remember == "on") { // ถ้าติ๊กถูก Login ตลอดไป ให้ทำการสร้าง cookie
-                setcookie("username", $_POST["username"], time() + (86400 * 30), "/");
-                setcookie("password", $_POST["password"], time() + (86400 * 30), "/");
-                setcookie("remember_chk", "check", time() + (86400 * 30), "/");
+                setcookie("username", $_POST["username"], time() + (86400 * 10000), "/");
+                setcookie("password", $_POST["password"], time() + (86400 * 10000), "/");
+                setcookie("remember_chk", "check", time() + (86400 * 10000), "/");
             } else {
+                /*
                 setcookie("username", "");
                 setcookie("password", "");
-                setcookie("remember_chk", "");
+                setcookie("remember_chk", "");*/
+
+                setcookie("username", $_POST["username"], time() + (86400 * 10000), "/");
+                setcookie("password", $_POST["password"], time() + (86400 * 10000), "/");
+                setcookie("remember_chk", "check", time() + (86400 * 10000), "/");
             }
             //echo $result->dashboard_page . ".php";
             echo $result->dashboard_page;
