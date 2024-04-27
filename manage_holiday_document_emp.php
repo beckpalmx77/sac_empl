@@ -7,7 +7,7 @@ $leave_type_id = "H2";
 $leave_type_detail = "วันหยุดนักขัตฤกษ์-ประจำปี";
 
 include('includes/Header.php');
-if (strlen($_SESSION['alogin']) == "") {
+if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "") {
     header("Location: index.php");
 } else {
     ?>
