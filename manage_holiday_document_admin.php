@@ -4,7 +4,7 @@ error_reporting(0);
 include('includes/Header.php');
 $curr_date = date("d-m-Y");
 
-if (strlen($_SESSION['alogin']) == "") {
+if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "") {
     header("Location: index.php");
 } else {
     ?>

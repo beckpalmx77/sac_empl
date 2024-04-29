@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 $curr_date = date("d-m-Y");
 include('includes/Header.php');
-if (strlen($_SESSION['alogin']) == "") {
+if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "") {
     header("Location: index.php");
 } else {
     ?>
