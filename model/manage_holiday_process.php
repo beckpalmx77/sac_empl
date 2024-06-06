@@ -238,22 +238,25 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 */
 
     if ($searchValue != '') {
-        $searchQuery = " AND (leave_type_id LIKE :leave_type_id or
+        $searchQuery = " AND (f_name LIKE :f_name or l_name LIKE :l_name or department_id LIKE :department_id or leave_type_id LIKE :leave_type_id or
         doc_date LIKE :doc_date ) ";
         $searchArray = array(
+            'f_name' => "%$searchValue%",
+            'l_name' => "%$searchValue%",
+            'department_id' => "%$searchValue%",
             'leave_type_id' => "%$searchValue%",
             'doc_date' => "%$searchValue%",
         );
     }
 
 ## Total number of records without filtering
-    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM dholiday_event ");
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM vdholiday_event ");
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM dholiday_event WHERE 1 " . $searchQuery);
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM vdholiday_event WHERE 1 " . $searchQuery);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];

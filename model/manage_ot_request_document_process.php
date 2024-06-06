@@ -290,9 +290,12 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     }
 
     if ($searchValue != '') {
-        $searchQuery = " AND (leave_type_id LIKE :leave_type_id or
-        doc_date LIKE :doc_date ) ";
+        $searchQuery = " AND (ot.f_name LIKE :f_name or ot.l_name LIKE :l_name or ot.department_id LIKE :department_id or ot.leave_type_id LIKE :leave_type_id or
+        ot.doc_date LIKE :doc_date ) ";
         $searchArray = array(
+            'f_name' => "%$searchValue%",
+            'l_name' => "%$searchValue%",
+            'department_id' => "%$searchValue%",
             'leave_type_id' => "%$searchValue%",
             'doc_date' => "%$searchValue%",
         );

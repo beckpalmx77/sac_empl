@@ -90,7 +90,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
                                         <div class="modal fade" id="recordModal">
                                             <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
+                                                <div class="modal-content">+
                                                     <div class="modal-header">
                                                         <h4 class="modal-title">Modal title</h4>
                                                         <button type="button" class="close" data-dismiss="modal"
@@ -343,7 +343,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
                                                             <table cellpadding="0" cellspacing="0" border="0"
                                                                    class="display"
-                                                                   id="TableEmployeeList"
+                                                                   id="TableRecordList"
                                                                    width="100%">
                                                                 <thead>
                                                                 <tr>
@@ -502,6 +502,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 'serverSide': true,
                 'serverMethod': 'post',
                 'autoWidth': true,
+                'searching': true,
                 <?php  if ($_SESSION['deviceType']!=='computer') {
                     echo "'scrollX': true,";
                 }?>

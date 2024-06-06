@@ -34,7 +34,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "leave_type_detail" => $result['leave_type_detail'],
             "emp_id" => $result['emp_id'],
             "date_leave_start" => $result['date_leave_start'],
-            "date_leave_to" => $result['date_leave_to'],            
+            "date_leave_to" => $result['date_leave_to'],
             "time_leave_start" => $result['time_leave_start'],
             "time_leave_to" => $result['time_leave_to'],
             "f_name" => $result['f_name'],
@@ -94,11 +94,11 @@ if ($_POST["action"] === 'ADD') {
         $last_number = LAST_DOCUMENT_NUMBER($conn,$filed,$table,$condition);
 
         $doc_id = "L-" . $_SESSION['department_id'] . "-" . substr($doc_date, 3) . "-" . sprintf('%04s', $last_number);
-/*
-        $myfile = fopen("dept-param.txt", "w") or die("Unable to open file!");
-        fwrite($myfile,  $condition . " | " . $doc_id . " | " . $last_number);
-        fclose($myfile);
-*/
+        /*
+                $myfile = fopen("dept-param.txt", "w") or die("Unable to open file!");
+                fwrite($myfile,  $condition . " | " . $doc_id . " | " . $last_number);
+                fclose($myfile);
+        */
 
         $leave_type_id = $_POST["leave_type_id"];
         $emp_id = $_POST["emp_id"];
@@ -298,18 +298,17 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
     $searchArray = array();
 
-## Search
-    $searchQuery = " ";
-
-
     if ($_SESSION['document_dept_cond']!=="A") {
         $searchQuery = " AND dept_id = '" . $_SESSION['department_id'] . "' ";
     }
 
     if ($searchValue != '') {
-        $searchQuery = " AND (leave_type_id LIKE :leave_type_id or
-        doc_date LIKE :doc_date ) ";
+        $searchQuery = " AND (dl.f_name LIKE :f_name or dl.l_name LIKE :l_name or dl.department_id LIKE :department_id or dl.leave_type_id LIKE :leave_type_id or
+        dl.doc_date LIKE :doc_date ) ";
         $searchArray = array(
+            'f_name' => "%$searchValue%",
+            'l_name' => "%$searchValue%",
+            'department_id' => "%$searchValue%",
             'leave_type_id' => "%$searchValue%",
             'doc_date' => "%$searchValue%",
         );
@@ -329,10 +328,10 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $totalRecordwithFilter = $records['allcount'];
 
 /*
-    $txt = $sql_count_record ;
-    $my_file = fopen("leave_select_count.txt", "w") or die("Unable to open file!");
-    fwrite($my_file, $txt);
-    fclose($my_file);
+        $txt = $sql_count_record ;
+        $my_file = fopen("leave_select_count.txt", "w") or die("Unable to open file!");
+        fwrite($my_file, $searchValue . " | " . $txt);
+        fclose($my_file);
 */
 
 
@@ -347,10 +346,10 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
             WHERE 1 " . $searchQuery . " ORDER BY id desc , " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset" ;
 
 /*
-    $txt = $sql_get_leave ;
-    $my_file = fopen("leave_select.txt", "w") or die("Unable to open file!");
-    fwrite($my_file, $txt);
-    fclose($my_file);
+        $txt = $sql_get_leave ;
+        $my_file = fopen("leave_select.txt", "w") or die("Unable to open file!");
+        fwrite($my_file, $searchValue. " | " .  $txt);
+        fclose($my_file);
 */
 
     $stmt = $conn->prepare($sql_get_leave);
