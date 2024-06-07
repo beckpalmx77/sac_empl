@@ -9,6 +9,9 @@ include('../util/record_util.php');
 include('../util/GetData.php');
 include('../util/send_message.php');
 
+$img_path = '/img_doc/';
+$valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'bmp', 'pdf', 'doc', 'ppt'); // valid extensions
+
 if ($_POST["action"] === 'GET_DATA') {
 
     $id = $_POST["id"];
@@ -25,7 +28,7 @@ if ($_POST["action"] === 'GET_DATA') {
     $statement = $conn->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach ($results AS $result) {
+    foreach ($results as $result) {
         $return_arr[] = array("id" => $result['id'],
             "doc_id" => $result['doc_id'],
             "doc_date" => $result['doc_date'],
@@ -39,7 +42,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "time_leave_to" => $result['time_leave_to'],
             "f_name" => $result['f_name'],
             "l_name" => $result['l_name'],
-            "full_name" => $result['f_name'] . " " .  $result['l_name'],
+            "full_name" => $result['f_name'] . " " . $result['l_name'],
             "approve_1_id" => $result['approve_1_id'],
             "approve_1_status" => $result['approve_1_status'],
             "approve_2_id" => $result['approve_2_id'],
@@ -68,13 +71,13 @@ if ($_POST["action"] === 'SEARCH') {
 
 if ($_POST["action"] === 'ADD') {
 
-    if ($_POST["doc_date"] !== '' && $_POST["emp_id"] !== '' && $_POST["leave_type_id"]!== '') {
+    if ($_POST["doc_date"] !== '' && $_POST["emp_id"] !== '' && $_POST["leave_type_id"] !== '') {
 
         $table = "dleave_event";
         $dept_id = $_POST["department"];
         $doc_date = $_POST["doc_date"];
         $doc_year = substr($_POST["date_leave_start"], 6);
-        $doc_month = substr($_POST["date_leave_start"], 3,2);
+        $doc_month = substr($_POST["date_leave_start"], 3, 2);
         $filed = "id";
 
         $sql_get_dept = "SELECT mp.dept_ids AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
@@ -89,9 +92,9 @@ if ($_POST["action"] === 'ADD') {
 
         $leave_type_desc = $_POST["leave_type_detail"];
 
-        $condition = " WHERE doc_year = '" . $doc_year . "' AND doc_month = '" . $doc_month . "' AND dept_id = '" . $_SESSION['department_id'] .  "'";
+        $condition = " WHERE doc_year = '" . $doc_year . "' AND doc_month = '" . $doc_month . "' AND dept_id = '" . $_SESSION['department_id'] . "'";
 
-        $last_number = LAST_DOCUMENT_NUMBER($conn,$filed,$table,$condition);
+        $last_number = LAST_DOCUMENT_NUMBER($conn, $filed, $table, $condition);
 
         $doc_id = "L-" . $_SESSION['department_id'] . "-" . substr($doc_date, 3) . "-" . sprintf('%04s', $last_number);
         /*
@@ -112,7 +115,7 @@ if ($_POST["action"] === 'ADD') {
 
         $cnt_day = "";
         $sql_cnt = "SELECT COUNT(*) AS days FROM dholiday_event WHERE doc_year = '" . $doc_year . "' AND emp_id = '" . $emp_id . "'";
-        foreach ($conn->query($sql_cnt) AS $row) {
+        foreach ($conn->query($sql_cnt) as $row) {
             $cnt_day = $row['days'];
         }
         if ($cnt_day >= $day_max) {
@@ -151,11 +154,11 @@ if ($_POST["action"] === 'ADD') {
                     //$sToken = "zgbi6mXoK6rkJWSeFZm5wPjQfiOniYnV2MOxXeTMlA1";
                     $sMessage = "มีเอกสารการลา " . $leave_type_desc
                         . "\n\r" . "เลขที่เอกสาร = " . $doc_id . " วันที่เอกสาร = " . $doc_date
-                        . "\n\r" . "วันที่ขอลา : " . $date_leave_start . " - " . $time_leave_start .  " ถึง : " . $date_leave_to . " - " .  $time_leave_to
-                        . "\n\r" . "ผู้ขอ : " . $emp_full_name  . " " .  $dept_desc;
+                        . "\n\r" . "วันที่ขอลา : " . $date_leave_start . " - " . $time_leave_start . " ถึง : " . $date_leave_to . " - " . $time_leave_to
+                        . "\n\r" . "ผู้ขอ : " . $emp_full_name . " " . $dept_desc;
 
-                    echo $sMessage ;
-                    sendLineNotify($sMessage,$sToken);
+                    echo $sMessage;
+                    sendLineNotify($sMessage, $sToken);
                     echo $save_success;
 
                 } else {
@@ -176,7 +179,7 @@ if ($_POST["action"] === 'UPDATE') {
         $id = $_POST["id"];
         $doc_id = $_POST["doc_id"];
         $doc_date = $_POST["doc_date"];
-        $doc_year = substr($_POST["date_leave_start"],6);
+        $doc_year = substr($_POST["date_leave_start"], 6);
         $dept_id = $_POST["department"];
         $leave_type_id = $_POST["leave_type_id"];
         $emp_id = $_POST["emp_id"];
@@ -187,11 +190,32 @@ if ($_POST["action"] === 'UPDATE') {
         $remark = $_POST["remark"];
         $status = $_POST["status"];
 
-        $datetime_leave_start_cal = substr($date_leave_start,6) . "-" . substr($date_leave_start,3,2) . "-" . substr($date_leave_start,0,2) . " " . $time_leave_start ;
-        $datetime_leave_to_cal = substr($date_leave_to,6) . "-" . substr($date_leave_to,3,2) . "-" . substr($date_leave_to,0,2) . " " . $time_leave_to ;
+        if (strlen($_FILES["filename"]["name"]) > 0) {
+            $img = $_FILES['filename']['name'];
+            $tmp = $_FILES['filename']['tmp_name'];
+            $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
 
-        $sql_time = "SELECT TIMEDIFF('". $datetime_leave_to_cal . "','" . $datetime_leave_start_cal ."') AS total_time ";
-        foreach ($conn->query($sql_time) AS $row) {
+            $final_image = rand(1000, 1000000) . $img;
+
+            if (in_array($ext, $valid_extensions)) {
+                $img_path = $img_path . strtolower($final_image);
+                if (move_uploaded_file($tmp, $img_path)) {
+                    echo "<img src='$img_path' />";
+                }
+            } else {
+                echo 'invalid';
+            }
+        }
+
+        $myfile = fopen("img_load.txt", "w") or die("Unable to open file!");
+        fwrite($myfile, $img ." | " . $_FILES['filename']['name']);
+        fclose($myfile);
+
+        $datetime_leave_start_cal = substr($date_leave_start, 6) . "-" . substr($date_leave_start, 3, 2) . "-" . substr($date_leave_start, 0, 2) . " " . $time_leave_start;
+        $datetime_leave_to_cal = substr($date_leave_to, 6) . "-" . substr($date_leave_to, 3, 2) . "-" . substr($date_leave_to, 0, 2) . " " . $time_leave_to;
+
+        $sql_time = "SELECT TIMEDIFF('" . $datetime_leave_to_cal . "','" . $datetime_leave_start_cal . "') AS total_time ";
+        foreach ($conn->query($sql_time) as $row) {
             $total_time = $row['total_time'];
         }
 
@@ -210,7 +234,7 @@ if ($_POST["action"] === 'UPDATE') {
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
-            if ($_SESSION['approve_permission']==="Y") {
+            if ($_SESSION['approve_permission'] === "Y") {
                 $sql_update = "UPDATE dleave_event SET status=:status,leave_type_id=:leave_type_id
                 ,date_leave_start=:date_leave_start,date_leave_to=:date_leave_to
                 ,time_leave_start=:time_leave_start,time_leave_to=:time_leave_to,remark=:remark,doc_year=:doc_year,total_time=:total_time     
@@ -298,7 +322,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
     $searchArray = array();
 
-    if ($_SESSION['document_dept_cond']!=="A") {
+    if ($_SESSION['document_dept_cond'] !== "A") {
         $searchQuery = " AND dept_id = '" . $_SESSION['department_id'] . "' ";
     }
 
@@ -321,19 +345,18 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-    $sql_count_record = "SELECT COUNT(*) AS allcount FROM v_dleave_event dl WHERE 1 " . $searchQuery ;
+    $sql_count_record = "SELECT COUNT(*) AS allcount FROM v_dleave_event dl WHERE 1 " . $searchQuery;
     $stmt = $conn->prepare($sql_count_record);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
-/*
-        $txt = $sql_count_record ;
-        $my_file = fopen("leave_select_count.txt", "w") or die("Unable to open file!");
-        fwrite($my_file, $searchValue . " | " . $txt);
-        fclose($my_file);
-*/
-
+    /*
+            $txt = $sql_count_record ;
+            $my_file = fopen("leave_select_count.txt", "w") or die("Unable to open file!");
+            fwrite($my_file, $searchValue . " | " . $txt);
+            fclose($my_file);
+    */
 
 
 ## Fetch records
@@ -343,20 +366,20 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
             FROM v_dleave_event dl
             LEFT JOIN mleave_type lt on lt.leave_type_id = dl.leave_type_id
             LEFT JOIN mstatus ms on ms.status_doctype = 'LEAVE' AND ms.status_doc_id = dl.status              
-            WHERE 1 " . $searchQuery . " ORDER BY id desc , " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset" ;
+            WHERE 1 " . $searchQuery . " ORDER BY id desc , " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset";
 
-/*
-        $txt = $sql_get_leave ;
-        $my_file = fopen("leave_select.txt", "w") or die("Unable to open file!");
-        fwrite($my_file, $searchValue. " | " .  $txt);
-        fclose($my_file);
-*/
+    /*
+            $txt = $sql_get_leave ;
+            $my_file = fopen("leave_select.txt", "w") or die("Unable to open file!");
+            fwrite($my_file, $searchValue. " | " .  $txt);
+            fclose($my_file);
+    */
 
     $stmt = $conn->prepare($sql_get_leave);
 
 
 // Bind values
-    foreach ($searchArray AS $key => $search) {
+    foreach ($searchArray as $key => $search) {
         $stmt->bindValue(':' . $key, $search, PDO::PARAM_STR);
     }
 
@@ -366,7 +389,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $empRecords = $stmt->fetchAll();
     $data = array();
 
-    foreach ($empRecords AS $row) {
+    foreach ($empRecords as $row) {
 
         if ($_POST['sub_action'] === "GET_MASTER") {
             $data[] = array(
@@ -381,11 +404,11 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "date_leave_to" => $row['date_leave_to'],
                 "time_leave_start" => $row['time_leave_start'],
                 "time_leave_to" => $row['time_leave_to'],
-                "dt_leave_start" => $row['date_leave_start'] . " " .  $row['time_leave_start'],
-                "dt_leave_to" => $row['date_leave_to'] . " " .  $row['time_leave_to'],
+                "dt_leave_start" => $row['date_leave_start'] . " " . $row['time_leave_start'],
+                "dt_leave_to" => $row['date_leave_to'] . " " . $row['time_leave_to'],
                 "department_id" => $row['department_id'],
                 "remark" => $row['remark'],
-                "full_name" => $row['f_name'] . " " .  $row['l_name'],
+                "full_name" => $row['f_name'] . " " . $row['l_name'],
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' clASs='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
                 "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' clASs='btn btn-success btn-xs approve' data-toggle='tooltip' title='Approve'>Approve</button>",
                 "status" => $row['status'] === 'A' ? "<div clASs='text-success'>" . $row['status_doc_desc'] . "</div>" : "<div clASs='text-muted'> " . $row['status_doc_desc'] . "</div>",

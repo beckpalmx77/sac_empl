@@ -7,7 +7,10 @@ include("../config/connect_sqlserver.php");
 include("../config/connect_db.php");
 include("../util/record_util.php");
 
-$previous_year = date("Y") - 1;
+$previous_year = date("Y") - 2;
+
+$previous_year = "2019";
+
 
 $sql_sqlsvr = "SELECT EMP_KEY,EMP_INTL,EMPFILE.EMP_NAME,EMPFILE.EMP_SURNME,EMPFILE.EMP_GENDER,EMPFILE.EMP_EMAIL
 ,PERSONALINFO.PRS_SC_D,PAYROLLINFO.PRI_SALARY ,PERSONALINFO.PRS_DEPT

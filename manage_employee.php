@@ -62,6 +62,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                     <th>หน่วยงาน</th>
                                                     <th>ชื่อเล่น</th>
                                                     <th>วันเริ่มงาน</th>
+                                                    <th>สถานะ</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
@@ -72,6 +73,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                     <th>หน่วยงาน</th>
                                                     <th>ชื่อเล่น</th>
                                                     <th>วันเริ่มงาน</th>
+                                                    <th>สถานะ</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </tfoot>
@@ -480,6 +482,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     {data: 'department_id'},
                     {data: 'nick_name'},
                     {data: 'start_work_date'},
+                    {data: 'status'},
                     {data: 'update'},
                 ]
             });

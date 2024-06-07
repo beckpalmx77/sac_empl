@@ -97,7 +97,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                 aria-hidden="true">×
                                                         </button>
                                                     </div>
-                                                    <form method="post" id="recordForm">
+                                                    <form method="post" id="recordForm" enctype="multipart/form-data">
                                                         <div class="modal-body">
                                                             <div class="modal-body">
 
@@ -184,7 +184,18 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                readonly="true"
                                                                                placeholder="วันที่เอกสาร">
                                                                     </div>
+
+                                                                    <div class="col-sm-6">
+                                                                        <label for="formFileMultiple"
+                                                                               class="form-label">รูปภาพเอกสาร</label>
+                                                                        <input type="hidden" id="filename" name="filename" value="">
+                                                                        <input class="form-control" type="file"
+                                                                               id="ImgFile" name="ImgFile"
+                                                                               onchange="readURL(this);">
+                                                                    </div>
+
                                                                 </div>
+
 
                                                                 <div class="form-group row">
                                                                     <input type="hidden" class="form-control"
@@ -482,6 +493,21 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     </script>
 
     <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#ImgFile')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+
+            }
+        }
+    </script>
+
+    <script>
         $(document).ready(function () {
             let formData = {action: "GET_LEAVE_DOCUMENT", sub_action: "GET_MASTER", page_manage: "USER",};
             let dataRecords = $('#TableRecordList').DataTable({
@@ -503,7 +529,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 'serverMethod': 'post',
                 'autoWidth': true,
                 'searching': true,
-                <?php  if ($_SESSION['deviceType']!=='computer') {
+                <?php  if ($_SESSION['deviceType'] !== 'computer') {
                     echo "'scrollX': true,";
                 }?>
                 'ajax': {
@@ -523,6 +549,12 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 ]
             });
 
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
             <!-- *** FOR SUBMIT FORM *** -->
             $("#recordModal").on('submit', '#recordForm', function (event) {
                 event.preventDefault();
@@ -538,27 +570,24 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                         let check_day = CalDay(date_leave_1, date_leave_2); // Check Date
                         let l_before = $('#leave_before').val();
 
+                        $('#filename').val($('#ImgFile').val());
 
-                        //if (check_day >= l_before) {
-                            //alert("OK");
+                        let formData = $(this).serialize();
 
-                            let formData = $(this).serialize();
-                            $.ajax({
-                                url: 'model/manage_leave_document_process.php',
-                                method: "POST",
-                                data: formData,
-                                success: function (data) {
-                                    alertify.success(data);
-                                    $('#recordForm')[0].reset();
-                                    $('#recordModal').modal('hide');
-                                    $('#save').attr('disabled', false);
-                                    dataRecords.ajax.reload();
-                                }
-                            })
+                        alert(formData);
 
-                        //} else {
-                            //alertify.error("ไม่สามารถบันทึกได้ การลาต้องลาล่วงหน้า : " + l_before + " วัน");
-                        //}
+                        $.ajax({
+                            url: 'model/manage_leave_document_process.php',
+                            method: "POST",
+                            data: formData,
+                            success: function (data) {
+                                alertify.success(data);
+                                $('#recordForm')[0].reset();
+                                $('#recordModal').modal('hide');
+                                $('#save').attr('disabled', false);
+                                dataRecords.ajax.reload();
+                            }
+                        })
 
                     } else {
                         alertify.error("กรุณาป้อนวันที่ต้องการลา !!!");
@@ -724,16 +753,16 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     </script>
 
     <script>
-        $(document).ready(function() {
-            $('#time_leave_start').on('change', function() {
+        $(document).ready(function () {
+            $('#time_leave_start').on('change', function () {
                 chkTime($(this).val());
             });
         });
     </script>
 
     <script>
-        $(document).ready(function() {
-            $('#time_leave_to').on('change', function() {
+        $(document).ready(function () {
+            $('#time_leave_to').on('change', function () {
                 chkTime($(this).val());
             });
         });
