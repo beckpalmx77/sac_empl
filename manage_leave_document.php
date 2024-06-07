@@ -66,6 +66,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                     <th>วันที่ลาเริ่มต้น</th>
                                                     <th>วันที่ลาสิ้นสุด</th>
                                                     <th>สถานะ</th>
+                                                    <th>รูปภาพ</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
@@ -79,6 +80,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                     <th>วันที่ลาเริ่มต้น</th>
                                                     <th>วันที่ลาสิ้นสุด</th>
                                                     <th>สถานะ</th>
+                                                    <th>รูปภาพ</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </tfoot>
@@ -185,14 +187,14 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                placeholder="วันที่เอกสาร">
                                                                     </div>
 
-                                                                    <div class="col-sm-6">
+                                                                    <!--div class="col-sm-6">
                                                                         <label for="formFileMultiple"
                                                                                class="form-label">รูปภาพเอกสาร</label>
                                                                         <input type="hidden" id="filename" name="filename" value="">
                                                                         <input class="form-control" type="file"
                                                                                id="ImgFile" name="ImgFile"
                                                                                onchange="readURL(this);">
-                                                                    </div>
+                                                                    </div-->
 
                                                                 </div>
 
@@ -320,6 +322,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
                                                         <div class="modal-footer">
                                                             <input type="hidden" name="id" id="id"/>
+                                                            <input type="hidden" name="picture" id="picture"/>
                                                             <input type="hidden" name="action" id="action" value=""/>
                                                             <span class="icon-input-btn">
                                                                 <i class="fa fa-check"></i>
@@ -464,6 +467,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <link rel="stylesheet" href="vendor/datatables/v11/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="vendor/datatables/v11/buttons.dataTables.min.css"/>
 
+    <script src="js/popup.js"></script>
+
     <style>
 
         .icon-input-btn {
@@ -545,6 +550,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     {data: 'dt_leave_start'},
                     {data: 'dt_leave_to'},
                     {data: 'status'},
+                    {data: 'image'},
                     {data: 'update'},
                 ]
             });
@@ -570,11 +576,12 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                         let check_day = CalDay(date_leave_1, date_leave_2); // Check Date
                         let l_before = $('#leave_before').val();
 
+
                         $('#filename').val($('#ImgFile').val());
 
                         let formData = $(this).serialize();
 
-                        alert(formData);
+                        // alert(formData);
 
                         $.ajax({
                             url: 'model/manage_leave_document_process.php',
@@ -680,6 +687,115 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         });
 
     </script>
+
+    <script>
+
+        $("#TableRecordList").on('click', '.image', function () {
+            let id = $(this).attr("id");
+            let formData = {action: "GET_DATA", id: id};
+            $.ajax({
+                type: "POST",
+                url: 'model/manage_leave_document_process.php',
+                dataType: "json",
+                data: formData,
+                success: function (response) {
+                    let len = response.length;
+                    for (let i = 0; i < len; i++) {
+                        let id = response[i].id;
+                        let doc_id = response[i].doc_id;
+                        let doc_date = response[i].doc_date;
+                        let emp_id = response[i].emp_id;
+                        let full_name = response[i].full_name;
+                        let leave_type_id = response[i].leave_type_id;
+                        let leave_type_detail = response[i].leave_type_detail;
+                        let date_leave_start = response[i].date_leave_start;
+                        let date_leave_to = response[i].date_leave_to;
+                        let time_leave_start = response[i].time_leave_start;
+                        let time_leave_to = response[i].time_leave_to;
+                        let leave_before = response[i].leave_before;
+                        let picture = response[i].picture;
+                        let remark = response[i].remark;
+                        let status = response[i].status;
+
+                        let main_menu = "บันทึกข้อมูลหลัก";
+                        let sub_menu = "เอกสารการลางาน (พนักงาน)";
+
+                        let url = "upload_leave_data.php?title=เอกสารการลา (Document)"
+                            + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
+                            + '&id=' + id
+                            + '&doc_id=' + doc_id + '&doc_date=' + doc_date
+                            + '&emp_id=' + emp_id + '&full_name=' + full_name
+                            + '&leave_type_id=' + leave_type_id
+                            + '&leave_type_detail=' + leave_type_detail
+                            + '&date_leave_start=' + date_leave_start
+                            + '&date_leave_to=' + date_leave_to
+                            + '&time_leave_start=' + time_leave_start
+                            + '&time_leave_to=' + time_leave_to
+                            + '&leave_before=' + leave_before
+                            + '&picture=' + picture
+                            + '&remark=' + remark
+                            + '&status=' + status
+                            + '&action=UPDATE';
+
+                        OpenPopupCenter(url, "", "");
+
+                    }
+                },
+                error: function (response) {
+                    alertify.error("error : " + response);
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+
+        $("#TableRecordList").on('click', '.imagebtn', function () {
+
+            let id = $(this).attr("id");
+
+            let url = "upload_leave_data.php?title=เอกสารการลา (Document)"
+                + '&id=' + id
+                + '&action=UPDATE';
+
+            OpenPopupCenter(url, "", "");
+        });
+
+    </script>
+
+    <!--script>
+        $("#TableRecordList").on('click', '.image', function () {
+
+            let id = $(this).attr("id");
+            let main_menu = document.getElementById("main_menu").value;
+            let sub_menu = document.getElementById("sub_menu").value;
+            alert(id);
+            let formData = {action: "GET_DATA", id: id};
+            $.ajax({
+                type: "POST",
+                url: 'model/manage_leave_document_process.php',
+                dataType: "json",
+                data: formData,
+                success: function (response) {
+                    let len = response.length;
+                    for (let i = 0; i < len; i++) {
+                        let id = response[i].id;
+                        let doc_id = response[i].doc_id;
+                        let url = "upload_leave_data.php?title=เอกสารการลา (Document)"
+                            + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
+                            + '&id=' + id + '&doc_id=' + doc_id
+                            + '&action=UPDATE';
+                        OpenPopupCenter(url, "", "");
+                    }
+                },
+                error: function (response) {
+                    alertify.error("error : " + response);
+                }
+            });
+        });
+    </script-->
+
 
     <!--script>
         $(document).ready(function () {
@@ -787,6 +903,25 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <style>
         .invalid {
             border: 1px solid red;
+        }
+    </style>
+
+    <style>
+
+        .icon-input-btn {
+            display: inline-block;
+            position: relative;
+        }
+
+        .icon-input-btn input[type="submit"] {
+            padding-left: 2em;
+        }
+
+        .icon-input-btn .fa {
+            display: inline-block;
+            position: absolute;
+            left: 0.65em;
+            top: 30%;
         }
     </style>
 

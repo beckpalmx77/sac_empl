@@ -48,6 +48,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "approve_2_id" => $result['approve_2_id'],
             "approve_2_status" => $result['approve_2_status'],
             "leave_before" => $result['leave_before'],
+            "picture" => $result['picture'],
             "remark" => $result['remark'],
             "status" => $result['status']);
     }
@@ -189,27 +190,6 @@ if ($_POST["action"] === 'UPDATE') {
         $time_leave_to = $_POST["time_leave_to"];
         $remark = $_POST["remark"];
         $status = $_POST["status"];
-
-        if (strlen($_FILES["filename"]["name"]) > 0) {
-            $img = $_FILES['filename']['name'];
-            $tmp = $_FILES['filename']['tmp_name'];
-            $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
-
-            $final_image = rand(1000, 1000000) . $img;
-
-            if (in_array($ext, $valid_extensions)) {
-                $img_path = $img_path . strtolower($final_image);
-                if (move_uploaded_file($tmp, $img_path)) {
-                    echo "<img src='$img_path' />";
-                }
-            } else {
-                echo 'invalid';
-            }
-        }
-
-        $myfile = fopen("img_load.txt", "w") or die("Unable to open file!");
-        fwrite($myfile, $img ." | " . $_FILES['filename']['name']);
-        fclose($myfile);
 
         $datetime_leave_start_cal = substr($date_leave_start, 6) . "-" . substr($date_leave_start, 3, 2) . "-" . substr($date_leave_start, 0, 2) . " " . $time_leave_start;
         $datetime_leave_to_cal = substr($date_leave_to, 6) . "-" . substr($date_leave_to, 3, 2) . "-" . substr($date_leave_to, 0, 2) . " " . $time_leave_to;
@@ -409,6 +389,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "department_id" => $row['department_id'],
                 "remark" => $row['remark'],
                 "full_name" => $row['f_name'] . " " . $row['l_name'],
+                "image" => "<button type='button' name='image' id='" . $row['id'] . "' clASs='btn btn-secondary btn-xs image' data-toggle='tooltip' title='image'>Image</button>",
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' clASs='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
                 "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' clASs='btn btn-success btn-xs approve' data-toggle='tooltip' title='Approve'>Approve</button>",
                 "status" => $row['status'] === 'A' ? "<div clASs='text-success'>" . $row['status_doc_desc'] . "</div>" : "<div clASs='text-muted'> " . $row['status_doc_desc'] . "</div>",

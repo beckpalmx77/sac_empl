@@ -1,6 +1,4 @@
 <?php
-session_start();
-error_reporting(0);
 include('includes/Header.php');
 if (strlen($_SESSION['alogin']) == "") {
     header("Location: index.php");
@@ -14,10 +12,10 @@ if (strlen($_SESSION['alogin']) == "") {
         <title>สงวนออโต้คาร์</title>
         <script type="text/javascript" src="js/jquery-1.11.3-jquery.min.js"></script>
         <script type="text/javascript" src="js/script.js"></script>
-        <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
               integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-              crossorigin="anonymous"-->
+              crossorigin="anonymous">
     </head>
     <body>
     <div id="content-wrapper" class="d-flex flex-column">
@@ -37,7 +35,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
                 <div class="col-md-8">
 
-                    <form method="post" id="my_form" enctype="multipart/form-data">
+                    <form method="post" id="recordForm" enctype="multipart/form-data">
                         <div class="modal-body">
                             <div class="modal-body">
 
@@ -94,37 +92,87 @@ if (strlen($_SESSION['alogin']) == "") {
                                 </div>
 
                                 <div class="form-group row">
-                                    <div class="col-sm-4">
-                                        <label for="picture"
-                                               class="control-label">ชื่อไฟล์</label>
+                                    <input type="hidden" class="form-control"
+                                           id="leave_type_id"
+                                           required="required"
+                                           name="leave_type_id">
+                                    <div class="col-sm-10">
+                                        <label for="leave_type_detail"
+                                               class="control-label">ประเภทการลา</label>
                                         <input type="text" class="form-control"
-                                               id="picture" name="picture"
+                                               id="leave_type_detail"
+                                               name="leave_type_detail"
+                                               required="required"
                                                readonly="true"
+                                               placeholder="">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <label for="date_leave_start"
+                                               class="control-label">วันที่ลาเริ่มต้น</label>
+                                        <i class="fa fa-calendar"
+                                           aria-hidden="true"></i>
+                                        <input type="text" class="form-control"
+                                               id="date_leave_start"
+                                               name="date_leave_start"
+                                               value=""
+                                               required="required"
+                                               readonly="true"
+                                               placeholder="วันที่ลาเริ่มต้น">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="date_leave_start"
+                                               class="control-label">เวลาเริ่มต้น</label>
+                                        <input type="text" class="form-control"
+                                               id="time_leave_start"
+                                               name="time_leave_start"
+                                               value=""
+                                               required="required"
+                                               placeholder="hh:mm">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="date_leave_start"
+                                               class="control-label">วันที่ลาสิ้นสุด</label>
+                                        <i class="fa fa-calendar"
+                                           aria-hidden="true"></i>
+                                        <input type="text" class="form-control"
+                                               id="date_leave_to"
+                                               name="date_leave_to"
+                                               value=""
+                                               required="required"
+                                               readonly="true"
+                                               placeholder="วันที่ลาสิ้นสุด">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="time_leave_to"
+                                               class="control-label">เวลาสิ้นสุด</label>
+                                        <input type="text" class="form-control"
+                                               id="time_leave_to"
+                                               name="time_leave_to"
                                                required="required"
                                                value=""
-                                               placeholder="">
+                                               placeholder="hh:mm">
                                     </div>
                                 </div>
 
                             </div>
                         </div>
+
                         <input id="uploadImage" type="file" accept="image/*" name="image"/>
-                        <div>Upload File (ไฟล์ .jpg , .png , .pdf , .doc เท่านั้น)</div>
 
                         <div class="modal-footer">
-
-                            <div class='preview'>
-                                <!--img class="enlarge" src="img_doc/image_doc.png" id="img" width="200" height="200" onclick="window.open(this.src,'_blank')"-->
-                                <img class="enlarge" src="" id="img" width="200" height="200" onclick="window.open(this.src,'_blank')">
-                            </div>
-
                             <input type="hidden" name="id" id="id"/>
                             <input type="hidden" name="action" id="action" value=""/>
                             <span class="icon-input-btn">
-                                <input class="btn btn-success" type="submit" value="Upload">
-                            </span>
+                                                                <i class="fa fa-check"></i>
+                                                            <input type="submit" name="save" id="save"
+                                                                   class="btn btn-primary" value="Save"/>
+                                                            </span>
                             <button type="button" class="btn btn-danger"
-                                    id="btnClose">Close <i
+                                    data-dismiss="modal">Close <i
                                         class="fa fa-window-close"></i>
                             </button>
                         </div>
@@ -142,51 +190,6 @@ if (strlen($_SESSION['alogin']) == "") {
     </div>
     </div>
     </div>
-
-    <style>
-
-        .preview {
-            width: 200px;
-            height: 200px;
-            border: 0;
-            margin: 0 auto;
-            background: white;
-        }
-
-    </style>
-
-    <script>
-        function bigImg(x) {
-            x.style.height = "100%";
-            x.style.width = "100%";
-        }
-
-        function normalImg(x) {
-            x.style.height = "200px";
-            x.style.width = "200px";
-        }
-    </script>
-
-    <style>
-        .enlarge {
-            height: 100%;
-            width: 100%;
-            float: left;
-            -webkit-transition: all 0.5s ease-in-out;
-            -moz-transition: all 0.5s ease-in-out;
-            transition: all 0.5s ease-in-out;
-        }
-
-        .enlarge:hover {
-            height: 300%;
-            width: 300%;
-            -webkit-transition: all 0.5s ease-in-out;
-            -moz-transition: all 0.5s ease-in-out;
-            transition: all 0.5s ease-in-out;
-            cursor: pointer;
-        }
-    </style>
-
 
     <script type="text/javascript">
         let queryString = new Array();
@@ -218,23 +221,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#date_leave_start').val(queryString["date_leave_start"]);
                 $('#date_leave_to').val(queryString["date_leave_to"]);
 
-                let image_load = "img_doc/" + queryString["picture"];
-
-                $("#img").attr("src",image_load);
-
-                $('#picture').val(queryString["picture"]);
-
-                /*
-                                if (queryString["picture"]!=="image_doc.png") {
-                                    $doc_picture = "img_doc/" . (queryString["picture"]);
-                                } else {
-                                    $doc_picture = "img_doc/image_doc.png";
-                                }
-
-                                $("#img").attr("src",$doc_picture);
-                                $('.preview img').show();
-
-                 */
 
             }
         });
@@ -243,9 +229,8 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
 
         $(document).ready(function (e) {
-            $("#my_form").on('submit', (function (e) {
+            $("#form").on('submit', (function (e) {
                 e.preventDefault();
-                let fd = new FormData();
                 $.ajax({
                     url: "upload_ajax.php",
                     type: "POST",
@@ -263,12 +248,8 @@ if (strlen($_SESSION['alogin']) == "") {
                             $("#err").html("Invalid File !").fadeIn();
                         } else {
 // view uploaded file.
-                            //$("#preview").html(data).fadeIn();
-                            //$("#form")[0].reset();
-
-                            $("#img").attr("src", data);
-                            $('.preview img').show();
-
+                            $("#preview").html(data).fadeIn();
+                            $("#form")[0].reset();
                         }
                     },
                     error: function (e) {
@@ -276,15 +257,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     }
                 });
             }));
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $("#btnClose").click(function () {
-                window.opener = self;
-                window.close();
-            });
         });
     </script>
 
