@@ -108,14 +108,15 @@ if (strlen($_SESSION['alogin']) == "") {
 
                             </div>
                         </div>
-                        <input id="uploadImage" type="file" accept="image/*" name="image"/>
-                        <div>Upload File (ไฟล์ .jpg , .png , .pdf , .doc เท่านั้น)</div>
+
+                        <input type="file" id="uploadImage" accept="image/*" name="image" onchange="readURL(this)"/>
+                        <div>Upload File (ไฟล์ .jpg , .png , .pdf , .doc เท่านั้น) ชี้ที่รูปเพื่อขยาย</div>
 
                         <div class="modal-footer">
 
                             <div class='preview'>
-                                <!--img class="enlarge" src="img_doc/image_doc.png" id="img" width="200" height="200" onclick="window.open(this.src,'_blank')"-->
-                                <img class="enlarge" src="" id="img" width="200" height="200" onclick="window.open(this.src,'_blank')">
+                                <img class="enlarge" src="" id="img" width="200" height="200"
+                                     onclick="window.open(this.src,'_blank')">
                             </div>
 
                             <input type="hidden" name="id" id="id"/>
@@ -187,6 +188,20 @@ if (strlen($_SESSION['alogin']) == "") {
         }
     </style>
 
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#img')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
 
     <script type="text/javascript">
         let queryString = new Array();
@@ -220,21 +235,9 @@ if (strlen($_SESSION['alogin']) == "") {
 
                 let image_load = "img_doc/" + queryString["picture"];
 
-                $("#img").attr("src",image_load);
+                $("#img").attr("src", image_load);
 
                 $('#picture').val(queryString["picture"]);
-
-                /*
-                                if (queryString["picture"]!=="image_doc.png") {
-                                    $doc_picture = "img_doc/" . (queryString["picture"]);
-                                } else {
-                                    $doc_picture = "img_doc/image_doc.png";
-                                }
-
-                                $("#img").attr("src",$doc_picture);
-                                $('.preview img').show();
-
-                 */
 
             }
         });
