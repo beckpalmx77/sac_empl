@@ -14,6 +14,8 @@ if (strlen($_SESSION['alogin']) == "") {
         <title>สงวนออโต้คาร์</title>
         <script type="text/javascript" src="js/jquery-1.11.3-jquery.min.js"></script>
         <script type="text/javascript" src="js/script.js"></script>
+        <script type="text/javascript" src="js/alertify/alertify.js"></script>
+        <link rel="stylesheet" href="js/alertify/css/alertify.css">
         <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
               integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -95,9 +97,9 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                 <div class="form-group row">
                                     <div class="col-sm-4">
-                                        <label for="picture"
-                                               class="control-label">ชื่อไฟล์</label>
-                                        <input type="text" class="form-control"
+                                        <!--label for="picture"
+                                               class="control-label">ชื่อไฟล์</label-->
+                                        <input type="hidden" class="form-control"
                                                id="picture" name="picture"
                                                readonly="true"
                                                required="required"
@@ -271,6 +273,11 @@ if (strlen($_SESSION['alogin']) == "") {
 
                             $("#img").attr("src", data);
                             $('.preview img').show();
+
+                            alertify
+                                .alert("Upload รูปภาพเรียบร้อยแล้ว", function(){
+                                    alertify.message('OK');
+                                });
 
                         }
                     },
