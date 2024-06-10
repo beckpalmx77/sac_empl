@@ -125,7 +125,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                     <div class="col-sm-10">
                                         <label for="uploadImage"
                                                class="control-label">เลือกไฟล์รูปภาพที่ต้องการ Upload</label>
-                                        <input type="file" id="uploadImage" accept="image/*" name="image"
+                                        <input class="form-control" type="file" id="uploadImage" accept="image/*" name="image"
                                                onchange="readURL(this)"/>
                                         <div>Upload File (ไฟล์ .jpg , .png เท่านั้น) ชี้ที่รูปเพื่อขยาย</div>
                                     </div>
