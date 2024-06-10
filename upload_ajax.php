@@ -2,7 +2,7 @@
 
 include('config/connect_db.php');
 
-$valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'bmp' , 'pdf' , 'doc'); // valid extensions
+$valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'bmp'); // valid extensions
 $path = 'img_doc/'; // upload directory
 
 if(!empty($_POST['id']) || $_FILES['image'])
