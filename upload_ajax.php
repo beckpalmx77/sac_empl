@@ -1,6 +1,6 @@
 <?php
 
-include('config/connect_db.php');
+include('config/connect_db_test.php');
 
 $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'bmp' , 'pdf' , 'doc'); // valid extensions
 $path = 'img_doc/'; // upload directory
@@ -17,12 +17,12 @@ if(!empty($_POST['id']) || $_FILES['image'])
 // can upload same image using rand function
     $final_image = rand(1000,1000000).$img;
 
-/*
-    $txt = $final_image . " | " . $id;
+
+    $txt = $final_image . " | " . $id . " File Name = " . $img ;
     $my_file = fopen("leave_a.txt", "w") or die("Unable to open file!");
     fwrite($my_file, $txt);
     fclose($my_file);
-*/
+
 
 // check's valid format
     if(in_array($ext, $valid_extensions))
