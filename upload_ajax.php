@@ -1,6 +1,6 @@
 <?php
 
-include('config/connect_db_test.php');
+include('config/connect_db.php');
 
 $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'bmp' , 'pdf' , 'doc'); // valid extensions
 $path = 'img_doc/'; // upload directory
