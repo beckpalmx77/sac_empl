@@ -498,6 +498,17 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     </script>
 
     <script>
+        function encodeURL(url) {
+            return encodeURIComponent(url);
+        }
+
+        function decodeURL(url) {
+            return encodeURIComponent(url);
+        }
+
+    </script>
+
+    <script>
         function readURL(input) {
             if (input.files && input.files[0]) {
                 let reader = new FileReader();
@@ -720,7 +731,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                         let main_menu = "บันทึกข้อมูลหลัก";
                         let sub_menu = "เอกสารการลางาน (พนักงาน)";
 
-                        let url = "upload_leave_data.php?title=เอกสารการลา (Document)"
+                        let originalURL = "upload_leave_data.php?title=เอกสารการลา (Document)"
                             + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
                             + '&id=' + id
                             + '&doc_id=' + doc_id + '&doc_date=' + doc_date
@@ -737,7 +748,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                             + '&status=' + status
                             + '&action=UPDATE';
 
-                        OpenPopupCenter(url, "", "");
+                        OpenPopupCenter(originalURL, "", "");
 
                     }
                 },
@@ -748,65 +759,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         });
 
     </script>
-
-    <script>
-
-        $("#TableRecordList").on('click', '.imagebtn', function () {
-
-            let id = $(this).attr("id");
-
-            let url = "upload_leave_data.php?title=เอกสารการลา (Document)"
-                + '&id=' + id
-                + '&action=UPDATE';
-
-            OpenPopupCenter(url, "", "");
-        });
-
-    </script>
-
-    <!--script>
-        $("#TableRecordList").on('click', '.image', function () {
-
-            let id = $(this).attr("id");
-            let main_menu = document.getElementById("main_menu").value;
-            let sub_menu = document.getElementById("sub_menu").value;
-            alert(id);
-            let formData = {action: "GET_DATA", id: id};
-            $.ajax({
-                type: "POST",
-                url: 'model/manage_leave_document_process.php',
-                dataType: "json",
-                data: formData,
-                success: function (response) {
-                    let len = response.length;
-                    for (let i = 0; i < len; i++) {
-                        let id = response[i].id;
-                        let doc_id = response[i].doc_id;
-                        let url = "upload_leave_data.php?title=เอกสารการลา (Document)"
-                            + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
-                            + '&id=' + id + '&doc_id=' + doc_id
-                            + '&action=UPDATE';
-                        OpenPopupCenter(url, "", "");
-                    }
-                },
-                error: function (response) {
-                    alertify.error("error : " + response);
-                }
-            });
-        });
-    </script-->
-
-
-    <!--script>
-        $(document).ready(function () {
-            $('#doc_date').datepicker({
-                format: "dd-mm-yyyy",
-                todayHighlight: true,
-                language: "th",
-                autoclose: true
-            });
-        });
-    </script-->
 
     <script>
         $(document).ready(function () {

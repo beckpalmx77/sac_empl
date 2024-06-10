@@ -173,6 +173,16 @@ if (strlen($_SESSION['alogin']) == "") {
     </style>
 
     <script>
+        function encodeURL(url) {
+            return encodeURIComponent(url);
+        }
+
+        function decodeURL(url) {
+            return encodeURIComponent(url);
+        }
+    </script>
+
+    <script>
         function bigImg(x) {
             x.style.height = "100%";
             x.style.width = "100%";
@@ -290,7 +300,7 @@ if (strlen($_SESSION['alogin']) == "") {
                             $('.preview img').show();
 
                             alertify
-                                .alert("Upload รูปภาพเรียบร้อยแล้ว", function(){
+                                .alert("Upload รูปภาพเรียบร้อยแล้ว", function () {
                                     alertify.message('OK');
                                 });
 

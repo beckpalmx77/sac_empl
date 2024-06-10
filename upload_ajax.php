@@ -54,4 +54,3 @@ if(!empty($_POST['id']) || $_FILES['image'])
         echo 'invalid';
     }
 }
-?>

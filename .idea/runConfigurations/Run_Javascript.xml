@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Javascript" type="NodeJSConfigurationType" singleton="false" path-to-js-file="ende_code.js" working-dir="$PROJECT_DIR$/tests">
+    <method v="2" />
+  </configuration>
+</component>
