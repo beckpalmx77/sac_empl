@@ -48,7 +48,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                     <div class="col-sm-6">
                                         <label for="text"
                                                class="control-label">เลขที่เอกสาร</label>
-                                        <input type="text" class="form-control"
+                                        <input type="doc_id" class="form-control"
                                                id="doc_id" name="doc_id"
                                                readonly="true"
                                                required="required"
@@ -73,7 +73,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                 <div class="form-group row">
                                     <div class="col-sm-4">
-                                        <label for="text"
+                                        <label for="emp_id"
                                                class="control-label">รหัสพนักงาน</label>
                                         <input type="text" class="form-control"
                                                id="emp_id" name="emp_id"
@@ -83,7 +83,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                placeholder="">
                                     </div>
                                     <div class="col-sm-6">
-                                        <label for="text"
+                                        <label for="full_name"
                                                class="control-label">ชื่อ -
                                             นามสกุล</label>
                                         <input type="text" class="form-control"
@@ -93,6 +93,19 @@ if (strlen($_SESSION['alogin']) == "") {
                                                placeholder="">
                                     </div>
 
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <label for="leave_type_detail"
+                                               class="control-label">ประเภทการลา</label>
+                                        <input type="text" class="form-control"
+                                               id="leave_type_detail" name="leave_type_detail"
+                                               readonly="true"
+                                               required="required"
+                                               value=""
+                                               placeholder="">
+                                    </div>
                                 </div>
 
                                 <div class="form-group row">
@@ -110,7 +123,8 @@ if (strlen($_SESSION['alogin']) == "") {
 
                             </div>
                         </div>
-
+                        <label for="uploadImage"
+                               class="control-label">เลือกไฟล์รูปภาพที่ต้องการ Upload</label>
                         <input type="file" id="uploadImage" accept="image/*" name="image" onchange="readURL(this)"/>
                         <div>Upload File (ไฟล์ .jpg , .png , .pdf , .doc เท่านั้น) ชี้ที่รูปเพื่อขยาย</div>
 
@@ -234,6 +248,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#full_name').val(queryString["full_name"]);
                 $('#date_leave_start').val(queryString["date_leave_start"]);
                 $('#date_leave_to').val(queryString["date_leave_to"]);
+                $('#leave_type_detail').val(queryString["leave_type_detail"]);
 
                 let image_load = "img_doc/" + queryString["picture"];
 
