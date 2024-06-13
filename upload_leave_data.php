@@ -139,9 +139,13 @@ if (strlen($_SESSION['alogin']) == "") {
                         <div class="modal-footer">
 
                             <div class='preview'>
+                                <img class="enlarge" src="" id="img" width="200" height="200">
+                            </div>
+
+                            <!--div class='preview'>
                                 <img class="enlarge" src="" id="img" width="200" height="200"
                                      onclick="window.open(this.src,'_blank')">
-                            </div>
+                            </div-->
 
                             <input type="hidden" name="id" id="id"/>
                             <input type="hidden" name="action" id="action" value=""/>

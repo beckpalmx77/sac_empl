@@ -60,6 +60,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                 <thead>
                                                 <tr>
                                                     <th>ปี</th>
+                                                    <th>วันที่เอกสาร</th>
                                                     <th>ชื่อ - นามสกุล</th>
                                                     <th>แผนก</th>
                                                     <th>วันที่หยุด</th>
@@ -71,6 +72,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                 <tfoot>
                                                 <tr>
                                                     <th>ปี</th>
+                                                    <th>วันที่เอกสาร</th>
                                                     <th>ชื่อ - นามสกุล</th>
                                                     <th>แผนก</th>
                                                     <th>วันที่หยุด</th>
@@ -498,6 +500,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 },
                 'columns': [
                     {data: 'doc_year'},
+                    {data: 'doc_date'},
                     {data: 'full_name'},
                     {data: 'department_id'},
                     {data: 'date_leave_start'},

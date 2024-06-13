@@ -129,8 +129,46 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนวันหยุด
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-gray-500"
+                                            <div class="h5 mb-0 font-weight-bold text-gray-600"><p class="text-gray-500"
                                                                                                    id="Text5"></p></div>
+                                            <div class="mt-2 mb-0 text-muted text-xs">
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-file fa-2x text-gray-500"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนเวลาการทำงาน
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-gray-500"
+                                                                                                   id="Text7"></p></div>
+                                            <div class="mt-2 mb-0 text-muted text-xs">
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-file fa-2x text-gray-500"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนเวลาการทำงาน
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-900"><p class="text-gray-500"
+                                                                                                   id="Text8"></p></div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
                                             </div>
                                         </div>
@@ -201,6 +239,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
             GET_DATA("dchange_event", 5);
             GET_DATA("ot_request", 6);
+            GET_DATA("dtime_change_event", 7);
+            GET_DATA("dholiday_event", 8);
 
             setInterval(function () {
                 for (let i = 1; i <= 4; i++) {
@@ -208,6 +248,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 }
                 GET_DATA("dchange_event", 5);
                 GET_DATA("ot_request", 6);
+                GET_DATA("dtime_change_event", 7);
+                GET_DATA("dholiday_event", 8);
             }, 3000);
 
         });
@@ -241,6 +283,12 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     break;
                 case 6:
                     cond = " Where leave_type_id = 'O' " + where_date;
+                    break;
+                case 7:
+                    cond = " Where leave_type_id = 'S' " + where_date;
+                    break;
+                case 8:
+                    cond = " Where leave_type_id = 'H2' " + where_date;
                     break;
             }
             //alert(cond);
