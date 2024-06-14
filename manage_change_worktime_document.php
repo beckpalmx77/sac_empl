@@ -475,7 +475,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 'serverSide': true,
                 'serverMethod': 'post',
                 'autoWidth': true,
-                <?php  if ($_SESSION['deviceType']!=='computer') {
+                <?php  if ($_SESSION['deviceType'] !== 'computer') {
                     echo "'scrollX': true,";
                 }?>
                 'ajax': {
@@ -553,7 +553,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 $('#leave_type_id').val("S");
                 $('#leave_type_detail').val("เปลี่ยนเวลาการทำงาน");
                 $('#date_leave_start').val("");
-                $('#date_leave_start_c').val("");                  
+                $('#date_leave_start_c').val("");
                 $('#remark').val("");
                 $('#status').val("N");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
