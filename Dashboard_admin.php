@@ -37,11 +37,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-primary"
                                                                                                    id="Text1"></p></div>
-                                            <!--div class="mt-2 mb-0 text-muted text-xs">
-                                                <span class="text-success mr-2"><i
-                                                            class="fa fa-arrow-up"></i></span>
-                                                <span>Since last month</span>
-                                            </div-->
+
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-file fa-2x text-primary"></i>
@@ -60,11 +56,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
                                                                                                    id="Text2"></p></div>
-                                            <!--div class="mt-2 mb-0 text-muted text-xs">
-                                                <span class="text-success mr-2"><i
-                                                            class="fas fa-arrow-up"></i> 12%</span>
-                                                <span>Since last years</span>
-                                            </div-->
+
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-file fa-2x text-success"></i>
@@ -83,11 +75,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-info"
                                                                                                    id="Text3"></p></div>
-                                            <!--div class="mt-2 mb-0 text-muted text-xs">
-                                                <span class="text-success mr-2"><i
-                                                            class="fas fa-arrow-up"></i> 20.4%</span>
-                                                <span>Since last month</span>
-                                            </div-->
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-file fa-2x text-info"></i>
@@ -107,9 +94,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-warning"
                                                                                                    id="Text4"></p></div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
-                                                <!--span class="text-danger mr-2"><i
-                                                            class="fas fa-arrow-down"></i> 1.10%</span>
-                                                    <span>Since yesterday</span-->
+
                                             </div>
                                         </div>
                                         <div class="col-auto">
