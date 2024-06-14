@@ -18,12 +18,12 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 <?php
                 include('includes/Top-Bar.php');
                 ?>
-                            <div class="card-header">
-                            สถิติการลาประจำวันที่
-                            <?php echo date("d/m/Y");
-                            $current_date = date("d/m/Y");
-                            ?>
-                            </div>
+                <div class="card-header">
+                    สถิติการลาประจำวันที่
+                    <?php echo date("d/m/Y");
+                    $current_date = date("d/m/Y");
+                    ?>
+                </div>
 
 
                 <div class="container-fluid" id="container-wrapper">
@@ -33,7 +33,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการลา ทั้งหมด
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการลา
+                                                ทั้งหมด
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-primary"
                                                                                                    id="Text1"></p></div>
@@ -112,7 +113,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนวันหยุด
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">
+                                                เอกสารการแจ้งเปลี่ยนวันหยุด
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-600"><p class="text-gray-500"
                                                                                                    id="Text5"></p></div>
@@ -131,7 +133,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนเวลาการทำงาน
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">
+                                                เอกสารการแจ้งเปลี่ยนเวลาการทำงาน
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-gray-500"
                                                                                                    id="Text7"></p></div>
@@ -150,7 +153,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">บันทึกวันหยุด (นักขัตฤกษ์-ประจำปี)
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">บันทึกวันหยุด
+                                                (นักขัตฤกษ์-ประจำปี)
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-900"><p class="text-gray-500"
                                                                                                    id="Text8"></p></div>
@@ -169,7 +173,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการขอทำงานล่วงเวลา
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">
+                                                เอกสารการขอทำงานล่วงเวลา
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-black-50"
                                                                                                    id="Text6"></p></div>
@@ -188,8 +193,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 </div>
             </div>
         </div>
-
-
 
 
     </div>
@@ -244,7 +247,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <script>
 
         function GET_DATA(table_name, idx) {
-            const current_date = "<?php echo str_replace('/','-',$current_date); ?>";
+            const current_date = "<?php echo str_replace('/', '-', $current_date); ?>";
             let where_date = "And doc_date = '" + current_date + "'";
             //alert(where_date);
             let input_text = document.getElementById("Text" + idx);
@@ -252,7 +255,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
             let cond = "";
             switch (idx) {
                 case 1:
-                    cond = " Where doc_date = '" + current_date + "'" ;
+                    cond = " Where doc_date = '" + current_date + "'";
                     break;
                 case 2:
                     cond = " Where leave_type_id = 'L1' " + where_date;
@@ -277,7 +280,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     break;
             }
             //alert(cond);
-            let formData = {action: action, table_name: table_name ,cond: cond};
+            let formData = {action: action, table_name: table_name, cond: cond};
             $.ajax({
                 type: "POST",
                 url: 'model/manage_general_data.php',
@@ -292,8 +295,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         }
 
     </script>
-
-
 
 
     </body>
