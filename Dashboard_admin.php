@@ -113,16 +113,16 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">
-                                                เอกสารการแจ้งเปลี่ยนวันหยุด
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนวันหยุด
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-600"><p class="text-gray-500"
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-warning"
                                                                                                    id="Text5"></p></div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
+
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-file fa-2x text-gray-500"></i>
+                                            <i class="fas fa-file fa-2x text-warning"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -133,16 +133,13 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">
-                                                เอกสารการแจ้งเปลี่ยนเวลาการทำงาน
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนเวลาการทำงาน
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-gray-500"
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-info"
                                                                                                    id="Text7"></p></div>
-                                            <div class="mt-2 mb-0 text-muted text-xs">
-                                            </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-file fa-2x text-gray-500"></i>
+                                            <i class="fas fa-file fa-2x text-info"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -151,18 +148,16 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
+                                    <div class="row align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">บันทึกวันหยุด
-                                                (นักขัตฤกษ์-ประจำปี)
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">บันทึกวันหยุด (นักขัตฤกษ์-ประจำปี)
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-900"><p class="text-gray-500"
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-primary"
                                                                                                    id="Text8"></p></div>
-                                            <div class="mt-2 mb-0 text-muted text-xs">
-                                            </div>
+
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-file fa-2x text-gray-500"></i>
+                                            <i class="fas fa-file fa-2x text-primary"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -173,16 +168,14 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">
-                                                เอกสารการขอทำงานล่วงเวลา
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการขอทำงานล่วงเวลา
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-black-50"
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
                                                                                                    id="Text6"></p></div>
-                                            <div class="mt-2 mb-0 text-muted text-xs">
-                                            </div>
+
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-file fa-2x text-black-50"></i>
+                                            <i class="fas fa-file fa-2x text-success"></i>
                                         </div>
                                     </div>
                                 </div>
