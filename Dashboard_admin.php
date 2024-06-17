@@ -135,12 +135,12 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนวันหยุด
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-warning"
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-info"
                                                                                                    id="Text6"></p></div>
 
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-file fa-2x text-warning"></i>
+                                            <i class="fas fa-file fa-2x text-info"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -153,11 +153,11 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนเวลาการทำงาน
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-info"
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-warning"
                                                                                                    id="Text7"></p></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-file fa-2x text-info"></i>
+                                            <i class="fas fa-file fa-2x text-warning"></i>
                                         </div>
                                     </div>
                                 </div>
