@@ -113,13 +113,31 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนวันหยุด
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการขอทำงานล่วงเวลา
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-warning"
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
                                                                                                    id="Text5"></p></div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
 
                                             </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-file fa-2x text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนวันหยุด
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-warning"
+                                                                                                   id="Text6"></p></div>
+
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-file fa-2x text-warning"></i>
@@ -163,24 +181,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการขอทำงานล่วงเวลา
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
-                                                                                                   id="Text6"></p></div>
-
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-file fa-2x text-success"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
@@ -218,8 +218,9 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 GET_DATA("dleave_event", i);
             }
 
-            GET_DATA("dchange_event", 5);
-            GET_DATA("ot_request", 6);
+
+            GET_DATA("ot_request", 5);
+            GET_DATA("dchange_event", 6);
             GET_DATA("dtime_change_event", 7);
             GET_DATA("dholiday_event", 8);
 
@@ -227,8 +228,9 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 for (let i = 1; i <= 4; i++) {
                     GET_DATA("dleave_event", i);
                 }
-                GET_DATA("dchange_event", 5);
-                GET_DATA("ot_request", 6);
+
+                GET_DATA("ot_request", 5);
+                GET_DATA("dchange_event", 6);
                 GET_DATA("dtime_change_event", 7);
                 GET_DATA("dholiday_event", 8);
             }, 3000);
@@ -260,10 +262,10 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     cond = " Where leave_type_id = 'L2' " + where_date;
                     break;
                 case 5:
-                    cond = " Where leave_type_id = 'C' " + where_date;
+                    cond = " Where leave_type_id = 'O' " + where_date;
                     break;
                 case 6:
-                    cond = " Where leave_type_id = 'O' " + where_date;
+                    cond = " Where leave_type_id = 'C' " + where_date;
                     break;
                 case 7:
                     cond = " Where leave_type_id = 'S' " + where_date;
