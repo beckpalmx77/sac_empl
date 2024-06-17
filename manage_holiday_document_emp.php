@@ -421,7 +421,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/-->
 
 
-
     <script src="https://cdn.datatables.net/rowreorder/1.4.1/js/dataTables.rowReorder.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
@@ -471,7 +470,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <script>
         $(document).ready(function () {
 
-            let formData = {action: "GET_LEAVE_DOCUMENT", sub_action: "GET_MASTER" ,page_manage: "USER",};
+            let formData = {action: "GET_LEAVE_DOCUMENT", sub_action: "GET_MASTER", page_manage: "USER",};
 
             let dataRecords = $('#TableRecordList').DataTable({
                 'lengthMenu': [[8, 10, 20, 50, 100], [8, 10, 20, 50, 100]],
@@ -491,7 +490,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 'serverSide': true,
                 'serverMethod': 'post',
                 'autoWidth': true,
-                <?php  if ($_SESSION['deviceType']!=='computer') {
+                <?php  if ($_SESSION['deviceType'] !== 'computer') {
                     echo "'scrollX': true,";
                 }?>
                 'ajax': {
