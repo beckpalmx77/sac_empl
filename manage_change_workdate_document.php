@@ -59,7 +59,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                 <thead>
                                                 <tr>
                                                     <th>ปี</th>
-                                                    <th>เลขที่เอกสาร</th>
                                                     <th>วันที่เอกสาร</th>
                                                     <th>ชื่อ-นามสกุล</th>
                                                     <th>หน่วยงาน</th>
@@ -73,7 +72,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                 <tfoot>
                                                 <tr>
                                                     <th>ปี</th>
-                                                    <th>เลขที่เอกสาร</th>
                                                     <th>วันที่เอกสาร</th>
                                                     <th>ชื่อ-นามสกุล</th>
                                                     <th>หน่วยงาน</th>
@@ -462,7 +460,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 },
                 'columns': [
                     {data: 'doc_year'},
-                    {data: 'doc_id'},
                     {data: 'doc_date'},
                     {data: 'full_name'},
                     {data: 'department_id'},
