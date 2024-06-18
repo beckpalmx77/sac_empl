@@ -456,8 +456,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <script src="vendor/date-picker-1.9/locales/bootstrap-datepicker.th.min.js"></script>
     <link href="vendor/date-picker-1.9/css/bootstrap-datepicker.css" rel="stylesheet"/>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.min.js"></script>
-
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.min.js"></script>
 
 
     <script src="vendor/datatables/v11/bootbox.min.js"></script>
@@ -514,7 +514,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 'serverSide': true,
                 'serverMethod': 'post',
                 'autoWidth': true,
-                <?php  if ($_SESSION['deviceType']!=='computer') {
+                <?php  if ($_SESSION['deviceType'] !== 'computer') {
                     echo "'scrollX': true,";
                 }?>
                 'ajax': {
@@ -722,16 +722,16 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
 
     <script>
-        $(document).ready(function() {
-            $('#time_leave_start').on('change', function() {
+        $(document).ready(function () {
+            $('#time_leave_start').on('change', function () {
                 chkTime($(this).val());
             });
         });
     </script>
 
     <script>
-        $(document).ready(function() {
-            $('#time_leave_to').on('change', function() {
+        $(document).ready(function () {
+            $('#time_leave_to').on('change', function () {
                 chkTime($(this).val());
             });
         });

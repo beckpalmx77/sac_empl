@@ -451,7 +451,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 'serverSide': true,
                 'serverMethod': 'post',
                 'autoWidth': true,
-                <?php  if ($_SESSION['deviceType']!=='computer') {
+                <?php  if ($_SESSION['deviceType'] !== 'computer') {
                     echo "'scrollX': true,";
                 }?>
                 'ajax': {
