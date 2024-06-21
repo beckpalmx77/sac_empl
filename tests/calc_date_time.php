@@ -12,6 +12,13 @@ include('../util/reorder_record.php');
 
 $year = date("Y");
 $month = date("m");
+$date = date("d");
+
+$last_number = '3';
+$number = sprintf('%02s', $last_number);
+echo $number. "<br>";
+
+$current_date = $date . "-" . $month . "-" .$year;
 
 for ($year=2020;$year<=2030;$year++) {
 
@@ -29,7 +36,8 @@ if ($nRows <= 0) {
 
     $effect_start_date = "01-" . $month . "-" . $year;
     $effect_to_date = $day . "-" . $month . "-" . $year;
-    echo $effect_start_date . " | " .  $effect_to_date;
+    echo $effect_start_date . " | " .  $effect_to_date . " | " . $current_date;
+
 }
 
 ?>

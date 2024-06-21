@@ -1,117 +1,105 @@
-<?php
-$servername = "localhost";
-$username = "sadmin";
-$password = "sadmin";
-$dbname = "myadmin_dbs";
+<!-- FullCalender.io -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        let calendar = $('#calendar').fullCalendar({
+            editable: true,
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            events: 'fullcalender.io/load.php',
+            selectable: true,
+            selectHelper: true,
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+            select: function(start, end, allDay) {
+                let title = prompt("Enter Event Title");
+                if (title) {
+                    let start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
+                    let end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
+                    $.ajax({
+                        url: "fullcalender.io/insert.php",
+                        type: "POST",
+                        data: {
+                            title: title,
+                            start: start,
+                            end: end
+                        },
+                        success: function() {
+                            calendar.fullCalendar('refetchEvents');
+                            alert("Added Successfully");
+                        }
+                    })
+                }
+            },
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-if (isset($_POST["submit"]) == "submit" && isset($_POST["eventTitle"]) != "") {
-    $sql = "INSERT INTO events (title, event_date)
-        VALUES ('" . $_POST['eventTitle'] . "', '" . $_POST['eventDate'] . "')";
-    if (mysqli_query($conn, $sql)) {
-        echo "New event added successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
+            editable: true,
 
-}
-//echo "Connected successfully";
-$sql = "SELECT title, start as start FROM ims_event";
-$result = mysqli_query($conn, $sql);
-$myArray = array();
-if ($result->num_rows > 0) {
-// output data of each row
-    while ($row = $result->fetch_assoc()) {
-        $myArray[] = $row;
-    }
+            eventResize: function(event) {
+                let start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+                let end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                let title = event.title;
+                let id = event.id;
+                $.ajax({
+                    url: "fullcalender.io/update.php",
+                    type: "POST",
+                    data: {
+                        title: title,
+                        start: start,
+                        end: end,
+                        id: id
+                    },
+                    success: function() {
+                        calendar.fullCalendar('refetchEvents');
+                        alert('Event Update');
+                    }
+                })
+            },
 
-} else {
-    echo "0 results";
-}
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'/>
-    <link href='https://fullcalendar.io/releases/fullcalendar/3.9.0/fullcalendar.min.css' rel='stylesheet'/>
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/
-bootstrap.min.css'>
-    <link href='https://fullcalendar.io/releases/fullcalendar/3.9.0/fullcalendar.print.min.css' rel='stylesheet'
-          media='print'/>
-    <script src='https://fullcalendar.io/releases/fullcalendar/3.9.0/lib/moment.min.js'></script>
-    <script src='https://fullcalendar.io/releases/fullcalendar/3.9.0/lib/jquery.min.js'></script>
-    <script src='https://fullcalendar.io/releases/fullcalendar/3.9.0/fullcalendar.min.js'></script>
-    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min
-.js'></script>
-    <script>
+            eventDrop: function(event) {
+                let start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+                let end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                let title = event.title;
+                let id = event.id;
+                $.ajax({
+                    url: "fullcalender.io/update.php",
+                    type: "POST",
+                    data: {
+                        title: title,
+                        start: start,
+                        end: end,
+                        id: id
+                    },
+                    success: function() {
+                        calendar.fullCalendar('refetchEvents');
+                        alert("Event Updated");
+                    }
+                });
+            },
 
-        $(document).ready(function () {
-            $('#calendar').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,basicWeek,basicDay'
-                },
-                defaultDate: new Date(),
-                navLinks: true, // can click day/week names to navigate views
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-                dayClick: function (date, jsEvent, view) {
-                    $("#successModal").modal("show");
-                    $("#eventDate").val(date.format());
-                },
-                events: <?php echo json_encode($myArray); ?>
+            eventClick: function(event) {
+                if (confirm("Are you sure you want to remove it?")) {
+                    let id = event.id;
+                    $.ajax({
+                        url: "fullcalender.io/delete.php",
+                        type: "POST",
+                        data: {
+                            id: id
+                        },
+                        success: function() {
+                            calendar.fullCalendar('refetchEvents');
+                            alert("Event Removed");
+                        }
+                    })
+                }
+            },
 
-            });
         });
-
-    </script>
-    <style>
-
-        body {
-            margin: 40px 10px;
-            padding: 0;
-            font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-            font-size: 14px;
-        }
-
-        #calendar {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-    </style>
-
-</head>
-<body>
-
-<div id='calendar'></div>
-<div class="modal fade" id="successModal" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
-                <form action="fullcalendarinsert.php" method="post">
-                    <div class="form-group">
-                        <label for="eventtitle">Event Title:</label>
-                        <input type="eventTitle" name="eventTitle" class="form-control" id="eventTitle" required="">
-                        <input type="hidden" name="eventDate" class="form-control" id="eventDate">
-                    </div>
-                    <button type="submit" value="submit" name="submit" class="btn btn-default">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-</body>
-</html>
+    });
+</script>
+<!-- FullCalender.io -->
