@@ -5,82 +5,199 @@ $year = date("Y");
 $month = date("m");
 $date = date("d");
 
-$current_date = $date . "-" . $month . "-" . $year;
-$day = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-$sql_find = "SELECT * FROM job_payment_month_total WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "'";
+$year = "2024";
+$month = "05";
+$date = "31";
 
-$nRows = $conn->query($sql_find)->fetchColumn();
-if ($nRows <= 0) {
-    $effect_start_date = "01-" . $month . "-" . $year;
-    $effect_to_date = $day . "-" . $month . "-" . $year;
-    echo $effect_start_date . " | " . $effect_to_date;
-    $sql = "INSERT INTO job_payment_month_total(effect_start_date,effect_to_date,effect_month,effect_year) 
-                   VALUES (:effect_start_date,:effect_to_date,:effect_month,:effect_year)";
+$sql_find = "SELECT job_date , COUNT(*) AS Record FROM job_transaction 
+             WHERE grade_point in ('A','B','C') AND effect_month = '" . $month . "' AND effect_year = '" . $year . "' GROUP BY job_date ";
+$statement = $conn->query($sql_find);
+$results = $statement->fetchAll(PDO::FETCH_ASSOC);
+foreach ($results as $result) {
+    //echo $sql_find;
+    $sql = "UPDATE job_payment_daily_total SET total_job_emp =:total_job_emp WHERE job_date = :job_date";
     $query = $conn->prepare($sql);
-    $query->bindParam(':effect_start_date', $effect_start_date, PDO::PARAM_STR);
-    $query->bindParam(':effect_to_date', $effect_to_date, PDO::PARAM_STR);
-    $query->bindParam(':effect_month', $month, PDO::PARAM_STR);
-    $query->bindParam(':effect_year', $year, PDO::PARAM_STR);
+    $query->bindParam(':total_job_emp', $result['Record'], PDO::PARAM_STR);
+    $query->bindParam(':job_date', $result['job_date'], PDO::PARAM_STR);
     $query->execute();
-    $lastInsertId = $conn->lastInsertId();
-    if ($lastInsertId) {
-        echo "OK";
-    } else {
-        echo "Error";
-    }
+
 }
 
-for ($date_loop = 1; $date_loop <= $date; $date_loop++) {
+$sql_find2 = "SELECT job_date , sum(percent) AS percent FROM v_job_transaction WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "' GROUP BY job_date ";
+//echo "Update2 = " . $sql_find2;
+$statement = $conn->query($sql_find2);
+$results2 = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    $date_ins = sprintf('%02s', $date_loop) . "-" . $month . "-" . $year;
+foreach ($results2 as $result2) {
+    //echo $sql_find2;
+    $sql2 = "UPDATE job_payment_daily_total SET total_grade_point =:total_grade_point WHERE job_date = :job_date";
+    $query = $conn->prepare($sql2);
+    $query->bindParam(':total_grade_point', $result2['percent'], PDO::PARAM_STR);
+    $query->bindParam(':job_date', $result2['job_date'], PDO::PARAM_STR);
+    $query->execute();
+}
 
-    $sql_find = "SELECT * FROM job_payment_daily_total WHERE job_date = '" . $date_ins . "'";
+$sql_find3 = "select effect_month,effect_year,sum(total_tires) as total_tires from job_payment_daily_total
+              WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "'  
+              GROUP BY effect_month , effect_year";
+//echo "Update3 = " . $sql_find3;
+$statement = $conn->query($sql_find3);
+$results3 = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    $nRows = $conn->query($sql_find)->fetchColumn();
+foreach ($results3 as $result3) {
+    //echo $sql_find3 . "\n\r";
+    $sql3 = "UPDATE job_payment_month_total SET total_tires =:total_tires WHERE effect_month = :effect_month AND effect_year = :effect_year ";
+    $query = $conn->prepare($sql3);
+    $query->bindParam(':total_tires', $result3['total_tires'], PDO::PARAM_STR);
+    $query->bindParam(':effect_month', $result3['effect_month'], PDO::PARAM_STR);
+    $query->bindParam(':effect_year', $result3['effect_year'], PDO::PARAM_STR);
+    $query->execute();
+}
 
-    if ($nRows <= 0) {
-        $date_ins_calendar = $year . "-" . $month . "-" . sprintf('%02s', $date_loop);
 
-        $sql = "INSERT INTO job_payment_daily_total(job_date,job_date_calendar,effect_month,effect_year) 
-                       VALUES (:job_date,:job_date_calendar,:effect_month,:effect_year)";
-        $query = $conn->prepare($sql);
-        $query->bindParam(':job_date', $date_ins, PDO::PARAM_STR);
-        $query->bindParam(':job_date_calendar', $date_ins_calendar, PDO::PARAM_STR);
-        $query->bindParam(':effect_month', $month, PDO::PARAM_STR);
-        $query->bindParam(':effect_year', $year, PDO::PARAM_STR);
-        $query->execute();
-        $lastInsertId = $conn->lastInsertId();
-        if ($lastInsertId) {
-            echo $date_loop . " | " . $month . " | " . $year . " save OK" . "\n\r";
+$sql_find4 = "select job_date,emp_id,effect_month,effect_year,percent from v_job_transaction
+              WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "'";
+//echo "Update4 = " . $sql_find4 . "\n\r" ;
+$statement = $conn->query($sql_find4);
+$results4 = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($results4 as $result4) {
+
+    $sql_find_daily = "select * from job_payment_daily_total
+              WHERE job_date = '" . $result4['job_date'] . "' AND effect_month = '" . $month . "' AND effect_year = '" . $year . "'";
+    //echo "Update_daily = " . $sql_find_daily . "\n\r" ;
+    $statement = $conn->query($sql_find_daily);
+    $results_daily = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($results_daily as $result_daily) {
+
+        echo "data = " . $result4['emp_id'] . " | " . $result4['job_date'] . " | " . $result4['percent'] . " | " . $result_daily['total_grade_point'] . "\n\r";
+
+        if ($result4['percent'] !== null && $result4['percent'] !== 0 && $result4['percent'] !== '0' && $result4['percent'] !== '-'
+            && $result_daily['total_grade_point'] !== null && $result_daily['total_grade_point'] !== 0 && $result_daily['total_grade_point'] !== '0' && $result_daily['total_grade_point'] !== '-'
+            && $result_daily['total_grade_point'] > 0) {
+
+            $total_percent_payment = ($result4['percent'] / $result_daily['total_grade_point']) * 100;
+            $total_percent_payment = round($total_percent_payment, 2);
+
         } else {
-            echo "Error";
+            $total_percent_payment = '0';
         }
+
     }
 
-    $sql_emp_find = "SELECT * FROM job_memployee WHERE emp_status = 'Y' ORDER BY id ";
-    $statement = $conn->query($sql_emp_find);
-    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($results as $result) {
-        $date_ins = sprintf('%02s', $date_loop) . "-" . $month . "-" . $year;
-        $sql_find = "SELECT * FROM job_transaction WHERE job_date = '" . $date_ins . "' AND emp_id = '" . $result['emp_id'] . "'";
-        $nRows = $conn->query($sql_find)->fetchColumn();
-        if ($nRows <= 0) {
-            $date_ins_calendar = $year . "-" . $month . "-" . sprintf('%02s', $date_loop);
-            $sql = "INSERT INTO job_transaction(job_date,effect_month,effect_year,job_date_calendar,emp_id) 
-                           VALUES (:job_date,:effect_month,:effect_year,:job_date_calendar,:emp_id)";
-            $query = $conn->prepare($sql);
-            $query->bindParam(':job_date', $date_ins, PDO::PARAM_STR);
-            $query->bindParam(':effect_month', $month, PDO::PARAM_STR);
-            $query->bindParam(':effect_year', $year, PDO::PARAM_STR);
-            $query->bindParam(':job_date_calendar', $date_ins_calendar, PDO::PARAM_STR);
-            $query->bindParam(':emp_id', $result['emp_id'], PDO::PARAM_STR);
-            $query->execute();
-            $lastInsertId = $conn->lastInsertId();
-            if ($lastInsertId) {
-                echo $date_ins . " | " . $result['emp_id'] . " Save OK" . "\n\r";
-            } else {
-                echo "Error";
-            }
-        }
+
+    $sql4 = "UPDATE job_transaction SET total_grade_point =:total_grade_point , total_percent_payment =:total_percent_payment WHERE emp_id = :emp_id AND job_date = :job_date ";
+    //echo $sql4 . "\n\r";
+    $query = $conn->prepare($sql4);
+    $query->bindParam(':total_grade_point', $result4['percent'], PDO::PARAM_STR);
+    $query->bindParam(':total_percent_payment', $total_percent_payment, PDO::PARAM_STR);
+    $query->bindParam(':emp_id', $result4['emp_id'], PDO::PARAM_STR);
+    $query->bindParam(':job_date', $result4['job_date'], PDO::PARAM_STR);
+    $query->execute();
+
+}
+
+$sql_find_month = "SELECT * FROM job_payment_month_total WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "' ORDER BY id ";
+//echo "Update2 = " . $sql_find2;
+$statement = $conn->query($sql_find_month);
+$results_month = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($results_month as $result_month) {
+    $effect_month = $result_month['effect_month'];
+    $effect_year = $result_month['effect_year'];
+    $total_tires = $result_month['total_tires'];
+    $total_money = $result_month['total_money'];
+}
+
+echo "Data Month = " . $total_tires . " | " . $total_money . "\n\r";
+
+
+$sql_find_daily = "SELECT * FROM job_payment_daily_total WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "' GROUP BY job_date ";
+//echo "Update2 = " . $sql_find2;
+$statement = $conn->query($sql_find_daily);
+$results_daily = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($results_daily as $result_daily) {
+
+    if ($result_daily['total_tires'] !== null && $result_daily['total_tires'] !== 0 && $result_daily['total_tires'] !== '0' && $result_daily['total_tires'] !== '-'
+        && $total_tires !== null && $total_tires !== 0 && $total_tires !== '0' && $total_tires !== '-') {
+
+        $total_percent_payment = ($result_daily['total_tires'] / $total_tires) * 100;
+        $total_percent_payment_round = round($total_percent_payment, 2);
+
     }
+
+    if ($total_percent_payment !== null && $total_percent_payment !== 0 && $total_percent_payment !== '0' && $total_percent_payment !== '-'
+        && $total_money !== null && $total_money !== 0 && $total_money !== '0' && $total_money !== '-' && $result_daily['total_grade_point'] > 0) {
+
+        echo "XXX = " . $result_daily['job_date'] . " | " . $total_percent_payment . " | " . $total_money . "\n\r";
+
+        $total_pay_money = ($total_percent_payment/100) * $total_money;
+        $total_pay_money = round($total_pay_money, 2);
+
+        echo "XXX = " . $result_daily['job_date'] . " | " . $total_percent_payment . " | " . $total_money . " = " . $total_pay_money . "\n\r";
+
+    } else {
+        $total_percent_payment_round = '0';
+        $total_pay_money = '0';
+    }
+
+    $sql_up_daily = "UPDATE job_payment_daily_total SET total_percent_payment =:total_percent_payment ,total_money=:total_money
+    WHERE job_date = :job_date ";
+    $query = $conn->prepare($sql_up_daily);
+    $query->bindParam(':total_percent_payment', $total_percent_payment_round, PDO::PARAM_STR);
+    $query->bindParam(':total_money', $total_pay_money, PDO::PARAM_STR);
+    $query->bindParam(':job_date', $result_daily['job_date'], PDO::PARAM_STR);
+    $query->execute();
+
+}
+
+
+$sql_find_trans = "SELECT * FROM job_transaction WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "' ORDER BY job_date,emp_id ";
+
+$statement = $conn->query($sql_find_trans);
+$results_trans = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($results_trans as $result_trans) {
+
+    $sql_find_daily = "select * from job_payment_daily_total
+              WHERE job_date = '" . $result_trans['job_date'] . "' AND effect_month = '" . $month . "' AND effect_year = '" . $year . "'";
+
+    $statement = $conn->query($sql_find_daily);
+    $results_daily = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($results_daily as $result_daily) {
+
+        if (($result_daily['total_money'] !== null && $result_daily['total_money'] !== 0
+                && $result_daily['total_money'] !== '0' && $result_daily['total_money'] !== '-'
+                && $result_trans['total_percent_payment'] !== null && $result_trans['total_percent_payment'] !== 0
+                && $result_trans['total_percent_payment'] !== '0' && $result_trans['total_percent_payment'] !== '-') && $result_trans['total_grade_point'] >0) {
+
+            $total_money_payment = ($result_daily['total_money'] * $result_trans['total_percent_payment']/100);
+            $total_money_payment_round = number_format($total_money_payment, 2);
+            //$total_money_payment_round = round($total_money_payment, 2);
+        } else {
+            $total_money_payment = '0';
+            $total_money_payment_round = '0';
+        }
+
+    }
+
+    /*
+        echo "YYY = " . $result_trans['job_date'] . " | " . $result_trans['emp_id'] . " | " . $result_daily['total_money']
+            . " | " . $result_trans['total_percent_payment'] . " | " . $total_money_payment . " = " . $total_money_payment_round . "\n\r";
+    */
+
+    echo "total_money_payment = " . number_format($total_money_payment, 2)."\n";
+
+
+    $sql_up_trans = "UPDATE job_transaction SET total_money=:total_money
+    WHERE emp_id =:emp_id AND job_date = :job_date ";
+    $query = $conn->prepare($sql_up_trans);
+    $query->bindParam(':total_money', $total_money_payment_round, PDO::PARAM_STR);
+    $query->bindParam(':emp_id', $result_trans['emp_id'], PDO::PARAM_STR);
+    $query->bindParam(':job_date', $result_trans['job_date'], PDO::PARAM_STR);
+    $query->execute();
+
 }
