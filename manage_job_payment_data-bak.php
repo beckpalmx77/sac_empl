@@ -62,11 +62,20 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <div class="modal-body">
                                                     <div class="form-group row">
                                                         <div class="col-sm-2">
-                                                            <label for="job_date"
+                                                            <label for="doc_no"
+                                                                   class="control-label">เลขที่เอกสาร</label>
+                                                            <input type="text" class="form-control"
+                                                                   id="doc_no" name="doc_no"
+                                                                   readonly="true"
+                                                                   placeholder="เลขที่เอกสาร">
+                                                        </div>
+
+                                                        <div class="col-sm-2">
+                                                            <label for="doc_date"
                                                                    class="control-label">วันที่</label>
                                                             <input type="text" class="form-control"
-                                                                   id="job_date"
-                                                                   name="job_date"
+                                                                   id="doc_date"
+                                                                   name="doc_date"
                                                                    required="required"
                                                                    readonly="true"
                                                                    placeholder="วันที่">
@@ -75,7 +84,28 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             </div>
                                                         </div>
 
+                                                        <input type="hidden" class="form-control"
+                                                               id="supplier_id"
+                                                               name="supplier_id">
+                                                        <div class="col-sm-6">
+                                                            <label for="supplier_name"
+                                                                   class="control-label">ชื่อผู้ขาย</label>
+                                                            <input type="text" class="form-control"
+                                                                   id="supplier_name"
+                                                                   name="supplier_name"
+                                                                   required="required"
+                                                                   placeholder="ชื่อผู้ขาย">
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label for="CusModal"
+                                                                   class="control-label"> เลือกชื่อผู้ขาย </label>
+                                                            <a data-toggle="modal" href="#SearchSupModal"
+                                                               class="btn btn-primary">
+                                                                Click <i class="fa fa-search"
+                                                                         aria-hidden="true"></i>
+                                                            </a>
 
+                                                        </div>
                                                     </div>
 
                                                     <button type='button' name='btnAdd' id='btnAdd'
@@ -83,7 +113,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         <i class="fa fa-plus"></i>
                                                     </button>
 
-                                                    <!--table cellpadding="0" cellspacing="0" border="0"
+                                                    <table cellpadding="0" cellspacing="0" border="0"
                                                            class="display"
                                                            id="TablePurchaseDetailList"
                                                            width="100%">
@@ -99,7 +129,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             <th>Action</th>
                                                         </tr>
                                                         </thead>
-                                                    </table-->
+                                                    </table>
 
                                                     <div class="form-group">
                                                         <label for="status"
@@ -507,9 +537,14 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#save_status').val("add");
             }
 
-            if (queryString["id"] != null) {
+            Load_Header(queryString["id"], "job_payment_daily_total");
 
-                Load_Header(queryString["id"], "job_payment_daily_total");
+            if (queryString["doc_no"] != null && queryString["supplier_name"] != null) {
+
+                $('#doc_no').val(queryString["doc_no"]);
+                $('#doc_date').val(queryString["doc_date"]);
+                $('#supplier_id').val(queryString["supplier_id"]);
+                $('#supplier_name').val(queryString["supplier_name"]);
 
                 // Load_Data_Detail(queryString["doc_no"], "v_purchase_detail");
             }
@@ -517,36 +552,289 @@ if (strlen($_SESSION['alogin']) == "") {
     </script>
 
     <script>
-
         function Load_Header(id, table_name) {
 
-            //alert(id);
-            let formData = {action: "GET_JOB_DATA", id: id};
+            alert(id + " : " + table_name);
+
+        }
+    </script>
+
+    <script>
+        function Load_Data_Detail(doc_no, table_name) {
+
+            let formData = {
+                action: "GET_PURCHASE_DETAIL",
+                sub_action: "GET_MASTER",
+                doc_no: doc_no,
+                table_name: table_name
+            };
+            let dataRecords = $('#TablePurchaseDetailList').DataTable({
+                "paging": false,
+                "ordering": false,
+                'info': false,
+                "searching": false,
+                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+                'language': {
+                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
+                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
+                    infoEmpty: 'ไม่มีข้อมูล',
+                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
+                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
+                    paginate: {
+                        previous: 'ก่อนหน้า',
+                        last: 'สุดท้าย',
+                        next: 'ต่อไป'
+                    }
+                },
+                'processing': true,
+                'serverSide': true,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url': 'model/manage_purchase_detail_process.php',
+                    'data': formData
+                },
+                'columns': [
+                    {data: 'line_no'},
+                    {data: 'product_name'},
+                    {data: 'quantity', className: "text-right"},
+                    {data: 'unit_name'},
+                    {data: 'price', className: "text-right"},
+                    {data: 'total_price', className: "text-right"},
+                    {data: 'update'},
+                    {data: 'delete'}
+                ]
+            });
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#btnAdd").click(function () {
+                if ($('#doc_date').val() == '' || $('#supplier_name').val() == '') {
+                    alertify.error("กรุณาป้อนวันที่ / ชื่อผู้ขาย ");
+                } else {
+                    $('#recordModal').modal('show');
+                    $('#KeyAddDetail').val($('#KeyAddData').val());
+                    $('#doc_no_detail').val($('#doc_no').val());
+                    $('#doc_date_detail').val($('#doc_date').val());
+                    $('#product_id').val("");
+                    $('#name_t').val("");
+                    $('#quantity').val("");
+                    $('#unit_id').val("");
+                    $('#unit_name').val("");
+                    $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
+                    $('#action_detail').val('ADD');
+                    $('#save').val('Save');
+                }
+            });
+        });
+    </script>
+
+    <script>
+
+        $("#TablePurchaseDetailList").on('click', '.update', function () {
+
+            let rec_id = $(this).attr("id");
+
+            if ($('#KeyAddData').val() !== '') {
+                doc_no = $('#KeyAddData').val();
+                table_name = "v_purchase_detail_temp";
+            } else {
+                doc_no = $('#doc_no').val();
+                table_name = "v_purchase_detail";
+            }
+
+            let formData = {action: "GET_DATA", id: rec_id, doc_no: doc_no, table_name: table_name};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_job_calendar_process.php',
+                url: 'model/manage_purchase_detail_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
+                        let product_id = response[i].product_id;
                         let id = response[i].id;
-                        let job_date = response[i].job_date;
+                        let name_t = response[i].name_t;
+                        let doc_date = response[i].doc_date;
+                        let quantity = response[i].quantity;
+                        let price = response[i].price;
+                        let total_price = response[i].total_price;
+                        let unit_id = response[i].unit_id;
+                        let unit_name = response[i].unit_name;
 
+                        $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#job_date').val(job_date);
-
+                        $('#detail_id').val(rec_id);
+                        $('#doc_no_detail').val(doc_no);
+                        $('#doc_date_detail').val(doc_date);
+                        $('#product_id').val(product_id);
+                        $('#name_t').val(name_t);
+                        $('#quantity').val(quantity);
+                        $('#price').val(price);
+                        $('#total_price').val(total_price);
+                        $('#unit_id').val(unit_id);
+                        $('#unit_name').val(unit_name);
+                        $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
+                        $('#action_detail').val('UPDATE');
+                        $('#save').val('Save');
                     }
                 },
                 error: function (response) {
                     alertify.error("error : " + response);
                 }
             });
-
-        }
+        });
 
     </script>
 
+    <script>
+
+        $("#TablePurchaseDetailList").on('click', '.delete', function () {
+
+            let rec_id = $(this).attr("id");
+
+            if ($('#KeyAddData').val() !== '') {
+                doc_no = $('#KeyAddData').val();
+                table_name = "v_purchase_detail_temp";
+            } else {
+                doc_no = $('#doc_no').val();
+                table_name = "v_purchase_detail";
+            }
+
+            let formData = {action: "GET_DATA", id: rec_id, doc_no: doc_no, table_name: table_name};
+            $.ajax({
+                type: "POST",
+                url: 'model/manage_purchase_detail_process.php',
+                dataType: "json",
+                data: formData,
+                success: function (response) {
+                    let len = response.length;
+                    for (let i = 0; i < len; i++) {
+                        let product_id = response[i].product_id;
+                        let id = response[i].id;
+                        let name_t = response[i].name_t;
+                        let quantity = response[i].quantity;
+                        let price = response[i].price;
+                        let total_price = response[i].total_price;
+                        let unit_id = response[i].unit_id;
+                        let unit_name = response[i].unit_name;
+
+                        $('#recordModal').modal('show');
+                        $('#id').val(id);
+                        $('#detail_id').val(rec_id);
+                        $('#doc_no_detail').val(doc_no);
+                        $('#product_id').val(product_id);
+                        $('#name_t').val(name_t);
+                        $('#quantity').val(quantity);
+                        $('#price').val(price);
+                        $('#total_price').val(total_price);
+                        $('#unit_id').val(unit_id);
+                        $('#unit_name').val(unit_name);
+                        $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
+                        $('#action_detail').val('DELETE');
+                        $('#save').val('Confirm Delete');
+                    }
+                },
+                error: function (response) {
+                    alertify.error("error : " + response);
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#btnSave").click(function () {
+                if ($('#doc_date').val() == '' || $('#supplier_name').val() == '') {
+                    alertify.error("กรุณาป้อนวันที่ / ชื่อผู้ขาย ");
+                } else {
+                    let formData = $('#MainrecordForm').serialize();
+                    $.ajax({
+                        url: 'model/manage_purchase_process.php',
+                        method: "POST",
+                        data: formData,
+                        success: function (data) {
+
+                            if ($('#KeyAddData').val() !== '') {
+                                let KeyAddData = $('#KeyAddData').val();
+                                Save_Detail(KeyAddData);
+                            }
+
+                            alertify.success(data);
+                            window.opener.location.reload();
+                            $('#save_status').val("save");
+
+                        }
+                    })
+
+                }
+
+            });
+        });
+    </script>
+
+    <script>
+        function Save_Detail(KeyAddData) {
+
+            let formData = {action: "SAVE_DETAIL", KeyAddData: KeyAddData};
+            $.ajax({
+                url: 'model/manage_purchase_detail_process.php',
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    //alertify.success(data);
+                }
+            })
+
+        }
+    </script>
+
+    <script>
+
+        $("#recordModal").on('submit', '#recordForm', function (event) {
+            event.preventDefault();
+            let KeyAddData = $('#KeyAddData').val();
+            if (KeyAddData !== '') {
+                $('#KeyAddDetail').val(KeyAddData);
+            }
+            let doc_no_detail = $('#doc_no_detail').val();
+            let formData = $(this).serialize();
+
+            $.ajax({
+                url: 'model/manage_purchase_detail_process.php',
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    //alertify.success(data);
+                    $('#recordForm')[0].reset();
+                    $('#recordModal').modal('hide');
+
+                    $('#TablePurchaseDetailList').DataTable().clear().destroy();
+
+                    if (KeyAddData !== '') {
+                        Load_Data_Detail(KeyAddData, "v_purchase_detail_temp");
+                    } else {
+                        Load_Data_Detail(doc_no_detail, "v_purchase_detail");
+                    }
+                }
+            })
+
+        });
+
+    </script>
+
+    <script>
+
+        $('#quantity,#price,#total_price').blur(function () {
+
+            let total_price = new Calculate($('#quantity').val(), $('#price').val());
+            $('#total_price').val(total_price.Multiple().toFixed(2));
+
+        });
+
+    </script>
 
     </body>
 
