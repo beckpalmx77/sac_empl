@@ -5,10 +5,6 @@ $year = date("Y");
 $month = date("m");
 $date = date("d");
 
-$year = "2024";
-$month = "05";
-$date = "31";
-
 $sql_find = "SELECT job_date , COUNT(*) AS Record FROM job_transaction 
              WHERE grade_point in ('A','B','C') AND effect_month = '" . $month . "' AND effect_year = '" . $year . "' GROUP BY job_date ";
 $statement = $conn->query($sql_find);
