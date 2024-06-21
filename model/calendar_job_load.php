@@ -18,7 +18,8 @@ foreach($result as $row)
 {
     $data[] = array(
         'id'   => $row["id"],
-        'title'   => $row["total_tires"],
+        'title'   => $row["total_tires"] . " เส้น",
+        'description'   => $row["total_job_emp"],
         'job_date'   => $row["job_date"],
         'start'   => $row["job_date_calendar"],
         'end'   => $row["job_date_calendar"]

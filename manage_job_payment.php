@@ -25,6 +25,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 ?>
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
+                    <input type="hidden" id="main_menu" name="main_menu" value="<?php echo urldecode($_GET['m']) ?>">
+                    <input type="hidden" id="sub_menu" name="sub_menu" value="<?php echo urldecode($_GET['s']) ?>">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800"><?php echo urldecode($_GET['s']) ?></h1>
                         <ol class="breadcrumb">
@@ -88,6 +90,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.14/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.14/index.global.min.js'></script>
+    <script src="js/popup.js"></script>
 
 
     <script>
@@ -102,32 +105,50 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             let calendarEl = document.getElementById('calendar');
 
             let calendar = new FullCalendar.Calendar(calendarEl, {
+                timeZone: 'local',
+                headerToolbar: {
+                    right: 'prev,next today',
+                    center: 'title',
+                    left: 'dayGridMonth'
+                },
                 initialView: 'dayGridMonth',
                 height: 550,
                 events: 'model/calendar_job_load.php',
+                editable: true,
+                selectable: true,
 
-                eventClick: function(info) {
+                eventClick: function (info) {
+
                     info.jsEvent.preventDefault();
 
                     // change the border color
-                    info.el.style.borderColor = 'red';
+                    //info.el.style.borderColor = 'red';
 
-                    Swal.fire({
-                        title: info.event.job_date,
-                        icon: 'success',
-                        html:'<p>'+info.event.extendedProps.description+'</p><a href="'+info.event.url+'">Visit event page</a>',
-                    });
+                    let main_menu = document.getElementById("main_menu").value;
+                    let sub_menu = document.getElementById("sub_menu").value;
+                    let url = "manage_job_payment_data.php?title=รายการข้อมูลการขึ้นยาง"
+                        + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
+                        + '&id=' + info.event.id;
+
+                    OpenPopupCenter(url, "", "");
+
+                    /*
+                                        Swal.fire({
+                                            title: info.event.description,
+                                            icon: 'success',
+                                            html:'<p>'+info.event.extendedProps.description+'</p><a href="'+info.event.url+'" target="_blank">Visit event page</a>',
+                                        });
+                                        */
                 }
             });
 
             calendar.render();
         });
     </script>
-
 
 
     </body>
