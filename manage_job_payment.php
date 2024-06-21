@@ -88,8 +88,9 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <link rel="stylesheet" href="vendor/datatables/v11/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="vendor/datatables/v11/buttons.dataTables.min.css"/>
 
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.14/index.global.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.14/index.global.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.4/index.global.js'></script>
+
+
     <script src="js/popup.js"></script>
 
 
@@ -132,7 +133,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     let sub_menu = document.getElementById("sub_menu").value;
                     let url = "manage_job_payment_data.php?title=รายการข้อมูลการขึ้นยาง"
                         + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
-                        + '&id=' + info.event.id;
+                        + '&id=' + info.event.id ;
 
                     OpenPopupCenter(url, "", "");
 

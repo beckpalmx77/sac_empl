@@ -155,11 +155,11 @@ if (strlen($_SESSION['alogin']) == "") {
                                                        value=""/>
                                                 <button type="button" class="btn btn-primary"
                                                         id="btnSave">Save <i
-                                                        class="fa fa-check"></i>
+                                                            class="fa fa-check"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-danger"
                                                         id="btnClose">Close <i
-                                                        class="fa fa-window-close"></i>
+                                                            class="fa fa-window-close"></i>
                                                 </button>
                                             </div>
                                         </form>
@@ -293,7 +293,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             </span>
                                                             <button type="button" class="btn btn-danger"
                                                                     data-dismiss="modal">Close <i
-                                                                    class="fa fa-window-close"></i>
+                                                                        class="fa fa-window-close"></i>
                                                             </button>
                                                         </div>
                                                     </form>
