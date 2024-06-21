@@ -136,7 +136,7 @@ foreach ($results_daily as $result_daily) {
         $total_pay_money = ($total_percent_payment/100) * $total_money;
         $total_pay_money = round($total_pay_money, 2);
 
-        echo "XXX = " . $result_daily['job_date'] . " | " . $total_percent_payment . " | " . $total_money . " = " . $total_pay_money . "\n\r";
+        echo "TTT = " . $result_daily['job_date'] . " | " . $total_percent_payment . " | " . $total_money . " = " . $total_pay_money . "\n\r";
 
     } else {
         $total_percent_payment_round = '0';
