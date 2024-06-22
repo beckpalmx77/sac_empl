@@ -57,6 +57,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                     <th>รายละเอียด</th>
                                                     <th>Percent</th>
                                                     <th>Action</th>
+                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tfoot>
@@ -64,6 +65,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                     <th>รหัส Job Grade</th>
                                                     <th>รายละเอียด</th>
                                                     <th>Percent</th>
+                                                    <th>Action</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </tfoot>
@@ -252,7 +254,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     {data: 'grade_id'},
                     {data: 'detail'},
                     {data: 'percent'},
-                    {data: 'update'}
+                    {data: 'update'},
+                    {data: 'delete'}
                 ]
             });
 
