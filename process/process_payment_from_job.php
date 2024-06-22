@@ -1,13 +1,16 @@
 <?php
 include('../config/connect_db.php');
 
+/*
 $year = date("Y");
 $month = date("m");
 $date = date("d");
+*/
 
-$year = "2024";
-$month = "05";
-$date = "31";
+$year = $_POST["effect_month"];
+$month = $_POST["effect_year"];
+
+//$date = "31";
 
 $sql_find = "SELECT job_date , COUNT(*) AS Record FROM job_transaction 
              WHERE grade_point in ('A','B','C') AND effect_month = '" . $month . "' AND effect_year = '" . $year . "' GROUP BY job_date ";
@@ -190,6 +193,11 @@ foreach ($results_trans as $result_trans) {
     */
 
     //echo "total_money_payment = " . number_format($total_money_payment, 2)."\n";
+
+
+    $myfile = fopen("job-getdata.txt", "w") or die("Unable to open file!");
+    fwrite($myfile, $sql_find_trans);
+    fclose($myfile);
 
 
     $sql_up_trans = "UPDATE job_transaction SET total_money=:total_money

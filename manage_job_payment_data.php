@@ -77,11 +77,6 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                     </div>
 
-                                                    <!--button type='button' name='btnAdd' id='btnAdd'
-                                                            class='btn btn-primary btn-xs'>Add เพิ่มรายการสินค้า
-                                                        <i class="fa fa-plus"></i>
-                                                    </button-->
-
                                                     <table cellpadding="0" cellspacing="0" border="0"
                                                            class="display"
                                                            id="TableJobDetailList"
@@ -108,6 +103,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <!--?php include("includes/stick_menu.php"); ?-->
 
                                             <div class="modal-footer">
+
                                                 <input type="hidden" name="id" id="id"/>
                                                 <input type="hidden" name="save_status" id="save_status"/>
                                                 <input type="hidden" name="action" id="action"
@@ -174,7 +170,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-5">
                                                                         <label for="grade_point"
-                                                                               class="control-label">เกรด</label>
+                                                                               class="control-label">เกรด (A,B,C)</label>
                                                                         <input type="text" class="form-control"
                                                                                id="grade_point"
                                                                                name="grade_point"
@@ -190,17 +186,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                required="required"
                                                                                readonly="true"
                                                                                placeholder="คะแนนเกรด">
-
-                                                                        <div class="col-sm-2">
-                                                                            <label for="grade_point"
-                                                                                   class="control-label">เลือก</label>
-                                                                            <a data-toggle="modal"
-                                                                               href="#SearchJobGradeModal"
-                                                                               class="btn btn-primary">
-                                                                                Click <i class="fa fa-search"
-                                                                                         aria-hidden="true"></i>
-                                                                            </a>
-                                                                        </div>
                                                                     </div>
 
                                                                 </div>
@@ -233,9 +218,13 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                         <div class="modal-footer">
                                                             <input type="hidden" name="id" id="id"/>
-                                                            <input type="text" name="detail_id" id="detail_id"/>
+                                                            <input type="hidden" name="detail_id" id="detail_id"/>
                                                             <input type="hidden" name="action_detail"
                                                                    id="action_detail" value=""/>
+
+                                                            <input type="hidden" name="effect_month" id="effect_month"/>
+                                                            <input type="hidden" name="effect_year" id="effect_year"/>
+
                                                             <span class="icon-input-btn">
                                                                 <i class="fa fa-check"></i>
                                                             <input type="submit" name="save" id="save"
@@ -345,10 +334,6 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="js/util.js"></script>
     <script src="js/Calculate.js"></script>
     <!-- Javascript for this page -->
-
-    <script src="js/modal/show_supplier_modal.js"></script>
-    <script src="js/modal/show_product_modal.js"></script>
-    <script src="js/modal/show_unit_modal.js"></script>
 
     <!--script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
@@ -560,9 +545,11 @@ if (strlen($_SESSION['alogin']) == "") {
                         let total_grade_point = response[i].total_grade_point;
                         let total_percent_payment = response[i].total_percent_payment;
                         let total_money = response[i].total_money;
+                        let effect_month = response[i].effect_month;
+                        let effect_year = response[i].effect_year;
 
                         $('#recordModal').modal('show');
-                        $('#detail_id').val(id);
+                        $('#detail_id').val(detail_id);
                         $('#job_date_trans').val(job_date_trans);
                         $('#emp_id').val(emp_id);
                         $('#f_name').val(f_name);
@@ -570,6 +557,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#total_grade_point').val(total_grade_point);
                         $('#total_percent_payment').val(total_percent_payment);
                         $('#total_money').val(total_money);
+                        $('#effect_month').val(effect_month);
+                        $('#effect_year').val(effect_year);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
                         $('#action_detail').val('UPDATE');
@@ -590,7 +579,8 @@ if (strlen($_SESSION['alogin']) == "") {
             event.preventDefault();
             $('#save').attr('disabled', 'disabled');
             let formData = $(this).serialize();
-            alert(formData);
+
+            //alert(formData);
 
             $.ajax({
                 url: 'model/manage_job_calendar_process.php',
@@ -604,18 +594,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     dataRecords.ajax.reload();
                 }
             })
-
-        });
-
-    </script>
-
-    <script>
-
-        $("#recordModal").on('change', '#recordForm', function (event) {
-            event.preventDefault();
-            $('#save').attr('disabled', 'disabled');
-            let formData = $(this).serialize();
-            alert(formData);
 
         });
 

@@ -5,6 +5,10 @@ $year = date("Y");
 $month = date("m");
 $date = date("d");
 
+$year = "2024";
+$month = "05";
+$date = "31";
+
 $sql_find = "SELECT job_date , COUNT(*) AS Record FROM job_transaction 
              WHERE grade_point in ('A','B','C') AND effect_month = '" . $month . "' AND effect_year = '" . $year . "' GROUP BY job_date ";
 $statement = $conn->query($sql_find);
@@ -106,7 +110,7 @@ foreach ($results_month as $result_month) {
     $total_money = $result_month['total_money'];
 }
 
-echo "Data Month = " . $total_tires . " | " . $total_money . "\n\r";
+//echo "Data Month = " . $total_tires . " | " . $total_money . "\n\r";
 
 
 $sql_find_daily = "SELECT * FROM job_payment_daily_total WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "' GROUP BY job_date ";
