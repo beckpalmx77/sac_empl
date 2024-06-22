@@ -9,12 +9,12 @@ include('../util/reorder_record.php');
 
 if ($_POST["action"] === 'GET_JOB_DATA') {
 
-    $id = $_POST["id"];
+    $job_date = $_POST["job_date"];
 
     $return_arr = array();
 
     $sql_get = "SELECT * FROM job_payment_daily_total  jd
-            WHERE jd.id = " . $id;
+            WHERE jd.job_date = " . $job_date;
 
     $statement = $conn->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -29,6 +29,34 @@ if ($_POST["action"] === 'GET_JOB_DATA') {
             "total_grade_point" => $result['total_grade_point'],
             "total_percent_payment" => $result['total_percent_payment'],
             "total_money" => $result['total_money']);
+    }
+    echo json_encode($return_arr);
+}
+
+if ($_POST["action"] === 'GET_JOB_TRANS_DATA') {
+
+    $id = $_POST["id"];
+
+    $return_arr = array();
+
+    $sql_get = "SELECT * FROM v_job_transaction  vjtrans
+            WHERE vjtrans.id = " . $id;
+
+    $statement = $conn->query($sql_get);
+    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($results as $result) {
+        $return_arr[] = array("id" => $result['id'],
+            "job_date" => $result['job_date'],
+            "emp_id" => $result['emp_id'],
+            "f_name" => $result['f_name'],
+            "effect_month" => $result['effect_month'],
+            "effect_year" => $result['effect_year'],
+            "grade_point" => $result['grade_point'],
+            "total_grade_point" => $result['total_grade_point'],
+            "total_percent_payment" => $result['total_percent_payment'],
+            "total_money" => $result['total_money'],
+            "status" => $result['status']);
     }
     echo json_encode($return_arr);
 }
@@ -153,12 +181,12 @@ if ($_POST["action"] === 'UPDATE') {
             $query_user->execute();
 
             echo $save_success;
-/*
-            $txt = $id . " | " . $emp_id . " | " . $week_holiday . " | " . $save_success;
-            $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
-            fwrite($my_file, $txt);
-            fclose($my_file);
-*/
+            /*
+                        $txt = $id . " | " . $emp_id . " | " . $week_holiday . " | " . $save_success;
+                        $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
+                        fwrite($my_file, $txt);
+                        fclose($my_file);
+            */
 
         }
 
@@ -183,7 +211,21 @@ if ($_POST["action"] === 'DELETE') {
     }
 }
 
-if ($_POST["action"] === 'GET_EMPLOYEE') {
+if ($_POST["action_detail"] === 'UPDATE') {
+
+    $id = $_POST["detail_id"];
+    $grade_point = strtoupper($_POST["grade_point"]);
+    $sql_update = "UPDATE job_transaction SET grade_point=:grade_point              
+            WHERE id = :id";
+    $query = $conn->prepare($sql_update);
+    $query->bindParam(':grade_point', $grade_point, PDO::PARAM_STR);
+    $query->bindParam(':id', $id, PDO::PARAM_STR);
+    $query->execute();
+    echo $save_success;
+
+}
+
+if ($_POST["action"] === 'GET_JOB_DETAIL') {
 
     ## Read value
     $draw = $_POST['draw'];
@@ -191,58 +233,59 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
     $rowperpage = $_POST['length']; // Rows display per page
     $columnIndex = $_POST['order'][0]['column']; // Column index
     $columnName = $_POST['columns'][$columnIndex]['data']; // Column name
-    //$columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
-    $columnSortOrder = 'desc'; // asc or desc
+    $columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
     $searchValue = $_POST['search']['value']; // Search value
-
     $searchArray = array();
+
+    $job_date = $_POST['job_date'];
 
 ## Search
     $searchQuery = " ";
-    //if ($_POST["page_manage"]!=="ADMIN") {
-    //$searchQuery = " AND emp_id = '" . $_SESSION['emp_id'] . "'";
-    //}
-
     if ($searchValue != '') {
-        $searchQuery = " AND (emp_id LIKE :emp_id or l_name LIKE :l_name or
-        f_name LIKE :f_name or nick_name LIKE :nick_name) ";
+        $searchQuery = " AND (grade_point LIKE :grade_point or
+        f_name LIKE :f_name ) ";
         $searchArray = array(
-            'emp_id' => "%$searchValue%",
-            'l_name' => "%$searchValue%",
+            'grade_point' => "%$searchValue%",
             'f_name' => "%$searchValue%",
-            'nick_name' => "%$searchValue%"
         );
     }
 
 ## Total number of records without filtering
-    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM memployee ");
+    $sql_get_all = "SELECT COUNT(*) AS allcount FROM v_job_transaction WHERE job_date = '" . $job_date . "'";
+    $stmt = $conn->prepare($sql_get_all);
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
-## Total number of records with filtering
-    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM memployee WHERE 1 " . $searchQuery);
-    $stmt->execute($searchArray);
-    $records = $stmt->fetch();
-    $totalRecordwithFilter = $records['allcount'];
-
-## Fetch records
-    $sql_getdata = "SELECT em.*,mt.work_time_detail,dp.department_desc FROM memployee em            
-            left join mwork_time mt on mt.work_time_id = em.work_time_id 
-            left join mdepartment dp on dp.department_id = em.dept_id 	
-            WHERE 1 " . $searchQuery
-        . " ORDER BY status DESC, emp_id DESC , " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset";
-
-    $stmt = $conn->prepare($sql_getdata);
-
 /*
-                $txt = $sql_getdata ;
-                $my_file = fopen("emp.txt", "w") or die("Unable to open file!");
-                fwrite($my_file, $txt);
-                fclose($my_file);
+    $myfile = fopen("job-getdata.txt", "w") or die("Unable to open file!");
+    fwrite($myfile, $sql_get_all . " Record = " . $totalRecords);
+    fclose($myfile);
 */
 
 
+## Total number of records with filtering
+    $sql_get_filter = "SELECT COUNT(*) AS allcount FROM v_job_transaction WHERE job_date = '" . $job_date . "' " . $searchQuery ;
+    $stmt = $conn->prepare($sql_get_filter);
+    $stmt->execute($searchArray);
+    $records = $stmt->fetch();
+    $totalRecordwithFilter = $records['allcount'];
+/*
+    $myfile = fopen("job-getdata_2.txt", "w") or die("Unable to open file!");
+    fwrite($myfile, $sql_get_filter . " Filter Record = " . $totalRecordwithFilter);
+    fclose($myfile);
+*/
+
+## Fetch records
+    $sql_get_load = "SELECT * FROM v_job_transaction WHERE job_date = '" . $job_date . "' " . $searchQuery
+        . " ORDER BY id " . " LIMIT :limit,:offset";
+
+    $stmt = $conn->prepare($sql_get_load);
+/*
+    $myfile = fopen("job-getdata_3.txt", "w") or die("Unable to open file!");
+    fwrite($myfile, $sql_get_load . " Row Record = " . $row . " Row Record Per Page = " . $rowperpage);
+    fclose($myfile);
+*/
 
 // Bind values
     foreach ($searchArray as $key => $search) {
@@ -255,37 +298,30 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
     $empRecords = $stmt->fetchAll();
     $data = array();
 
+    $line_no = 0;
+
     foreach ($empRecords as $row) {
 
         if ($_POST['sub_action'] === "GET_MASTER") {
-
+            $line_no++;
             $data[] = array(
                 "id" => $row['id'],
+                "line_no" => $line_no,
+                "job_date" => $row['job_date'],
                 "emp_id" => $row['emp_id'],
                 "f_name" => $row['f_name'],
-                "l_name" => $row['l_name'],
-                "nick_name" => $row['nick_name'],
-                "prefix" => $row['prefix'],
-                "sex" => $row['sex'],
-                "full_name" => $row['f_name'] . " " . $row['l_name'],
-                "dept_id" => $row['dept_id'],
-                "department_id" => $row['department_id'],
-                "department_desc" => $row['department_desc'],
-                "work_time_id" => $row['work_time_id'],
-                "work_time_detail" => $row['work_time_detail'],
-                "start_work_date" => $row['start_work_date'],
-                "week_holiday" => $row['week_holiday'],
-                "detail" => "<button type='button' name='detail' emp_id='" . $row['emp_id'] . "' class='btn btn-info btn-xs detail' data-toggle='tooltip' title='Detail'>Detail</button>",
-                "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
-                "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' class='btn btn-success btn-xs approve' data-toggle='tooltip' title='Approve'>Approve</button>",
-                "status" => $row['status'] === 'A' ? "<div class='text-success'>" . $row['status'] . "</div>" : "<div class='text-muted'> " . $row['status'] . "</div>",
+                "grade_point" => $row['grade_point'],
+                "total_grade_point" => $row['total_grade_point'],
+                "total_percent_payment" => $row['total_percent_payment'],
+                "total_money" => $row['total_money'],
+                "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>"
             );
         } else {
             $data[] = array(
                 "id" => $row['id'],
-                "dept_id" => $row['dept_id'],
-                "department_id" => $row['department_id'],
-                "select" => "<button type='button' name='select' id='" . $row['department_id'] . "@" . $row['dept_id'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
+                "grade_point" => $row['grade_point'],
+                "total_grade_point" => $row['total_grade_point'],
+                "select" => "<button type='button' name='select' id='" . $row['grade_point'] . "@" . $row['total_grade_point'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
 </button>",
             );
         }
@@ -299,7 +335,6 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
         "iTotalDisplayRecords" => $totalRecordwithFilter,
         "aaData" => $data
     );
-
     echo json_encode($response);
-
 }
+

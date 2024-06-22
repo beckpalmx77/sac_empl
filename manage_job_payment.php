@@ -133,9 +133,9 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     let sub_menu = document.getElementById("sub_menu").value;
                     let url = "manage_job_payment_data.php?title=รายการข้อมูลการขึ้นยาง"
                         + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
-                        + '&id=' + info.event.id ;
+                        + '&job_date=' + info.event.id ;
 
-                    OpenPopupCenter(url, "", "");
+                    window.open(url, "", "");
 
                     /*
                                         Swal.fire({

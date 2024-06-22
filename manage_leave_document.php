@@ -357,7 +357,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
                                                             <table cellpadding="0" cellspacing="0" border="0"
                                                                    class="display"
-                                                                   id="TableRecordList"
+                                                                   id="TableEmployeeList"
                                                                    width="100%">
                                                                 <thead>
                                                                 <tr>

@@ -17,7 +17,7 @@ $result = $statement->fetchAll();
 foreach($result as $row)
 {
     $data[] = array(
-        'id'   => $row["id"],
+        'id'   => $row["job_date"],
         'title'   => $row["total_tires"] . " เส้น",
         'description'   => $row["total_job_emp"],
         'job_date'   => $row["job_date"],

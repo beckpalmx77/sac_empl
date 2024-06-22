@@ -166,6 +166,12 @@ if ($_POST["action"] === 'GET_PERMISSION') {
         $stmt->bindValue(':' . $key, $search, PDO::PARAM_STR);
     }
 
+/*
+    $myfile = fopen("job-getdata_permission.txt", "w") or die("Unable to open file!");
+    fwrite($myfile, " Row Record = " . $row . " Row Record Per Page = " . $rowperpage);
+    fclose($myfile);
+*/
+
     $stmt->bindValue(':limit', (int)$row, PDO::PARAM_INT);
     $stmt->bindValue(':offset', (int)$rowperpage, PDO::PARAM_INT);
     $stmt->execute();

@@ -50,21 +50,20 @@ if (strlen($_SESSION['alogin']) == "") {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card mb-12">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                </div>
+                                <!--div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                </div-->
                                 <div class="card-body">
                                     <section class="container-fluid">
-
                                         <form method="post" id="MainrecordForm">
                                             <input type="hidden" class="form-control" id="KeyAddData" name="KeyAddData"
                                                    value="">
                                             <div class="modal-body">
                                                 <div class="modal-body">
                                                     <div class="form-group row">
-                                                        <div class="col-sm-2">
-                                                            <label for="job_date"
-                                                                   class="control-label">วันที่</label>
-                                                            <input type="text" class="form-control"
+                                                        <div class="col-sm-3">
+                                                            <!--label for="job_date"
+                                                                   class="control-label">วันที่</label-->
+                                                            <input type="hidden" class="form-control"
                                                                    id="job_date"
                                                                    name="job_date"
                                                                    required="required"
@@ -78,55 +77,45 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                     </div>
 
-                                                    <button type='button' name='btnAdd' id='btnAdd'
+                                                    <!--button type='button' name='btnAdd' id='btnAdd'
                                                             class='btn btn-primary btn-xs'>Add เพิ่มรายการสินค้า
                                                         <i class="fa fa-plus"></i>
-                                                    </button>
+                                                    </button-->
 
-                                                    <!--table cellpadding="0" cellspacing="0" border="0"
+                                                    <table cellpadding="0" cellspacing="0" border="0"
                                                            class="display"
-                                                           id="TablePurchaseDetailList"
+                                                           id="TableJobDetailList"
                                                            width="100%">
                                                         <thead>
                                                         <tr>
                                                             <th>#</th>
-                                                            <th>สินค้า</th>
-                                                            <th>จำนวน</th>
-                                                            <th>หน่วยนับ</th>
-                                                            <th>ราคา/หน่วย</th>
-                                                            <th>รวมราคา</th>
-                                                            <th>Action</th>
+                                                            <th>วันที่</th>
+                                                            <th>ชื่อพนักงาน</th>
+                                                            <th>เกรด</th>
+                                                            <th>คะแนนเกรด</th>
+                                                            <th>%ได้เงิน</th>
+                                                            <th>จำนวนเงิน</th>
                                                             <th>Action</th>
                                                         </tr>
                                                         </thead>
-                                                    </table-->
+                                                    </table>
 
-                                                    <div class="form-group">
-                                                        <label for="status"
-                                                               class="control-label">Status</label>
-                                                        <select id="status" name="status"
-                                                                class="form-control"
-                                                                data-live-search="true"
-                                                                title="Please select">
-                                                            <option>Active</option>
-                                                            <option>Inactive</option>
-                                                        </select>
-                                                    </div>
+                                                    <input type="hidden" id="status" name="status" value="">
 
                                                 </div>
                                             </div>
 
-                                            <?php include("includes/stick_menu.php"); ?>
+                                            <!--?php include("includes/stick_menu.php"); ?-->
 
                                             <div class="modal-footer">
                                                 <input type="hidden" name="id" id="id"/>
                                                 <input type="hidden" name="save_status" id="save_status"/>
                                                 <input type="hidden" name="action" id="action"
                                                        value=""/>
-                                                <button type="button" class="btn btn-primary"
+                                                <!--button type="button" class="btn btn-primary"
                                                         id="btnSave">Save <i
                                                             class="fa fa-check"></i>
-                                                </button>
+                                                </button-->
                                                 <button type="button" class="btn btn-danger"
                                                         id="btnClose">Close <i
                                                             class="fa fa-window-close"></i>
@@ -150,16 +139,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <input type="hidden" class="form-control"
                                                                        id="KeyAddDetail"
                                                                        name="KeyAddDetail" value="">
-                                                            </div>
-                                                            <div class="col-sm-5">
                                                                 <input type="hidden" class="form-control"
-                                                                       id="doc_no_detail"
-                                                                       name="doc_no_detail" value="">
-                                                            </div>
-                                                            <div class="col-sm-5">
-                                                                <input type="hidden" class="form-control"
-                                                                       id="doc_date_detail"
-                                                                       name="doc_date_detail" value="">
+                                                                       id="emp_id"
+                                                                       name="emp_id" value="">
                                                             </div>
                                                         </div>
 
@@ -168,83 +150,81 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-5">
-                                                                        <label for="product_id"
-                                                                               class="control-label">รหัสสินค้า/วัสดุ</label>
-                                                                        <input type="product_id"
+                                                                        <label for="job_date_trans"
+                                                                               class="control-label">วันที่</label>
+                                                                        <input type="text"
                                                                                class="form-control"
-                                                                               id="product_id" name="product_id"
+                                                                               id="job_date_trans" name="job_date_trans"
                                                                                required="required"
                                                                                readonly="true"
-                                                                               placeholder="รหัสสินค้า/วัสดุ">
+                                                                               placeholder="วันที่">
                                                                     </div>
-
                                                                     <div class="col-sm-5">
-                                                                        <label for="name_t"
-                                                                               class="control-label">ชื่อสินค้า/วัสดุ</label>
-                                                                        <input type="text" class="form-control"
-                                                                               id="name_t"
-                                                                               name="name_t"
+                                                                        <label for="product_id"
+                                                                               class="control-label">ชื่อพนักงาน</label>
+                                                                        <input type="f_name"
+                                                                               class="form-control"
+                                                                               id="f_name" name="f_name"
                                                                                required="required"
                                                                                readonly="true"
-                                                                               placeholder="ชื่อสินค้า/วัสดุ">
-                                                                    </div>
-
-                                                                    <div class="col-sm-2">
-                                                                        <label for="quantity"
-                                                                               class="control-label">เลือก</label>
-
-                                                                        <a data-toggle="modal"
-                                                                           href="#SearchProductModal"
-                                                                           class="btn btn-primary">
-                                                                            Click <i class="fa fa-search"
-                                                                                     aria-hidden="true"></i>
-                                                                        </a>
+                                                                               placeholder="ชื่อพนักงาน">
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-5">
-                                                                        <label for="quantity"
-                                                                               class="control-label">จำนวน</label>
+                                                                        <label for="grade_point"
+                                                                               class="control-label">เกรด</label>
                                                                         <input type="text" class="form-control"
-                                                                               id="quantity"
-                                                                               name="quantity"
+                                                                               id="grade_point"
+                                                                               name="grade_point"
                                                                                required="required"
-                                                                               placeholder="จำนวน">
+                                                                               placeholder="เกรด">
                                                                     </div>
-                                                                    <input type="hidden" class="form-control"
-                                                                           id="unit_id"
-                                                                           name="unit_id">
                                                                     <div class="col-sm-5">
-                                                                        <label for="unit_name"
-                                                                               class="control-label">หน่วยนับ</label>
+                                                                        <label for="total_grade_point"
+                                                                               class="control-label">คะแนนเกรด</label>
                                                                         <input type="text" class="form-control"
-                                                                               id="unit_name"
-                                                                               name="unit_name"
+                                                                               id="total_grade_point"
+                                                                               name="total_grade_point"
                                                                                required="required"
                                                                                readonly="true"
-                                                                               placeholder="หน่วยนับ">
+                                                                               placeholder="คะแนนเกรด">
+
+                                                                        <div class="col-sm-2">
+                                                                            <label for="grade_point"
+                                                                                   class="control-label">เลือก</label>
+                                                                            <a data-toggle="modal"
+                                                                               href="#SearchJobGradeModal"
+                                                                               class="btn btn-primary">
+                                                                                Click <i class="fa fa-search"
+                                                                                         aria-hidden="true"></i>
+                                                                            </a>
+                                                                        </div>
                                                                     </div>
+
                                                                 </div>
 
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-5">
                                                                         <label for="price"
-                                                                               class="control-label">ราคา/หน่วย</label>
+                                                                               class="control-label">%เงินได้</label>
                                                                         <input type="text" class="form-control"
-                                                                               id="price"
-                                                                               name="price"
+                                                                               id="total_percent_payment"
+                                                                               name="total_percent_payment"
                                                                                required="required"
-                                                                               placeholder="ราคา/หน่วย">
+                                                                               readonly="true"
+                                                                               placeholder="%เงินได้">
                                                                     </div>
                                                                     <div class="col-sm-5">
                                                                         <label for="total_price"
-                                                                               class="control-label">ราคารวม</label>
+                                                                               class="control-label">จำนวนเงิน</label>
                                                                         <input type="text" class="form-control"
-                                                                               id="total_price"
-                                                                               name="total_price"
+                                                                               id="total_money"
+                                                                               name="total_money"
                                                                                required="required"
-                                                                               placeholder="ราคารวม">
+                                                                               readonly="true"
+                                                                               placeholder="จำนวนเงิน">
                                                                     </div>
                                                                 </div>
 
@@ -253,7 +233,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                         <div class="modal-footer">
                                                             <input type="hidden" name="id" id="id"/>
-                                                            <input type="hidden" name="detail_id" id="detail_id"/>
+                                                            <input type="text" name="detail_id" id="detail_id"/>
                                                             <input type="hidden" name="action_detail"
                                                                    id="action_detail" value=""/>
                                                             <span class="icon-input-btn">
@@ -261,6 +241,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             <input type="submit" name="save" id="save"
                                                                    class="btn btn-primary" value="Save"/>
                                                             </span>
+
                                                             <button type="button" class="btn btn-danger"
                                                                     data-dismiss="modal">Close <i
                                                                         class="fa fa-window-close"></i>
@@ -273,49 +254,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                         </div>
 
 
-                                        <div class="modal fade" id="SearchProductModal">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Modal title</h4>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-hidden="true">×
-                                                        </button>
-                                                    </div>
-                                                    <div class="container"></div>
-                                                    <div class="modal-body">
-                                                        <div class="modal-body">
-                                                            <table cellpadding="0" cellspacing="0" border="0"
-                                                                   class="display"
-                                                                   id="TableProductList"
-                                                                   width="100%">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th>รหัส</th>
-                                                                    <th>สินค้า</th>
-                                                                    <th>รหัสหน่วยนับ</th>
-                                                                    <th>หน่วยนับ</th>
-                                                                    <th>Action</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tfoot>
-                                                                <tr>
-                                                                    <th>รหัส</th>
-                                                                    <th>สินค้า</th>
-                                                                    <th>รหัสหน่วยนับ</th>
-                                                                    <th>หน่วยนับ</th>
-                                                                    <th>Action</th>
-                                                                </tr>
-                                                                </tfoot>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="modal fade" id="SearchSupModal">
+                                        <div class="modal fade" id="SearchLeaveTypeModal">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -332,19 +271,19 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                             <table cellpadding="0" cellspacing="0" border="0"
                                                                    class="display"
-                                                                   id="TableSupplierList"
+                                                                   id="TableLeaveTypeList"
                                                                    width="100%">
                                                                 <thead>
                                                                 <tr>
-                                                                    <th>รหัสลูกค้า</th>
-                                                                    <th>ชื่อผู้ขาย</th>
+                                                                    <th>รหัสประเภทการลา</th>
+                                                                    <th>รายละเอียด</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tfoot>
                                                                 <tr>
-                                                                    <th>รหัสลูกค้า</th>
-                                                                    <th>ชื่อผู้ขาย</th>
+                                                                    <th>รหัสประเภทการลา</th>
+                                                                    <th>รายละเอียด</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </tfoot>
@@ -493,11 +432,13 @@ if (strlen($_SESSION['alogin']) == "") {
                 }
             }
 
-            let data = "<b>" + queryString["title"] + "</b>";
+            let title = queryString["title"] + " :  " + queryString["job_date"];
+
+            let data = "<b>" + title + "</b>";
             $("#title").html(data);
             $("#main_menu").html(queryString["main_menu"]);
             $("#sub_menu").html(queryString["sub_menu"]);
-            $('#id').val(queryString["id"]);
+            $('#job_date').val(queryString["job_date"]);
 
             $('#save_status').val("before");
 
@@ -507,21 +448,71 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#save_status').val("add");
             }
 
-            if (queryString["id"] != null) {
-
-                Load_Header(queryString["id"], "job_payment_daily_total");
-
-                // Load_Data_Detail(queryString["doc_no"], "v_purchase_detail");
+            if (queryString["job_date"] != null) {
+                Load_Header(queryString["job_date"], "job_payment_daily_total");
             }
+
+            Load_Data_Detail(queryString["job_date"], "job_payment_daily_total");
+            //alert("job_date = " + $('#job_date').val());
+
         });
     </script>
 
     <script>
+        function Load_Data_Detail(job_date, table_name) {
 
-        function Load_Header(id, table_name) {
+            let formData = {
+                action: "GET_JOB_DETAIL",
+                sub_action: "GET_MASTER",
+                job_date: job_date,
+                table_name: table_name
+            };
+            let dataRecords = $('#TableJobDetailList').DataTable({
+                "paging": true,
+                "ordering": true,
+                'info': true,
+                "searching": true,
+                'lengthMenu': [[18, 24, 50, 100], [18, 24, 50, 100]],
+                'language': {
+                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
+                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
+                    infoEmpty: 'ไม่มีข้อมูล',
+                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
+                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
+                    paginate: {
+                        previous: 'ก่อนหน้า',
+                        last: 'สุดท้าย',
+                        next: 'ต่อไป'
+                    }
+                },
+                'processing': true,
+                'serverSide': true,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url': 'model/manage_job_calendar_process.php',
+                    'data': formData
+                },
+                'columns': [
+                    {data: 'line_no'},
+                    {data: 'job_date'},
+                    {data: 'f_name'},
+                    {data: 'grade_point'},
+                    {data: 'total_grade_point', className: "text-right"},
+                    {data: 'total_percent_payment', className: "text-right"},
+                    {data: 'total_money', className: "text-right"},
+                    {data: 'update'}
+                ]
+            });
+        }
+    </script>
+
+    <script>
+
+        function Load_Header(job_date, table_name) {
 
             //alert(id);
-            let formData = {action: "GET_JOB_DATA", id: id};
+            let $table_name = table_name;
+            let formData = {action: "GET_JOB_DATA", job_date: job_date};
             $.ajax({
                 type: "POST",
                 url: 'model/manage_job_calendar_process.php',
@@ -544,6 +535,89 @@ if (strlen($_SESSION['alogin']) == "") {
             });
 
         }
+
+    </script>
+
+    <script>
+
+        $("#TableJobDetailList").on('click', '.update', function () {
+            let id = $(this).attr("id");
+            //alert(id);
+            let formData = {action: "GET_JOB_TRANS_DATA", id: id};
+            $.ajax({
+                type: "POST",
+                url: 'model/manage_job_calendar_process.php',
+                dataType: "json",
+                data: formData,
+                success: function (response) {
+                    let len = response.length;
+                    for (let i = 0; i < len; i++) {
+                        let detail_id = response[i].id;
+                        let job_date_trans = response[i].job_date;
+                        let emp_id = response[i].emp_id;
+                        let f_name = response[i].f_name;
+                        let grade_point = response[i].grade_point;
+                        let total_grade_point = response[i].total_grade_point;
+                        let total_percent_payment = response[i].total_percent_payment;
+                        let total_money = response[i].total_money;
+
+                        $('#recordModal').modal('show');
+                        $('#detail_id').val(id);
+                        $('#job_date_trans').val(job_date_trans);
+                        $('#emp_id').val(emp_id);
+                        $('#f_name').val(f_name);
+                        $('#grade_point').val(grade_point);
+                        $('#total_grade_point').val(total_grade_point);
+                        $('#total_percent_payment').val(total_percent_payment);
+                        $('#total_money').val(total_money);
+                        $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
+                        $('#action').val('UPDATE');
+                        $('#action_detail').val('UPDATE');
+                        $('#save').val('Save');
+                    }
+                },
+                error: function (response) {
+                    alertify.error("error : " + response);
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+
+        $("#recordModal").on('submit', '#recordForm', function (event) {
+            event.preventDefault();
+            $('#save').attr('disabled', 'disabled');
+            let formData = $(this).serialize();
+            alert(formData);
+
+            $.ajax({
+                url: 'model/manage_job_calendar_process.php',
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    alertify.success(data);
+                    $('#recordForm')[0].reset();
+                    $('#recordModal').modal('hide');
+                    $('#save').attr('disabled', false);
+                    dataRecords.ajax.reload();
+                }
+            })
+
+        });
+
+    </script>
+
+    <script>
+
+        $("#recordModal").on('change', '#recordForm', function (event) {
+            event.preventDefault();
+            $('#save').attr('disabled', 'disabled');
+            let formData = $(this).serialize();
+            alert(formData);
+
+        });
 
     </script>
 
