@@ -40,7 +40,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <section class="container-fluid">
 
-                                        <div class="col-md-12 col-md-offset-2">
+                                        <!--div class="col-md-12 col-md-offset-2">
                                             <label for="name_t"
                                                    class="control-label"><b>เพิ่ม <?php echo urldecode($_GET['s']) ?></b></label>
 
@@ -48,7 +48,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     class='btn btn-primary btn-xs'>Add
                                                 <i class="fa fa-plus"></i>
                                             </button>
-                                        </div>
+                                        </div-->
 
                                         <div class="col-md-12 col-md-offset-2">
                                             <table id='TableRecordList' class='display dataTable'>
@@ -225,17 +225,6 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            $('#effect_year').datepicker({
-                format: "yyyy-mm-dd",
-                todayHighlight: true,
-                language: "th",
-                autoclose: true
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
             $(".icon-input-btn").each(function () {
                 let btnFont = $(this).find(".btn").css("font-size");
                 let btnColor = $(this).find(".btn").css("color");
@@ -272,7 +261,7 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GET_JOB_MASTER", sub_action: "GET_MASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
                 'columnDefs': [{"orderSequence": ["desc", "asc"]}],
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+                'lengthMenu': [[12, 24, 36, 100], [12, 24, 36, 100]],
                 'language': {
                     search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
                     info: 'หน้าที่ _PAGE_ จาก _PAGES_',
@@ -378,7 +367,46 @@ if (strlen($_SESSION['alogin']) == "") {
     </script>
 
     <script>
+
         $("#TableRecordList").on('click', '.update', function () {
+            let id = $(this).attr("id");
+            //alert(id);
+            let formData = {action: "GET_DATA", id: id};
+            $.ajax({
+                type: "POST",
+                url: 'model/manage_job_master_process.php',
+                dataType: "json",
+                data: formData,
+                success: function (response) {
+                    let len = response.length;
+                    for (let i = 0; i < len; i++) {
+                        let id = response[i].id;
+                        let effect_month = response[i].effect_month;
+                        let effect_year = response[i].effect_year;
+                        let total_tires = response[i].total_tires;
+                        let total_money = response[i].total_money;
+
+                        $('#recordModal').modal('show');
+                        $('#id').val(id);
+                        $('#effect_month').val(effect_month);
+                        $('#effect_year').val(effect_year);
+                        $('#total_tires').val(total_tires);
+                        $('#total_money').val(total_money);
+                        $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
+                        $('#action').val('UPDATE');
+                        $('#save').val('Save');
+                    }
+                },
+                error: function (response) {
+                    alertify.error("error : " + response);
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        $("#TableRecordList").on('click', '.update_detail', function () {
 
             let id = $(this).attr("id");
             let main_menu = document.getElementById("main_menu").value;

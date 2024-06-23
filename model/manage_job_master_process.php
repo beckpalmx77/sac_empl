@@ -28,81 +28,24 @@ if ($_POST["action"] === 'GET_DATA') {
 
 }
 
-if ($_POST["action"] === 'SEARCH') {
-
-    if ($_POST["effect_month"] !== '') {
-
-        $effect_month = $_POST["effect_month"];
-        $sql_find = "SELECT * FROM job_payment_month_total WHERE effect_month = '" . $effect_month . "'";
-        $nRows = $conn->query($sql_find)->fetchColumn();
-        if ($nRows > 0) {
-            echo 2;
-        } else {
-            echo 1;
-        }
-    }
-}
-
-if ($_POST["action"] === 'ADD') {
-    if ($_POST["effect_year"] !== '') {
-        $table = "job_payment_month_total";
-        $KeyAddData = $_POST["KeyAddData"];
-        $doc_year = substr($_POST["total_money"], 0, 4);
-        $field = "doc_runno";
-        $doc_type = "-PRH-";
-        $doc_runno = LAST_ID_YEAR($conn, $table, $field, $doc_year);
-        $effect_month = $doc_year . $doc_type . sprintf('%06s', $doc_runno);
-        $effect_year = $_POST["effect_year"];
-        $total_money = $_POST["total_money"];
-        $status = $_POST["status"];
-        $sql_find = "SELECT * FROM " . $table . " WHERE effect_month = '" . $effect_month . "'";
-        $stmt = $conn->query($sql_find);
-        $nRows = $stmt->rowCount();
-
-        if ($nRows > 0) {
-            echo $dup;
-        } else {
-            $sql = "INSERT INTO " . $table . " (effect_month,effect_year,total_money,doc_year,doc_runno,KeyAddData,status)
-                    VALUES (:effect_month,:effect_year,:total_money,:doc_year,:doc_runno,:KeyAddData,:status)";
-            $query = $conn->prepare($sql);
-            $query->bindParam(':effect_month', $effect_month, PDO::PARAM_STR);
-            $query->bindParam(':effect_year', $effect_year, PDO::PARAM_STR);
-            $query->bindParam(':total_money', $total_money, PDO::PARAM_STR);
-            $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
-            $query->bindParam(':doc_runno', $doc_runno, PDO::PARAM_STR);
-            $query->bindParam(':KeyAddData', $KeyAddData, PDO::PARAM_STR);
-            $query->bindParam(':status', $status, PDO::PARAM_STR);
-            $query->execute();
-            $lastInsertId = $conn->lastInsertId();
-            if ($lastInsertId) {
-                echo $save_success;
-            } else {
-                echo $error;
-            }
-        }
-    }
-}
-
-
 if ($_POST["action"] === 'UPDATE') {
 
     if ($_POST["effect_month"] != '') {
 
         $id = $_POST["id"];
-        $effect_month = $_POST["effect_month"];
-        $effect_year = $_POST["effect_year"];
+        $effect_month = $_POST["total_tires"];
+        $effect_year = $_POST["total_money"];
         $status = $_POST["status"];
         $update_date = date('Y-m-d H:i:s');
-        $sql_find = "SELECT * FROM job_payment_month_total WHERE effect_month = '" . $effect_month . "'";
+        $sql_find = "SELECT * FROM job_payment_month_total WHERE id = " . $id ;
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
-            $sql_update = "UPDATE job_payment_month_total SET effect_year=:effect_year,status=:status            
-            ,update_date=:update_date WHERE effect_month = :effect_month";
+            $sql_update = "UPDATE job_payment_month_total SET total_tires=:total_tires,total_money=:total_money            
+            WHERE id = :id";
             $query = $conn->prepare($sql_update);
-            $query->bindParam(':effect_year', $effect_year, PDO::PARAM_STR);
-            $query->bindParam(':status', $status, PDO::PARAM_STR);
-            $query->bindParam(':update_date', $update_date, PDO::PARAM_STR);
-            $query->bindParam(':effect_month', $effect_month, PDO::PARAM_STR);
+            $query->bindParam(':total_tires', $total_tires, PDO::PARAM_STR);
+            $query->bindParam(':total_money', $total_money, PDO::PARAM_STR);
+            $query->bindParam(':id', $id, PDO::PARAM_STR);
             if ($query->execute()) {
                 echo $save_success;
             } else {
