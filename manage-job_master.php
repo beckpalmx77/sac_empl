@@ -54,20 +54,20 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <table id='TableRecordList' class='display dataTable'>
                                                 <thead>
                                                 <tr>
-                                                    <th>เลขที่เอกสาร</th>
-                                                    <th>ชื่อผู้ขาย</th>
-                                                    <th>วันที่</th>
-                                                    <th>สถานะ</th>
+                                                    <th>เดือน</th>
+                                                    <th>ปี</th>
+                                                    <th>จำนวนยาง</th>
+                                                    <th>จำนวนเงิน</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
-                                                    <th>เลขที่เอกสาร</th>
-                                                    <th>ชื่อผู้ขาย</th>
-                                                    <th>วันที่</th>
-                                                    <th>สถานะ</th>
+                                                    <th>เดือน</th>
+                                                    <th>ปี</th>
+                                                    <th>จำนวนยาง</th>
+                                                    <th>จำนวนเงิน</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -94,66 +94,45 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-6">
-                                                                        <label for="doc_no"
-                                                                               class="control-label">เลขที่เอกสาร</label>
+                                                                        <label for="effect_month"
+                                                                               class="control-label">เดือน</label>
                                                                         <input type="text" class="form-control"
-                                                                               id="doc_no"
-                                                                               name="doc_no"
+                                                                               id="effect_month"
+                                                                               name="effect_month"
                                                                                readonly="true"
-                                                                               placeholder="สร้างอัตโนมัติ">
+                                                                               placeholder="เดือน">
                                                                     </div>
                                                                     <div class="col-sm-6">
-                                                                        <label for="doc_date"
-                                                                               class="control-label">วันที่เอกสาร</label>
+                                                                        <label for="effect_year"
+                                                                               class="control-label">ปี</label>
                                                                         <input type="text" class="form-control"
-                                                                               id="doc_date"
-                                                                               name="doc_date"
+                                                                               id="effect_year"
+                                                                               name="effect_year"
                                                                                readonly="true"
-                                                                               placeholder="วันที่เอกสาร">
+                                                                               placeholder="ปี">
                                                                     </div>
 
                                                                 </div>
 
                                                                 <div class="form-group row">
-                                                                    <input type="hidden" class="form-control"
-                                                                           id="supplier_id"
-                                                                           name="supplier_id">
-                                                                    <div class="col-sm-12">
-                                                                        <label for="supplier_name"
-                                                                               class="control-label">ชื่อผู้ขาย</label>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="total_tires"
+                                                                               class="control-label">จำนวนยาง</label>
                                                                         <input type="text" class="form-control"
-                                                                               id="supplier_name"
-                                                                               name="supplier_name"
-                                                                               readonly="true"
-                                                                               placeholder="ชื่อผู้ขาย">
+                                                                               id="total_tires"
+                                                                               name="total_tires"
+                                                                               placeholder="จำนวนยาง">
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="total_money"
+                                                                               class="control-label">จำนวนเงิน</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="total_money"
+                                                                               name="total_money"
+                                                                               placeholder="จำนวนเงิน">
                                                                     </div>
                                                                 </div>
 
-                                                                <table cellpadding="0" cellspacing="0" bpurchase="0"
-                                                                       class="display"
-                                                                       id="TablePurchaseDetailList"
-                                                                       width="100%">
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th>#</th>
-                                                                        <th>สินค้า</th>
-                                                                        <th>จำนวน</th>
-                                                                        <th>หน่วยนับ</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                </table>
-
-                                                                <div class="form-group">
-                                                                    <label for="status"
-                                                                           class="control-label">Status</label>
-                                                                    <select id="status" name="status"
-                                                                            class="form-control"
-                                                                            data-live-search="true"
-                                                                            title="Please select">
-                                                                        <option>Active</option>
-                                                                        <option>Inactive</option>
-                                                                    </select>
-                                                                </div>
 
                                                             </div>
                                                         </div>
@@ -178,45 +157,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                         </div>
 
 
-                                        <div class="modal fade" id="SearchCusModal">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Modal title</h4>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-hidden="true">×
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="container"></div>
-                                                    <div class="modal-body">
-
-                                                        <div class="modal-body">
-
-                                                            <table cellpadding="0" cellspacing="0" bpurchase="0"
-                                                                   class="display"
-                                                                   id="TableSupplierList"
-                                                                   width="100%">
-                                                                <thead class="thead-light">
-                                                                <tr>
-                                                                    <th>รหัสลูกค้า</th>
-                                                                    <th>ชื่อผู้ขาย</th>
-                                                                    <th>Action</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tfoot>
-                                                                <tr>
-                                                                    <th>รหัสลูกค้า</th>
-                                                                    <th>ชื่อผู้ขาย</th>
-                                                                    <th>Action</th>
-                                                                </tr>
-                                                                </tfoot>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -285,7 +225,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            $('#doc_date').datepicker({
+            $('#effect_year').datepicker({
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
                 language: "th",
@@ -306,14 +246,14 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
 
-        $("#doc_no").blur(function () {
+        $("#effect_month").blur(function () {
             let method = $('#action').val();
             if (method === "ADD") {
-                let doc_no = $('#doc_no').val();
-                let supplier_id = $('#doc_no').val();
-                let formData = {action: "SEARCH", doc_no: doc_no, supplier_id: supplier_id};
+                let effect_month = $('#effect_month').val();
+                let supplier_id = $('#effect_month').val();
+                let formData = {action: "SEARCH", effect_month: effect_month, supplier_id: supplier_id};
                 $.ajax({
-                    url: 'model/manage_purchase_process.php',
+                    url: 'model/manage_job_master_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -329,7 +269,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GET_PURCHASE", sub_action: "GET_MASTER"};
+            let formData = {action: "GET_JOB_MASTER", sub_action: "GET_MASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
                 'columnDefs': [{"orderSequence": ["desc", "asc"]}],
                 'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
@@ -349,14 +289,14 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/manage_purchase_process.php',
+                    'url': 'model/manage_job_master_process.php',
                     'data': formData
                 },
                 'columns': [
-                    {data: 'doc_no'},
-                    {data: 'supplier_name'},
-                    {data: 'doc_date'},
-                    {data: 'status'},
+                    {data: 'effect_month'},
+                    {data: 'effect_year'},
+                    {data: 'total_tires'},
+                    {data: 'total_money'},
                     {data: 'update'},
                     {data: 'delete'}
                 ]
@@ -368,7 +308,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#save').attr('disabled', 'disabled');
                 let formData = $(this).serialize();
                 $.ajax({
-                    url: 'model/manage_purchase_process.php',
+                    url: 'model/manage_job_master_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -392,28 +332,24 @@ if (strlen($_SESSION['alogin']) == "") {
             let table_name = "v_purchase_detail";
             $.ajax({
                 type: "POST",
-                url: 'model/manage_purchase_process.php',
+                url: 'model/manage_job_master_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let doc_no = response[i].doc_no;
-                        let doc_date = response[i].doc_date;
-                        let supplier_id = response[i].supplier_id;
-                        let supplier_name = response[i].supplier_name;
+                        let effect_month = response[i].effect_month;
+                        let effect_year = response[i].effect_year;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
 
-                        Load_Data_Detail(doc_no, table_name);
+                        Load_Data_Detail(effect_month, table_name);
 
                         $('#id').val(id);
-                        $('#doc_no').val(doc_no);
-                        $('#doc_date').val(doc_date);
-                        $('#supplier_id').val(supplier_id);
-                        $('#supplier_name').val(supplier_name);
+                        $('#effect_month').val(effect_month);
+                        $('#effect_year').val(effect_year);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
                         $('#action').val('DELETE');
@@ -451,21 +387,19 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GET_DATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_purchase_process.php',
+                url: 'model/manage_job_master_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
-                        let doc_no = response[i].doc_no;
-                        let doc_date = response[i].doc_date;
-                        let supplier_id = response[i].supplier_id;
-                        let supplier_name = response[i].supplier_name;
+                        let effect_month = response[i].effect_month;
+                        let effect_year = response[i].effect_year;
                         let url = "manage_purchase_data.php?title=รายการซื้อสินค้า (Product Purchase)"
                             + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
-                            + '&doc_no=' + doc_no + '&doc_date=' + doc_date
+                            + '&effect_month=' + effect_month + '&effect_year=' + effect_year
                             + '&supplier_id=' + supplier_id
-                            + '&supplier_name=' + supplier_name
+                            + '&effect_year=' + effect_year
                             + '&action=UPDATE';
                         OpenPopupCenter(url, "", "");
                     }
@@ -478,11 +412,11 @@ if (strlen($_SESSION['alogin']) == "") {
     </script>
 
     <script>
-        function Load_Data_Detail(doc_no, table_name) {
+        function Load_Data_Detail(effect_month, table_name) {
 
             $('#TablePurchaseDetailList').DataTable().clear().destroy();
 
-            let formData = {action: "GET_PURCHASE_DETAIL", sub_action: "GET_MASTER", doc_no: doc_no, table_name: table_name};
+            let formData = {action: "GET_JOB_MASTER_DETAIL", sub_action: "GET_MASTER", effect_month: effect_month, table_name: table_name};
             let dataRecords = $('#TablePurchaseDetailList').DataTable({
                 "paging": false,
                 "purchaseing": false,

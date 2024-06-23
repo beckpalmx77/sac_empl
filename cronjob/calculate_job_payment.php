@@ -1,9 +1,16 @@
 <?php
 include('../config/connect_db.php');
 
+
 $year = date("Y");
 $month_current = date("m");
-//$date = date("d");
+$date = date("d");
+
+$date_str = $year . "-" . $month_current . "-" .  $date;
+
+$previous_date = date('Y-m-d', strtotime($date_str . ' -1 months'));
+
+echo "Previous Date = " . $previous_date;
 
 $sql_month_loop = "SELECT * FROM ims_month ";
 $statement = $conn->query($sql_month_loop);
@@ -11,8 +18,7 @@ $results_month = $statement->fetchAll(PDO::FETCH_ASSOC);
 foreach ($results_month as $result_month) {
     $month = $result_month['month_id'];
     $month_name = $result_month['month_name'];
-    echo "Month Name = " . $month . " | " . $month_name . "\n\r";
-
+    //echo "Month Name = " . $month . " | " . $month_name . "\n\r";
 
     $sql_find = "SELECT job_date , COUNT(*) AS Record FROM job_transaction 
              WHERE grade_point in ('A','B','C') AND effect_month = '" . $month . "' AND effect_year = '" . $year . "' GROUP BY job_date ";
