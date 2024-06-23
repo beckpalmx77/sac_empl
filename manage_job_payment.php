@@ -90,7 +90,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.4/index.global.js'></script>
 
-
     <script src="js/popup.js"></script>
 
 
