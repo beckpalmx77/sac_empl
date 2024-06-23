@@ -75,6 +75,8 @@ if ($_POST["action_detail"] === 'UPDATE') {
     $query->bindParam(':id', $id, PDO::PARAM_STR);
     $query->execute();
 
+    echo $save_success;
+
 /*
     include('../config/connect_db.php');
 
@@ -282,12 +284,6 @@ if ($_POST["action_detail"] === 'UPDATE') {
         $query->execute();
 
     }
-
-
-
-
-    echo $save_success;
-
 
 
 

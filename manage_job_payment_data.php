@@ -243,45 +243,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                         </div>
 
 
-                                        <div class="modal fade" id="SearchLeaveTypeModal">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Modal title</h4>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-hidden="true">×
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="container"></div>
-                                                    <div class="modal-body">
-
-                                                        <div class="modal-body">
-
-                                                            <table cellpadding="0" cellspacing="0" border="0"
-                                                                   class="display"
-                                                                   id="TableLeaveTypeList"
-                                                                   width="100%">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th>รหัสประเภทการลา</th>
-                                                                    <th>รายละเอียด</th>
-                                                                    <th>Action</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tfoot>
-                                                                <tr>
-                                                                    <th>รหัสประเภทการลา</th>
-                                                                    <th>รายละเอียด</th>
-                                                                    <th>Action</th>
-                                                                </tr>
-                                                                </tfoot>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
                                         <div id="result"></div>
 
@@ -579,6 +540,8 @@ if (strlen($_SESSION['alogin']) == "") {
             event.preventDefault();
             $('#save').attr('disabled', 'disabled');
             let formData = $(this).serialize();
+            let job_date_trans = $('#job_date_trans').val();
+            let table_name = "v_job_transaction";
 
             //alert(formData);
 
@@ -592,6 +555,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     $('#recordModal').modal('hide');
                     $('#save').attr('disabled', false);
                     dataRecords.ajax.reload();
+                    Load_Data_Detail(job_date_trans, table_name);
                 }
             })
 
