@@ -458,7 +458,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 'columns': [
                     {data: 'line_no'},
                     {data: 'job_date'},
-                    {data: 'total_job_emp'},
+                    {data: 'total_job_emp', className: "text-center"},
                     {data: 'total_tires', className: "text-right"},
                     {data: 'total_grade_point', className: "text-right"},
                     {data: 'total_percent_payment', className: "text-right"},
