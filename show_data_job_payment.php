@@ -62,7 +62,7 @@ foreach ($results_total as $row_total) {
 
 <p class="card">
 <div class="card-header bg-primary text-white">
-    <i class="fa fa-signal" aria-hidden="true"></i> สรุปข้อมูลการจ่ายค่าแรงขึ้นยาง
+    <i class="fa fa-signal" aria-hidden="true"></i> สรุปข้อมูลการจ่ายค่าแรงพันยาง
     <?php echo " เดือน " . $month_name . " ปี " . $year; ?>
 </div>
 
@@ -73,7 +73,7 @@ foreach ($results_total as $row_total) {
 <div class="card-body">
 
     <div class="card-body">
-        <h4><span class="badge bg-success">สรุปข้อมูลการจ่ายค่าแรงขึ้นยาง (เดือน) <?php echo "วันที่ " . $date_start_to ?></span></h4>
+        <h4><span class="badge bg-success">สรุปข้อมูลการจ่ายค่าแรงพันยาง (เดือน) <?php echo "วันที่ " . $date_start_to ?></span></h4>
         <h4><span class="badge bg-success">จำนวนยาง = <?php echo $total_tires  ." เส้น จำนวนเงินที่จ่าย  = "  . $total_money . " บาท " ?></span></h4>
         <table id="example" class="display table table-striped table-bordered"
                cellspacing="0" width="100%">

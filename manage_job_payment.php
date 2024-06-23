@@ -130,7 +130,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
                     let main_menu = document.getElementById("main_menu").value;
                     let sub_menu = document.getElementById("sub_menu").value;
-                    let url = "manage_job_payment_data.php?title=รายการข้อมูลการขึ้นยาง"
+                    let url = "manage_job_payment_data.php?title=รายการข้อมูลการพันยาง"
                         + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
                         + '&job_date=' + info.event.id ;
 

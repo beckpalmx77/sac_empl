@@ -11,13 +11,15 @@ if ($_POST["action"] === 'GET_DATA') {
     $id = $_POST["id"];
 
     $return_arr = array();
-    $sql_get = "SELECT * FROM job_payment_month_total WHERE id = " . $id;
+    $sql_get = "SELECT * FROM v_job_payment_month_total 
+    WHERE id = " . $id;
     $statement = $conn->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($results as $result) {
         $return_arr[] = array("id" => $result['id'],
             "effect_month" => $result['effect_month'],
+            "month_name" => $result['month_name'],
             "total_money" => $result['total_money'],
             "effect_year" => $result['effect_year'],
             "total_tires" => $result['total_tires'],
@@ -30,11 +32,11 @@ if ($_POST["action"] === 'GET_DATA') {
 
 if ($_POST["action"] === 'UPDATE') {
 
-    if ($_POST["effect_month"] != '') {
+    if ($_POST["id"] != '') {
 
         $id = $_POST["id"];
-        $effect_month = $_POST["total_tires"];
-        $effect_year = $_POST["total_money"];
+        $total_tires = $_POST["total_tires"];
+        $total_money = $_POST["total_money"];
         $status = $_POST["status"];
         $update_date = date('Y-m-d H:i:s');
         $sql_find = "SELECT * FROM job_payment_month_total WHERE id = " . $id ;
@@ -140,6 +142,7 @@ if ($_POST["action"] === 'GET_JOB_MASTER') {
                 "total_money" => $row['total_money'],
                 "status" => $row['status'] === 'Active' ? "<div class='text-success'>" . $row['status'] . "</div>" : "<div class='text-muted'> " . $row['status'] . "</div>",
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
+                "update_detail" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update_detail' data-toggle='tooltip' title='Update Detail'>Update Detail</button>",
                 "delete" => "<button type='button' name='delete' id='" . $row['id'] . "' class='btn btn-danger btn-xs delete' data-toggle='tooltip' title='Delete'>Delete</button>"
             );
         } else {

@@ -25,7 +25,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         <input type="hidden" id="main_menu" value="<?php echo urldecode($_GET['m']) ?>">
                         <input type="hidden" id="sub_menu" value="<?php echo urldecode($_GET['s']) ?>">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?php echo $_SESSION['dashboard_page']?>">Home</a></li>
+                            <li class="breadcrumb-item"><a href="<?php echo $_SESSION['dashboard_page'] ?>">Home</a>
+                            </li>
                             <li class="breadcrumb-item"><?php echo urldecode($_GET['m']) ?></li>
                             <li class="breadcrumb-item active"
                                 aria-current="page"><?php echo urldecode($_GET['s']) ?></li>
@@ -39,16 +40,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                 </div>
                                 <div class="card-body">
                                     <section class="container-fluid">
-
-                                        <!--div class="col-md-12 col-md-offset-2">
-                                            <label for="name_t"
-                                                   class="control-label"><b>เพิ่ม <?php echo urldecode($_GET['s']) ?></b></label>
-
-                                            <button type='button' name='btnAdd' id='btnAdd'
-                                                    class='btn btn-primary btn-xs'>Add
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div-->
 
                                         <div class="col-md-12 col-md-offset-2">
                                             <table id='TableRecordList' class='display dataTable'>
@@ -234,29 +225,6 @@ if (strlen($_SESSION['alogin']) == "") {
     </script>
 
     <script>
-
-        $("#effect_month").blur(function () {
-            let method = $('#action').val();
-            if (method === "ADD") {
-                let effect_month = $('#effect_month').val();
-                let supplier_id = $('#effect_month').val();
-                let formData = {action: "SEARCH", effect_month: effect_month, supplier_id: supplier_id};
-                $.ajax({
-                    url: 'model/manage_job_master_process.php',
-                    method: "POST",
-                    data: formData,
-                    success: function (data) {
-                        if (data == 2) {
-                            alert("Duplicate มีข้อมูลนี้แล้วในระบบ กรุณาตรวจสอบ");
-                        }
-                    }
-                })
-            }
-        });
-
-    </script>
-
-    <script>
         $(document).ready(function () {
             let formData = {action: "GET_JOB_MASTER", sub_action: "GET_MASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
@@ -287,7 +255,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'total_tires'},
                     {data: 'total_money'},
                     {data: 'update'},
-                    {data: 'delete'}
+                    {data: 'update_detail'}
                 ]
             });
 
@@ -311,59 +279,6 @@ if (strlen($_SESSION['alogin']) == "") {
             });
             <!-- *** FOR SUBMIT FORM *** -->
         });
-    </script>
-
-    <script>
-
-        $("#TableRecordList").on('click', '.delete', function () {
-            let id = $(this).attr("id");
-            let formData = {action: "GET_DATA", id: id};
-            let table_name = "v_purchase_detail";
-            $.ajax({
-                type: "POST",
-                url: 'model/manage_job_master_process.php',
-                dataType: "json",
-                data: formData,
-                success: function (response) {
-                    let len = response.length;
-                    for (let i = 0; i < len; i++) {
-                        let id = response[i].id;
-                        let effect_month = response[i].effect_month;
-                        let effect_year = response[i].effect_year;
-                        let status = response[i].status;
-
-                        $('#recordModal').modal('show');
-
-                        Load_Data_Detail(effect_month, table_name);
-
-                        $('#id').val(id);
-                        $('#effect_month').val(effect_month);
-                        $('#effect_year').val(effect_year);
-                        $('#status').val(status);
-                        $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
-                        $('#action').val('DELETE');
-                        $('#save').val('Confirm Delete');
-                    }
-                },
-                error: function (response) {
-                    alertify.error("error : " + response);
-                }
-            });
-        });
-
-    </script>
-
-    <script>
-
-        $("#btnAdd").click(function () {
-            let main_menu = document.getElementById("main_menu").value;
-            let sub_menu = document.getElementById("sub_menu").value;
-            let url = "manage_purchase_data.php?title=รายการซื้อสินค้า (Product Purchase)"
-                + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
-                + '&action=ADD';
-            OpenPopupCenter(url, "", "");
-        });
-
     </script>
 
     <script>
@@ -422,14 +337,17 @@ if (strlen($_SESSION['alogin']) == "") {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let effect_month = response[i].effect_month;
+                        let month_name = response[i].month_name;
                         let effect_year = response[i].effect_year;
-                        let url = "manage_purchase_data.php?title=รายการซื้อสินค้า (Product Purchase)"
+                        let url = "manage-job_detail.php?title=รายการจำนวนยาง เดือน"
                             + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
-                            + '&effect_month=' + effect_month + '&effect_year=' + effect_year
-                            + '&supplier_id=' + supplier_id
+                            + '&id=' + id
                             + '&effect_year=' + effect_year
+                            + '&effect_month=' + effect_month
+                            + '&month_name=' + month_name
                             + '&action=UPDATE';
-                        OpenPopupCenter(url, "", "");
+                        //OpenPopupCenter(url, "", "");
+                        window.open(url, "", "");
                     }
                 },
                 error: function (response) {
@@ -437,47 +355,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 }
             });
         });
-    </script>
-
-    <script>
-        function Load_Data_Detail(effect_month, table_name) {
-
-            $('#TablePurchaseDetailList').DataTable().clear().destroy();
-
-            let formData = {action: "GET_JOB_MASTER_DETAIL", sub_action: "GET_MASTER", effect_month: effect_month, table_name: table_name};
-            let dataRecords = $('#TablePurchaseDetailList').DataTable({
-                "paging": false,
-                "purchaseing": false,
-                'info': false,
-                "searching": false,
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
-                'language': {
-                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
-                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
-                    infoEmpty: 'ไม่มีข้อมูล',
-                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
-                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
-                    paginate: {
-                        previous: 'ก่อนหน้า',
-                        last: 'สุดท้าย',
-                        next: 'ต่อไป'
-                    }
-                },
-                'processing': true,
-                'serverSide': true,
-                'serverMethod': 'post',
-                'ajax': {
-                    'url': 'model/manage_purchase_detail_process.php',
-                    'data': formData
-                },
-                'columns': [
-                    {data: 'line_no'},
-                    {data: 'product_name'},
-                    {data: 'quantity'},
-                    {data: 'unit_name'}
-                ]
-            });
-        }
     </script>
 
     </body>
