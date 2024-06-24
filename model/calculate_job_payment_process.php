@@ -108,7 +108,11 @@ foreach ($results_month as $result_month) {
     $total_money = $result_month['total_money'];
 }
 
-$sql_find_daily = "SELECT * FROM job_payment_daily_total WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "' GROUP BY job_date ";
+$sql_find_daily = "SELECT job_date , sum(total_tires) AS total_tires , sum(total_grade_point) AS total_grade_point    
+                   FROM job_payment_daily_total 
+                   WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "' 
+                   GROUP BY job_date 
+                   ORDER BY job_date ";
 
 $statement = $conn->query($sql_find_daily);
 $results_daily = $statement->fetchAll(PDO::FETCH_ASSOC);
