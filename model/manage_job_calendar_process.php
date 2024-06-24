@@ -68,8 +68,7 @@ if ($_POST["action_detail"] === 'UPDATE') {
     $effect_year = $_POST["effect_year"];
 
     $grade_point = strtoupper($_POST["grade_point"]);
-    $sql_update = "UPDATE job_transaction SET grade_point=:grade_point              
-            WHERE id = :id";
+    $sql_update = "UPDATE job_transaction SET grade_point=:grade_point WHERE id = :id";
     $query = $conn->prepare($sql_update);
     $query->bindParam(':grade_point', $grade_point, PDO::PARAM_STR);
     $query->bindParam(':id', $id, PDO::PARAM_STR);
