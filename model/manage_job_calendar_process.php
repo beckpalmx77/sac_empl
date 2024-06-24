@@ -168,7 +168,7 @@ if ($_POST["action"] === 'GET_JOB_DETAIL') {
                 "job_date" => $row['job_date'],
                 "emp_id" => $row['emp_id'],
                 "f_name" => $row['f_name'],
-                "grade_point" => $row['grade_point'],
+                "grade_point" => ($row['grade_point']!==null && $row['grade_point']!=='') ? $row['grade_point'] : "-" ,
                 "total_grade_point" => $row['total_grade_point'],
                 "total_percent_payment" => $row['total_percent_payment'],
                 "total_money" => $row['total_money'],
