@@ -9,6 +9,7 @@ $date = date("d");
 
 $month = $_POST["effect_month"];
 $year = $_POST["effect_year"];
+$job_date_transaction = $_POST["job_date_trans"];
 $total_job_emp = 0;
 
 $sql_find = "SELECT job_date , COUNT(*) AS Record FROM job_transaction

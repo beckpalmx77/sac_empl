@@ -64,6 +64,7 @@ if ($_POST["action"] === 'GET_JOB_TRANS_DATA') {
 if ($_POST["action_detail"] === 'UPDATE') {
 
     $id = $_POST["detail_id"];
+    $job_date_trans = $_POST["job_date_trans"];
     $effect_month = $_POST["effect_month"];
     $effect_year = $_POST["effect_year"];
 
