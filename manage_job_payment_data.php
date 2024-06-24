@@ -538,7 +538,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
         $("#recordModal").on('submit', '#recordForm', function (event) {
             event.preventDefault();
-            $('#save').attr('disabled', 'disabled');
+            //$('#save').attr('disabled', 'disabled');
             let formData = $(this).serialize();
             let job_date_trans = $('#job_date_trans').val();
             let table_name = "v_job_transaction";
@@ -550,12 +550,18 @@ if (strlen($_SESSION['alogin']) == "") {
                 method: "POST",
                 data: formData,
                 success: function (data) {
+                    //alertify.success(data);
+                    //$('#recordForm')[0].reset();
+                    //$('#recordModal').modal('hide');
+                    //$('#save').attr('disabled', false);
+                    //dataRecords.ajax.reload();
+
                     alertify.success(data);
                     $('#recordForm')[0].reset();
                     $('#recordModal').modal('hide');
-                    $('#save').attr('disabled', false);
-                    dataRecords.ajax.reload();
+                    $('#TableJobDetailList').DataTable().clear().destroy();
                     Load_Data_Detail(job_date_trans, table_name);
+
                 }
             })
 

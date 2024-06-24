@@ -75,7 +75,7 @@ if ($_POST["action_detail"] === 'UPDATE') {
     $query->bindParam(':id', $id, PDO::PARAM_STR);
     $query->execute();
 
-    //include 'calculate_job_payment_process.php';
+    include 'calculate_job_payment_process.php';
 
     echo $save_success;
 
