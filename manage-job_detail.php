@@ -367,19 +367,6 @@ if (strlen($_SESSION['alogin']) == "") {
         });
     </script>
 
-    <!--script>
-        $(document).ready(function () {
-            $("#btnClose").click(function () {
-                if ($('#save_status').val() !== '') {
-                    window.opener = self;
-                    window.close();
-                } else {
-                    alertify.error("กรุณากด save อีกครั้ง");
-                }
-            });
-        });
-    </script-->
-
     <script>
         $(document).ready(function () {
             $("#btnClose").click(function () {
@@ -524,6 +511,7 @@ if (strlen($_SESSION['alogin']) == "") {
             let month_name = $('#month_name').val();
 
             //alert(formData);
+
             $.ajax({
                 url: 'model/manage_job_detail_process.php',
                 method: "POST",

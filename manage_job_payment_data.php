@@ -174,7 +174,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <input type="text" class="form-control"
                                                                                id="grade_point"
                                                                                name="grade_point"
-                                                                               required="required"
                                                                                placeholder="เกรด">
                                                                     </div>
                                                                     <div class="col-sm-5">

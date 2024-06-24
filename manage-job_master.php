@@ -112,6 +112,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <input type="text" class="form-control"
                                                                                id="total_tires"
                                                                                name="total_tires"
+                                                                               readonly="true"
                                                                                placeholder="จำนวนยาง">
                                                                     </div>
                                                                     <div class="col-sm-6">
@@ -264,6 +265,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 event.preventDefault();
                 $('#save').attr('disabled', 'disabled');
                 let formData = $(this).serialize();
+                //alert(formData);
                 $.ajax({
                     url: 'model/manage_job_master_process.php',
                     method: "POST",

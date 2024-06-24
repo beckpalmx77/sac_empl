@@ -59,8 +59,21 @@ if ($_POST["action_detail-bak"] === 'UPDATE') {
 
 if ($_POST["action_detail"] === 'UPDATE') {
     if ($_POST["detail_id"] != '') {
+
+        $table_name_detail = "job_payment_daily_total";
+        $table_name = "job_payment_monthly_total";
+
         $id = $_POST["detail_id"];
         $total_tires = $_POST["total_tires"];
+
+        $effect_month = substr($_POST["job_date"],3,2);
+        $effect_year = substr($_POST["job_date"],6,4);
+/*
+        $myfile = fopen("job-getdata.txt", "w") or die("Unable to open file!");
+        fwrite($myfile, "Month = " . $effect_month . " Year = " . $effect_year);
+        fclose($myfile);
+*/
+
         $sql_find = "SELECT * FROM job_payment_daily_total WHERE id = '" . $id . "'";
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
@@ -70,7 +83,41 @@ if ($_POST["action_detail"] === 'UPDATE') {
             $query->bindParam(':total_tires', $total_tires, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_STR);
             $query->execute();
+
+            $sql_get_sum = "SELECT sum(total_tires) AS sum_total_tires FROM job_payment_daily_total WHERE effect_month = '" . $effect_month . "' AND effect_year = '" . $effect_year .  "'";
+            $statement = $conn->query($sql_get_sum);
+            $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($results as $result) {
+                if ($result['sum_total_tires']>0) {
+                    $sum_total_tires = $result['sum_total_tires'];
+                } else {
+                    $sum_total_tires = 0;
+                }
+            }
+
+            /*
+                        $myfile = fopen("job-getdata-2.txt", "w") or die("Unable to open file!");
+                        fwrite($myfile, $sum_total_tires . "\n\r" . $sql_update . "\n\r" . " Month = " . $effect_month . " Year = " . $effect_year);
+                        fclose($myfile);
+            */
+
+            /* $sql_update_month = "UPDATE job_payment_month_total SET total_tires=:sum_total_tires
+            WHERE effect_month = :effect_month AND effect_year = :effect_year"; */
+
+            $sql_update_month = "UPDATE job_payment_month_total SET total_tires= '" . $sum_total_tires . "' "
+            . "WHERE effect_month = '" . $effect_month . "' AND effect_year = '" . $effect_year. "'";
+
+/*
+            $myfile = fopen("job-getdata-2.txt", "w") or die("Unable to open file!");
+            fwrite($myfile, $sum_total_tires . "\n\r" . $sql_update_month);
+            fclose($myfile);
+*/
+
+            $query_month = $conn->prepare($sql_update_month );
+            $query_month->execute();
+
             echo $save_success;
+
         }
     }
 }

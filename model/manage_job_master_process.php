@@ -42,10 +42,10 @@ if ($_POST["action"] === 'UPDATE') {
         $sql_find = "SELECT * FROM job_payment_month_total WHERE id = " . $id ;
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
-            $sql_update = "UPDATE job_payment_month_total SET total_tires=:total_tires,total_money=:total_money            
+            $sql_update = "UPDATE job_payment_month_total SET total_money=:total_money            
             WHERE id = :id";
             $query = $conn->prepare($sql_update);
-            $query->bindParam(':total_tires', $total_tires, PDO::PARAM_STR);
+            //$query->bindParam(':total_tires', $total_tires, PDO::PARAM_STR);
             $query->bindParam(':total_money', $total_money, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_STR);
             if ($query->execute()) {
