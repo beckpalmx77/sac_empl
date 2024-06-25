@@ -12,7 +12,8 @@ include('config/lang.php');
 
 <!-- Sidebar -->
 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo $_SESSION['dashboard_page']?>">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center"
+       href="<?php echo $_SESSION['dashboard_page'] ?>">
         <div class="sidebar-brand-icon">
             <img src="img/logo/Logo-01.png" width="60" height="100">
         </div>
@@ -21,7 +22,7 @@ include('config/lang.php');
     </a>
     <hr class="sidebar-divider my-0">
     <li class="nav-item active">
-        <a class="nav-link" href="<?php echo $_SESSION['dashboard_page'];?>">
+        <a class="nav-link" href="<?php echo $_SESSION['dashboard_page']; ?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -72,23 +73,21 @@ include('config/lang.php');
                                  data-parent="#accordionSidebar">
                                 <div class="bg-white py-2 collapse-inner rounded">
                                     <!--h6 class="collapse-header"><?php echo $main_menu; ?></h6-->
-
                                     <?php
-
                                     foreach ($sub_menus_ids as $sub_menus_id) {
-
                                         $sql_sub_menu = "SELECT * FROM menu_sub where main_menu_id = '" . $main_menu_id . "' and  sub_menu_id = '" . $sub_menus_id . "'"
                                             . " order by main_menu_id,sub_menu_id  ";
                                         $query_sub_menu = $conn->prepare($sql_sub_menu);
                                         $query_sub_menu->execute();
                                         $result_subs = $query_sub_menu->fetchAll(PDO::FETCH_OBJ);
-
                                         foreach ($result_subs as $result_sub) {
-
                                             $sub_menu = $_SESSION['lang'] == "th" ? $result_sub->label : $result_sub->label_en;
+
+                                            $target = $result_sub->target == "_blank" ? "target='_blank'" : "";
+
                                             ?>
                                             <a class="collapse-item"
-                                               href="<?php echo $result_sub->link . '?m=' . urlencode($main_menu) . '&s=' . urlencode($sub_menu) ?>"><?php echo "<i class='$result_sub->icon'></i>" ?>
+                                               href="<?php echo $result_sub->link . '?m=' . urlencode($main_menu) . '&s=' . urlencode($sub_menu) ?>" <?php echo $target ?>><?php echo "<i class='$result_sub->icon'></i>" ?>
                                                 <span><?php echo $sub_menu; ?></span>
                                             </a>
                                         <?php }
@@ -96,12 +95,12 @@ include('config/lang.php');
                                 </div>
                             </div>
                         </li>
-                    <?php
+                        <?php
                     }
                 }
             }
         }
-    }?>
+    } ?>
     <hr class="sidebar-divider">
 
     <!--li class="nav-item active">
@@ -116,9 +115,6 @@ include('config/lang.php');
             <i class="fas fa-sign-out-alt"></i>
             <span>Exit</span></a>
     </li>
-
-
-
 
 
 </ul>
