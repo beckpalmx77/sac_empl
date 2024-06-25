@@ -28,29 +28,35 @@ if (strlen($_SESSION['alogin']) == "") {
         </style>
     </head>
     <body>
-    <div class="container-fluid">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800"><?php echo urldecode($_GET['s']) ?></h1>
-        </div>
-        <form id="jobs-form" class="row g-3 mb-3">
-            <div class="col-md-5">
-                <label for="start_date" class="form-label">Start Date:</label>
-                <input type="date" id="start_date" name="start_date" class="form-control">
-            </div>
-            <div class="col-md-5">
-                <label for="end_date" class="form-label">End Date:</label>
-                <input type="date" id="end_date" name="end_date" class="form-control">
-            </div>
-            <div class="col-md-2 align-self-end">
-                <button type="submit" class="btn btn-primary w-100">Generate Report</button>
-            </div>
-        </form>
-        <div id="report-table" class="table-responsive"></div>
-    </div>
 
+    <div class="card">
+        <div class="card-header text-white bg-primary" ><?php echo urldecode($_GET['s']) ?></div>
+
+        <div class="container-fluid">
+            <br>
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h6 class="h6 mb-0 text-gray-800">เลือกข้อมูลตามวันที่</h6>
+            </div>
+
+            <form id="jobs-form" class="row g-3 mb-3">
+                <div class="col-md-5">
+                    <label for="start_date" class="form-label">Start Date:</label>
+                    <input type="date" id="start_date" name="start_date" class="form-control">
+                </div>
+                <div class="col-md-5">
+                    <label for="end_date" class="form-label">End Date:</label>
+                    <input type="date" id="end_date" name="end_date" class="form-control">
+                </div>
+                <div class="col-md-2 align-self-end">
+                    <button type="submit" class="btn btn-primary w-100">Generate Report</button>
+                </div>
+            </form>
+            <div id="report-table" class="table-responsive"></div>
+        </div>
+    </div>
     <script>
-        $(document).ready(function() {
-            $('#jobs-form').on('submit', function(e) {
+        $(document).ready(function () {
+            $('#jobs-form').on('submit', function (e) {
                 //alert("Data = " + $(this).serialize());
                 e.preventDefault();
                 $.ajax({
@@ -58,7 +64,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     method: 'POST',
                     data: $(this).serialize(),
                     dataType: 'json',
-                    success: function(response) {
+                    success: function (response) {
                         let data = response.data;
                         let totalAmount = response.total;
 
