@@ -135,16 +135,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     let url = "manage_job_payment_data.php?title=รายการข้อมูลการพันยาง"
                         + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
                         + '&job_date=' + info.event.id ;
-
                     window.open(url, "", "");
-
-                    /*
-                                        Swal.fire({
-                                            title: info.event.description,
-                                            icon: 'success',
-                                            html:'<p>'+info.event.extendedProps.description+'</p><a href="'+info.event.url+'" target="_blank">Visit event page</a>',
-                                        });
-                                        */
                 }
             });
 
