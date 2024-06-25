@@ -116,7 +116,7 @@ foreach ($results_month as $result_month) {
 //echo "Data Month = " . $total_tires . " | " . $total_money . "\n\r";
 
 
-$sql_find_daily = "SELECT * FROM job_payment_daily_total WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "' GROUP BY job_date ";
+$sql_find_daily = "SELECT * FROM job_payment_daily_total WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "' ORDER BY job_date ";
 //echo "Update2 = " . $sql_find2;
 $statement = $conn->query($sql_find_daily);
 $results_daily = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -194,10 +194,11 @@ foreach ($results_trans as $result_trans) {
 
     //echo "total_money_payment = " . number_format($total_money_payment, 2)."\n";
 
-
+/*
     $myfile = fopen("job-getdata.txt", "w") or die("Unable to open file!");
     fwrite($myfile, $sql_find_trans);
     fclose($myfile);
+*/
 
 
     $sql_up_trans = "UPDATE job_transaction SET total_money=:total_money

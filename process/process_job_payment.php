@@ -113,7 +113,7 @@ foreach ($results_month as $result_month) {
 //echo "Data Month = " . $total_tires . " | " . $total_money . "\n\r";
 
 
-$sql_find_daily = "SELECT * FROM job_payment_daily_total WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "' GROUP BY job_date ";
+$sql_find_daily = "SELECT * FROM job_payment_daily_total WHERE effect_month = '" . $month . "' AND effect_year = '" . $year . "' ORDER BY job_date ";
 //echo "Update2 = " . $sql_find2;
 $statement = $conn->query($sql_find_daily);
 $results_daily = $statement->fetchAll(PDO::FETCH_ASSOC);
