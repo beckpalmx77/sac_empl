@@ -30,7 +30,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <body>
 
     <div class="card">
-        <div class="card-header text-white bg-primary" ><?php echo urldecode($_GET['s']) ?></div>
+        <div class="card-header text-white bg-primary"><?php echo urldecode($_GET['s']) ?></div>
 
         <div class="container-fluid">
             <br>
