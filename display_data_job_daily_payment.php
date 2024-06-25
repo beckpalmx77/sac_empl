@@ -44,7 +44,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     <input type="date" id="end_date" name="end_date" class="form-control">
                 </div>
                 <div class="col-md-2 align-self-end">
-                    <button type="submit" class="btn btn-primary w-100">Generate Report</button>
+                    <button type="submit" class="btn btn-primary w-100">ดูรายงาน</button>
                 </div>
             </form>
             <div id="report-table" class="table-responsive"></div>
