@@ -56,7 +56,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 //alert("Data = " + $(this).serialize());
                 e.preventDefault();
                 $.ajax({
-                    searching: false,
                     url: 'model/fetch_jobs_data.php',
                     method: 'POST',
                     data: $(this).serialize(),
