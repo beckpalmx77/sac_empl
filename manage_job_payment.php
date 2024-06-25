@@ -108,7 +108,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             let calendarEl = document.getElementById('calendar');
-
+            let initialLocaleCode = 'th';
             let calendar = new FullCalendar.Calendar(calendarEl, {
                 timeZone: 'local',
                 headerToolbar: {
@@ -116,6 +116,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     center: 'title',
                     left: 'dayGridMonth'
                 },
+                locale: initialLocaleCode,
                 initialView: 'dayGridMonth',
                 height: 550,
                 events: 'model/calendar_job_load.php',
