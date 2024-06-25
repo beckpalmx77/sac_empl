@@ -35,7 +35,7 @@ if (strlen($_SESSION['alogin']) == "") {
         <div class="container-fluid">
             <br>
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h6 class="h6 mb-0 text-gray-800">เลือกข้อมูลตามวันที่</h6>
+                <h6 class="h6 mb-0 text-gray-800">Click เลือกข้อมูลตามวันที่</h6>
             </div>
 
             <form id="jobs-form" class="row g-3 mb-3">
