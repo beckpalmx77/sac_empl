@@ -34,17 +34,13 @@ if (strlen($_SESSION['alogin']) == "") {
 
         <div class="container-fluid">
             <br>
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h6 class="h6 mb-0 text-gray-800">Click เลือกข้อมูลตามวันที่</h6>
-            </div>
-
             <form id="jobs-form" class="row g-3 mb-3">
                 <div class="col-md-5">
-                    <label for="start_date" class="form-label">Start Date:</label>
+                    <label for="start_date" class="form-label">Click เลือกวันที่ เริ่มต้น:</label>
                     <input type="date" id="start_date" name="start_date" class="form-control">
                 </div>
                 <div class="col-md-5">
-                    <label for="end_date" class="form-label">End Date:</label>
+                    <label for="end_date" class="form-label">Click เลือกวันที่ สิ้นสุด:</label>
                     <input type="date" id="end_date" name="end_date" class="form-control">
                 </div>
                 <div class="col-md-2 align-self-end">
@@ -60,6 +56,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 //alert("Data = " + $(this).serialize());
                 e.preventDefault();
                 $.ajax({
+                    searching: false,
                     url: 'model/fetch_jobs_data.php',
                     method: 'POST',
                     data: $(this).serialize(),
