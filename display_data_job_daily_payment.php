@@ -50,6 +50,7 @@ if (strlen($_SESSION['alogin']) == "") {
             <div id="report-table" class="table-responsive"></div>
         </div>
     </div>
+
     <script>
         $(document).ready(function () {
             $('#jobs-form').on('submit', function (e) {
