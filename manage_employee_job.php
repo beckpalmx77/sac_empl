@@ -178,6 +178,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <script src="js/modal/show_department_modal.js"></script>
     <script src="js/modal/show_worktime_modal.js"></script>
 
+    <script src="js/bootbox/bootbox.all.js"></script>
+
     <!-- Page level plugins -->
 
     <!--script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
@@ -301,7 +303,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
         $("#TableRecordList").on('click', '.update', function () {
             let id = $(this).attr("id");
-            //alert(id);
             let formData = {action: "GET_DATA", id: id};
             $.ajax({
                 type: "POST",
