@@ -4,6 +4,13 @@ include("config/connect_db.php");
 
 $month = $_POST["month"];
 $year = $_POST["year"];
+$branch = $_POST["branch"];
+
+/*
+$myfile = fopen("leave-param.txt", "w") or die("Unable to open file!");
+fwrite($myfile, $month . "|" . $year . "|" . $branch);
+fclose($myfile);
+*/
 
 $month_name = "";
 
@@ -16,17 +23,6 @@ foreach ($MonthRecords as $row) {
     $month_name = $row["month_name"];
 }
 
-$sql_total = " SELECT * FROM job_payment_month_total 
-                WHERE effect_year = '" . $year . "' 
-                AND effect_month = '" . $month_id . "'";
-
-$statement_total = $conn->query($sql_total);
-$results_total = $statement_total->fetchAll(PDO::FETCH_ASSOC);
-foreach ($results_total as $row_total) {
-    $date_start_to = $row_total['effect_start_date'] . " - " .  $row_total['effect_to_date'];
-    $total_tires = $row_total['total_tires'];
-    $total_money = $row_total['total_money'];
-}
 
 ?>
 <!DOCTYPE html>
@@ -62,7 +58,7 @@ foreach ($results_total as $row_total) {
 
 <p class="card">
 <div class="card-header bg-primary text-white">
-    <i class="fa fa-signal" aria-hidden="true"></i> สรุปข้อมูลการจ่ายค่าแรงพันยาง
+    <i class="fa fa-signal" aria-hidden="true"></i> แสดงข้อมูลการลา-เปลี่ยนวันหยุด-วันหยุดนักขัตฤกษ์ พนักงาน
     <?php echo " เดือน " . $month_name . " ปี " . $year; ?>
 </div>
 
@@ -73,17 +69,19 @@ foreach ($results_total as $row_total) {
 <div class="card-body">
 
     <div class="card-body">
-        <h4><span class="badge bg-success">สรุปข้อมูลการจ่ายค่าแรงพันยาง (เดือน) <?php echo "วันที่ " . $date_start_to ?></span></h4>
-        <h4><span class="badge bg-success">จำนวนยาง = <?php echo $total_tires  ." เส้น จำนวนเงินที่จ่าย  = "  . $total_money . " บาท " ?></span></h4>
+        <h4><span class="badge bg-success">แสดงข้อมูลการลา พนักงาน</span></h4>
         <table id="example" class="display table table-striped table-bordered"
                cellspacing="0" width="100%">
             <thead>
             <tr>
                 <th>#</th>
+                <th>วันที่เอกสาร</th>
                 <th>ชื่อพนักงาน</th>
-                <th>เดือน</th>
-                <th>ปี</th>
-                <th>ยอดเงินที่ได้</th>
+                <th>หน่วยงาน</th>
+                <th>ประเภทการลา</th>
+                <th>วันที่ลาเริ่มต้น</th>
+                <th>วันที่ลาสิ้นสุด</th>
+                <th>หมายเหตุ</th>
             </tr>
             </thead>
             <tfoot>
@@ -94,29 +92,150 @@ foreach ($results_total as $row_total) {
             $date = date("d/m/Y");
             $total = 0;
             $total_payment = 0;
-            $sql_total = " SELECT * FROM v_job_transaction__summary 
-                WHERE effect_year = '" . $year . "' 
-                AND effect_month = '" . $month_id . "'
-                ORDER BY emp_id ";
+            $sql_leave = " SELECT * FROM v_dleave_event 
+                WHERE doc_year = '" . $year . "' 
+                AND doc_month = '" . $month_id . "'
+                AND dept_id = '" . $branch . "'
+                ORDER BY doc_date ";
 
-            $statement_total = $conn->query($sql_total);
-            $results_total = $statement_total->fetchAll(PDO::FETCH_ASSOC);
+            $statement_leave = $conn->query($sql_leave);
+            $results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
             $line_no = 0;
-            foreach ($results_total as $row_total) {
+            foreach ($results_leave as $row_leave) {
             $line_no++;
-                ?>
+            ?>
 
             <tr>
                 <td><?php echo htmlentities($line_no); ?></td>
-                <td><?php echo htmlentities($row_total['f_name']); ?></td>
-                <td><?php echo htmlentities($month_name); ?></td>
-                <td><?php echo htmlentities($year); ?></td>
-                <td align="right"><p class="number"><?php echo htmlentities(number_format($row_total['total_money'], 2)); ?></p>
+                <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
+                <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
+                <td><?php echo htmlentities($row_leave['department_id']); ?></td>
+                <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
+                <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
+                <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
+                <td><?php echo htmlentities($row_leave['remark']); ?></td>
                 </td>
-                <?php
-                $total_payment = $total_payment + $row_total['total_money'];
-            } ?>
             </tr>
+
+            <?php } ?>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card-body">
+
+    <div class="card-body">
+        <h4><span class="badge bg-info">แสดงข้อมูลการใช้วันหยุด (นักขัตฤกษ์-ประจำปี) พนักงาน</span></h4>
+        <table id="example" class="display table table-striped table-bordered"
+               cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>วันที่เอกสาร</th>
+                <th>ชื่อพนักงาน</th>
+                <th>หน่วยงาน</th>
+                <th>ประเภท</th>
+                <th>วันที่เริ่มต้น</th>
+                <th>วันที่สิ้นสุด</th>
+                <th>หมายเหตุ</th>
+            </tr>
+            </thead>
+            <tfoot>
+            </tfoot>
+            <tbody>
+            <?php
+
+            $date = date("d/m/Y");
+            $total = 0;
+            $total_payment = 0;
+            $sql_leave = " SELECT * FROM vdholiday_event 
+                WHERE doc_year = '" . $year . "' 
+                AND month = '" . $month_id . "'
+                AND dept_id = '" . $branch . "'
+                ORDER BY doc_date ";
+
+            $statement_leave = $conn->query($sql_leave);
+            $results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
+            $line_no = 0;
+            foreach ($results_leave as $row_leave) {
+                $line_no++;
+                ?>
+
+                <tr>
+                    <td><?php echo htmlentities($line_no); ?></td>
+                    <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
+                    <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
+                    <td><?php echo htmlentities($row_leave['department_id']); ?></td>
+                    <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
+                    <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
+                    <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
+                    <td><?php echo htmlentities($row_leave['remark']); ?></td>
+                    </td>
+                </tr>
+
+            <?php } ?>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card-body">
+
+    <div class="card-body">
+        <h4><span class="badge bg-warning">แสดงข้อมูลการเปลี่ยนวันหยุด พนักงาน</span></h4>
+        <table id="example" class="display table table-striped table-bordered"
+               cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>วันที่เอกสาร</th>
+                <th>ชื่อพนักงาน</th>
+                <th>หน่วยงาน</th>
+                <th>ประเภท</th>
+                <th>วันที่หยุดปกติ</th>
+                <th>วันที่ต้องการหยุด</th>
+                <th>หมายเหตุ</th>
+            </tr>
+            </thead>
+            <tfoot>
+            </tfoot>
+            <tbody>
+            <?php
+
+            $date = date("d/m/Y");
+            $total = 0;
+            $total_payment = 0;
+            $sql_leave = " SELECT * FROM v_dchange_event 
+                WHERE doc_year = '" . $year . "' 
+                AND doc_month = '" . $month_id . "'
+                AND dept_id = '" . $branch . "'
+                ORDER BY doc_date ";
+
+            $statement_leave = $conn->query($sql_leave);
+            $results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
+            $line_no = 0;
+            foreach ($results_leave as $row_leave) {
+                $line_no++;
+                ?>
+
+                <tr>
+                    <td><?php echo htmlentities($line_no); ?></td>
+                    <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
+                    <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
+                    <td><?php echo htmlentities($row_leave['department_id']); ?></td>
+                    <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
+                    <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
+                    <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
+                    <td><?php echo htmlentities($row_leave['remark']); ?></td>
+                    </td>
+                </tr>
+
+            <?php } ?>
+
             </tbody>
         </table>
     </div>
