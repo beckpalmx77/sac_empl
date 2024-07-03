@@ -19,6 +19,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "label" => $result['label'],
             "link" => $result['link'],
             "icon" => $result['icon'],
+            "sort" => $result['sort'],
             "data_target" => $result['data_target'],
             "aria_controls" => $result['aria_controls'],
             "privilege" => $result['privilege']);
@@ -193,6 +194,7 @@ if ($_POST["action"] === 'GET_MAIN_MENU') {
                 "label" => $row['label'],
                 "link" => $row['link'],
                 "icon" => $row['icon'],
+                "sort" => $row['sort'],
                 "data_target" => $row['data_target'],
                 "aria_controls" => $row['aria_controls'],
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
