@@ -297,9 +297,10 @@ if (strlen($_SESSION['alogin']) == "") {
                         $("#err").fadeOut();
                     },
                     success: function (data) {
-                        if (data == 'invalid') {
+                        if (data === 'invalid') {
 // invalid file format.
-                            $("#err").html("Invalid File !").fadeIn();
+                            $("#err").html("กรุณาเลือกไฟล์ที่ถูกต้องเพื่อ Upload !").fadeIn();
+                            alertify.alert('กรุณาเลือกไฟล์ที่ถูกต้องเพื่อ Upload !');
                         } else {
 // view uploaded file.
                             //$("#preview").html(data).fadeIn();
