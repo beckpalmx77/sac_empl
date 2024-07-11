@@ -41,10 +41,10 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <section class="container-fluid">
 
-                                        <div class="col-md-12 col-md-offset-2">
+                                        <!--div class="col-md-12 col-md-offset-2">
                                             <label for="name_t"
                                                    class="control-label"><b>เพิ่ม <?php echo urldecode($_GET['s']) ?></b></label>
-                                        </div>
+                                        </div-->
 
                                         <div class="col-md-12 col-md-offset-2">
                                             <table id='TableRecordList' class='display dataTable'>
