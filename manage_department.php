@@ -23,7 +23,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800"><?php echo urldecode($_GET['s']) ?></h1>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?php echo $_SESSION['dashboard_page']?>">Home</a></li>
+                            <li class="breadcrumb-item"><a href="<?php echo $_SESSION['dashboard_page'] ?>">Home</a>
+                            </li>
                             <li class="breadcrumb-item"><?php echo urldecode($_GET['m']) ?></li>
                             <li class="breadcrumb-item active"
                                 aria-current="page"><?php echo urldecode($_GET['s']) ?></li>
@@ -105,7 +106,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="status" class="control-label">Status</label>
+                                                                    <label for="status"
+                                                                           class="control-label">Status</label>
                                                                     <select id="status" name="status"
                                                                             class="form-control" data-live-search="true"
                                                                             title="Please select">
@@ -228,7 +230,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         $(document).ready(function () {
             let formData = {action: "GET_DEPARTMENT", sub_action: "GET_MASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
-                'lengthMenu': [[7,10, 20, 50, 100], [7,10, 20, 50, 100]],
+                'lengthMenu': [[7, 10, 20, 50, 100], [7, 10, 20, 50, 100]],
                 'language': {
                     search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
                     info: 'หน้าที่ _PAGE_ จาก _PAGES_',
@@ -257,27 +259,31 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 ]
             });
 
-            <!-- *** FOR SUBMIT FORM *** -->
-            $("#recordModal").on('submit', '#recordForm', function (event) {
-                event.preventDefault();
-                $('#save').attr('disabled', 'disabled');
-                let formData = $(this).serialize();
-                //alert(formData);
-                $.ajax({
-                    url: 'model/manage_department_process.php',
-                    method: "POST",
-                    data: formData,
-                    success: function (data) {
-                        alertify.success(data);
-                        $('#recordForm')[0].reset();
-                        $('#recordModal').modal('hide');
-                        $('#save').attr('disabled', false);
-                        dataRecords.ajax.reload();
-                    }
-                })
-            });
-            <!-- *** FOR SUBMIT FORM *** -->
         });
+    </script>
+
+    <script>
+
+        <!-- *** FOR SUBMIT FORM *** -->
+        $("#recordModal").on('submit', '#recordForm', function (event) {
+            event.preventDefault();
+            $('#save').attr('disabled', 'disabled');
+            let formData = $(this).serialize();
+            //alert(formData);
+            $.ajax({
+                url: 'model/manage_department_process.php',
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    alertify.success(data);
+                    $('#recordForm')[0].reset();
+                    $('#recordModal').modal('hide');
+                    $('#save').attr('disabled', false);
+                    dataRecords.ajax.reload();
+                }
+            })
+        });
+        <!-- *** FOR SUBMIT FORM *** -->
     </script>
 
     <script>
