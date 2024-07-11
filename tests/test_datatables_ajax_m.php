@@ -20,16 +20,19 @@
         .dropdown:hover .dropdown-menu {
             display: block;
         }
+
         .navbar-fixed-top {
             top: 0;
             right: 0;
             left: 0;
             z-index: 1030;
         }
+
         .navbar-hidden {
             top: -60px; /* Adjust this value based on your navbar height */
             transition: top 0.3s;
         }
+
         body {
             padding-top: 70px; /* Adjust this value based on your navbar height */
         }
@@ -46,6 +49,18 @@
         .dropdown:hover .dropdown-menu {
             display: block;
         }
+
+        .navbar {
+            background-color: #067471 !important; /* สีพื้นหลังสีน้ำเงิน */
+        }
+
+        .navbar-nav .nav-link, .navbar-brand {
+            color: #ffffff !important; /* ตัวอักษรสีขาว */
+        }
+
+        .navbar-nav .nav-link:hover, .navbar-brand:hover {
+            color: #f8f9fa !important; /* ตัวอักษรสีขาวเมื่อ hover */
+        }
     </style>
 
 </head>
@@ -54,7 +69,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
@@ -63,13 +79,16 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         Dropdown
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#">Action</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </li>
@@ -80,35 +99,6 @@
         </div>
     </div>
 </nav>
-
-<!--nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-        </ul>
-    </div>
-</nav-->
-
 
 <div class="card">
     <div class="card-body">
@@ -128,21 +118,6 @@
         </div>
     </div>
 </div>
-
-<!--script>
-    $(document).ready(function () {
-        let previousScroll = 0;
-        $(window).scroll(function () {
-            let currentScroll = $(this).scrollTop();
-            if (currentScroll > previousScroll) {
-                $('.navbar').addClass('navbar-hidden');
-            } else {
-                $('.navbar').removeClass('navbar-hidden');
-            }
-            previousScroll = currentScroll;
-        });
-    });
-</script-->
 
 <script>
     $(document).ready(function () {
@@ -176,7 +151,6 @@
     });
 </script>
 
-
-
 </body>
 </html>
+
