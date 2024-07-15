@@ -18,11 +18,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 <?php
                 include('includes/Top-Bar.php');
                 ?>
-                <div class="card-header">
-                    สถิติการลาประจำวันที่
-                    <?php echo date("d/m/Y");
-                    $current_date = date("d/m/Y");
-                    ?>
+                <div class="col-12 clock" id="clock">
+                    Loading time...
                 </div>
 
 
@@ -210,6 +207,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <script src='vendor/calendar/main.js'></script>
     <script src='vendor/calendar/locales/th.js'></script>
 
+    <script src='js/clock_time.js'></script>
+
     <script>
 
         $(document).ready(function () {
@@ -290,7 +289,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         }
 
     </script>
-
 
     </body>
 

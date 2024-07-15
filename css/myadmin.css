@@ -144,9 +144,9 @@ a:focus {
 }
 
 .bg-gradient-primary {
-  background-color: #9e0755;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #9e0755), to(#580f38));
-  background-image: linear-gradient(180deg, #9e0755 10%, #610540 100%);
+  background-color: #f521de;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #d5207e), to(#ce27b8));
+  background-image: linear-gradient(180deg, #e32386 10%, #db2299 100%);
   background-size: cover
 }
 
@@ -308,11 +308,11 @@ a:focus {
 }
 
 .border-left-primary {
-  border-left: .25rem solid #921d2b !important
+  border-left: .25rem solid #eb62ef !important
 }
 
 .border-bottom-primary {
-  border-bottom: .25rem solid #921d2b !important
+  border-bottom: .25rem solid #eb62ef !important
 }
 
 .border-left-secondary {
@@ -513,8 +513,8 @@ a:focus {
 }
 
 .topbar .dropdown-list .dropdown-header {
-  background-color: #710714;
-  border: 1px solid #710714;
+  background-color: #df43ea;
+  border: 1px solid #df43ea;
   padding-top: .75rem;
   padding-bottom: .75rem;
   color: #fff
@@ -597,7 +597,7 @@ a:focus {
 }
 
 .bg-navbar {
-  background-color: #9e0755
+  background-color: #bf29b0
 }
 
 .sidebar {
@@ -1016,7 +1016,7 @@ a:focus {
 
   .sidebar.toggled .nav-item .collapse .collapse-inner .collapse-item.active,
   .sidebar.toggled .nav-item .collapsing .collapse-inner .collapse-item.active {
-      color: #710714;
+      color: #bb4fea;
       font-weight: 800
   }
 
@@ -1092,7 +1092,7 @@ a:focus {
 
 .sidebar-light .sidebar-brand {
   color: #fafafa;
-  background-color: #710714
+  background-color: #b146e0
 }
 
 .sidebar-light hr.sidebar-divider {
@@ -1900,21 +1900,21 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 .form-control:focus {
-  border: 1px solid #9e0755
+  border: 1px solid #9b3dc2
 }
 
 .input-group-append span {
   -webkit-box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2) !important;
   box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2) !important;
   color: #fff;
-  background-color: #710714;
-  border-color: #710714
+  background-color: #e84df3;
+  border-color: #e84df3
 }
 
 .input-group-prepend span {
   -webkit-box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2) !important;
   box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2) !important;
   color: #fff;
-  background-color: #710714;
-  border-color: #710714
+  background-color: #e84df3;
+  border-color: #e84df3
 }
