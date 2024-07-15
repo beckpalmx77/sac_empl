@@ -16,9 +16,7 @@
         body, h1, h2, h3, h4, h5, h6 {
             font-family: 'Prompt', sans-serif !important;
         }
-    </style>
 
-    <style>
         .dropdown:hover .dropdown-menu {
             display: block;
         }
@@ -38,22 +36,14 @@
         body {
             padding-top: 70px; /* Adjust this value based on your navbar height */
         }
-    </style>
 
-    <style>
         .custom-card {
             border: 2px solid #000; /* กำหนดสีและความหนาของเส้นกรอบ */
             border-radius: 10px; /* กำหนดความโค้งของมุม */
         }
-    </style>
-
-    <style>
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
 
         .navbar {
-            background-color: #067471 !important; /* สีพื้นหลังสีน้ำเงิน */
+            background-color: #057ea3 !important; /* สีพื้นหลังสีน้ำเงิน */
         }
 
         .navbar-nav .nav-link, .navbar-brand {
@@ -61,10 +51,9 @@
         }
 
         .navbar-nav .nav-link:hover, .navbar-brand:hover {
-            color: #f8f9fa !important; /* ตัวอักษรสีขาวเมื่อ hover */
+            color: #cbcbcb !important; /* ตัวอักษรสีขาวเมื่อ hover */
         }
     </style>
-
 </head>
 
 <body>
@@ -72,7 +61,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -83,7 +72,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                       data-toggle="dropdown" aria-expanded="false">
                         Dropdown
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -103,16 +92,16 @@
     </div>
 </nav>
 
-<div class="card">
+<div class="card mt-5">
     <div class="card-body">
         <div class="container-fluid" id="container-wrapper">
             <table id="example" class="display" style="width:100%">
                 <thead>
                 <tr>
-                    <th>รหัสพนักงาน</th>
-                    <th>ชื่อ</th>
-                    <th>นามสกุล</th>
-                    <!-- Add more columns as needed -->
+                    <th>รหัสสินค้า</th>
+                    <th>ชื่อสินค้า</th>
+                    <th>ราคา</th>
+                    <th>เพิ่มลงในตะกร้า</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -122,10 +111,26 @@
     </div>
 </div>
 
+<!-- Cart Section -->
+<div class="card mt-4">
+    <div class="card-body">
+        <h3>Shopping Cart</h3>
+        <div id="cart-items" class="mb-4">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="text-right">
+            <strong>Total: <span id="cart-total">0</span></strong>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
+        let cart = [];
+        const cartItemsContainer = $('#cart-items');
+        const cartTotal = $('#cart-total');
 
-        $('#example').DataTable({
+        const table = $('#example').DataTable({
             "lengthMenu": [[7, 10, 20, 50, 100], [7, 10, 20, 50, 100]],
             "language": {
                 search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
@@ -141,20 +146,53 @@
                 }
             },
             "ajax": {
-                "url": "fetch_data.php",
+                "url": "fetch_products.php",
                 "type": "GET"
             },
             "columns": [
-                {"data": "emp_id"},
-                {"data": "first_name"},
-                {"data": "last_name"}
-                // Add more columns as needed
+                {"data": "name"},
+                {"data": "description"},
+                {"data": "price"},
+                {
+                    "data": null,
+                    "defaultContent": "<button class='btn btn-primary add-to-cart'>Add to Cart</button>"
+                }
             ]
         });
+
+        $('#example tbody').on('click', '.add-to-cart', function () {
+            const data = table.row($(this).parents('tr')).data();
+            const productName = data.description;
+            const productPrice = parseFloat(data.price);
+
+            const product = cart.find(item => item.name === productName);
+            if (product) {
+                product.quantity += 1;
+            } else {
+                cart.push({name: productName, price: productPrice, quantity: 1});
+            }
+
+            updateCart();
+
+        });
+
+        function updateCart() {
+            cartItemsContainer.empty();
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                const cartItem = $(`
+                    <div class="cart-item d-flex justify-content-between mb-2">
+                        <span>${item.name} (x${item.quantity})</span>
+                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                `);
+                cartItemsContainer.append(cartItem);
+            });
+            cartTotal.text(total.toFixed(2));
+        }
     });
 </script>
 
 </body>
-
 </html>
-
