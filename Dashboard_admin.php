@@ -18,11 +18,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 <?php
                 include('includes/Top-Bar.php');
                 ?>
-                <div class="col-12 clock" id="clock">
-                    Loading time...
-                </div>
-
-
                 <div class="container-fluid" id="container-wrapper">
                     <div class="row mb-3">
                         <div class="col-xl-3 col-md-6 mb-4">
