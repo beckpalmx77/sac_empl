@@ -39,6 +39,8 @@
     <link rel="stylesheet" type="text/css" href="../css/datatables1115.css">
     <script type="text/javascript" charset="utf8" src="../js/datatables1115.js"></script>
 
+    <script type="text/javascript" charset="utf8" src="../js/clock_time.js"></script>
+
     <?php
     session_start();
     error_reporting(0);
