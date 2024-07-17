@@ -65,6 +65,7 @@ if ($_POST["action"] === 'ADD') {
             $query->execute();
             $lastInsertId = $conn->lastInsertId();
             if ($lastInsertId) {
+                include('../cronjob/generate_job_payment.php');
                 echo $save_success;
             } else {
                 echo $error;
@@ -93,9 +94,7 @@ if ($_POST["action"] === 'UPDATE') {
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_STR);
             $query->execute();
-
             echo $save_success;
-
         }
 
     }
