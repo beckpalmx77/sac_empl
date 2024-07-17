@@ -389,17 +389,17 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "department_id" => $row['department_id'],
                 "remark" => $row['remark'],
                 "full_name" => $row['f_name'] . " " . $row['l_name'],
-                "image" => "<button type='button' name='image' id='" . $row['id'] . "' clASs='btn btn-secondary btn-xs image' data-toggle='tooltip' title='image'>Image</button>",
-                "update" => "<button type='button' name='update' id='" . $row['id'] . "' clASs='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
-                "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' clASs='btn btn-success btn-xs approve' data-toggle='tooltip' title='Approve'>Approve</button>",
-                "status" => $row['status'] === 'A' ? "<div clASs='text-success'>" . $row['status_doc_desc'] . "</div>" : "<div clASs='text-muted'> " . $row['status_doc_desc'] . "</div>",
+                "image" => "<button type='button' name='image' id='" . $row['id'] . "' Class='btn btn-secondary btn-xs image' data-toggle='tooltip' title='image'>Image</button>",
+                "update" => "<button type='button' name='update' id='" . $row['id'] . "' Class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
+                "approve" => "<button type='button' name='approve' id='" . $row['id'] . "' Class='btn btn-success btn-xs approve' data-toggle='tooltip' title='Approve'>Approve</button>",
+                "status" => $row['status'] === 'A' ? "<div Class='text-success'>" . $row['status_doc_desc'] . "</div>" : "<div Class='text-muted'> " . $row['status_doc_desc'] . "</div>",
             );
         } else {
             $data[] = array(
                 "id" => $row['id'],
                 "leave_type_id" => $row['leave_type_id'],
                 "leave_type_detail" => $row['leave_type_detail'],
-                "SELECT" => "<button type='button' name='SELECT' id='" . $row['leave_type_id'] . "@" . $row['leave_type_detail'] . "' clASs='btn btn-outline-success btn-xs SELECT' data-toggle='tooltip' title='SELECT'>SELECT <i clASs='fa fa-check' aria-hidden='true'></i>
+                "SELECT" => "<button type='button' name='SELECT' id='" . $row['leave_type_id'] . "@" . $row['leave_type_detail'] . "' Class='btn btn-outline-success btn-xs SELECT' data-toggle='tooltip' title='SELECT'>SELECT <i Class='fa fa-check' aria-hidden='true'></i>
 </button>",
             );
         }
