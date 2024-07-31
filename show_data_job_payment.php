@@ -97,10 +97,11 @@ foreach ($results_total as $row_total) {
                 WHERE effect_year = '" . $year . "' 
                 AND effect_month = '" . $month_id . "'
                 ORDER BY emp_id ";
-
+/*
             $myfile = fopen("job-getdata.txt", "w") or die("Unable to open file!");
             fwrite($myfile, $sql_total);
             fclose($myfile);
+*/
 
             $statement_total = $conn->query($sql_total);
             $results_total = $statement_total->fetchAll(PDO::FETCH_ASSOC);
