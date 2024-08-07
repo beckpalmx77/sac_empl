@@ -170,7 +170,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 const endMonth = parseInt($('#month_to').val());
 
                 if (endMonth < startMonth) {
-                    alert("เดือนสิ้นสุดไม่ควรอยู่ก่อนเดือนเริ่มต้น");
+                    alertify.alert("เดือนสิ้นสุดไม่ควรอยู่ก่อนเดือนเริ่มต้น");
                     $('#month_to').val(startMonth);
                 }
             }
