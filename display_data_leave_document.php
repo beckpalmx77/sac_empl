@@ -77,7 +77,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                             <div class="row">
                                                                 <div class="col-sm-6">
-                                                                    <label for="month_start">เลือกเดือน :</label>
+                                                                    <label for="month_start">เลือกเดือน (เริ่มต้น) :</label>
                                                                     <select name="month_start" id="month_start" class="form-control" required onchange="validateMonths()">
                                                                         <option value="<?php echo $month_num_start; ?>" selected><?php echo $month_name_start; ?></option>
                                                                         <?php foreach ($MonthRecords as $row) { ?>
@@ -86,7 +86,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-sm-6">
-                                                                    <label for="month_to">เลือกเดือน :</label>
+                                                                    <label for="month_to">เลือกเดือน (ถึง) :</label>
                                                                     <select name="month_to" id="month_to" class="form-control" required onchange="validateMonths()">
                                                                         <option value="<?php echo $month_num_to; ?>" selected><?php echo $month_name_to; ?></option>
                                                                         <?php foreach ($MonthRecords as $row) { ?>
