@@ -7,10 +7,6 @@ $month_to = $_POST["month_to"];
 $year = $_POST["year"];
 $branch = $_POST["branch"];
 
-$f_name = "";
-
-//$f_name = isset($_POST["f_name"]) ? $_POST["f_name"] : '';
-
 $month_name_start = "";
 $month_name_to = "";
 
@@ -68,18 +64,6 @@ foreach ($MonthTo as $row_to) {
     <a id="myLink" href="#" onclick="PrintPage();"><i class="fa fa-print"></i> พิมพ์</a>
 </div>
 
-
-<input type="hidden" class="form-control" id="f_name" name="f_name" value="">
-
-<!--div class="card-body">
-    <form method="POST" action="">
-        <div class="form-group">
-            <label for="f_name">ค้นหาชื่อพนักงาน:</label>
-            <input type="text" class="form-control" id="f_name" name="f_name" value="">
-        </div>
-    </form>
-</div-->
-
 <div class="card-body">
     <h4><span class="badge bg-success">แสดงข้อมูลการลา พนักงาน</span></h4>
     <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
@@ -104,25 +88,14 @@ foreach ($MonthTo as $row_to) {
         $sql_leave = " SELECT * FROM v_dleave_event 
             WHERE doc_year = :year 
             AND doc_month BETWEEN :month_id_start AND :month_id_to
-            AND dept_id = :branch ";
-
-        if (!empty($f_name)) {
-            $sql_leave .= " AND f_name LIKE :f_name";
-        }
-
-        $sql_leave .= " ORDER BY f_name , doc_date ";
+            AND dept_id = :branch
+            ORDER BY doc_date ";
 
         $statement_leave = $conn->prepare($sql_leave);
         $statement_leave->bindParam(':year', $year);
         $statement_leave->bindParam(':month_id_start', $month_id_start);
         $statement_leave->bindParam(':month_id_to', $month_id_to);
         $statement_leave->bindParam(':branch', $branch);
-
-        if (!empty($f_name)) {
-            $f_name_param = "%" . $f_name . "%";
-            $statement_leave->bindParam(':f_name', $f_name_param);
-        }
-
         $statement_leave->execute();
         $results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
         $line_no = 0;
@@ -165,25 +138,14 @@ foreach ($MonthTo as $row_to) {
         $sql_leave = " SELECT * FROM vdholiday_event 
             WHERE doc_year = :year 
             AND month BETWEEN :month_id_start AND :month_id_to
-            AND dept_id = :branch ";
-
-        if (!empty($f_name)) {
-            $sql_leave .= " AND f_name LIKE :f_name";
-        }
-
-        $sql_leave .= " ORDER BY f_name , doc_date ";
+            AND dept_id = :branch
+            ORDER BY doc_date ";
 
         $statement_leave = $conn->prepare($sql_leave);
         $statement_leave->bindParam(':year', $year);
         $statement_leave->bindParam(':month_id_start', $month_id_start);
         $statement_leave->bindParam(':month_id_to', $month_id_to);
         $statement_leave->bindParam(':branch', $branch);
-
-        if (!empty($f_name)) {
-            $f_name_param = "%" . $f_name . "%";
-            $statement_leave->bindParam(':f_name', $f_name_param);
-        }
-
         $statement_leave->execute();
         $results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
         $line_no = 0;
@@ -226,25 +188,14 @@ foreach ($MonthTo as $row_to) {
         $sql_leave = " SELECT * FROM v_dchange_event 
             WHERE doc_year = :year 
             AND doc_month BETWEEN :month_id_start AND :month_id_to
-            AND dept_id = :branch ";
-
-        if (!empty($f_name)) {
-            $sql_leave .= " AND f_name LIKE :f_name";
-        }
-
-        $sql_leave .= " ORDER BY f_name , doc_date ";
+            AND dept_id = :branch
+            ORDER BY doc_date ";
 
         $statement_leave = $conn->prepare($sql_leave);
         $statement_leave->bindParam(':year', $year);
         $statement_leave->bindParam(':month_id_start', $month_id_start);
         $statement_leave->bindParam(':month_id_to', $month_id_to);
         $statement_leave->bindParam(':branch', $branch);
-
-        if (!empty($f_name)) {
-            $f_name_param = "%" . $f_name . "%";
-            $statement_leave->bindParam(':f_name', $f_name_param);
-        }
-
         $statement_leave->execute();
         $results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
         $line_no = 0;

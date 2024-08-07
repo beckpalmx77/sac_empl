@@ -7,6 +7,12 @@ $month_to = $_POST["month_to"];
 $year = $_POST["year"];
 $branch = $_POST["branch"];
 
+
+$txt = $month_start . " | " . $month_to . " | " . $year . " | "  . $branch ;
+$my_file = fopen("leave_select_count.txt", "w") or die("Unable to open file!");
+fwrite($my_file,$txt);
+fclose($my_file);
+
 $f_name = "";
 
 //$f_name = isset($_POST["f_name"]) ? $_POST["f_name"] : '';
@@ -68,17 +74,15 @@ foreach ($MonthTo as $row_to) {
     <a id="myLink" href="#" onclick="PrintPage();"><i class="fa fa-print"></i> พิมพ์</a>
 </div>
 
-
-<input type="hidden" class="form-control" id="f_name" name="f_name" value="">
-
-<!--div class="card-body">
+<div class="card-body">
     <form method="POST" action="">
         <div class="form-group">
             <label for="f_name">ค้นหาชื่อพนักงาน:</label>
             <input type="text" class="form-control" id="f_name" name="f_name" value="">
         </div>
+        <button type="submit" class="btn btn-primary">ค้นหา</button>
     </form>
-</div-->
+</div>
 
 <div class="card-body">
     <h4><span class="badge bg-success">แสดงข้อมูลการลา พนักงาน</span></h4>
@@ -104,13 +108,13 @@ foreach ($MonthTo as $row_to) {
         $sql_leave = " SELECT * FROM v_dleave_event 
             WHERE doc_year = :year 
             AND doc_month BETWEEN :month_id_start AND :month_id_to
-            AND dept_id = :branch ";
+            AND dept_id = :branch";
 
         if (!empty($f_name)) {
             $sql_leave .= " AND f_name LIKE :f_name";
         }
 
-        $sql_leave .= " ORDER BY f_name , doc_date ";
+        $sql_leave .= " ORDER BY doc_date ";
 
         $statement_leave = $conn->prepare($sql_leave);
         $statement_leave->bindParam(':year', $year);
@@ -165,13 +169,13 @@ foreach ($MonthTo as $row_to) {
         $sql_leave = " SELECT * FROM vdholiday_event 
             WHERE doc_year = :year 
             AND month BETWEEN :month_id_start AND :month_id_to
-            AND dept_id = :branch ";
+            AND dept_id = :branch";
 
         if (!empty($f_name)) {
             $sql_leave .= " AND f_name LIKE :f_name";
         }
 
-        $sql_leave .= " ORDER BY f_name , doc_date ";
+        $sql_leave .= " ORDER BY doc_date ";
 
         $statement_leave = $conn->prepare($sql_leave);
         $statement_leave->bindParam(':year', $year);
@@ -226,13 +230,13 @@ foreach ($MonthTo as $row_to) {
         $sql_leave = " SELECT * FROM v_dchange_event 
             WHERE doc_year = :year 
             AND doc_month BETWEEN :month_id_start AND :month_id_to
-            AND dept_id = :branch ";
+            AND dept_id = :branch";
 
         if (!empty($f_name)) {
             $sql_leave .= " AND f_name LIKE :f_name";
         }
 
-        $sql_leave .= " ORDER BY f_name , doc_date ";
+        $sql_leave .= " ORDER BY doc_date ";
 
         $statement_leave = $conn->prepare($sql_leave);
         $statement_leave->bindParam(':year', $year);

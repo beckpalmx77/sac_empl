@@ -45,6 +45,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <!DOCTYPE html>
     <html lang="th">
+
     <body id="page-top">
     <div id="wrapper">
         <?php include('includes/Side-Bar.php'); ?>
@@ -73,7 +74,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <div class="col-md-12 col-md-offset-2">
                                                 <div class="panel">
                                                     <div class="panel-body">
-                                                        <form id="myform" name="myform" method="post">
+                                                        <form id="myform" name="myform" action="show_data_leave_document.php" method="post" target="_blank">
 
                                                             <div class="row">
                                                                 <div class="col-sm-6">
@@ -104,22 +105,12 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                             <option value="<?php echo $row["doc_year"]; ?>"><?php echo $row["doc_year"]; ?></option>
                                                                         <?php } ?>
                                                                     </select>
-
-                                                                    <?php
-                                                                    if ($_SESSION['document_dept_cond'] !== "A") { ?>
-                                                                        <input type="hidden" name="branch" id="branch" value="<?php echo $_SESSION['department_id']?>">
-                                                                            <?php } else {
-                                                                    ?>
-
                                                                     <label for="branch">เลือกสาขา :</label>
                                                                     <select name="branch" id="branch" class="form-control" required>
                                                                         <?php foreach ($BranchRecords as $row) { ?>
                                                                             <option value="<?php echo $row["branch"]; ?>"><?php echo $row["branch_name"]; ?></option>
                                                                         <?php } ?>
                                                                     </select>
-
-                                                                    <?php } ?>
-
                                                                     <br>
                                                                     <div class="row">
                                                                         <div class="col-sm-12">
@@ -139,73 +130,76 @@ if (strlen($_SESSION['alogin']) == "") {
                         </div>
                     </div>
                 </div>
-
-                <?php
-                include('includes/Modal-Logout.php');
-                include('includes/Footer.php');
-                ?>
-
             </div>
+
+            <?php
+            include('includes/Modal-Logout.php');
+            include('includes/Footer.php');
+            ?>
+
         </div>
+    </div>
 
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-        <script src="vendor/select2/dist/js/select2.min.js"></script>
-        <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-        <script src="vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
-        <script src="vendor/clock-picker/clockpicker.js"></script>
-        <script src="js/myadmin.min.js"></script>
-        <script src="vendor/date-picker-1.9/js/bootstrap-datepicker.js"></script>
-        <script src="vendor/date-picker-1.9/locales/bootstrap-datepicker.th.min.js"></script>
-        <link href="vendor/date-picker-1.9/css/bootstrap-datepicker.css" rel="stylesheet"/>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/select2/dist/js/select2.min.js"></script>
+    <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
+    <script src="vendor/clock-picker/clockpicker.js"></script>
+    <script src="js/myadmin.min.js"></script>
+    <script src="vendor/date-picker-1.9/js/bootstrap-datepicker.js"></script>
+    <script src="vendor/date-picker-1.9/locales/bootstrap-datepicker.th.min.js"></script>
+    <link href="vendor/date-picker-1.9/css/bootstrap-datepicker.css" rel="stylesheet"/>
 
-        <script>
-            function validateMonths() {
+    <script>
+        function validateMonths() {
+            const startMonth = parseInt($('#month_start').val());
+            const endMonth = parseInt($('#month_to').val());
+
+            if (endMonth < startMonth) {
+                alert("เดือนสิ้นสุดไม่ควรอยู่ก่อนเดือนเริ่มต้น");
+                $('#month_to').val(startMonth);
+            }
+        }
+
+        $(document).ready(function() {
+            $('#myform').on('submit', function(e) {
                 const startMonth = parseInt($('#month_start').val());
                 const endMonth = parseInt($('#month_to').val());
 
                 if (endMonth < startMonth) {
                     alert("เดือนสิ้นสุดไม่ควรอยู่ก่อนเดือนเริ่มต้น");
-                    $('#month_to').val(startMonth);
+                    e.preventDefault(); // Prevent the form from submitting
+                    return false;
                 }
-            }
 
-            $(document).ready(function() {
-                $('#myform').on('submit', function(e) {
-                    e.preventDefault(); // Prevent the form from submitting normally
+                // If validation passes, serialize the form data
+                let formData = $(this).serialize();
 
-                    const startMonth = parseInt($('#month_start').val());
-                    const endMonth = parseInt($('#month_to').val());
+                alert(formData);
 
-                    if (endMonth < startMonth) {
-                        alert("เดือนสิ้นสุดไม่ควรอยู่ก่อนเดือนเริ่มต้น");
-                        return false;
+                // Open a new window
+                let newWindow = window.open('', '_blank');
+
+                // Perform the AJAX request
+                $.ajax({
+                    type: 'POST',
+                    url: 'show_data_leave_document.php',
+                    data: formData,
+                    success: function(response) {
+                        // Write the response to the new window
+                        newWindow.document.write(response);
                     }
-
-                    // Serialize the form data
-                    let formData = $(this).serialize();
-
-                    // Open a new window
-                    let newWindow = window.open('', '_blank');
-
-                    // Perform the AJAX request
-                    $.ajax({
-                        type: 'POST',
-                        url: 'show_data_leave_document.php',
-                        data: formData,
-                        success: function(response) {
-                            // Write the response to the new window
-                            newWindow.document.write(response);
-                        }
-                    });
                 });
             });
-        </script>
+        });
+    </script>
+
     </body>
     </html>
 
