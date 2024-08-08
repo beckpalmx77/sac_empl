@@ -620,7 +620,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
                 if (chkTime($('#time_leave_start').val()) && chkTime($('#time_leave_to').val())) {
 
-                    if ($('#date_leave_start').val() !== '') {
+                    if ($('#date_leave_start').val() !== '' && $('#date_leave_to').val() !== '') {
 
                         let date_leave_1 = $('#doc_date').val().substr(3, 2) + "/" + $('#doc_date').val().substr(0, 2) + "/" + $('#doc_date').val().substr(6, 10);
                         let date_leave_2 = $('#date_leave_start').val().substr(3, 2) + "/" + $('#date_leave_start').val().substr(0, 2) + "/" + $('#date_leave_start').val().substr(6, 10);
