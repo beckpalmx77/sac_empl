@@ -40,7 +40,6 @@ if (strlen($_SESSION['alogin']) == "") {
     $stmt_branch = $conn->prepare($sql_branch);
     $stmt_branch->execute();
     $BranchRecords = $stmt_branch->fetchAll();
-
     ?>
 
     <!DOCTYPE html>
@@ -74,7 +73,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <div class="panel">
                                                     <div class="panel-body">
                                                         <form id="myform" name="myform" method="post">
-
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <label for="month_start">เลือกเดือน (เริ่มต้น) :</label>
@@ -105,19 +103,15 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <?php } ?>
                                                                     </select>
 
-                                                                    <?php
-                                                                    if ($_SESSION['document_dept_cond'] !== "A") { ?>
+                                                                    <?php if ($_SESSION['document_dept_cond'] !== "A") { ?>
                                                                         <input type="hidden" name="branch" id="branch" value="<?php echo $_SESSION['department_id']?>">
-                                                                    <?php } else {
-                                                                        ?>
-
+                                                                    <?php } else { ?>
                                                                         <label for="branch">เลือกสาขา :</label>
                                                                         <select name="branch" id="branch" class="form-control" required>
                                                                             <?php foreach ($BranchRecords as $row) { ?>
                                                                                 <option value="<?php echo $row["branch"]; ?>"><?php echo $row["branch_name"]; ?></option>
                                                                             <?php } ?>
                                                                         </select>
-
                                                                     <?php } ?>
 
                                                                     <br>
@@ -129,6 +123,24 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 </div>
                                                             </div>
                                                         </form>
+                                                        <br>
+
+                                                        <!-- DataTable Container -->
+                                                        <div class="table-responsive">
+                                                            <table id="dataTable" class="table table-bordered">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>Column 1</th>
+                                                                    <th>Column 2</th>
+                                                                    <th>Column 3</th>
+                                                                    <!-- Add more columns as needed -->
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <!-- Data will be loaded here by DataTables -->
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -144,7 +156,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 include('includes/Modal-Logout.php');
                 include('includes/Footer.php');
                 ?>
-
             </div>
         </div>
 
@@ -170,14 +181,14 @@ if (strlen($_SESSION['alogin']) == "") {
                 const endMonth = parseInt($('#month_to').val());
 
                 if (endMonth < startMonth) {
-                    alertify.alert("เดือนสิ้นสุดไม่ควรอยู่ก่อนเดือนเริ่มต้น");
+                    alert("เดือนสิ้นสุดไม่ควรอยู่ก่อนเดือนเริ่มต้น");
                     $('#month_to').val(startMonth);
                 }
             }
 
             $(document).ready(function() {
                 $('#myform').on('submit', function(e) {
-                    e.preventDefault(); // Prevent the form from submitting normally
+                    e.preventDefault(); // ป้องกันการส่งฟอร์มตามปกติ
 
                     const startMonth = parseInt($('#month_start').val());
                     const endMonth = parseInt($('#month_to').val());
@@ -187,26 +198,42 @@ if (strlen($_SESSION['alogin']) == "") {
                         return false;
                     }
 
-                    // Serialize the form data
-                    let formData = $(this).serialize();
+                    // Destroy existing DataTable instance if exists
+                    if ($.fn.DataTable.isDataTable('#dataTable')) {
+                        $('#dataTable').DataTable().destroy();
+                    }
 
-                    // Open a new window
-                    let newWindow = window.open('', '_blank');
-
-                    // Perform the AJAX request
-                    $.ajax({
-                        type: 'POST',
-                        url: 'show_data_leave_document.php',
-                        data: formData,
-                        success: function(response) {
-                            // Write the response to the new window
-                            newWindow.document.write(response);
-                        }
+                    // Initialize DataTable
+                    $('#dataTable').DataTable({
+                        "processing": true,
+                        "serverSide": true,
+                        "ajax": {
+                            "url": "fetch_data.php",
+                            "type": "POST",
+                            "data": function (d) {
+                                return $.extend({}, d, {
+                                    "month_start": $('#month_start').val(),
+                                    "month_to": $('#month_to').val(),
+                                    "year": $('#year').val(),
+                                    "branch": $('#branch').val()
+                                });
+                            }
+                        },
+                        "columns": [
+                            { "data": "column1" },
+                            { "data": "column2" },
+                            { "data": "column3" }
+                            // Add more columns as needed
+                        ]
                     });
                 });
             });
         </script>
+
     </body>
     </html>
 
-<?php } ?>
+    <?php
+}
+?>
+

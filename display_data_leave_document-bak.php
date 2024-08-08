@@ -108,15 +108,15 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <?php
                                                                     if ($_SESSION['document_dept_cond'] !== "A") { ?>
                                                                         <input type="hidden" name="branch" id="branch" value="<?php echo $_SESSION['department_id']?>">
-                                                                    <?php } else {
-                                                                        ?>
+                                                                            <?php } else {
+                                                                    ?>
 
-                                                                        <label for="branch">เลือกสาขา :</label>
-                                                                        <select name="branch" id="branch" class="form-control" required>
-                                                                            <?php foreach ($BranchRecords as $row) { ?>
-                                                                                <option value="<?php echo $row["branch"]; ?>"><?php echo $row["branch_name"]; ?></option>
-                                                                            <?php } ?>
-                                                                        </select>
+                                                                    <label for="branch">เลือกสาขา :</label>
+                                                                    <select name="branch" id="branch" class="form-control" required>
+                                                                        <?php foreach ($BranchRecords as $row) { ?>
+                                                                            <option value="<?php echo $row["branch"]; ?>"><?php echo $row["branch_name"]; ?></option>
+                                                                        <?php } ?>
+                                                                    </select>
 
                                                                     <?php } ?>
 
