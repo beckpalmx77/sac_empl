@@ -187,15 +187,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                placeholder="วันที่เอกสาร">
                                                                     </div>
 
-                                                                    <!--div class="col-sm-6">
-                                                                        <label for="formFileMultiple"
-                                                                               class="form-label">รูปภาพเอกสาร</label>
-                                                                        <input type="hidden" id="filename" name="filename" value="">
-                                                                        <input class="form-control" type="file"
-                                                                               id="ImgFile" name="ImgFile"
-                                                                               onchange="readURL(this);">
-                                                                    </div-->
-
                                                                 </div>
 
 
@@ -204,7 +195,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                            id="leave_type_id"
                                                                            required="required"
                                                                            name="leave_type_id">
-                                                                    <div class="col-sm-10">
+                                                                    <div class="col-sm-8">
                                                                         <label for="leave_type_detail"
                                                                                class="control-label">ประเภทการลา</label>
                                                                         <input type="text" class="form-control"
@@ -225,6 +216,12 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                      aria-hidden="true"></i>
                                                                         </a>
                                                                     </div>
+                                                                    <div class="col-sm-2">
+                                                                        <label for="search_data"
+                                                                               class="control-label">ข้อมูลการลา</label>
+                                                                        <button type="button" class="btn btn-info" id="search_data" name="search_data">Click</button>
+                                                                    </div>
+
                                                                 </div>
 
                                                                 <div class="form-group row">
@@ -424,6 +421,47 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="modal fade" id="GetLeaveDataModal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="container"></div>
+                                                    <div class="modal-body">
+
+                                                        <div class="modal-body">
+
+                                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                                   class="display"
+                                                                   id="TableDataLeaveList"
+                                                                   width="100%">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>วันที่ลา</th>
+                                                                    <th>เวลา</th>
+                                                                    <th>ประเภทการลา</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <th>วันที่ลา</th>
+                                                                    <th>เวลา</th>
+                                                                    <th>ประเภทการลา</th>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                 </div>
                             </div>
                         </div>
@@ -453,6 +491,9 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
     <script src="js/modal/show_employee_modal.js"></script>
     <script src="js/modal/show_leave_type_modal.js"></script>
+
+    <!--script src="js/modal/show_data_leave_modal.js"></script-->
+
     <script src="js/util/calculate_datetime.js"></script>
 
     <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
@@ -850,6 +891,34 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
             }
         }
 
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#search_data').on('click', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                let form = $(this).closest('form');
+                let formData = form.serialize(); // Serialize the form data
+
+                if ($('#leave_type_id').val()!=='' && $('#emp_id').val()!=='' && $('#doc_date').val()!=='') {
+                    // Get the form that contains the button
+                    let newWindow = window.open('', '_blank');
+                    $.ajax({
+                        type: 'POST',
+                        url: 'show_data_employee_leave_document.php',
+                        data: formData,
+                        success: function (response) {
+                            // Write the response to the new window
+                            newWindow.document.write(response);
+                        }
+                    });
+                } else {
+                    alertify.alert("กรุณาเลือก พนักงาน , ป้อนวันที่ , ประเภทการลา");
+                }
+            });
+
+        });
     </script>
 
     <style>
