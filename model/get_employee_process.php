@@ -221,7 +221,7 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
 
 /*
         $txt = $_POST["action"] . " | "  . $_POST["sub_action"] . " | " . $_POST["action_for"] . " | " . $columnName . " | " . $columnSortOrder ;
-        $my_file = fopen("leave_a.txt", "w") or die("Unable to open file!");
+        $my_file = fopen("emp_leave_a.txt", "w") or die("Unable to open file!");
         fwrite($my_file, $txt);
         fclose($my_file);
 */

@@ -39,10 +39,11 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
     $birth_str = $result_sqlsvr["EMP_BIRTH"]==""?"0000-00-00":$result_sqlsvr["EMP_BIRTH"];
     $birth = substr($birth_str,8,2) . "-" . substr($birth_str,5,2) . "-" . substr($birth_str,0,4) ;
 
-    $start_work_date_str = $result_sqlsvr["PRS_SC_D"]==""?"0000-00-00":$result_sqlsvr["PRS_SC_D"];
-    $emp_tel = $result_sqlsvr["EMP_TEL"] ;
+    $birth_str = $result_sqlsvr["EMP_BIRTH"]==""?"0000-00-00":$result_sqlsvr["EMP_BIRTH"];
+    $birth = substr($birth_str,8,2) . "-" . substr($birth_str,5,2) . "-" . substr($birth_str,0,4) ;
 
     $start_work_date_str = $result_sqlsvr["PRS_SC_D"]==""?"0000-00-00":$result_sqlsvr["PRS_SC_D"];
+    $start_work_date = substr($start_work_date_str,8,2) . "-" . substr($start_work_date_str,5,2) . "-" . substr($start_work_date_str,0,4) ;
 
     $sql_find = "SELECT * FROM memployee WHERE emp_id = '" . $result_sqlsvr["PRS_NO"] . "'";
     $nRows = $conn->query($sql_find)->fetchColumn();

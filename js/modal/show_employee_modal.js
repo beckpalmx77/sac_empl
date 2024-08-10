@@ -1,6 +1,5 @@
 $(document).ready(function () {
     let formData = {action: "GET_EMPLOYEE", sub_action: "GET_SELECT", action_for: "DEPT_ID" };
-    //alert(formData);
     let dataRecords = $('#TableEmployeeList').DataTable({
         'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
         'language': {
