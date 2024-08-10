@@ -207,6 +207,25 @@ if (strlen($_SESSION['alogin']) == "") {
             });
         </script>
 
+        <script>
+
+
+            // เลือก Select Element ที่ต้องการตรวจสอบ
+            const selectElement = document.getElementById('branch');
+
+            // ฟังเหตุการณ์ 'change' เมื่อค่าใน select เปลี่ยนไป
+            selectElement.addEventListener('change', function(event) {
+                // แสดงค่าที่เลือกไว้ใน <p> element
+                //outputElement.textContent = 'คุณเลือก: ' + event.target.value;
+                //alert(event.target.value);
+
+
+
+            });
+
+        </script>
+
+
     </body>
     </html>
 
