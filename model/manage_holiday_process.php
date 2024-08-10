@@ -89,7 +89,7 @@ if ($_POST["action"] === 'ADD') {
         $day_max = GET_VALUE($conn, "select day_max as data from mleave_type where leave_type_id ='H2' ");
 
         $cnt_day = "";
-        $sql_cnt = "SELECT COUNT(*) as days FROM dholiday_event WHERE doc_year = '" . $doc_year . "' AND emp_id = '" . $emp_id . "'";
+        $sql_cnt = "SELECT COUNT(*) as days FROM vdholiday_event WHERE doc_year = '" . $doc_year . "' AND leave_type_id = '" . $leave_type_id . "' AND emp_id = '" . $emp_id . "'";
         foreach ($conn->query($sql_cnt) as $row) {
             $cnt_day = $row['days'];
         }

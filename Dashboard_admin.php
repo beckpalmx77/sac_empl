@@ -25,7 +25,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการลา
+                                            <div style="font-size: 15px; font-weight: bold; text-transform: uppercase; margin-bottom: 1rem;">เอกสารการลา
                                                 ทั้งหมด
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-primary"
@@ -45,7 +45,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารใบลากิจ
+                                            <div style="font-size: 15px; font-weight: bold; text-transform: uppercase; margin-bottom: 1rem;">เอกสารใบลากิจ ลาสูงสุดได้  <?php echo $_SESSION['L1']?> วัน/ปี
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
                                                                                                    id="Text2"></p></div>
@@ -64,7 +64,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการลาพักผ่อน
+                                            <div style="font-size: 15px; font-weight: bold; text-transform: uppercase; margin-bottom: 1rem;">เอกสารการลาพักผ่อน ลาสูงสุดได้  <?php echo $_SESSION['L3']?> วัน/ปี
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-info"
                                                                                                    id="Text3"></p></div>
@@ -82,7 +82,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการลาป่วย
+                                            <div style="font-size: 15px; font-weight: bold; text-transform: uppercase; margin-bottom: 1rem;">เอกสารการลาป่วย
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-warning"
                                                                                                    id="Text4"></p></div>
@@ -105,7 +105,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการขอทำงานล่วงเวลา
+                                            <div style="font-size: 15px; font-weight: bold; text-transform: uppercase; margin-bottom: 1rem;">เอกสารการขอทำงานล่วงเวลา
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
                                                                                                    id="Text5"></p></div>
@@ -125,7 +125,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนวันหยุด
+                                            <div style="font-size: 15px; font-weight: bold; text-transform: uppercase; margin-bottom: 1rem;">เอกสารการแจ้งเปลี่ยนวันหยุด
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-info"
                                                                                                    id="Text6"></p></div>
@@ -143,7 +143,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">เอกสารการแจ้งเปลี่ยนเวลาการทำงาน
+                                            <div style="font-size: 15px; font-weight: bold; text-transform: uppercase; margin-bottom: 1rem;">เอกสารการแจ้งเปลี่ยนเวลาการทำงาน
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-warning"
                                                                                                    id="Text7"></p></div>
@@ -160,7 +160,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">บันทึกวันหยุด (นักขัตฤกษ์-ประจำปี)
+                                            <div style="font-size: 15px; font-weight: bold; text-transform: uppercase; margin-bottom: 1rem;">บันทึกวันหยุด (นักขัตฤกษ์-ประจำปี) ใช้สิทธิ์ได้  <?php echo $_SESSION['H1']?> วัน/ปี
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-primary"
                                                                                                    id="Text8"></p></div>

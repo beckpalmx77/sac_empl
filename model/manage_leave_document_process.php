@@ -80,6 +80,9 @@ if ($_POST["action"] === 'ADD') {
         $doc_year = substr($_POST["date_leave_start"], 6);
         $doc_month = substr($_POST["date_leave_start"], 3, 2);
         $filed = "id";
+        $currentDate = date('d-m-Y');
+        $sql_get_work_date = "SELECT em.start_work_date AS data FROM memployee em WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
+        $start_work_date = GET_VALUE($conn, $sql_get_work_date);
 
         $sql_get_dept = "SELECT mp.dept_ids AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
 
@@ -98,11 +101,11 @@ if ($_POST["action"] === 'ADD') {
         $last_number = LAST_DOCUMENT_NUMBER($conn, $filed, $table, $condition);
 
         $doc_id = "L-" . $_SESSION['department_id'] . "-" . substr($doc_date, 3) . "-" . sprintf('%04s', $last_number);
-        /*
-                $myfile = fopen("dept-param.txt", "w") or die("Unable to open file!");
-                fwrite($myfile,  $condition . " | " . $doc_id . " | " . $last_number);
+/*
+                $myfile = fopen("emp-param.txt", "w") or die("Unable to open file!");
+                fwrite($myfile,  $currentDate . " | " . $sql_get_work_date . " | " . $start_work_date);
                 fclose($myfile);
-        */
+*/
 
         $leave_type_id = $_POST["leave_type_id"];
         $emp_id = $_POST["emp_id"];
@@ -112,19 +115,30 @@ if ($_POST["action"] === 'ADD') {
         $time_leave_to = $_POST["time_leave_to"];
         $remark = $_POST["remark"];
 
-        $day_max = GET_VALUE($conn, "SELECT day_max AS data FROM mleave_type WHERE leave_type_id ='" . $leave_type_id . "'");
+        $sql_get_max = "SELECT day_max AS data FROM mleave_type WHERE leave_type_id ='" . $leave_type_id . "'";
+
+        $day_max = GET_VALUE($conn,$sql_get_max);
+
+        $table = "v_dleave_event";
 
         $cnt_day = "";
-        $sql_cnt = "SELECT COUNT(*) AS days FROM dholiday_event WHERE doc_year = '" . $doc_year . "' AND emp_id = '" . $emp_id . "'";
+        $sql_cnt = "SELECT COUNT(*) AS days FROM " . $table
+                 . " WHERE doc_year = '" . $doc_year . "' AND leave_type_id = '" . $leave_type_id . "' AND emp_id = '" . $emp_id . "'" ;
         foreach ($conn->query($sql_cnt) as $row) {
             $cnt_day = $row['days'];
         }
-        if ($cnt_day >= $day_max) {
+
+        $currentDate = substr($currentDate,6,4) . "-" . substr($currentDate,3,2) . "-" . substr($currentDate,0,2);
+        $start_work_date = substr($start_work_date,6,4) . "-" . substr($start_work_date,3,2) . "-" . substr($start_work_date,0,2);
+
+        $date1 = new DateTime($start_work_date);
+        $date2 = new DateTime($currentDate);
+        $work_age = date_diff($date1, $date2);
+
+        if ($cnt_day >= $day_max || $work_age < 365) {
             echo $Error_Over;
         } else {
-
             $sql_find = "SELECT * FROM dleave_event dl WHERE dl.date_leave_start = '" . $date_leave_start . "' AND dl.emp_id = '" . $emp_id . "' ";
-
             $nRows = $conn->query($sql_find)->fetchColumn();
             if ($nRows > 0) {
                 echo $dup;
@@ -168,6 +182,8 @@ if ($_POST["action"] === 'ADD') {
 
             }
         }
+
+
     } else {
         echo $error;
     }

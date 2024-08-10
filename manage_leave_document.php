@@ -5,6 +5,10 @@ $curr_date = date("d-m-Y");
 
 $start_work_date = $_SESSION['start_work_date'];
 
+$l_kij_max = $_SESSION['L1'];
+$l_pak_ron_max = $_SESSION['L3'];
+$l_holiday_max = $_SESSION['H3'];
+
 include('includes/Header.php');
 if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "") {
     header("Location: index.php");
@@ -219,7 +223,10 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                     <div class="col-sm-2">
                                                                         <label for="search_data"
                                                                                class="control-label">ข้อมูลการลา</label>
-                                                                        <button type="button" class="btn btn-info" id="search_data" name="search_data">Click</button>
+                                                                        <button type="button" class="btn btn-info"
+                                                                                id="search_data" name="search_data">
+                                                                            Click
+                                                                        </button>
                                                                     </div>
 
                                                                 </div>
@@ -321,6 +328,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                             <input type="hidden" name="id" id="id"/>
                                                             <input type="hidden" name="picture" id="picture"/>
                                                             <input type="hidden" name="action" id="action" value=""/>
+                                                            <input type="hidden" name="leave_use_before" id="leave_use_before" value=""/>
                                                             <span class="icon-input-btn">
                                                                 <i class="fa fa-check"></i>
                                                             <input type="submit" name="save" id="save"
@@ -613,7 +621,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
     <script>
         $(document).ready(function () {
-            <!-- *** FOR SUBMIT FORM *** -->
+
             $("#recordModal").on('submit', '#recordForm', function (event) {
                 event.preventDefault();
                 //$('#save').attr('disabled', 'disabled');
@@ -640,11 +648,18 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                             method: "POST",
                             data: formData,
                             success: function (data) {
-                                alertify.success(data);
+
+                                if (data.includes("Over")) {
+                                    alertify.error(data);
+                                } else {
+                                    alertify.success(data);
+                                }
+
                                 $('#recordForm')[0].reset();
                                 $('#recordModal').modal('hide');
                                 $('#save').attr('disabled', false);
                                 dataRecords.ajax.reload();
+
                             }
                         })
 
@@ -657,19 +672,36 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
             });
 
-            <!-- *** FOR SUBMIT FORM *** -->
         });
 
     </script>
+
+    <!--script>
+        $(document).ready(function () {
+            $("#recordModal").on('submit', '#recordForm', function (event) {
+                event.preventDefault();
+                check_Max_leave();
+            });
+        });
+
+    </script-->
 
     <script>
         $(document).ready(function () {
 
             $("#btnAdd").click(function () {
+                
                 //alert(<?php echo $_SESSION['work_time_start']?>);
+                let today = new Date();
+                let day = String(today.getDate()).padStart(2, '0');
+                let month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+                let year = today.getFullYear();
+                let formattedDate = day + '-' + month + '-' + year;
+                
                 $('#recordModal').modal('show');
                 $('#id').val("");
                 $('#doc_id').val("");
+                $('#doc_date').val(formattedDate);
                 $('#leave_type_id').val("");
                 $('#leave_type_detail').val("");
                 $('#date_leave_start').val("");
@@ -679,6 +711,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                 $('#action').val('ADD');
                 $('#save').val('Save');
+
             });
         });
     </script>
@@ -821,7 +854,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 alertify.error("กรุณาเลือกประเภทการลา");
             }
         });
-
     </script>
 
     <script>
@@ -846,6 +878,42 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     alertify.error("error : " + response);
                 }
             });
+
+        }
+    </script>
+
+    <script>
+        function check_Max_leave() {
+
+            let leave_type_id = $('#leave_type_id').val();
+            let emp_id = $('#emp_id').val();
+
+            alert(leave_type_id + " | " +emp_id);
+
+            if (leave_type_id !== '' && emp_id !== '') {
+                let formData = {action: "GET_DATA",table: "v_dleave_event", leave_type_id: leave_type_id , emp_id: emp_id};
+
+                $.ajax({
+                    type: "POST",
+                    url: 'model/get_max_leave.php',
+                    dataType: "json",
+                    data: formData,
+                    success: function (response) {
+                        let len = response.length;
+                        for (let i = 0; i < len; i++) {
+                            let leave_use_before = response[i].leave_use_before;
+                            $('#leave_use_before').val(leave_use_before);
+                        }
+                    },
+                    error: function (response) {
+                        alertify.error("error : " + response);
+                    }
+                });
+
+
+            } else {
+                alertify.error("กรุณาป้อนชื่อพนักงาน และประเภทการลา");
+            }
 
         }
     </script>
@@ -901,7 +969,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 let form = $(this).closest('form');
                 let formData = form.serialize(); // Serialize the form data
 
-                if ($('#leave_type_id').val()!=='' && $('#emp_id').val()!=='' && $('#doc_date').val()!=='') {
+                if ($('#leave_type_id').val() !== '' && $('#emp_id').val() !== '' && $('#doc_date').val() !== '') {
                     // Get the form that contains the button
                     let newWindow = window.open('', '_blank');
                     $.ajax({
