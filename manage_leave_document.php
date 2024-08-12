@@ -255,7 +255,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                name="time_leave_start"
                                                                                value="<?php echo $_SESSION['work_time_start'] ?>"
                                                                                required="required"
-                                                                               placeholder="hh:mm">
+                                                                               placeholder="hh:mm" oninput="validateTimeFormat(this)">
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <label for="date_leave_start"
@@ -278,14 +278,15 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                name="time_leave_to"
                                                                                required="required"
                                                                                value="<?php echo $_SESSION['work_time_stop'] ?>"
-                                                                               placeholder="hh:mm">
+                                                                               placeholder="hh:mm" oninput="validateTimeFormat(this)">
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group row d-flex align-items-center">
                                                                     <div class="col-sm-3">
                                                                         <label for="leave_day" class="control-label">จำนวนวันที่ลา</label>
-                                                                        <input type="text" class="form-control" id="leave_day" name="leave_day" value="" required="required" placeholder="">
+                                                                        <input type="text" class="form-control" id="leave_day" name="leave_day" value="" required="required" placeholder=""
+                                                                               oninput="validateInput(this)">
                                                                     </div>
 
                                                                     <div class="col-sm-9">
@@ -541,6 +542,32 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
             top: 30%;
         }
     </style>
+
+    <style>
+        .invalid {
+            border: 1px solid red;
+        }
+    </style>
+
+    <style>
+
+        .icon-input-btn {
+            display: inline-block;
+            position: relative;
+        }
+
+        .icon-input-btn input[type="submit"] {
+            padding-left: 2em;
+        }
+
+        .icon-input-btn .fa {
+            display: inline-block;
+            position: absolute;
+            left: 0.65em;
+            top: 30%;
+        }
+    </style>
+
     <script>
         $(document).ready(function () {
             $(".icon-input-btn").each(function () {
@@ -634,7 +661,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
                 if (chkTime($('#time_leave_start').val()) && chkTime($('#time_leave_to').val())) {
 
-                    if ($('#date_leave_start').val() !== '' && $('#date_leave_to').val() !== '') {
+                    if ($('#date_leave_start').val() !== '' && $('#date_leave_to').val() !== '' && ($('#leave_day').val() !== '' || $('#leave_day').val() !== '0')) {
 
                         let date_leave_1 = $('#doc_date').val().substr(3, 2) + "/" + $('#doc_date').val().substr(0, 2) + "/" + $('#doc_date').val().substr(6, 10);
                         let date_leave_2 = $('#date_leave_start').val().substr(3, 2) + "/" + $('#date_leave_start').val().substr(0, 2) + "/" + $('#date_leave_start').val().substr(6, 10);
@@ -712,7 +739,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 $('#leave_type_detail').val("");
                 $('#date_leave_start').val("");
                 $('#date_leave_to').val("");
-                $('#leave_day').val("");
+                $('#leave_day').val("1");
                 $('#remark').val("");
                 $('#status').val("N");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
@@ -893,7 +920,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         }
     </script>
 
-    <script>
+    <!--script>
         function check_Max_leave() {
 
             let leave_type_id = $('#leave_type_id').val();
@@ -927,7 +954,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
             }
 
         }
-    </script>
+    </script-->
 
     <script>
         $(document).ready(function () {
@@ -1000,30 +1027,37 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         });
     </script>
 
-    <style>
-        .invalid {
-            border: 1px solid red;
+    <script>
+        function validateInput(input) {
+            // ลบอักขระที่ไม่ใช่ตัวเลขออก
+            input.value = input.value.replace(/[^0-9]/g, '');
+            // ตรวจสอบว่าค่าไม่เป็นช่องว่างและมากกว่า 0
+            if (input.value === '' || parseInt(input.value) <= 0) {
+                input.setCustomValidity('กรุณาป้อนตัวเลขที่มากกว่า 0');
+            } else {
+                input.setCustomValidity('');
+            }
         }
-    </style>
+    </script>
 
-    <style>
+    <script>
+        function validateTimeFormat(input) {
+            let value = input.value;
 
-        .icon-input-btn {
-            display: inline-block;
-            position: relative;
+            // Check if the format is hh.mm and convert it to hh:mm
+            if (/^\d{1,2}\.\d{2}$/.test(value)) {
+                input.value = value.replace('.', ':');
+                return;
+            }
+
+            // Check if the format is hh:mm
+            if (!/^\d{1,2}:\d{2}$/.test(value)) {
+                input.setCustomValidity('Please enter time in hh:mm format.');
+            } else {
+                input.setCustomValidity('');
+            }
         }
-
-        .icon-input-btn input[type="submit"] {
-            padding-left: 2em;
-        }
-
-        .icon-input-btn .fa {
-            display: inline-block;
-            position: absolute;
-            left: 0.65em;
-            top: 30%;
-        }
-    </style>
+    </script>
 
     </body>
     </html>

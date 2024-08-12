@@ -141,7 +141,6 @@ if ($_POST["action"] === 'ADD') {
             $cnt_day = $row['days'];
         }
 
-
         $currentDate = substr($currentDate, 6, 4) . "-" . substr($currentDate, 3, 2) . "-" . substr($currentDate, 0, 2);
         $start_work_date = substr($start_work_date, 6, 4) . "-" . substr($start_work_date, 3, 2) . "-" . substr($start_work_date, 0, 2);
 
@@ -158,6 +157,12 @@ if ($_POST["action"] === 'ADD') {
             $leave_save = "N";
             echo $Error_Over2;
         }
+
+/*
+        $myfile = fopen("emp-param.txt", "w") or die("Unable to open file!");
+        fwrite($myfile,  $day_max . " | " . $sql_cnt . " | " . $leave_save);
+        fclose($myfile);
+*/
 
         if ($leave_save === 'Y') {
             $sql_find = "SELECT * FROM dleave_event dl WHERE dl.date_leave_start = :date_leave_start AND dl.emp_id = :emp_id";
@@ -197,7 +202,7 @@ if ($_POST["action"] === 'ADD') {
                         . "\n\r" . "ผู้ขอ : " . $emp_full_name . " " . $dept_desc;
 
                     echo $sMessage;
-                    sendLineNotify($sMessage, $sToken);
+                    //sendLineNotify($sMessage, $sToken);
                     echo $save_success;
                 } else {
                     echo $error;
