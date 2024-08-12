@@ -280,13 +280,26 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                     </div>
                                                                 </div>
 
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-3">
+                                                                        <label for="leave_day"
+                                                                               class="control-label">จำนวนวันที่ลา</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="leave_day"
+                                                                               name="leave_day"
+                                                                               value=""
+                                                                               required="required"
+                                                                               placeholder="">
+                                                                    </div>
+                                                                </div>
+
                                                                 <div class="form-group">
                                                                     <label for="remark"
                                                                            class="control-label">หมายเหตุ</label>
                                                                     <textarea class="form-control"
                                                                               id="remark"
                                                                               name="remark"
-                                                                              rows="2"></textarea>
+                                                                              rows="1"></textarea>
                                                                 </div>
 
                                                                 <?php if ($_SESSION['approve_permission'] === 'Y') { ?>
