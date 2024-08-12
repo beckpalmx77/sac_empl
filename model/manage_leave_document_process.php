@@ -124,21 +124,23 @@ if ($_POST["action"] === 'ADD') {
 
         $table = "v_dleave_event";
 
+/*
         $cnt_day = "";
         $sql_cnt = "SELECT COUNT(*) AS days FROM " . $table
                  . " WHERE doc_year = '" . $doc_year . "' AND leave_type_id = '" . $leave_type_id . "' AND emp_id = '" . $emp_id . "'" ;
         foreach ($conn->query($sql_cnt) as $row) {
             $cnt_day = $row['days'];
         }
+*/
 
-        /*
+
         $cnt_day = "";
         $sql_cnt = "SELECT SUM(leave_day) AS days FROM " . $table
             . " WHERE doc_year = '" . $doc_year . "' AND leave_type_id = '" . $leave_type_id . "' AND emp_id = '" . $emp_id . "'" ;
         foreach ($conn->query($sql_cnt) as $row) {
             $cnt_day = $row['days'];
         }
-        */
+
 
         $currentDate = substr($currentDate,6,4) . "-" . substr($currentDate,3,2) . "-" . substr($currentDate,0,2);
         $start_work_date = substr($start_work_date,6,4) . "-" . substr($start_work_date,3,2) . "-" . substr($start_work_date,0,2);
