@@ -323,13 +323,16 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     }
 
     if ($searchValue != '') {
-        $searchQuery = " AND (dl.f_name LIKE :f_name or dl.l_name LIKE :l_name or dl.department_id LIKE :department_id or dl.leave_type_id LIKE :leave_type_id or
-        dl.doc_date LIKE :doc_date ) ";
+        $searchQuery = " AND (dl.f_name LIKE :f_name 
+        or dl.l_name LIKE :l_name 
+        or dl.department_id LIKE :department_id 
+        or dl.leave_type_detail LIKE :leave_type_detail        
+        or dl.doc_date LIKE :doc_date ) ";
         $searchArray = array(
             'f_name' => "%$searchValue%",
             'l_name' => "%$searchValue%",
             'department_id' => "%$searchValue%",
-            'leave_type_id' => "%$searchValue%",
+            'leave_type_detail' => "%$searchValue%",
             'doc_date' => "%$searchValue%",
         );
     }
