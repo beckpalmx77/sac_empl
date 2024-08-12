@@ -255,7 +255,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                name="time_leave_start"
                                                                                value="<?php echo $_SESSION['work_time_start'] ?>"
                                                                                required="required"
-                                                                               placeholder="hh:mm" oninput="validateTimeFormat(this)">
+                                                                               placeholder="hh:mm">
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <label for="date_leave_start"
@@ -278,7 +278,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                name="time_leave_to"
                                                                                required="required"
                                                                                value="<?php echo $_SESSION['work_time_stop'] ?>"
-                                                                               placeholder="hh:mm" oninput="validateTimeFormat(this)">
+                                                                               placeholder="hh:mm">
                                                                     </div>
                                                                 </div>
 
@@ -542,32 +542,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
             top: 30%;
         }
     </style>
-
-    <style>
-        .invalid {
-            border: 1px solid red;
-        }
-    </style>
-
-    <style>
-
-        .icon-input-btn {
-            display: inline-block;
-            position: relative;
-        }
-
-        .icon-input-btn input[type="submit"] {
-            padding-left: 2em;
-        }
-
-        .icon-input-btn .fa {
-            display: inline-block;
-            position: absolute;
-            left: 0.65em;
-            top: 30%;
-        }
-    </style>
-
     <script>
         $(document).ready(function () {
             $(".icon-input-btn").each(function () {
@@ -1031,6 +1005,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         function validateInput(input) {
             // ลบอักขระที่ไม่ใช่ตัวเลขออก
             input.value = input.value.replace(/[^0-9]/g, '');
+
             // ตรวจสอบว่าค่าไม่เป็นช่องว่างและมากกว่า 0
             if (input.value === '' || parseInt(input.value) <= 0) {
                 input.setCustomValidity('กรุณาป้อนตัวเลขที่มากกว่า 0');
@@ -1040,24 +1015,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         }
     </script>
 
-    <script>
-        function validateTimeFormat(input) {
-            let value = input.value;
 
-            // Check if the format is hh.mm and convert it to hh:mm
-            if (/^\d{1,2}\.\d{2}$/.test(value)) {
-                input.value = value.replace('.', ':');
-                return;
-            }
-
-            // Check if the format is hh:mm
-            if (!/^\d{1,2}:\d{2}$/.test(value)) {
-                input.setCustomValidity('Please enter time in hh:mm format.');
-            } else {
-                input.setCustomValidity('');
-            }
-        }
-    </script>
 
     </body>
     </html>
