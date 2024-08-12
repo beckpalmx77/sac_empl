@@ -236,7 +236,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                name="time_leave_start"
                                                                                value=""
                                                                                required="required"
-                                                                               placeholder="hh:mm">
+                                                                               placeholder="hh:mm" oninput="validateTimeFormat(this);">
                                                                     </div>
 
                                                                     <input type="hidden" class="form-control"
@@ -246,20 +246,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                            readonly="true"
                                                                            placeholder="วันที่ขอ OT">
 
-                                                                    <!--div class="col-sm-3">
-                                                                        <label for="date_leave_to"
-                                                                               class="control-label">วันที่ขอ OT</label>
-                                                                        <i class="fa fa-calendar"
-                                                                           aria-hidden="true"></i>
-                                                                        <input type="hidden" class="form-control"
-                                                                               id="date_leave_to"
-                                                                               name="date_leave_to"
-                                                                               value="echo $curr_date"
-                                                                               required="required"
-                                                                               readonly="true"
-                                                                               placeholder="วันที่ขอ OT">
-                                                                    </div-->
-
                                                                     <div class="col-sm-3">
                                                                         <label for="time_leave_to"
                                                                                class="control-label">เวลาสิ้นสุด</label>
@@ -268,7 +254,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                name="time_leave_to"
                                                                                required="required"
                                                                                value=""
-                                                                               placeholder="hh:mm">
+                                                                               placeholder="hh:mm" oninput="validateTimeFormat(this);">
                                                                     </div>
                                                                 </div>
 
@@ -751,6 +737,25 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
             }
         }
 
+    </script>
+
+    <script>
+        function validateTimeFormat(input) {
+            let value = input.value;
+
+            // Check if the format is hh.mm and convert it to hh:mm
+            if (/^\d{1,2}\.\d{2}$/.test(value)) {
+                input.value = value.replace('.', ':');
+                return;
+            }
+
+            // Check if the format is hh:mm
+            if (!/^\d{1,2}:\d{2}$/.test(value)) {
+                input.setCustomValidity('Please enter time in hh:mm format.');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
     </script>
 
     <style>
