@@ -102,11 +102,11 @@ if ($_POST["action"] === 'ADD') {
         $last_number = LAST_DOCUMENT_NUMBER($conn, $filed, $table, $condition);
 
         $doc_id = "L-" . $_SESSION['department_id'] . "-" . substr($doc_date, 3) . "-" . sprintf('%04s', $last_number);
-/*
-                $myfile = fopen("emp-param.txt", "w") or die("Unable to open file!");
-                fwrite($myfile,  $currentDate . " | " . $sql_get_work_date . " | " . $start_work_date);
-                fclose($myfile);
-*/
+        /*
+                        $myfile = fopen("emp-param.txt", "w") or die("Unable to open file!");
+                        fwrite($myfile,  $currentDate . " | " . $sql_get_work_date . " | " . $start_work_date);
+                        fclose($myfile);
+        */
 
         $leave_type_id = $_POST["leave_type_id"];
         $emp_id = $_POST["emp_id"];
@@ -120,30 +120,30 @@ if ($_POST["action"] === 'ADD') {
 
         $sql_get_max = "SELECT day_max AS data FROM mleave_type WHERE leave_type_id ='" . $leave_type_id . "'";
 
-        $day_max = GET_VALUE($conn,$sql_get_max);
+        $day_max = GET_VALUE($conn, $sql_get_max);
 
         $table = "v_dleave_event";
 
-/*
-        $cnt_day = "";
-        $sql_cnt = "SELECT COUNT(*) AS days FROM " . $table
-                 . " WHERE doc_year = '" . $doc_year . "' AND leave_type_id = '" . $leave_type_id . "' AND emp_id = '" . $emp_id . "'" ;
-        foreach ($conn->query($sql_cnt) as $row) {
-            $cnt_day = $row['days'];
-        }
-*/
+        /*
+                $cnt_day = "";
+                $sql_cnt = "SELECT COUNT(*) AS days FROM " . $table
+                         . " WHERE doc_year = '" . $doc_year . "' AND leave_type_id = '" . $leave_type_id . "' AND emp_id = '" . $emp_id . "'" ;
+                foreach ($conn->query($sql_cnt) as $row) {
+                    $cnt_day = $row['days'];
+                }
+        */
 
 
         $cnt_day = "";
         $sql_cnt = "SELECT SUM(leave_day) AS days FROM " . $table
-            . " WHERE doc_year = '" . $doc_year . "' AND leave_type_id = '" . $leave_type_id . "' AND emp_id = '" . $emp_id . "'" ;
+            . " WHERE doc_year = '" . $doc_year . "' AND leave_type_id = '" . $leave_type_id . "' AND emp_id = '" . $emp_id . "'";
         foreach ($conn->query($sql_cnt) as $row) {
             $cnt_day = $row['days'];
         }
 
 
-        $currentDate = substr($currentDate,6,4) . "-" . substr($currentDate,3,2) . "-" . substr($currentDate,0,2);
-        $start_work_date = substr($start_work_date,6,4) . "-" . substr($start_work_date,3,2) . "-" . substr($start_work_date,0,2);
+        $currentDate = substr($currentDate, 6, 4) . "-" . substr($currentDate, 3, 2) . "-" . substr($currentDate, 0, 2);
+        $start_work_date = substr($start_work_date, 6, 4) . "-" . substr($start_work_date, 3, 2) . "-" . substr($start_work_date, 0, 2);
 
         $date1 = new DateTime($start_work_date);
         $date2 = new DateTime($currentDate);
@@ -391,12 +391,12 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
             LEFT JOIN mstatus ms on ms.status_doctype = 'LEAVE' AND ms.status_doc_id = dl.status              
             WHERE 1 " . $searchQuery . " ORDER BY id desc , " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset";
 
-/*
-            $txt = $sql_get_leave ;
-            $my_file = fopen("leave_select.txt", "w") or die("Unable to open file!");
-            fwrite($my_file, $searchValue. " | " .  $txt);
-            fclose($my_file);
-*/
+    /*
+                $txt = $sql_get_leave ;
+                $my_file = fopen("leave_select.txt", "w") or die("Unable to open file!");
+                fwrite($my_file, $searchValue. " | " .  $txt);
+                fclose($my_file);
+    */
 
     $stmt = $conn->prepare($sql_get_leave);
 
