@@ -69,6 +69,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                     <th>ประเภทการลา</th>
                                                     <th>วันที่ลาเริ่มต้น</th>
                                                     <th>วันที่ลาสิ้นสุด</th>
+                                                    <th>จำนวนวัน</th>
                                                     <th>สถานะ</th>
                                                     <th>รูปภาพ</th>
                                                     <th>Action</th>
@@ -83,6 +84,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                     <th>ประเภทการลา</th>
                                                     <th>วันที่ลาเริ่มต้น</th>
                                                     <th>วันที่ลาสิ้นสุด</th>
+                                                    <th>จำนวนวัน</th>
                                                     <th>สถานะ</th>
                                                     <th>รูปภาพ</th>
                                                     <th>Action</th>
@@ -612,6 +614,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     {data: 'leave_type_detail'},
                     {data: 'dt_leave_start'},
                     {data: 'dt_leave_to'},
+                    {data: 'leave_day'},
                     {data: 'status'},
                     {data: 'image'},
                     {data: 'update'},
@@ -709,6 +712,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 $('#leave_type_detail').val("");
                 $('#date_leave_start').val("");
                 $('#date_leave_to').val("");
+                $('#leave_day').val("");
                 $('#remark').val("");
                 $('#status').val("N");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
@@ -745,6 +749,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                         let time_leave_start = response[i].time_leave_start;
                         let time_leave_to = response[i].time_leave_to;
                         let leave_before = response[i].leave_before;
+                        let leave_day = response[i].leave_day;
                         let remark = response[i].remark;
                         let status = response[i].status;
 
@@ -761,6 +766,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                         $('#time_leave_start').val(time_leave_start);
                         $('#time_leave_to').val(time_leave_to);
                         $('#leave_before').val(leave_before);
+                        $('#leave_day').val(leave_day);
                         $('#remark').val(remark);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
@@ -801,6 +807,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                         let time_leave_start = response[i].time_leave_start;
                         let time_leave_to = response[i].time_leave_to;
                         let leave_before = response[i].leave_before;
+                        let leave_day = response[i].leave_day;
                         let picture = response[i].picture;
                         let remark = response[i].remark;
                         let status = response[i].status;
@@ -820,6 +827,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                             + '&time_leave_start=' + time_leave_start
                             + '&time_leave_to=' + time_leave_to
                             + '&leave_before=' + leave_before
+                            + '&leave_day=' + leave_day
                             + '&picture=' + picture
                             + '&remark=' + remark
                             + '&status=' + status
