@@ -280,26 +280,16 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="form-group row">
+                                                                <div class="form-group row d-flex align-items-center">
                                                                     <div class="col-sm-3">
-                                                                        <label for="leave_day"
-                                                                               class="control-label">จำนวนวันที่ลา</label>
-                                                                        <input type="text" class="form-control"
-                                                                               id="leave_day"
-                                                                               name="leave_day"
-                                                                               value=""
-                                                                               required="required"
-                                                                               placeholder="">
+                                                                        <label for="leave_day" class="control-label">จำนวนวันที่ลา</label>
+                                                                        <input type="text" class="form-control" id="leave_day" name="leave_day" value="" required="required" placeholder="">
                                                                     </div>
-                                                                </div>
 
-                                                                <div class="form-group">
-                                                                    <label for="remark"
-                                                                           class="control-label">หมายเหตุ</label>
-                                                                    <textarea class="form-control"
-                                                                              id="remark"
-                                                                              name="remark"
-                                                                              rows="1"></textarea>
+                                                                    <div class="col-sm-9">
+                                                                        <label for="remark" class="control-label">หมายเหตุ</label>
+                                                                        <textarea class="form-control" id="remark" name="remark" rows="1"></textarea>
+                                                                    </div>
                                                                 </div>
 
                                                                 <?php if ($_SESSION['approve_permission'] === 'Y') { ?>
