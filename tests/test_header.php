@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,60 +40,9 @@
     <section>
         <h1>Welcome to My Website</h1>
         <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
-        <p>This is an example of a fixed top header with a dropdown menu.</p>
+
+
+
     </section>
     <!-- Add more content here -->
 </main>
