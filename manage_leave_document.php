@@ -286,7 +286,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                     <textarea class="form-control"
                                                                               id="remark"
                                                                               name="remark"
-                                                                              rows="3"></textarea>
+                                                                              rows="2"></textarea>
                                                                 </div>
 
                                                                 <?php if ($_SESSION['approve_permission'] === 'Y') { ?>
