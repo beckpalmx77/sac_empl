@@ -43,18 +43,15 @@ if ($_POST["action"] === 'GET_DATA') {
 
 
 if ($_POST["action"] === 'GET_SELECT_EMP_DATA') {
-
     $branch = isset($_POST['branch']) ? $_POST['branch'] : '';
 
     $query = "SELECT emp_id,     CONCAT(f_name, ' ', l_name) AS fullname  
              FROM memployee ";
     $query .= " WHERE branch = :branch";
-
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':branch', $branch);
     $stmt->execute();
     $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
     foreach ($employees as $row) {
         echo '<option value="' . $row['emp_id'] . '">' . $row['fullname'] . '</option>';
     }
