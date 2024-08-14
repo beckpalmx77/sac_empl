@@ -234,7 +234,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     $.ajax({
                         url: "model/manage_employee_process.php",
                         method: "POST",
-                        data: {formData,action: "GET_SELECT_EMP_DATA",branch: branch},
+                        data: {formData, action: "GET_SELECT_EMP_DATA", branch: branch},
                         success: function (data) {
                             $('#employee').html(data);
                         }
