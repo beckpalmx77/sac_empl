@@ -1,6 +1,6 @@
 <?php
 include('includes/Header.php');
-if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == ""){
+if (strlen($_SESSION['alogin']) == "") {
     header("Location: index");
 } else {
 
@@ -48,6 +48,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <body id="page-top">
     <div id="wrapper">
         <?php include('includes/Side-Bar.php'); ?>
+
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 <?php include('includes/Top-Bar.php'); ?>
@@ -114,13 +115,10 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                         <?php } ?>
                                                                     </select>
 
-                                                                    <?php
-                                                                    if ($_SESSION['document_dept_cond'] !== "A") { ?>
+                                                                    <?php if ($_SESSION['document_dept_cond'] !== "A") { ?>
                                                                         <input type="hidden" name="branch" id="branch"
                                                                                value="<?php echo $_SESSION['department_id'] ?>">
-                                                                    <?php } else {
-                                                                        ?>
-
+                                                                    <?php } else { ?>
                                                                         <label for="branch">เลือกสาขา :</label>
                                                                         <select name="branch" id="branch"
                                                                                 class="form-control" required>
@@ -128,96 +126,29 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                 <option value="<?php echo $row["branch"]; ?>"><?php echo $row["branch_name"]; ?></option>
                                                                             <?php } ?>
                                                                         </select>
-
                                                                     <?php } ?>
-                                                                </div>
-                                                            </div>
 
-                                                            <br>
+                                                                    <label for="employee">เลือกพนักงาน :</label>
+                                                                    <select name="employee" id="employee"
+                                                                            class="form-control" required>
+                                                                        <option value="">กรุณาเลือกพนักงาน</option>
+                                                                    </select>
 
-                                                            <div class="form-group row align-items-center">
-                                                                <div class="col-sm-4">
-                                                                    <label for="emp_id" class="control-label">รหัสพนักงาน</label>
-                                                                    <input type="text" class="form-control" id="emp_id"
-                                                                           name="emp_id" readonly="true"
-                                                                           required="required" value="" placeholder="">
-                                                                </div>
-                                                                <div class="col-sm-4">
-                                                                    <label for="full_name" class="control-label">ชื่อ -
-                                                                        นามสกุล</label>
-                                                                    <input type="text" class="form-control"
-                                                                           id="full_name" name="full_name"
-                                                                           readonly="true" value="" placeholder="">
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <label class="control-label d-block">&nbsp;</label>
-                                                                    <!-- ใช้ &nbsp; เพื่อสร้างช่องว่างให้ปุ่มอยู่ในระดับเดียวกับ input -->
-                                                                    <a data-toggle="modal" href="#SearchEmployeeModal"
-                                                                       class="btn btn-primary">
-                                                                        Click <i class="fa fa-search"
-                                                                                 aria-hidden="true"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-
-                                                            <br>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <button type="submit" id="BtnData"
-                                                                            name="BtnData"
-                                                                            class="btn btn-outline-primary mb-3">
-                                                                        สรุปข้อมูล
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-
-
-                                                    <div class="modal fade" id="SearchEmployeeModal">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">Modal title</h4>
-                                                                    <button type="button" class="close" data-dismiss="modal"
-                                                                            aria-hidden="true">×
-                                                                    </button>
-                                                                </div>
-
-                                                                <div class="container"></div>
-                                                                <div class="modal-body">
-
-                                                                    <div class="modal-body">
-
-                                                                        <table cellpadding="0" cellspacing="0" border="0"
-                                                                               class="display"
-                                                                               id="TableEmployeeList"
-                                                                               width="100%">
-                                                                            <thead>
-                                                                            <tr>
-                                                                                <th>รหัสพนักงาน</th>
-                                                                                <th>ชื่อพนักงาน</th>
-                                                                                <th>ชื่อเล่น</th>
-                                                                                <th>หน่วยงาน</th>
-                                                                                <th>Action</th>
-                                                                            </tr>
-                                                                            </thead>
-                                                                            <tfoot>
-                                                                            <tr>
-                                                                                <th>รหัสพนักงาน</th>
-                                                                                <th>ชื่อพนักงาน</th>
-                                                                                <th>ชื่อเล่น</th>
-                                                                                <th>หน่วยงาน</th>
-                                                                                <th>Action</th>
-                                                                            </tr>
-                                                                            </tfoot>
-                                                                        </table>
+                                                                    <br>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <button type="submit" id="BtnData"
+                                                                                    name="BtnData"
+                                                                                    class="btn btn-primary mb-3">
+                                                                                สรุปข้อมูล
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
 
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -243,14 +174,11 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         <script src="vendor/jquery/jquery.min.js"></script>
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-        <script src="js/myadmin.min.js"></script>
-
-        <!--script src="js/modal/show_employee_modal.js"></script-->
-
         <script src="vendor/select2/dist/js/select2.min.js"></script>
         <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
         <script src="vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
         <script src="vendor/clock-picker/clockpicker.js"></script>
+        <script src="js/myadmin.min.js"></script>
         <script src="vendor/date-picker-1.9/js/bootstrap-datepicker.js"></script>
         <script src="vendor/date-picker-1.9/locales/bootstrap-datepicker.th.min.js"></script>
         <link href="vendor/date-picker-1.9/css/bootstrap-datepicker.css" rel="stylesheet"/>
@@ -299,24 +227,33 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         </script>
 
         <script>
-
-            // เลือก Select Element ที่ต้องการตรวจสอบ
-            const selectElement = document.getElementById('branch');
-
-            // ฟังเหตุการณ์ 'change' เมื่อค่าใน select เปลี่ยนไป
-            selectElement.addEventListener('change', function (event) {
-
-                $.ajax({
-                    url: 'model/manage_menu_main_process.php',
-                    method: "POST",
-                    data: formData,
-                    success: function (data) {
-                        if (data == 2) {
-                            alert("Duplicate มีข้อมูลนี้แล้วในระบบ กรุณาตรวจสอบ");
+            $(document).ready(function () {
+                function loadEmployees(branch) {
+                    let formData = $(this).serialize();
+                    //alert(branch);
+                    $.ajax({
+                        url: "model/manage_employee_process.php",
+                        method: "POST",
+                        data: {formData,action: "GET_SELECT_EMP_DATA",branch: branch},
+                        success: function (data) {
+                            $('#employee').html(data);
                         }
-                    }
-                })
+                    });
+                }
 
+                // Load employees when the page loads
+                let initialBranch = $('#branch').val();
+                if (initialBranch) {
+                    loadEmployees(initialBranch);
+                }
+
+                // Load employees when the branch dropdown changes (only if document_dept_cond is 'A')
+                <?php if ($_SESSION['document_dept_cond'] === "A") { ?>
+                $('#branch').change(function () {
+                    let branch = $(this).val();
+                    loadEmployees(branch);
+                });
+                <?php } ?>
             });
 
         </script>

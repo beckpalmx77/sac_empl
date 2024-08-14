@@ -41,6 +41,26 @@ if ($_POST["action"] === 'GET_DATA') {
     echo json_encode($return_arr);
 }
 
+
+if ($_POST["action"] === 'GET_SELECT_EMP_DATA') {
+
+    $branch = isset($_POST['branch']) ? $_POST['branch'] : '';
+
+    $query = "SELECT emp_id,     CONCAT(f_name, ' ', l_name) AS fullname  
+             FROM memployee ";
+    $query .= " WHERE branch = :branch";
+
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':branch', $branch);
+    $stmt->execute();
+    $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($employees as $row) {
+        echo '<option value="' . $row['emp_id'] . '">' . $row['fullname'] . '</option>';
+    }
+}
+
+
 if ($_POST["action"] === 'SEARCH') {
 
     if ($_POST["l_name"] !== '') {
@@ -71,14 +91,29 @@ if ($_POST["action"] === 'ADD') {
         $position = $_POST["position"];
         $start_work_date = $_POST["start_work_date"];
 
+        switch ($dept_id) {
+            case "181":
+                $branch = "CP1";
+                break;
+            case "182":
+                $branch = "CP3";
+                break;
+            case "183":
+                $branch = "CP2";
+                break;
+            case "184":
+                $branch = "CP4";
+                break;
+        }
+
         $sql_find = "SELECT * FROM memployee WHERE emp_id = '" . $emp_id . "'";
 
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             echo $dup;
         } else {
-            $sql = "INSERT INTO memployee (emp_id,f_name,l_name,work_time_id,dept_id,remark,email_address,sex,prefix,nick_name,position,start_work_date) 
-                    VALUES (:emp_id,:f_name,:l_name,:work_time_id,:dept_id,:remark,:email_address,:sex,:prefix,:nick_name,:position,:start_work_date)";
+            $sql = "INSERT INTO memployee (emp_id,f_name,l_name,work_time_id,dept_id,remark,email_address,sex,prefix,nick_name,position,start_work_date,branch) 
+                    VALUES (:emp_id,:f_name,:l_name,:work_time_id,:dept_id,:remark,:email_address,:sex,:prefix,:nick_name,:position,:start_work_date,branch)";
 
             $query = $conn->prepare($sql);
             $query->bindParam(':emp_id', $emp_id, PDO::PARAM_STR);
@@ -161,12 +196,12 @@ if ($_POST["action"] === 'UPDATE') {
             $query_user->execute();
 
             echo $save_success;
-/*
-            $txt = $id . " | " . $emp_id . " | " . $week_holiday . " | " . $save_success;
-            $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
-            fwrite($my_file, $txt);
-            fclose($my_file);
-*/
+            /*
+                        $txt = $id . " | " . $emp_id . " | " . $week_holiday . " | " . $save_success;
+                        $my_file = fopen("holiday_a.txt", "w") or die("Unable to open file!");
+                        fwrite($my_file, $txt);
+                        fclose($my_file);
+            */
 
         }
 
@@ -243,13 +278,12 @@ if ($_POST["action"] === 'GET_EMPLOYEE') {
 
     $stmt = $conn->prepare($sql_getdata);
 
-/*
-                $txt = $sql_getdata ;
-                $my_file = fopen("emp.txt", "w") or die("Unable to open file!");
-                fwrite($my_file, $txt);
-                fclose($my_file);
-*/
-
+    /*
+                    $txt = $sql_getdata ;
+                    $my_file = fopen("emp.txt", "w") or die("Unable to open file!");
+                    fwrite($my_file, $txt);
+                    fclose($my_file);
+    */
 
 
 // Bind values

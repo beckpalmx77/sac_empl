@@ -6,6 +6,7 @@ $month_start = $_POST["month_start"];
 $month_to = $_POST["month_to"];
 $year = $_POST["year"];
 $branch = $_POST["branch"];
+$emp_id = $_POST["employee"];
 
 $f_name = "";
 
@@ -106,8 +107,14 @@ foreach ($MonthTo as $row_to) {
             AND doc_month BETWEEN :month_id_start AND :month_id_to
             AND dept_id = :branch ";
 
+
+
         if (!empty($f_name)) {
             $sql_leave .= " AND f_name LIKE :f_name";
+        }
+
+        if (!empty($emp_id)) {
+            $sql_leave .= " AND emp_id = :emp_id";
         }
 
         $sql_leave .= " ORDER BY f_name , doc_date ";
@@ -121,6 +128,10 @@ foreach ($MonthTo as $row_to) {
         if (!empty($f_name)) {
             $f_name_param = "%" . $f_name . "%";
             $statement_leave->bindParam(':f_name', $f_name_param);
+        }
+
+        if (!empty($emp_id)) {
+            $statement_leave->bindParam(':emp_id', $emp_id);
         }
 
         $statement_leave->execute();
@@ -171,6 +182,10 @@ foreach ($MonthTo as $row_to) {
             $sql_leave .= " AND f_name LIKE :f_name";
         }
 
+        if (!empty($emp_id)) {
+            $sql_leave .= " AND emp_id = :emp_id";
+        }
+
         $sql_leave .= " ORDER BY f_name , doc_date ";
 
         $statement_leave = $conn->prepare($sql_leave);
@@ -182,6 +197,10 @@ foreach ($MonthTo as $row_to) {
         if (!empty($f_name)) {
             $f_name_param = "%" . $f_name . "%";
             $statement_leave->bindParam(':f_name', $f_name_param);
+        }
+
+        if (!empty($emp_id)) {
+            $statement_leave->bindParam(':emp_id', $emp_id);
         }
 
         $statement_leave->execute();
@@ -232,6 +251,10 @@ foreach ($MonthTo as $row_to) {
             $sql_leave .= " AND f_name LIKE :f_name";
         }
 
+        if (!empty($emp_id)) {
+            $sql_leave .= " AND emp_id = :emp_id";
+        }
+
         $sql_leave .= " ORDER BY f_name , doc_date ";
 
         $statement_leave = $conn->prepare($sql_leave);
@@ -243,6 +266,10 @@ foreach ($MonthTo as $row_to) {
         if (!empty($f_name)) {
             $f_name_param = "%" . $f_name . "%";
             $statement_leave->bindParam(':f_name', $f_name_param);
+        }
+
+        if (!empty($emp_id)) {
+            $statement_leave->bindParam(':emp_id', $emp_id);
         }
 
         $statement_leave->execute();

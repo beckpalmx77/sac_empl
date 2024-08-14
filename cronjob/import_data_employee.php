@@ -53,6 +53,24 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
     $sex = $result_sqlsvr["EMP_GENDER"]=="1"?"M":"F";
     $status = $result_sqlsvr["PRI_STATUS"]=="1"?"Y":"N";
 
+    switch ($result_sqlsvr["PRS_DEPT"]) {
+        case "181":
+            $branch = "CP1";
+            break;
+        case "182":
+            $branch = "CP3";
+            break;
+        case "183":
+            $branch = "CP2";
+            break;
+        case "184":
+            $branch = "CP4";
+            break;
+        default:
+            $branch = "-";
+            break;
+    }
+
     $birth_str = $result_sqlsvr["EMP_BIRTH"]==""?"0000-00-00":$result_sqlsvr["EMP_BIRTH"];
     $birth = substr($birth_str,8,2) . "-" . substr($birth_str,5,2) . "-" . substr($birth_str,0,4) ;
 
@@ -63,10 +81,11 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
     $nRows = $conn->query($sql_find)->fetchColumn();
     if ($nRows > 0) {
 
+
         //echo "UPDATE Employee : " . $result_sqlsvr["PRS_NO"] . "|" . $birth . " | " . $result_sqlsvr["EMP_NAME"] . " | " . $result_sqlsvr["EMP_SURNME"] . $result_sqlsvr["DEPT_THAIDESC"] . "\n\r";
 
         $sql = "UPDATE memployee SET position_id=:position_id,position=:position,dept_id=:dept_id,department_id=:department_id,
-        status=:status,work_time_id=:work_time_id,birthday=:birthday,start_work_date=:start_work_date
+        status=:status,work_time_id=:work_time_id,birthday=:birthday,start_work_date=:start_work_date,branch=:branch
         WHERE emp_id = :emp_id ";
 
         $query = $conn->prepare($sql);
@@ -78,6 +97,7 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
         $query->bindParam(':work_time_id', $work_time_id, PDO::PARAM_STR);
         $query->bindParam(':birthday', $birth, PDO::PARAM_STR);
         $query->bindParam(':start_work_date', $start_work_date, PDO::PARAM_STR);
+        $query->bindParam(':branch', $branch, PDO::PARAM_STR);
         $query->bindParam(':emp_id', $result_sqlsvr["PRS_NO"], PDO::PARAM_STR);
         $query->execute();
 
@@ -86,9 +106,9 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
         echo "INSERT Employee : " . $result_sqlsvr["PRS_NO"] . "|" . $birth . " | " . $result_sqlsvr["EMP_NAME"] . " | " . $result_sqlsvr["EMP_SURNME"] . $result_sqlsvr["DEPT_THAIDESC"] . "\n\r";
 
         $sql = "INSERT INTO memployee(emp_id,sex,prefix,f_name,l_name,nick_name,email_address,birthday,position_id,position,dept_id
-        ,department_id,start_work_date,work_time_id,status)
+        ,department_id,start_work_date,work_time_id,status,branch)
         VALUES (:emp_id,:sex,:prefix,:f_name,:l_name,:nick_name,:email_address,:birthday,:position_id,:position,:dept_id
-        ,:department_id,:start_work_date,:work_time_id,:status)";
+        ,:department_id,:start_work_date,:work_time_id,:status,:branch)";
         $query = $conn->prepare($sql);
         $query->bindParam(':emp_id', $result_sqlsvr["PRS_NO"], PDO::PARAM_STR);
         $query->bindParam(':sex', $sex, PDO::PARAM_STR);
@@ -105,6 +125,7 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
         $query->bindParam(':start_work_date', $start_work_date, PDO::PARAM_STR);
         $query->bindParam(':work_time_id', $work_time_id, PDO::PARAM_STR);
         $query->bindParam(':status', $status, PDO::PARAM_STR);
+        $query->bindParam(':branch', $branch, PDO::PARAM_STR);
         $query->execute();
 
         $lastInsertId = $conn->lastInsertId();

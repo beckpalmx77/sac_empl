@@ -122,6 +122,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                                     <br>
                                                                     <div class="row">
+                                                                        <input type="hidden" id="employee" name="employee" value="">
                                                                         <div class="col-sm-12">
                                                                             <button type="submit" id="BtnData" name="BtnData" class="btn btn-primary mb-3">สรุปข้อมูล</button>
                                                                         </div>
