@@ -72,15 +72,6 @@ foreach ($MonthTo as $row_to) {
 
 <input type="hidden" class="form-control" id="f_name" name="f_name" value="">
 
-<!--div class="card-body">
-    <form method="POST" action="">
-        <div class="form-group">
-            <label for="f_name">ค้นหาชื่อพนักงาน:</label>
-            <input type="text" class="form-control" id="f_name" name="f_name" value="">
-        </div>
-    </form>
-</div-->
-
 <div class="card-body">
     <h4><span class="badge bg-success">แสดงข้อมูลการลา พนักงาน</span></h4>
     <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
@@ -88,6 +79,7 @@ foreach ($MonthTo as $row_to) {
         <tr>
             <th>#</th>
             <th>วันที่เอกสาร</th>
+            <th>รหัสพนักงาน</th>
             <th>ชื่อพนักงาน</th>
             <th>หน่วยงาน</th>
             <th>ประเภทการลา</th>
@@ -102,22 +94,29 @@ foreach ($MonthTo as $row_to) {
         $date = date("d/m/Y");
         $total = 0;
         $total_payment = 0;
-        $sql_leave = " SELECT * FROM v_dleave_event 
-            WHERE doc_year = :year 
-            AND doc_month BETWEEN :month_id_start AND :month_id_to
-            AND dept_id = :branch ";
+        $sql_leave_addition = "";
 
-
-
-        if (!empty($f_name)) {
-            $sql_leave .= " AND f_name LIKE :f_name";
-        }
+        $sql_leave = " SELECT v_dleave_event.* , em.status FROM v_dleave_event 
+                       LEFT JOIN memployee em on em.emp_id = v_dleave_event.emp_id
+                       WHERE v_dleave_event.doc_year = :year
+                       AND v_dleave_event.doc_month BETWEEN :month_id_start AND :month_id_to
+                       AND v_dleave_event.dept_id = :branch   
+                       ";
 
         if (!empty($emp_id)) {
-            $sql_leave .= " AND emp_id = :emp_id";
+            $sql_leave_addition = " AND v_dleave_event.emp_id = :emp_id";
         }
 
-        $sql_leave .= " ORDER BY f_name , doc_date ";
+        $sql_oder  = " ORDER BY v_dleave_event.f_name,v_dleave_event.doc_date ";
+
+        $sql_leave = $sql_leave . $sql_leave_addition . $sql_oder ;
+
+/*
+        $txt = $sql_leave . " | "  . $year . " | " . $month_id_start . " | " . $month_id_to . "  | " . $branch ;
+        $my_file = fopen("a_leave.txt", "w") or die("Unable to open file!");
+        fwrite($my_file, $txt);
+        fclose($my_file);
+*/
 
         $statement_leave = $conn->prepare($sql_leave);
         $statement_leave->bindParam(':year', $year);
@@ -143,6 +142,7 @@ foreach ($MonthTo as $row_to) {
             <tr>
                 <td><?php echo htmlentities($line_no); ?></td>
                 <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
+                <td><?php echo htmlentities($row_leave['emp_id']); ?></td>
                 <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
                 <td><?php echo htmlentities($row_leave['department_id']); ?></td>
                 <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
@@ -162,6 +162,7 @@ foreach ($MonthTo as $row_to) {
         <tr>
             <th>#</th>
             <th>วันที่เอกสาร</th>
+            <th>รหัสพนักงาน</th>
             <th>ชื่อพนักงาน</th>
             <th>หน่วยงาน</th>
             <th>ประเภท</th>
@@ -173,20 +174,22 @@ foreach ($MonthTo as $row_to) {
         <tfoot></tfoot>
         <tbody>
         <?php
-        $sql_leave = " SELECT * FROM vdholiday_event 
-            WHERE doc_year = :year 
-            AND month BETWEEN :month_id_start AND :month_id_to
-            AND dept_id = :branch ";
 
-        if (!empty($f_name)) {
-            $sql_leave .= " AND f_name LIKE :f_name";
-        }
+
+        $sql_leave = " SELECT vdholiday_event.* , em.status FROM vdholiday_event 
+                       LEFT JOIN memployee em on em.emp_id = vdholiday_event.emp_id
+                       WHERE vdholiday_event.doc_year = :year
+                       AND vdholiday_event.month BETWEEN :month_id_start AND :month_id_to
+                       AND vdholiday_event.dept_id = :branch   
+                       ";
 
         if (!empty($emp_id)) {
-            $sql_leave .= " AND emp_id = :emp_id";
+            $sql_leave_addition = " AND vdholiday_event.emp_id = :emp_id";
         }
 
-        $sql_leave .= " ORDER BY f_name , doc_date ";
+        $sql_oder  = " ORDER BY vdholiday_event.f_name,vdholiday_event.doc_date ";
+
+        $sql_leave = $sql_leave . $sql_leave_addition . $sql_oder ;
 
         $statement_leave = $conn->prepare($sql_leave);
         $statement_leave->bindParam(':year', $year);
@@ -194,10 +197,6 @@ foreach ($MonthTo as $row_to) {
         $statement_leave->bindParam(':month_id_to', $month_id_to);
         $statement_leave->bindParam(':branch', $branch);
 
-        if (!empty($f_name)) {
-            $f_name_param = "%" . $f_name . "%";
-            $statement_leave->bindParam(':f_name', $f_name_param);
-        }
 
         if (!empty($emp_id)) {
             $statement_leave->bindParam(':emp_id', $emp_id);
@@ -212,6 +211,7 @@ foreach ($MonthTo as $row_to) {
             <tr>
                 <td><?php echo htmlentities($line_no); ?></td>
                 <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
+                <td><?php echo htmlentities($row_leave['emp_id']); ?></td>
                 <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
                 <td><?php echo htmlentities($row_leave['department_id']); ?></td>
                 <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
@@ -231,6 +231,7 @@ foreach ($MonthTo as $row_to) {
         <tr>
             <th>#</th>
             <th>วันที่เอกสาร</th>
+            <th>รหัสพนักงาน</th>
             <th>ชื่อพนักงาน</th>
             <th>หน่วยงาน</th>
             <th>ประเภท</th>
@@ -242,31 +243,24 @@ foreach ($MonthTo as $row_to) {
         <tfoot></tfoot>
         <tbody>
         <?php
-        $sql_leave = " SELECT * FROM v_dchange_event 
-            WHERE doc_year = :year 
-            AND doc_month BETWEEN :month_id_start AND :month_id_to
-            AND dept_id = :branch ";
-
-        if (!empty($f_name)) {
-            $sql_leave .= " AND f_name LIKE :f_name";
-        }
+        $sql_leave = " SELECT v_dchange_event.* , em.status FROM v_dchange_event 
+                       LEFT JOIN memployee em on em.emp_id = v_dchange_event.emp_id
+                       WHERE v_dchange_event.doc_year = :year
+                       AND v_dchange_event.doc_month BETWEEN :month_id_start AND :month_id_to
+                       AND v_dchange_event.dept_id = :branch   
+                       ";
 
         if (!empty($emp_id)) {
-            $sql_leave .= " AND emp_id = :emp_id";
+            $sql_leave .= " AND v_dchange_event.emp_id = :emp_id";
         }
 
-        $sql_leave .= " ORDER BY f_name , doc_date ";
+        $sql_leave .= " ORDER BY v_dchange_event.f_name , v_dchange_event.doc_date ";
 
         $statement_leave = $conn->prepare($sql_leave);
         $statement_leave->bindParam(':year', $year);
         $statement_leave->bindParam(':month_id_start', $month_id_start);
         $statement_leave->bindParam(':month_id_to', $month_id_to);
         $statement_leave->bindParam(':branch', $branch);
-
-        if (!empty($f_name)) {
-            $f_name_param = "%" . $f_name . "%";
-            $statement_leave->bindParam(':f_name', $f_name_param);
-        }
 
         if (!empty($emp_id)) {
             $statement_leave->bindParam(':emp_id', $emp_id);
@@ -281,6 +275,7 @@ foreach ($MonthTo as $row_to) {
             <tr>
                 <td><?php echo htmlentities($line_no); ?></td>
                 <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
+                <td><?php echo htmlentities($row_leave['emp_id']); ?></td>
                 <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
                 <td><?php echo htmlentities($row_leave['department_id']); ?></td>
                 <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>

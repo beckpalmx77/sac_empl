@@ -35,7 +35,7 @@ $email_address = "@sac.com";
 $work_time_id = "S001";
 $password = '$2y$10$F75vk7nW95vHpCYo86RUQOOhnEiVZ693ZPps5S1c96xh5SxWgPXea';
 $picture = 'img/icon/admin-001.png';
-$status_u = 'Active';
+$status_u = '';
 $approve_level = "-";
 $approve_permission = "N";
 $lang = "th";
@@ -52,6 +52,7 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
 
     $sex = $result_sqlsvr["EMP_GENDER"] == "1" ? "M" : "F";
     $status = $result_sqlsvr["PRI_STATUS"] == "1" ? "Y" : "N";
+    $status_u = $result_sqlsvr["PRI_STATUS"] == "1" ? "Active" : "Inactive";
 
     switch ($result_sqlsvr["PRS_DEPT"]) {
         case "181":
@@ -140,7 +141,12 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
     $sql_find = "SELECT * FROM ims_user WHERE user_id = '" . $result_sqlsvr["PRS_NO"] . "'";
     $nRows = $conn->query($sql_find)->fetchColumn();
     if ($nRows > 0) {
-        echo "dup = " . $result_sqlsvr["PRS_NO"] . "\n\r";
+        echo "Update " . $result_sqlsvr["PRS_NO"] . " | " . $status_u .  "\n\r";
+        $sql_update = "UPDATE ims_user SET status=:status WHERE user_id =: user_id";
+        $query_update = $conn->prepare($sql_update);
+        $query_update->bindParam(':status', $status_u, PDO::PARAM_STR);
+        $query_update->bindParam(':user_id', $result_sqlsvr["PRS_NO"], PDO::PARAM_STR);
+
     } else {
 
         $last_row = LAST_ID($conn, "ims_user", "line_no");
