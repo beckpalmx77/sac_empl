@@ -21,8 +21,8 @@ $l_name = "";
 
 if (!empty($emp_name)) {
     $emp_name = explode("-", $emp_name);
-    $f_name =  $emp_name[0];
-    $l_name =  $emp_name[1];
+    $f_name = $emp_name[0];
+    $l_name = $emp_name[1];
 }
 
 /*
@@ -56,6 +56,11 @@ foreach ($MonthTo as $row_to) {
     $month_id_to = $row_to["month_id"];
     $month_name_to = $row_to["month_name"];
 }
+
+$date = date("d/m/Y");
+$total = 0;
+$total_payment = 0;
+$sql_leave_addition = "";
 
 ?>
 <!DOCTYPE html>
@@ -113,10 +118,6 @@ foreach ($MonthTo as $row_to) {
         <tfoot></tfoot>
         <tbody>
         <?php
-        $date = date("d/m/Y");
-        $total = 0;
-        $total_payment = 0;
-        $sql_leave_addition = "";
 
         $sql_leave = " SELECT v_dleave_event.* , em.status FROM v_dleave_event 
                        LEFT JOIN memployee em on em.emp_id = v_dleave_event.emp_id
@@ -133,197 +134,195 @@ foreach ($MonthTo as $row_to) {
             $sql_leave_addition2 = " AND v_dleave_event.l_name = :l_name";
         }
 
-        $sql_oder  = " ORDER BY v_dleave_event.f_name,v_dleave_event.doc_date ";
-        $sql_leave = $sql_leave . $sql_leave_addition1. $sql_leave_addition2 . $sql_oder ;
+        $sql_oder = " ORDER BY v_dleave_event.f_name,v_dleave_event.doc_date ";
+        $sql_leave = $sql_leave . $sql_leave_addition1 . $sql_leave_addition2 . $sql_oder;
 
-/*
-$txt = $sql_leave;
-$my_file = fopen("a_leave.txt", "w") or die("Unable to open file!");
-fwrite($my_file, $txt);
-fclose($my_file);
-*/
+        /*
+        $txt = $sql_leave;
+        $my_file = fopen("a_leave.txt", "w") or die("Unable to open file!");
+        fwrite($my_file, $txt);
+        fclose($my_file);
+        */
 
-$statement_leave = $conn->prepare($sql_leave);
-$statement_leave->bindParam(':year', $year);
-$statement_leave->bindParam(':month_id_start', $month_id_start);
-$statement_leave->bindParam(':month_id_to', $month_id_to);
-$statement_leave->bindParam(':branch', $branch);
+        $statement_leave = $conn->prepare($sql_leave);
+        $statement_leave->bindParam(':year', $year);
+        $statement_leave->bindParam(':month_id_start', $month_id_start);
+        $statement_leave->bindParam(':month_id_to', $month_id_to);
+        $statement_leave->bindParam(':branch', $branch);
 
-if (!empty($f_name)) {
-    $statement_leave->bindParam(':f_name', $f_name);
-}
+        if (!empty($f_name)) {
+            $statement_leave->bindParam(':f_name', $f_name);
+        }
 
-if (!empty($l_name)) {
-    $statement_leave->bindParam(':l_name', $l_name);
-}
+        if (!empty($l_name)) {
+            $statement_leave->bindParam(':l_name', $l_name);
+        }
 
-$statement_leave->execute();
-$results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
-$line_no = 0;
-foreach ($results_leave as $row_leave) {
-    $line_no++;
-    ?>
-    <tr>
-        <td><?php echo htmlentities($line_no); ?></td>
-        <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
-        <td><?php echo htmlentities($row_leave['emp_id']); ?></td>
-        <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
-        <td><?php echo htmlentities($row_leave['department_id']); ?></td>
-        <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
-        <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
-        <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
-        <td><?php echo htmlentities($row_leave['remark']); ?></td>
-    </tr>
-<?php } ?>
-</tbody>
-</table>
+        $statement_leave->execute();
+        $results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
+        $line_no = 0;
+        foreach ($results_leave as $row_leave) {
+            $line_no++;
+            ?>
+            <tr>
+                <td><?php echo htmlentities($line_no); ?></td>
+                <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
+                <td><?php echo htmlentities($row_leave['emp_id']); ?></td>
+                <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
+                <td><?php echo htmlentities($row_leave['department_id']); ?></td>
+                <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
+                <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
+                <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
+                <td><?php echo htmlentities($row_leave['remark']); ?></td>
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
 </div>
 
 <div class="card-body">
-<h4><span class="badge bg-info">แสดงข้อมูลการใช้วันหยุด (นักขัตฤกษ์-ประจำปี) พนักงาน</span></h4>
-<table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
-<thead>
-<tr>
-    <th>#</th>
-    <th>วันที่เอกสาร</th>
-    <th>รหัสพนักงาน</th>
-    <th>ชื่อพนักงาน</th>
-    <th>หน่วยงาน</th>
-    <th>ประเภท</th>
-    <th>วันที่เริ่มต้น</th>
-    <th>วันที่สิ้นสุด</th>
-    <th>หมายเหตุ</th>
-</tr>
-</thead>
-<tfoot></tfoot>
-<tbody>
-<?php
-
-$sql_leave_addition = "";
-$sql_leave = " SELECT vdholiday_event.* , em.status FROM vdholiday_event 
+    <h4><span class="badge bg-info">แสดงข้อมูลการใช้วันหยุด (นักขัตฤกษ์-ประจำปี) พนักงาน</span></h4>
+    <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>วันที่เอกสาร</th>
+            <th>รหัสพนักงาน</th>
+            <th>ชื่อพนักงาน</th>
+            <th>หน่วยงาน</th>
+            <th>ประเภท</th>
+            <th>วันที่เริ่มต้น</th>
+            <th>วันที่สิ้นสุด</th>
+            <th>หมายเหตุ</th>
+        </tr>
+        </thead>
+        <tfoot></tfoot>
+        <tbody>
+        <?php
+        $sql_leave = " SELECT vdholiday_event.* , em.status FROM vdholiday_event 
                LEFT JOIN memployee em on em.emp_id = vdholiday_event.emp_id
                WHERE vdholiday_event.doc_year = :year
                AND vdholiday_event.month BETWEEN :month_id_start AND :month_id_to
                AND vdholiday_event.dept_id = :branch   
                ";
 
-if (!empty($f_name)) {
-    $sql_leave_addition1 = " AND vdholiday_event.f_name = :f_name";
-}
+        if (!empty($f_name)) {
+            $sql_leave_addition1 = " AND vdholiday_event.f_name = :f_name";
+        }
 
-if (!empty($l_name)) {
-    $sql_leave_addition2 = " AND vdholiday_event.l_name = :l_name";
-}
+        if (!empty($l_name)) {
+            $sql_leave_addition2 = " AND vdholiday_event.l_name = :l_name";
+        }
 
-$sql_oder  = " ORDER BY vdholiday_event.f_name,vdholiday_event.doc_date ";
-$sql_leave = $sql_leave . $sql_leave_addition1. $sql_leave_addition2 . $sql_oder ;
-$statement_leave = $conn->prepare($sql_leave);
-$statement_leave->bindParam(':year', $year);
-$statement_leave->bindParam(':month_id_start', $month_id_start);
-$statement_leave->bindParam(':month_id_to', $month_id_to);
-$statement_leave->bindParam(':branch', $branch);
+        $sql_oder = " ORDER BY vdholiday_event.f_name,vdholiday_event.doc_date ";
+        $sql_leave = $sql_leave . $sql_leave_addition1 . $sql_leave_addition2 . $sql_oder;
+        $statement_leave = $conn->prepare($sql_leave);
+        $statement_leave->bindParam(':year', $year);
+        $statement_leave->bindParam(':month_id_start', $month_id_start);
+        $statement_leave->bindParam(':month_id_to', $month_id_to);
+        $statement_leave->bindParam(':branch', $branch);
 
-if (!empty($f_name)) {
-    $statement_leave->bindParam(':f_name', $f_name);
-}
+        if (!empty($f_name)) {
+            $statement_leave->bindParam(':f_name', $f_name);
+        }
 
-if (!empty($l_name)) {
-    $statement_leave->bindParam(':l_name', $l_name);
-}
+        if (!empty($l_name)) {
+            $statement_leave->bindParam(':l_name', $l_name);
+        }
 
-$statement_leave->execute();
-$results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
-$line_no = 0;
-foreach ($results_leave as $row_leave) {
-    $line_no++;
-    ?>
-    <tr>
-        <td><?php echo htmlentities($line_no); ?></td>
-        <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
-        <td><?php echo htmlentities($row_leave['emp_id']); ?></td>
-        <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
-        <td><?php echo htmlentities($row_leave['department_id']); ?></td>
-        <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
-        <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
-        <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
-        <td><?php echo htmlentities($row_leave['remark']); ?></td>
-    </tr>
-<?php } ?>
-</tbody>
-</table>
+        $statement_leave->execute();
+        $results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
+        $line_no = 0;
+        foreach ($results_leave as $row_leave) {
+            $line_no++;
+            ?>
+            <tr>
+                <td><?php echo htmlentities($line_no); ?></td>
+                <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
+                <td><?php echo htmlentities($row_leave['emp_id']); ?></td>
+                <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
+                <td><?php echo htmlentities($row_leave['department_id']); ?></td>
+                <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
+                <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
+                <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
+                <td><?php echo htmlentities($row_leave['remark']); ?></td>
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
 </div>
 
 <div class="card-body">
-<h4><span class="badge bg-warning">แสดงข้อมูลการเปลี่ยนวันหยุด พนักงาน</span></h4>
-<table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
-<thead>
-<tr>
-    <th>#</th>
-    <th>วันที่เอกสาร</th>
-    <th>รหัสพนักงาน</th>
-    <th>ชื่อพนักงาน</th>
-    <th>หน่วยงาน</th>
-    <th>ประเภท</th>
-    <th>วันที่หยุดปกติ</th>
-    <th>วันที่ต้องการหยุด</th>
-    <th>หมายเหตุ</th>
-</tr>
-</thead>
-<tfoot></tfoot>
-<tbody>
-<?php
+    <h4><span class="badge bg-warning">แสดงข้อมูลการเปลี่ยนวันหยุด พนักงาน</span></h4>
+    <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>วันที่เอกสาร</th>
+            <th>รหัสพนักงาน</th>
+            <th>ชื่อพนักงาน</th>
+            <th>หน่วยงาน</th>
+            <th>ประเภท</th>
+            <th>วันที่หยุดปกติ</th>
+            <th>วันที่ต้องการหยุด</th>
+            <th>หมายเหตุ</th>
+        </tr>
+        </thead>
+        <tfoot></tfoot>
+        <tbody>
+        <?php
 
-$sql_leave = " SELECT v_dchange_event.* , em.status FROM v_dchange_event 
+        $sql_leave = " SELECT v_dchange_event.* , em.status FROM v_dchange_event 
                LEFT JOIN memployee em on em.emp_id = v_dchange_event.emp_id
                WHERE v_dchange_event.doc_year = :year
                AND v_dchange_event.doc_month BETWEEN :month_id_start AND :month_id_to
                AND v_dchange_event.dept_id = :branch   
                ";
 
-if (!empty($f_name)) {
-    $sql_leave_addition1 = " AND v_dchange_event.f_name = :f_name";
-}
+        if (!empty($f_name)) {
+            $sql_leave_addition1 = " AND v_dchange_event.f_name = :f_name";
+        }
 
-if (!empty($l_name)) {
-    $sql_leave_addition2 = " AND v_dchange_event.l_name = :l_name";
-}
+        if (!empty($l_name)) {
+            $sql_leave_addition2 = " AND v_dchange_event.l_name = :l_name";
+        }
 
-$sql_oder  = " ORDER BY v_dchange_event.f_name,v_dchange_event.doc_date ";
-$sql_leave = $sql_leave . $sql_leave_addition1. $sql_leave_addition2 . $sql_oder ;
-$statement_leave = $conn->prepare($sql_leave);
-$statement_leave->bindParam(':year', $year);
-$statement_leave->bindParam(':month_id_start', $month_id_start);
-$statement_leave->bindParam(':month_id_to', $month_id_to);
-$statement_leave->bindParam(':branch', $branch);
+        $sql_oder = " ORDER BY v_dchange_event.f_name,v_dchange_event.doc_date ";
+        $sql_leave = $sql_leave . $sql_leave_addition1 . $sql_leave_addition2 . $sql_oder;
+        $statement_leave = $conn->prepare($sql_leave);
+        $statement_leave->bindParam(':year', $year);
+        $statement_leave->bindParam(':month_id_start', $month_id_start);
+        $statement_leave->bindParam(':month_id_to', $month_id_to);
+        $statement_leave->bindParam(':branch', $branch);
 
-if (!empty($f_name)) {
-    $statement_leave->bindParam(':f_name', $f_name);
-}
+        if (!empty($f_name)) {
+            $statement_leave->bindParam(':f_name', $f_name);
+        }
 
-if (!empty($l_name)) {
-    $statement_leave->bindParam(':l_name', $l_name);
-}
+        if (!empty($l_name)) {
+            $statement_leave->bindParam(':l_name', $l_name);
+        }
 
-$statement_leave->execute();
-$results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
-$line_no = 0;
-foreach ($results_leave as $row_leave) {
-    $line_no++;
-    ?>
-    <tr>
-        <td><?php echo htmlentities($line_no); ?></td>
-        <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
-        <td><?php echo htmlentities($row_leave['emp_id']); ?></td>
-        <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
-        <td><?php echo htmlentities($row_leave['department_id']); ?></td>
-        <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
-        <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
-        <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
-        <td><?php echo htmlentities($row_leave['remark']); ?></td>
-    </tr>
-<?php } ?>
-</tbody>
-</table>
+        $statement_leave->execute();
+        $results_leave = $statement_leave->fetchAll(PDO::FETCH_ASSOC);
+        $line_no = 0;
+        foreach ($results_leave as $row_leave) {
+            $line_no++;
+            ?>
+            <tr>
+                <td><?php echo htmlentities($line_no); ?></td>
+                <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
+                <td><?php echo htmlentities($row_leave['emp_id']); ?></td>
+                <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
+                <td><?php echo htmlentities($row_leave['department_id']); ?></td>
+                <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
+                <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
+                <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
+                <td><?php echo htmlentities($row_leave['remark']); ?></td>
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
 </div>
 
 </body>
