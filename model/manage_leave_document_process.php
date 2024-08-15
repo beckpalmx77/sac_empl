@@ -398,7 +398,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     $stmt = $conn->prepare($sql_get_leave);
 
 
-// Bind values
+    // Bind values
     foreach ($searchArray as $key => $search) {
         $stmt->bindValue(':' . $key, $search, PDO::PARAM_STR);
     }
@@ -416,7 +416,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
             $leave_type_id = $row['leave_type_id'];
             $leave_type_detail = $row['leave_type_detail'];
 
-// ตรวจสอบค่า leave_type_id และกำหนดสีให้กับ leave_type_detail
+            // ตรวจสอบค่า leave_type_id และกำหนดสีให้กับ leave_type_detail
             if ($leave_type_id == 'L1') {
                 $leave_type_detail = '<span style="color: #07931c;">' . $leave_type_detail . '</span>';
             } elseif ($leave_type_id == 'L2') {
