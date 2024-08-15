@@ -412,14 +412,32 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
     foreach ($empRecords as $row) {
 
         if ($_POST['sub_action'] === "GET_MASTER") {
+
+            $leave_type_id = $row['leave_type_id'];
+            $leave_type_detail = $row['leave_type_detail'];
+
+// ตรวจสอบค่า leave_type_id และกำหนดสีให้กับ leave_type_detail
+            if ($leave_type_id == 'L1') {
+                $leave_type_detail = '<span style="color: #69ff33;">' . $leave_type_detail . '</span>';
+            } elseif ($leave_type_id == 'L2') {
+                $leave_type_detail = '<span style="color: #ff5733;">' . $leave_type_detail . '</span>';
+            } elseif ($leave_type_id == 'L3') {
+                $leave_type_detail = '<span style="color: #33cfff;">' . $leave_type_detail . '</span>';
+            } elseif ($leave_type_id == 'L4') {
+                $leave_type_detail = '<span style="color: #ffcc33;">' . $leave_type_detail . '</span>';
+            } elseif ($leave_type_id == 'L5') {
+                $leave_type_detail = '<span style="color: #9933ff;">' . $leave_type_detail . '</span>';
+            }
+
+
             $data[] = array(
                 "id" => $row['id'],
                 "doc_id" => $row['doc_id'],
                 "doc_date" => $row['doc_date'],
                 "doc_year" => $row['doc_year'],
                 "emp_id" => $row['emp_id'],
-                "leave_type_id" => $row['leave_type_id'],
-                "leave_type_detail" => $row['leave_type_detail'],
+                "leave_type_id" => $leave_type_id,
+                "leave_type_detail" => $leave_type_detail,
                 "date_leave_start" => $row['date_leave_start'],
                 "date_leave_to" => $row['date_leave_to'],
                 "time_leave_start" => $row['time_leave_start'],
