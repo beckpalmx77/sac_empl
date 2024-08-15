@@ -152,15 +152,15 @@ $sql_leave_addition = "";
                 <td><?php echo htmlentities($row_leave['department_id']); ?></td>
                 <?php if ($row_leave['leave_type_id'] === 'L1') { ?>
                     <td>
-                        <span style="color: #69ff33;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span>
+                        <span style="color: #07931c;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span>
                     </td>
                 <?php } else if ($row_leave['leave_type_id'] === 'L2') { ?>
                     <td>
-                        <span style="color: #ff5733;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span>
+                        <span style="color: #d93c1b;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span>
                     </td>
                 <?php } else if ($row_leave['leave_type_id'] === 'L3') { ?>
                     <td>
-                        <span style="color: #33cfff;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span>
+                        <span style="color: #0e7d9c;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span>
                     </td>
                 <?php } else if ($row_leave['leave_type_id'] === 'L4') { ?>
                     <td>
