@@ -86,11 +86,11 @@ if ($_POST["action"] === 'ADD') {
         $sql_get_work_age = "SELECT DATEDIFF(NOW(), STR_TO_DATE(em.start_work_date, '%d-%m-%Y')) AS data FROM memployee em WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
         $work_age = GET_VALUE($conn, $sql_get_work_age);
 
-/*
-        $myfile = fopen("emp-param_work.txt", "w") or die("Unable to open file!");
-        fwrite($myfile, $work_age . " | " . $sql_get_work_age);
-        fclose($myfile);
-*/
+        /*
+                $myfile = fopen("emp-param_work.txt", "w") or die("Unable to open file!");
+                fwrite($myfile, $work_age . " | " . $sql_get_work_age);
+                fclose($myfile);
+        */
 
         $sql_get_dept = "SELECT mp.dept_ids AS data FROM memployee em LEFT JOIN mdepartment mp ON mp.department_id = em.dept_id WHERE em.emp_id = '" . $_POST["emp_id"] . "'";
 
@@ -142,12 +142,12 @@ if ($_POST["action"] === 'ADD') {
         $cnt_day = $cnt_day + (float)$leave_day;
 
         $leave_save = "Y";
-/*
-        $txt = "Leave Type = " . $leave_type_id . " Max = " . $day_max . " | Count = " . $cnt_day . " | " . $sql_cnt . " | " . $leave_save . " | " . $work_age;
-        $myfile = fopen("emp-param.txt", "w") or die("Unable to open file!");
-        fwrite($myfile, $txt);
-        fclose($myfile);
-*/
+        /*
+                $txt = "Leave Type = " . $leave_type_id . " Max = " . $day_max . " | Count = " . $cnt_day . " | " . $sql_cnt . " | " . $leave_save . " | " . $work_age;
+                $myfile = fopen("emp-param.txt", "w") or die("Unable to open file!");
+                fwrite($myfile, $txt);
+                fclose($myfile);
+        */
         if ($leave_type_id === 'L3' && ($cnt_day > $day_max || $work_age < 365)) {
             $leave_save = "N";
             echo $Error_Over1;
