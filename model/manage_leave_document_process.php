@@ -413,10 +413,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 
         if ($_POST['sub_action'] === "GET_MASTER") {
 
-            $leave_type_id = $row['leave_type_id'];
-            $leave_type_detail = $row['leave_type_detail'];
-
-            $leave_type_detail = '<span style="color: '. $row['color'] . ';">' . $leave_type_detail . '</span>';
+            $leave_type_detail = '<span style="color: '. $row['color'] . ';">' . $row['leave_type_detail'] . '</span>';
 
             $data[] = array(
                 "id" => $row['id'],
@@ -424,7 +421,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "doc_date" => $row['doc_date'],
                 "doc_year" => $row['doc_year'],
                 "emp_id" => $row['emp_id'],
-                "leave_type_id" => $leave_type_id,
+                "leave_type_id" => $row['leave_type_id'],
                 "leave_type_detail" => $leave_type_detail,
                 "date_leave_start" => $row['date_leave_start'],
                 "date_leave_to" => $row['date_leave_to'],
