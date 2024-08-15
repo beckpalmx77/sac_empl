@@ -382,7 +382,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
 ## Fetch records
     // ,em.f_name,em.l_name,em.department_id
 
-    $sql_get_leave = "SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc  
+    $sql_get_leave = "SELECT dl.*,lt.leave_type_detail,ms.status_doc_desc,lt.color  
             FROM v_dleave_event dl
             LEFT JOIN mleave_type lt on lt.leave_type_id = dl.leave_type_id
             LEFT JOIN mstatus ms on ms.status_doctype = 'LEAVE' AND ms.status_doc_id = dl.status              
@@ -416,19 +416,7 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
             $leave_type_id = $row['leave_type_id'];
             $leave_type_detail = $row['leave_type_detail'];
 
-            // ตรวจสอบค่า leave_type_id และกำหนดสีให้กับ leave_type_detail
-            if ($leave_type_id == 'L1') {
-                $leave_type_detail = '<span style="color: #07931c;">' . $leave_type_detail . '</span>';
-            } elseif ($leave_type_id == 'L2') {
-                $leave_type_detail = '<span style="color: #d93c1b;">' . $leave_type_detail . '</span>';
-            } elseif ($leave_type_id == 'L3') {
-                $leave_type_detail = '<span style="color: #0e7d9c;">' . $leave_type_detail . '</span>';
-            } elseif ($leave_type_id == 'L4') {
-                $leave_type_detail = '<span style="color: #ffcc33;">' . $leave_type_detail . '</span>';
-            } elseif ($leave_type_id == 'L5') {
-                $leave_type_detail = '<span style="color: #9933ff;">' . $leave_type_detail . '</span>';
-            }
-
+            $leave_type_detail = '<span style="color: '. $row['color'] . ';">' . $leave_type_detail . '</span>';
 
             $data[] = array(
                 "id" => $row['id'],
