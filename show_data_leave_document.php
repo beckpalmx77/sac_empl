@@ -7,10 +7,6 @@ $month_to = $_POST["month_to"];
 $year = $_POST["year"];
 $branch = $_POST["branch"];
 
-
-//$emp_id = $_POST["employee"];
-$emp_id = "";
-
 $sql_leave_addition1 = "";
 $sql_leave_addition2 = "";
 
@@ -24,15 +20,6 @@ if (!empty($emp_name)) {
     $f_name = $emp_name[0];
     $l_name = $emp_name[1];
 }
-
-/*
-$txt = $f_name . " | " . $l_name;
-$my_file = fopen("a_emp.txt", "w") or die("Unable to open file!");
-fwrite($my_file, $txt);
-fclose($my_file);
-*/
-
-//$f_name = isset($_POST["f_name"]) ? $_POST["f_name"] : '';
 
 $month_name_start = "";
 $month_name_to = "";
@@ -93,9 +80,9 @@ $sql_leave_addition = "";
 </div>
 
 <div class="card-body">
-    <a id="myLink" href="#" onclick="PrintPage();"><i class="fa fa-print"></i> พิมพ์</a>
+    <a id="myLink" href="#" onclick="PrintPage();"><i class="fa fa-print"></i> พิมพ์ </a>
+    <a id="myLink" href="#" onclick="window.close();"><i class="fa fa-window-close"></i> ปิด (Close) </a>
 </div>
-
 
 <input type="hidden" class="form-control" id="f_name" name="f_name" value="">
 
@@ -137,13 +124,6 @@ $sql_leave_addition = "";
         $sql_oder = " ORDER BY v_dleave_event.f_name,v_dleave_event.doc_date ";
         $sql_leave = $sql_leave . $sql_leave_addition1 . $sql_leave_addition2 . $sql_oder;
 
-        /*
-        $txt = $sql_leave;
-        $my_file = fopen("a_leave.txt", "w") or die("Unable to open file!");
-        fwrite($my_file, $txt);
-        fclose($my_file);
-        */
-
         $statement_leave = $conn->prepare($sql_leave);
         $statement_leave->bindParam(':year', $year);
         $statement_leave->bindParam(':month_id_start', $month_id_start);
@@ -170,7 +150,17 @@ $sql_leave_addition = "";
                 <td><?php echo htmlentities($row_leave['emp_id']); ?></td>
                 <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
                 <td><?php echo htmlentities($row_leave['department_id']); ?></td>
-                <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
+                <?php if ($row_leave['leave_type_id']==='L1') { ?>
+                <td><span style="color: #69ff33;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span></td>
+                <?php } else if ($row_leave['leave_type_id']==='L2') { ?>
+                <td><span style="color: #ff5733;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span></td>
+                <?php } else if ($row_leave['leave_type_id']==='L3') { ?>
+                    <td><span style="color: #33cfff;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span></td>
+                <?php } else if ($row_leave['leave_type_id']==='L4') { ?>
+                    <td><span style="color: #ffcc33;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span></td>
+                <?php } else if ($row_leave['leave_type_id']==='L5') { ?>
+                    <td><span style="color: #9933ff;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span></td>
+                <?php } ?>
                 <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
                 <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
                 <td><?php echo htmlentities($row_leave['remark']); ?></td>
