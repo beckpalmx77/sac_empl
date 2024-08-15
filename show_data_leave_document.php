@@ -150,16 +150,26 @@ $sql_leave_addition = "";
                 <td><?php echo htmlentities($row_leave['emp_id']); ?></td>
                 <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
                 <td><?php echo htmlentities($row_leave['department_id']); ?></td>
-                <?php if ($row_leave['leave_type_id']==='L1') { ?>
-                <td><span style="color: #69ff33;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span></td>
-                <?php } else if ($row_leave['leave_type_id']==='L2') { ?>
-                <td><span style="color: #ff5733;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span></td>
-                <?php } else if ($row_leave['leave_type_id']==='L3') { ?>
-                    <td><span style="color: #33cfff;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span></td>
-                <?php } else if ($row_leave['leave_type_id']==='L4') { ?>
-                    <td><span style="color: #ffcc33;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span></td>
-                <?php } else if ($row_leave['leave_type_id']==='L5') { ?>
-                    <td><span style="color: #9933ff;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span></td>
+                <?php if ($row_leave['leave_type_id'] === 'L1') { ?>
+                    <td>
+                        <span style="color: #69ff33;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span>
+                    </td>
+                <?php } else if ($row_leave['leave_type_id'] === 'L2') { ?>
+                    <td>
+                        <span style="color: #ff5733;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span>
+                    </td>
+                <?php } else if ($row_leave['leave_type_id'] === 'L3') { ?>
+                    <td>
+                        <span style="color: #33cfff;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span>
+                    </td>
+                <?php } else if ($row_leave['leave_type_id'] === 'L4') { ?>
+                    <td>
+                        <span style="color: #ffcc33;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span>
+                    </td>
+                <?php } else if ($row_leave['leave_type_id'] === 'L5') { ?>
+                    <td>
+                        <span style="color: #9933ff;"><?php echo htmlentities($row_leave['leave_type_detail']); ?></span>
+                    </td>
                 <?php } ?>
                 <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
                 <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
