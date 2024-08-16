@@ -28,6 +28,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "leave_type_id" => $result['leave_type_id'],
             "leave_type_detail" => $result['leave_type_detail'],
             "leave_before" => $result['leave_before'],
+            "color" => $result['color'],
             "day_max" => $result['day_max'],
             "work_age_allow" => $result['work_age_allow'],
             "day_flag" => $result['day_flag'],
@@ -62,6 +63,7 @@ if ($_POST["action"] === 'SEARCH_DATA') {
             "leave_type_detail" => $result['leave_type_detail'],
             "leave_before" => $result['leave_before'],
             "day_max" => $result['day_max'],
+            "color" => $result['color'],
             "work_age_allow" => $result['work_age_allow'],
             "day_flag" => $result['day_flag'],
             "remark" => $result['remark'],
@@ -239,13 +241,15 @@ if ($_POST["action"] === 'GET_LEAVE_TYPE') {
     foreach ($empRecords as $row) {
 
         if ($_POST['sub_action'] === "GET_MASTER") {
+            $leave_type_detail = '<span style="color: '. $row['color'] . ';">' . $row['leave_type_detail'] . '</span>';
             $data[] = array(
                 "id" => $row['id'],
                 "leave_type_id" => $row['leave_type_id'],
-                "leave_type_detail" => $row['leave_type_detail'],
+                "leave_type_detail" => $leave_type_detail,
                 "day_max" => $row['day_max'],
                 "leave_before" => $row['leave_before'],
                 "work_age_allow" => $row['work_age_allow'],
+                "color" => $result['color'],
                 "remark" => $row['remark'],
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
                 "delete" => "<button type='button' name='delete' id='" . $row['id'] . "' class='btn btn-danger btn-xs delete' data-toggle='tooltip' title='Delete'>Delete</button>",
@@ -253,10 +257,12 @@ if ($_POST["action"] === 'GET_LEAVE_TYPE') {
             );
         } else {
 
+            $leave_type_detail = '<span style="color: '. $row['color'] . ';">' . $row['leave_type_detail'] . '</span>';
+
             $data[] = array(
                 "id" => $row['id'],
                 "leave_type_id" => $row['leave_type_id'],
-                "leave_type_detail" => $row['leave_type_detail'],
+                "leave_type_detail" => $leave_type_detail,
                 "select" => "<button type='button' name='select' id='" . $row['leave_type_id'] . "@" . $row['leave_type_detail'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
 </button>",
             );
