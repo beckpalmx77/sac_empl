@@ -122,14 +122,13 @@ foreach ($MonthTo as $row_to) {
         $line_no = 0;
         foreach ($results_leave as $row_leave) {
             $line_no++;
-            $leave_type_detail = '<td><span style="color: ' . $row_leave['color'] . ';">' . $row_leave['leave_type_detail'] . '</span></td>';
             ?>
             <tr>
                 <td><?php echo htmlentities($line_no); ?></td>
                 <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
                 <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
                 <td><?php echo htmlentities($row_leave['department_id']); ?></td>
-                <td><?php echo htmlentities($row_leave['$leave_type_detail']); ?></td>
+                <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
                 <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
                 <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
                 <td><?php echo htmlentities($row_leave['leave_day']); ?></td>
