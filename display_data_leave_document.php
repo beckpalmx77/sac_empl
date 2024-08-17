@@ -134,6 +134,8 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                                     <br>
                                                                     <div class="row">
+                                                                        <input type="hidden" id="form_type"
+                                                                               name="form_type" value="branch">
                                                                         <input type="hidden" id="employee"
                                                                                name="employee" value="">
                                                                         <div class="col-sm-12">
