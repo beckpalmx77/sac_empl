@@ -15,6 +15,8 @@ $month_to = date('m', strtotime($doc_date));
 $year = date('Y', strtotime($doc_date));
 
 $emp_id = $_POST["emp_id"];
+$f_name = $_POST["f_name"];
+$l_name = $_POST["l_name"];
 
 $month_name_start = "";
 $month_name_to = "";
@@ -70,7 +72,11 @@ foreach ($MonthTo as $row_to) {
 </div>
 
 <div class="card-body">
-    <a id="myLink" href="#" onclick="PrintPage();"><i class="fa fa-print"></i> พิมพ์</a>
+    <!--a id="myLink" href="#" onclick="PrintPage();"><i class="fa fa-print"></i> พิมพ์ </a-->
+    <!--a id="myLink" href="#" onclick="window.close();"><i class="fa fa-window-close"></i> ปิด (Close) </a-->
+    <div class="container-fluid" id="container-wrapper">
+        <button class="btn btn-danger" onclick="window.close()">ปิด (Close)</button>
+    </div>
 </div>
 
 <input type="hidden" class="form-control" id="f_name" name="f_name" value="">
@@ -87,6 +93,7 @@ foreach ($MonthTo as $row_to) {
             <th>ประเภทการลา</th>
             <th>วันที่ลาเริ่มต้น</th>
             <th>วันที่ลาสิ้นสุด</th>
+            <th>จำนวนวัน</th>
             <th>หมายเหตุ</th>
         </tr>
         </thead>
@@ -99,7 +106,7 @@ foreach ($MonthTo as $row_to) {
         $sql_leave = " SELECT * FROM v_dleave_event 
             WHERE doc_year = :year 
             AND doc_month BETWEEN :month_id_start AND :month_id_to
-            AND emp_id = :emp_id ";
+            AND (f_name = :f_name OR emp_id = :emp_id) ";
 
         $sql_leave .= " ORDER BY f_name , doc_date ";
 
@@ -107,6 +114,7 @@ foreach ($MonthTo as $row_to) {
         $statement_leave->bindParam(':year', $year);
         $statement_leave->bindParam(':month_id_start', $month_id_start);
         $statement_leave->bindParam(':month_id_to', $month_id_to);
+        $statement_leave->bindParam(':f_name', $f_name);
         $statement_leave->bindParam(':emp_id', $emp_id);
 
         $statement_leave->execute();
@@ -114,15 +122,17 @@ foreach ($MonthTo as $row_to) {
         $line_no = 0;
         foreach ($results_leave as $row_leave) {
             $line_no++;
+            $leave_type_detail = '<td><span style="color: ' . $row_leave['color'] . ';">' . $row_leave['leave_type_detail'] . '</span></td>';
             ?>
             <tr>
                 <td><?php echo htmlentities($line_no); ?></td>
                 <td><?php echo htmlentities($row_leave['doc_date']); ?></td>
                 <td><?php echo htmlentities($row_leave['f_name'] . " " . $row_leave['l_name']); ?></td>
                 <td><?php echo htmlentities($row_leave['department_id']); ?></td>
-                <td><?php echo htmlentities($row_leave['leave_type_detail']); ?></td>
+                <td><?php echo htmlentities($row_leave['$leave_type_detail']); ?></td>
                 <td><?php echo htmlentities($row_leave['date_leave_start']); ?></td>
                 <td><?php echo htmlentities($row_leave['date_leave_to']); ?></td>
+                <td><?php echo htmlentities($row_leave['leave_day']); ?></td>
                 <td><?php echo htmlentities($row_leave['remark']); ?></td>
             </tr>
         <?php } ?>
@@ -151,7 +161,7 @@ foreach ($MonthTo as $row_to) {
         $sql_leave = " SELECT * FROM vdholiday_event 
             WHERE doc_year = :year 
             AND month BETWEEN :month_id_start AND :month_id_to
-            AND emp_id = :emp_id ";
+            AND (f_name = :f_name OR emp_id = :emp_id) ";
 
         $sql_leave .= " ORDER BY f_name , doc_date ";
 
@@ -159,6 +169,7 @@ foreach ($MonthTo as $row_to) {
         $statement_leave->bindParam(':year', $year);
         $statement_leave->bindParam(':month_id_start', $month_id_start);
         $statement_leave->bindParam(':month_id_to', $month_id_to);
+        $statement_leave->bindParam(':f_name', $f_name);
         $statement_leave->bindParam(':emp_id', $emp_id);
 
         $statement_leave->execute();
@@ -203,7 +214,7 @@ foreach ($MonthTo as $row_to) {
         $sql_leave = " SELECT * FROM v_dchange_event 
             WHERE doc_year = :year 
             AND doc_month BETWEEN :month_id_start AND :month_id_to
-            AND emp_id = :emp_id ";
+            AND (f_name = :f_name OR emp_id = :emp_id) ";
 
         $sql_leave .= " ORDER BY f_name , doc_date ";
 
@@ -211,6 +222,7 @@ foreach ($MonthTo as $row_to) {
         $statement_leave->bindParam(':year', $year);
         $statement_leave->bindParam(':month_id_start', $month_id_start);
         $statement_leave->bindParam(':month_id_to', $month_id_to);
+        $statement_leave->bindParam(':f_name', $f_name);
         $statement_leave->bindParam(':emp_id', $emp_id);
 
         $statement_leave->execute();

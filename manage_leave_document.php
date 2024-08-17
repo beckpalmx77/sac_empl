@@ -158,6 +158,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                         <label for="text"
                                                                                class="control-label">ชื่อ -
                                                                             นามสกุล</label>
+                                                                        <input type="hidden" id="f_name" name="f_name" value="">
+                                                                        <input type="hidden" id="l_name" name="l_name" value="">
                                                                         <input type="text" class="form-control"
                                                                                id="full_name" name="full_name"
                                                                                readonly="true"
@@ -683,16 +685,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
     </script>
 
-    <!--script>
-        $(document).ready(function () {
-            $("#recordModal").on('submit', '#recordForm', function (event) {
-                event.preventDefault();
-                check_Max_leave();
-            });
-        });
-
-    </script-->
-
     <script>
         $(document).ready(function () {
 
@@ -743,6 +735,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                         let doc_date = response[i].doc_date;
                         let emp_id = response[i].emp_id;
                         let full_name = response[i].full_name;
+                        let f_name = response[i].f_name;
+                        let l_name = response[i].l_name;
                         let leave_type_id = response[i].leave_type_id;
                         let leave_type_detail = response[i].leave_type_detail;
                         let date_leave_start = response[i].date_leave_start;
@@ -760,6 +754,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                         $('#doc_date').val(doc_date);
                         $('#emp_id').val(emp_id);
                         $('#full_name').val(full_name);
+                        $('#f_name').val(f_name);
+                        $('#l_name').val(l_name);
                         $('#leave_type_id').val(leave_type_id);
                         $('#leave_type_detail').val(leave_type_detail);
                         $('#date_leave_start').val(date_leave_start);
@@ -894,42 +890,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         }
     </script>
 
-    <!--script>
-        function check_Max_leave() {
-
-            let leave_type_id = $('#leave_type_id').val();
-            let emp_id = $('#emp_id').val();
-
-            alert(leave_type_id + " | " +emp_id);
-
-            if (leave_type_id !== '' && emp_id !== '') {
-                let formData = {action: "GET_DATA",table: "v_dleave_event", leave_type_id: leave_type_id , emp_id: emp_id};
-
-                $.ajax({
-                    type: "POST",
-                    url: 'model/get_max_leave.php',
-                    dataType: "json",
-                    data: formData,
-                    success: function (response) {
-                        let len = response.length;
-                        for (let i = 0; i < len; i++) {
-                            let leave_use_before = response[i].leave_use_before;
-                            $('#leave_use_before').val(leave_use_before);
-                        }
-                    },
-                    error: function (response) {
-                        alertify.error("error : " + response);
-                    }
-                });
-
-
-            } else {
-                alertify.error("กรุณาป้อนชื่อพนักงาน และประเภทการลา");
-            }
-
-        }
-    </script-->
-
     <script>
         $(document).ready(function () {
             $('#date_leave_to').datepicker({
@@ -977,6 +937,10 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         $(document).ready(function () {
             $('#search_data').on('click', function (event) {
                 event.preventDefault(); // Prevent the default form submission
+
+                const myArray = $('#full_name').val().split(" ");
+                $('#f_name').val(myArray[0]);
+                $('#l_name').val(myArray[1]);
 
                 let form = $(this).closest('form');
                 let formData = form.serialize(); // Serialize the form data

@@ -421,6 +421,8 @@ if ($_POST["action"] === 'GET_LEAVE_DOCUMENT') {
                 "doc_date" => $row['doc_date'],
                 "doc_year" => $row['doc_year'],
                 "emp_id" => $row['emp_id'],
+                "f_name" => $row['f_name'],
+                "l_name" => $row['l_name'],
                 "leave_type_id" => $row['leave_type_id'],
                 "leave_type_detail" => $leave_type_detail,
                 "date_leave_start" => $row['date_leave_start'],
