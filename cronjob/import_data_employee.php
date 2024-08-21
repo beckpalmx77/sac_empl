@@ -52,25 +52,25 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
     $status = $result_sqlsvr["PRI_STATUS"] == "1" ? "Y" : "N";
     $status_u = $result_sqlsvr["PRI_STATUS"] == "1" ? "Active" : "Inactive";
 
-    /*
-        switch ($result_sqlsvr["PRS_DEPT"]) {
-            case "181":
-                $branch = "CP1";
-                break;
-            case "182":
-                $branch = "CP3";
-                break;
-            case "183":
-                $branch = "CP2";
-                break;
-            case "184":
-                $branch = "CP4";
-                break;
-            default:
-                $branch = "-";
-                break;
-        }
-    */
+/*
+    switch ($result_sqlsvr["PRS_DEPT"]) {
+        case "181":
+            $branch = "CP1";
+            break;
+        case "182":
+            $branch = "CP3";
+            break;
+        case "183":
+            $branch = "CP2";
+            break;
+        case "184":
+            $branch = "CP4";
+            break;
+        default:
+            $branch = "-";
+            break;
+    }
+*/
 
     switch ($result_sqlsvr["PRS_DEPT"]) {
 
@@ -213,11 +213,7 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
 
     $nRows = $conn->query($sql_find)->fetchColumn();
     if ($nRows > 0) {
-
-        if ($result_sqlsvr["PRS_NO"]==='81055') {
-            echo "Update ims_user Row = " . $result_sqlsvr["PRS_NO"] . " | " . $status_u . " > " . $dept_id_approve.  "\n\r";
-        }
-
+        
         $sql_update = "UPDATE ims_user SET status=:status, dept_id_approve=:dept_id_approve WHERE user_id=:user_id";
         $query_update = $conn->prepare($sql_update);
         $query_update->bindParam(':status', $status_u, PDO::PARAM_STR);
