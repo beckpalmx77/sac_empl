@@ -78,6 +78,10 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
             $dept_id_approve = "WHL";
             $branch = "-";
             break;
+        case "139":
+            $dept_id_approve = "OFF";
+            $branch = "-";
+            break;
         case "156":
             $dept_id_approve = "WHL";
             $branch = "-";
@@ -88,6 +92,14 @@ while ($result_sqlsvr = $stmt_sqlsvr->fetch(PDO::FETCH_ASSOC)) {
             break;
         case "162":
             $dept_id_approve = "ACC";
+            $branch = "-";
+            break;
+        case "163":
+            $dept_id_approve = "SL1";
+            $branch = "-";
+            break;
+        case "164":
+            $dept_id_approve = "SL2";
             $branch = "-";
             break;
         case "172":
