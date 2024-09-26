@@ -13,6 +13,16 @@ if (strlen($_SESSION['alogin']) == "") {
         include('includes/Side-Bar.php');
         ?>
 
+        <!-- Spinner (Hidden initially) -->
+        <!--div id="spinner" class="spinner-border" role="status" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">
+            <span class="sr-only">Loading...</span>
+        </div-->
+
+        <div id="spinner">
+            <img src="img/spin/spin_cir.gif" alt="Loading..." />
+        </div>
+
+
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 <?php
@@ -51,6 +61,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>จำนวนเงิน</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
+                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tfoot>
@@ -59,6 +70,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>ปี</th>
                                                     <th>จำนวนยาง</th>
                                                     <th>จำนวนเงิน</th>
+                                                    <th>Action</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -196,6 +208,8 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script src="js/popup.js"></script>
 
+    <link href="css/spinner_over.css" rel="stylesheet"/>
+
     <style>
 
         .icon-input-btn {
@@ -256,7 +270,8 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'total_tires'},
                     {data: 'total_money'},
                     {data: 'update'},
-                    {data: 'update_detail'}
+                    {data: 'update_detail'},
+                    {data: 'process'}
                 ]
             });
 
@@ -357,6 +372,27 @@ if (strlen($_SESSION['alogin']) == "") {
                 }
             });
         });
+    </script>
+
+    <script>
+
+        $("#TableRecordList").on('click', '.process', function () {
+            let id = $(this).attr("id");
+            $("#spinner").show();
+            $.ajax({
+                type: "POST",
+                url: 'process/process_job_payment.php',
+                success: function (response) {
+                    alertify.alert(response);
+                    $("#spinner").hide();
+                },
+                error: function (response) {
+                    alertify.error("error : " + response);
+                    $("#spinner").hide();
+                }
+            });
+        });
+
     </script>
 
     </body>
