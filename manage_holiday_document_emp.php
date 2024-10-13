@@ -512,6 +512,20 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
             <!-- *** FOR SUBMIT FORM *** -->
             $("#recordModal").on('submit', '#recordForm', function (event) {
                 event.preventDefault();
+
+                // ตรวจสอบวันที่ก่อน
+                const dateInput = $('#date_leave_start').val();
+                const selectedDate = new Date(dateInput);
+                const today = new Date();
+
+                // เพิ่มวันที่ปัจจุบันอีก 3 วัน
+                today.setDate(today.getDate() + 3);
+
+                if (selectedDate < today) {
+                    alertify.error("กรุณาเลือกวันที่ที่มากกว่าวันที่ปัจจุบันอย่างน้อย 3 วัน");
+                    return false; // หยุดการ submit ฟอร์ม
+                }
+
                 $('#save').attr('disabled', 'disabled');
                 let formData = $(this).serialize();
                 $.ajax({
@@ -616,13 +630,18 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
     <script>
         $(document).ready(function () {
-            let today = new Date(); // Get today's date
+            // กำหนดวันที่ปัจจุบัน
+            let today = new Date();
+
+            // เพิ่มล่วงหน้า 3 วัน
+            today.setDate(today.getDate() + 3);
+
             $('#date_leave_start').datepicker({
-                startDate: today,
-                format: "dd-mm-yyyy",
-                todayHighlight: true,
-                language: "th",
-                autoclose: true
+                startDate: today, // เริ่มต้นให้เลือกได้จากวันที่ล่วงหน้า 3 วัน
+                format: "dd-mm-yyyy", // รูปแบบวันที่
+                todayHighlight: true, // ไฮไลต์วันที่ปัจจุบัน
+                language: "th", // ภาษาไทย (ถ้าเพิ่มไฟล์ภาษาไว้)
+                autoclose: true // ปิดปฏิทินอัตโนมัติเมื่อเลือกวันที่
             });
         });
     </script>
@@ -632,6 +651,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
             let today = new Date(); // Get today's date
             $('#date_leave_to').datepicker({
                 startDate: today,
+                minDate: +3, // กำหนดวันที่เริ่มต้นเป็น 3 วันจากปัจจุบัน
                 format: "dd-mm-yyyy",
                 todayHighlight: true,
                 language: "th",
