@@ -512,20 +512,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
             <!-- *** FOR SUBMIT FORM *** -->
             $("#recordModal").on('submit', '#recordForm', function (event) {
                 event.preventDefault();
-
-                // ตรวจสอบวันที่ก่อน
-                const dateInput = $('#date_leave_start').val();
-                const selectedDate = new Date(dateInput);
-                const today = new Date();
-
-                // เพิ่มวันที่ปัจจุบันอีก 3 วัน
-                today.setDate(today.getDate() + 3);
-
-                if (selectedDate < today) {
-                    alertify.error("กรุณาเลือกวันที่ที่มากกว่าวันที่ปัจจุบันอย่างน้อย 3 วัน");
-                    return false; // หยุดการ submit ฟอร์ม
-                }
-
                 $('#save').attr('disabled', 'disabled');
                 let formData = $(this).serialize();
                 $.ajax({
