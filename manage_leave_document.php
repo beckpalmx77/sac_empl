@@ -983,6 +983,38 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         }
     </script>
 
+    <script>
+        $(document).ready(function () {
+            // ฟังก์ชันสำหรับการตั้งค่า datepicker เมื่อมีการเปลี่ยน leave_type_id
+            function setDatePicker() {
+                let leave_type_id = $('#leave_type_id').val(); // ดึงค่าจาก hidden input ที่ผู้ใช้เลือก
+                let startDate = new Date(); // วันที่ปัจจุบัน
+
+                // ตรวจสอบประเภทการลา และกำหนดวันที่เริ่มต้น
+                if (leave_type_id === 'L1') {
+                    startDate.setDate(startDate.getDate() + 3); // เริ่มเลือกได้ตั้งแต่ 3 วันหลังจากวันนี้
+                } else if (leave_type_id === 'L3') {
+                    startDate.setDate(startDate.getDate() + 7); // เริ่มเลือกได้ตั้งแต่ 7 วันหลังจากวันนี้
+                }
+
+                // ตั้งค่า datepicker
+                $('#date_leave_start').datepicker('destroy'); // ทำลาย datepicker เดิมก่อนเพื่อสร้างใหม่
+                $('#date_leave_start').datepicker({
+                    format: "dd-mm-yyyy",
+                    todayHighlight: true,
+                    language: "th",
+                    autoclose: true,
+                    startDate: startDate // กำหนดวันที่เริ่มต้นตาม leave_type
+                });
+            }
+
+            // เรียกฟังก์ชันเมื่อ modal ปิด (หลังจากเลือกประเภทการลา)
+            $('#SearchLeaveTypeModal').on('hidden.bs.modal', function () {
+                setDatePicker(); // อัปเดต datepicker เมื่อเลือก leave_type_id เสร็จแล้ว
+            });
+        });
+    </script>
+
     </body>
     </html>
 
