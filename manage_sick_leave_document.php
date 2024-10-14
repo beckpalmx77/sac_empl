@@ -844,13 +844,15 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
     </script>
 
+
     <script>
         $(document).ready(function () {
             $('#date_leave_start').datepicker({
                 format: "dd-mm-yyyy",
                 todayHighlight: true,
                 language: "th",
-                autoclose: true
+                autoclose: true,
+                startDate: new Date() // เริ่มตั้งแต่วันที่ปัจจุบัน
             });
         });
     </script>
