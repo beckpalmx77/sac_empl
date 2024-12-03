@@ -129,6 +129,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                                                                                id="doc_date"
                                                                                name="doc_date"
                                                                                required="required"
+                                                                               readonly="true"
                                                                                value="<?php echo $curr_date ?>"
                                                                                placeholder="วันที่เอกสาร">
                                                                     </div>
@@ -535,10 +536,16 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
         $(document).ready(function () {
 
             $("#btnAdd").click(function () {
-                //alert(<?php echo $_SESSION['work_time_start']?>);
+                let today = new Date();
+                let day = String(today.getDate()).padStart(2, '0');
+                let month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+                let year = today.getFullYear();
+                let formattedDate = day + '-' + month + '-' + year;
+
                 $('#recordModal').modal('show');
                 $('#id').val("");
                 $('#doc_id').val("");
+                $('#doc_date').val(formattedDate);
                 $('#remark').val("");
                 $('#status').val("N");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
@@ -603,7 +610,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
 
     </script>
 
-    <script>
+    <!--script>
         $(document).ready(function () {
             $('#doc_date').datepicker({
                 format: "dd-mm-yyyy",
@@ -612,7 +619,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 autoclose: true
             });
         });
-    </script>
+    </script-->
 
     <script>
         $(document).ready(function () {
