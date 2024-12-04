@@ -1014,6 +1014,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
             // เรียกฟังก์ชันเมื่อ modal ปิด (หลังจากเลือกประเภทการลา)
             $('#SearchLeaveTypeModal').on('hidden.bs.modal', function () {
                 setDatePicker(); // อัปเดต datepicker เมื่อเลือก leave_type_id เสร็จแล้ว
+                $('#date_leave_start').val('');
             });
         });
     </script>
