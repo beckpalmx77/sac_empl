@@ -129,7 +129,7 @@ foreach ($results_month as $result_month) {
             if (!empty($result4['percent']) && !empty($result_daily['total_grade_point']) && $result_daily['total_grade_point'] > 0) {
                 $total_percent_payment = ($result4['percent'] / $result_daily['total_grade_point']) * 100;
                 $total_percent_payment = round($total_percent_payment, 2);
-                echo $month . " D " . $total_percent_payment . "\n\r";
+                //echo $month . " D " . $total_percent_payment . "\n\r";
             } else {
                 $total_percent_payment = '0';
             }
