@@ -19,7 +19,7 @@ if (strlen($_SESSION['alogin']) == "") {
         </div-->
 
         <div id="spinner">
-            <img src="img/spin/spin_cir.gif" alt="Loading..." />
+            <img src="img/spin/spin_cir.gif" alt="Loading..."/>
         </div>
 
 
@@ -378,10 +378,13 @@ if (strlen($_SESSION['alogin']) == "") {
 
         $("#TableRecordList").on('click', '.process', function () {
             let id = $(this).attr("id");
+            let formData = {action: "PROCESS", id: id};
+            //alert(id);
             $("#spinner").show();
             $.ajax({
                 type: "POST",
-                url: 'process/process_job_payment.php',
+                url: 'process/process_job_payment_data.php',
+                data: formData,
                 success: function (response) {
                     alertify.alert(response);
                     $("#spinner").hide();
