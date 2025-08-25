@@ -133,7 +133,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <input type="number" class="form-control"
                                                                                id="total_money"
                                                                                name="total_money"
-                                                                               placeholder="จำนวนเงิน">
+                                                                               placeholder="">
                                                                     </div>
                                                                 </div>
 
