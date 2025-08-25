@@ -130,7 +130,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <div class="col-sm-6">
                                                                         <label for="total_money"
                                                                                class="control-label">จำนวนเงิน</label>
-                                                                        <input type="text" class="form-control"
+                                                                        <input type="number" class="form-control"
                                                                                id="total_money"
                                                                                name="total_money"
                                                                                placeholder="จำนวนเงิน">
@@ -396,6 +396,14 @@ if (strlen($_SESSION['alogin']) == "") {
             });
         });
 
+    </script>
+
+    <script>
+        document.getElementById('total_money').addEventListener('input', function (event) {
+            const input = event.target;
+            // Remove any non-numeric characters
+            input.value = input.value.replace(/[^0-9]/g, '');
+        });
     </script>
 
     </body>
