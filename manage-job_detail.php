@@ -176,7 +176,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <div class="col-sm-5">
                                                                         <label for="total_tires"
                                                                                class="control-label">จำนวนยาง</label>
-                                                                        <input type="text" class="form-control"
+                                                                        <input type="number" class="form-control"
                                                                                id="total_tires"
                                                                                name="total_tires"
                                                                                required="required"
@@ -538,6 +538,14 @@ if (strlen($_SESSION['alogin']) == "") {
 
         });
 
+    </script>
+
+    <script>
+        document.getElementById('total_tires').addEventListener('input', function (event) {
+            const input = event.target;
+            // Remove any non-numeric characters
+            input.value = input.value.replace(/[^0-9]/g, '');
+        });
     </script>
 
     </body>
