@@ -136,7 +136,7 @@ if ($_POST["action"] === 'GET_JOB_DETAIL') {
 
 ## Fetch records
     $sql_get_load = "SELECT * FROM v_job_transaction WHERE job_date = '" . $job_date . "' " . $searchQuery
-        . " ORDER BY id " . " LIMIT :limit,:offset";
+        . " ORDER BY CONVERT(total_grade_point,UNSIGNED) DESC , grade_point DESC " . " LIMIT :limit,:offset";
 
     $stmt = $conn->prepare($sql_get_load);
 
