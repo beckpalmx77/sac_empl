@@ -170,7 +170,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-5">
                                                                         <label for="grade_point"
-                                                                               class="control-label">เกรด (A,B,C)</label>
+                                                                               class="control-label">เกรด
+                                                                            (A,B,C)</label>
                                                                         <input type="text" class="form-control"
                                                                                id="grade_point"
                                                                                name="grade_point"
@@ -240,7 +241,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 </div>
                                             </div>
                                         </div>
-
 
 
                                         <div id="result"></div>

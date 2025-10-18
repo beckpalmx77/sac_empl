@@ -69,7 +69,7 @@ if ($_POST["action_detail"] === 'UPDATE') {
     $effect_year = $_POST["effect_year"];
 
     $grade_point = strtoupper($_POST["grade_point"]);
-    $grade_point = $grade_point !== "" ? $grade_point:"-";
+    $grade_point = $grade_point !== "" ? $grade_point : "-";
     $sql_update = "UPDATE job_transaction SET grade_point=:grade_point WHERE id = :id";
     $query = $conn->prepare($sql_update);
     $query->bindParam(':grade_point', $grade_point, PDO::PARAM_STR);
@@ -114,25 +114,25 @@ if ($_POST["action"] === 'GET_JOB_DETAIL') {
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
-/*
-    $myfile = fopen("job-getdata.txt", "w") or die("Unable to open file!");
-    fwrite($myfile, $sql_get_all . " Record = " . $totalRecords);
-    fclose($myfile);
-*/
+    /*
+        $myfile = fopen("job-getdata.txt", "w") or die("Unable to open file!");
+        fwrite($myfile, $sql_get_all . " Record = " . $totalRecords);
+        fclose($myfile);
+    */
 
 
 ## Total number of records with filtering
-    $sql_get_filter = "SELECT COUNT(*) AS allcount FROM v_job_transaction WHERE job_date = '" . $job_date . "' " . $searchQuery ;
+    $sql_get_filter = "SELECT COUNT(*) AS allcount FROM v_job_transaction WHERE job_date = '" . $job_date . "' " . $searchQuery;
     $stmt = $conn->prepare($sql_get_filter);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
-/*
-    $myfile = fopen("job-getdata_2.txt", "w") or die("Unable to open file!");
-    fwrite($myfile, $sql_get_filter . " Filter Record = " . $totalRecordwithFilter);
-    fclose($myfile);
-*/
+    /*
+        $myfile = fopen("job-getdata_2.txt", "w") or die("Unable to open file!");
+        fwrite($myfile, $sql_get_filter . " Filter Record = " . $totalRecordwithFilter);
+        fclose($myfile);
+    */
 
 ## Fetch records
     $sql_get_load = "SELECT * FROM v_job_transaction WHERE job_date = '" . $job_date . "' " . $searchQuery
@@ -140,11 +140,11 @@ if ($_POST["action"] === 'GET_JOB_DETAIL') {
 
     $stmt = $conn->prepare($sql_get_load);
 
-/*
-    $myfile = fopen("job-getdata_3.txt", "w") or die("Unable to open file!");
-    fwrite($myfile, $sql_get_load . " Row Record = " . $row . " Row Record Per Page = " . $rowperpage);
-    fclose($myfile);
-*/
+    /*
+        $myfile = fopen("job-getdata_3.txt", "w") or die("Unable to open file!");
+        fwrite($myfile, $sql_get_load . " Row Record = " . $row . " Row Record Per Page = " . $rowperpage);
+        fclose($myfile);
+    */
 
 // Bind values
     foreach ($searchArray as $key => $search) {
@@ -169,7 +169,7 @@ if ($_POST["action"] === 'GET_JOB_DETAIL') {
                 "job_date" => $row['job_date'],
                 "emp_id" => $row['emp_id'],
                 "f_name" => $row['f_name'],
-                "grade_point" => ($row['grade_point']!==null && $row['grade_point']!=='') ? $row['grade_point'] : "-" ,
+                "grade_point" => ($row['grade_point'] !== null && $row['grade_point'] !== '') ? $row['grade_point'] : "-",
                 "total_grade_point" => $row['total_grade_point'],
                 "total_percent_payment" => $row['total_percent_payment'],
                 "total_money" => $row['total_money'],
