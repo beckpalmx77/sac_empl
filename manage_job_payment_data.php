@@ -417,7 +417,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 "ordering": true,
                 'info': true,
                 "searching": true,
-                'lengthMenu': [[18, 24, 50, 100], [18, 24, 50, 100]],
+                'lengthMenu': [[10, 15, 24, 50, 100], [10, 15, 24, 50, 100]],
                 'language': {
                     search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
                     info: 'หน้าที่ _PAGE_ จาก _PAGES_',
