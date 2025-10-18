@@ -111,6 +111,12 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     center: 'title',
                     left: 'dayGridMonth'
                 },
+                buttonText: {
+                    today: 'วันนี้', // เปลี่ยน "today" เป็น "วันนี้"
+                    month: 'เดือน',  // เปลี่ยน "month" เป็น "เดือน" (หรือ "เดือน")
+                    week: 'สัปดาห์', // เผื่อต้องการใช้ปุ่ม week ในอนาคต
+                    day: 'วัน',      // เผื่อต้องการใช้ปุ่ม day ในอนาคต
+                },
                 // *** Apply Thai locale ***
                 locale: initialLocaleCode,
                 initialView: 'dayGridMonth',
@@ -130,7 +136,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     let sub_menu = document.getElementById("sub_menu").value;
                     let url = "manage_job_payment_data.php?title=รายการข้อมูลการพันยาง"
                         + '&main_menu=' + main_menu + '&sub_menu=' + sub_menu
-                        + '&job_date=' + info.event.id ;
+                        + '&job_date=' + info.event.id;
                     window.open(url, "", "");
                 }
             });
