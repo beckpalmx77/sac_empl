@@ -23,6 +23,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                 <?php
                 include('includes/Top-Bar.php');
                 ?>
+                <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
                     <input type="hidden" id="main_menu" name="main_menu" value="<?php echo urldecode($_GET['m']) ?>">
                     <input type="hidden" id="sub_menu" name="sub_menu" value="<?php echo urldecode($_GET['s']) ?>">
@@ -63,19 +64,23 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     ?>
 
 
+    <!-- Scroll to top -->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/myadmin.min.js"></script>
 
     <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
     <script src="vendor/date-picker-1.9/js/bootstrap-datepicker.js"></script>
     <script src="vendor/date-picker-1.9/locales/bootstrap-datepicker.th.min.js"></script>
+
     <link href="vendor/date-picker-1.9/css/bootstrap-datepicker.css" rel="stylesheet"/>
 
     <script src="vendor/datatables/v11/bootbox.min.js"></script>
@@ -84,6 +89,8 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <link rel="stylesheet" href="vendor/datatables/v11/buttons.dataTables.min.css"/>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.4/index.global.js'></script>
+
+
     <script src="js/popup.js"></script>
 
 
@@ -101,9 +108,7 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             let calendarEl = document.getElementById('calendar');
-            // *** Set locale to 'th' for Thai language ***
             let initialLocaleCode = 'th';
-
             let calendar = new FullCalendar.Calendar(calendarEl, {
                 timeZone: 'local',
                 headerToolbar: {
@@ -111,7 +116,6 @@ if (strlen($_SESSION['alogin']) == "" || strlen($_SESSION['department_id']) == "
                     center: 'title',
                     left: 'dayGridMonth'
                 },
-                // *** Apply Thai locale ***
                 locale: initialLocaleCode,
                 initialView: 'dayGridMonth',
                 height: 550,
