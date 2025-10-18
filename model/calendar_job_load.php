@@ -27,6 +27,3 @@ foreach($result as $row)
 }
 
 echo json_encode($data);
-
-?>
-
